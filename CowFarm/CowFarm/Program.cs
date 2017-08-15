@@ -6,11 +6,11 @@ namespace CowFarm
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry point for thes application.
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (CowFarmGame game = new CowFarmGame())
             {
                 game.Run();
             }
