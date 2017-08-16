@@ -26,6 +26,9 @@ namespace CowFarm
         private const int SpaceFromSprites = 16;
         public const float CowSpeed = 2f;
 
+        private const int SpriteWidth = 54;
+
+
         public Cow(Rectangle destRect, Texture2D currentAnim, Texture2D rightWalk, Texture2D leftWalk, Texture2D downWalk, Texture2D upWalk)
         {
             this._currentAnim = currentAnim;
@@ -54,7 +57,7 @@ namespace CowFarm
                 }
                 _elapsed = 0;
             }
-            _sourceRect = new Rectangle(54 * _frames + _frames * SpaceFromSprites, 0, 54, 54);
+            _sourceRect = new Rectangle(SpriteWidth * _frames + _frames * SpaceFromSprites, 0, SpriteWidth, _currentAnim.Height);
         }
 
         public void Load(ContentManager content)
@@ -73,7 +76,7 @@ namespace CowFarm
             var position = new Vector2(_destRect.X, _destRect.Y);
             if (ks.IsKeyDown(Keys.D))
             {
-                if (position.X + 54 < MaxX)
+                if (position.X + SpriteWidth < MaxX)
                     position.X += CowSpeed;
                 _currentAnim = _rightWalk;
                 Animate(gameTime);
@@ -94,15 +97,17 @@ namespace CowFarm
             }
             else if (ks.IsKeyDown(Keys.S))
             {
-                if(position.Y + 54 < MaxY)
-                position.Y += CowSpeed;
+                if (position.Y + _currentAnim.Height < MaxY)
+                    position.Y += CowSpeed;
                 _currentAnim = _downWalk;
                 Animate(gameTime);
             }
             else
             {
-                _sourceRect = new Rectangle(0, 0, 54, 54);
+                _sourceRect = new Rectangle(0, 0, SpriteWidth, _currentAnim.Height);
+                _sourceRect = new Rectangle(0, 0, SpriteWidth, _currentAnim.Height);
             }
+            int num = _currentAnim.Height;
 
             _destRect = new Rectangle((int)position.X, (int)position.Y, 54, 54);
         }

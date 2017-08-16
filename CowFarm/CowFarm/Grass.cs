@@ -15,9 +15,11 @@ namespace CowFarm
         private Rectangle _sourceRect;
 
         private float _elapsed;
-        private const int SpaceFromSprites = 10;
-        private const float Delay = 200f;
+        private const int SpaceFromSprites = 15;
+        private const float Delay = 400f;
         private int _frames;
+
+
 
         public Grass(Rectangle destRect, Texture2D grassMovement)
         {
@@ -44,14 +46,13 @@ namespace CowFarm
                 }
                 _elapsed = 0;
             }
-            _sourceRect = new Rectangle(16 * _frames + _frames * SpaceFromSprites, 0, 16, 16);
+            _sourceRect = new Rectangle(24 * _frames + _frames * SpaceFromSprites, 0, 24, 24);
         }
 
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(_grassMovement, _destRect, _sourceRect, Color.White);
-            
+            spriteBatch.Draw(_grassMovement, _destRect, _sourceRect, Color.White);
         }
     }
 }

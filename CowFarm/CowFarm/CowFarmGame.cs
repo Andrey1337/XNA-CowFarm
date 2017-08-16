@@ -29,6 +29,12 @@ namespace CowFarm
         private Cow _cow;
         private Grass _grass;
 
+
+        private double CurrentTime = 0f;
+
+        private SpriteFont _font;
+
+
         public CowFarmGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -39,6 +45,7 @@ namespace CowFarm
 
         protected override void Initialize()
         {
+            CurrentTime = 0;
             base.Initialize();
         }
 
@@ -47,6 +54,7 @@ namespace CowFarm
             spriteBatch = new SpriteBatch(GraphicsDevice);
             LoadCow();
             GrassLoad();
+            _font = Content.Load<SpriteFont>("gameFont");
         }
 
         private void LoadCow()
@@ -56,11 +64,11 @@ namespace CowFarm
             _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
             _cowUpWalk = Content.Load<Texture2D>("cowUpWalk");
             _cow = new Cow(new Rectangle(100, 100, 54, 48), _cowRightWalk, _cowRightWalk, _cowLeftWalk, _cowDownWalk, _cowUpWalk);
-            _grass = new Grass(new Rectangle(200, 100, 16, 16), _grassMovement);
         }
         private void GrassLoad()
         {
             _grassMovement = Content.Load<Texture2D>("grassMovement");
+            _grass = new Grass(new Rectangle(200, 100, 16, 16), _grassMovement);
         }
 
         protected override void UnloadContent()
@@ -70,6 +78,7 @@ namespace CowFarm
 
         protected override void Update(GameTime gameTime)
         {
+            CurrentTime += gameTime.ElapsedGameTime.TotalSeconds;
             _cow.Update(gameTime, graphics);
             _grass.Update(gameTime, graphics);
             base.Update(gameTime);
@@ -77,13 +86,14 @@ namespace CowFarm
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LimeGreen);
+            GraphicsDevice.Clear(new Color(57, 172, 57));
 
             spriteBatch.Begin();
 
+            //spriteBatch.Draw(_grassMovement, new Rectangle(200, 100, 24, 24), new Rectangle(0, 0, 24, 24), Color.White);
             _cow.Draw(gameTime, spriteBatch);
             _grass.Draw(gameTime, spriteBatch);
-
+            spriteBatch.DrawString(_font, "Time: " + (int)CurrentTime + " sec", new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth/2, 0), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
