@@ -62,30 +62,39 @@ namespace CowFarm
 
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
+            int MinX = 0;
+            int MinY = 0;
+            int MaxX = graphics.PreferredBackBufferWidth;
+            int MaxY = graphics.PreferredBackBufferHeight;
+
             KeyboardState ks = Keyboard.GetState();
             var position = new Vector2(_destRect.X, _destRect.Y);
             if (ks.IsKeyDown(Keys.D))
             {
-                position.X += CowSpeed;
+                if (position.X + 54 < MaxX)
+                    position.X += CowSpeed;
                 _currentAnim = _rightWalk;
                 Animate(gameTime);
             }
             else if (ks.IsKeyDown(Keys.A))
             {
-                position.X -= CowSpeed;
+                if (position.X > MinX)
+                    position.X -= CowSpeed;
                 _currentAnim = _leftWalk;
                 Animate(gameTime);
             }
             else if (ks.IsKeyDown(Keys.W))
             {
-                position.Y -= CowSpeed;
+                if (position.Y > MinY)
+                    position.Y -= CowSpeed;
                 _currentAnim = _upWalk;
                 Animate(gameTime);
             }
             else if (ks.IsKeyDown(Keys.S))
             {
+                if(position.Y + 54 < MaxY)
                 position.Y += CowSpeed;
                 _currentAnim = _downWalk;
                 Animate(gameTime);

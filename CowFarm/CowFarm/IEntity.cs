@@ -11,7 +11,7 @@ namespace CowFarm
     public interface IEntity
     {
         void Load(ContentManager content);
-        void Update(GameTime gameTime);
+        void Update(GameTime gameTime, GraphicsDeviceManager graphics);
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
     }
 }

@@ -24,7 +24,10 @@ namespace CowFarm
         private Texture2D _cowDownWalk;
         private Texture2D _cowUpWalk;
 
+        private Texture2D _grassMovement;
+
         private Cow _cow;
+        private Grass _grass;
 
         public CowFarmGame()
         {
@@ -43,6 +46,7 @@ namespace CowFarm
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             LoadCow();
+            GrassLoad();
         }
 
         private void LoadCow()
@@ -52,6 +56,11 @@ namespace CowFarm
             _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
             _cowUpWalk = Content.Load<Texture2D>("cowUpWalk");
             _cow = new Cow(new Rectangle(100, 100, 54, 48), _cowRightWalk, _cowRightWalk, _cowLeftWalk, _cowDownWalk, _cowUpWalk);
+            _grass = new Grass(new Rectangle(200, 100, 16, 16), _grassMovement);
+        }
+        private void GrassLoad()
+        {
+            _grassMovement = Content.Load<Texture2D>("grassMovement");
         }
 
         protected override void UnloadContent()
@@ -61,7 +70,8 @@ namespace CowFarm
 
         protected override void Update(GameTime gameTime)
         {
-            _cow.Update(gameTime);
+            _cow.Update(gameTime, graphics);
+            _grass.Update(gameTime, graphics);
             base.Update(gameTime);
         }
 
@@ -70,7 +80,10 @@ namespace CowFarm
             GraphicsDevice.Clear(Color.LimeGreen);
 
             spriteBatch.Begin();
+
             _cow.Draw(gameTime, spriteBatch);
+            _grass.Draw(gameTime, spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
