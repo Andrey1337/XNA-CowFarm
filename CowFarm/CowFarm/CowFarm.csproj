@@ -58,8 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cow.cs" />
+    <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Grass.cs" />
-    <Compile Include="IEntity.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Plant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CowFarmGame.cs" />

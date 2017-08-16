@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace CowFarm
 {
-    public class Cow : IEntity
+    public class Cow : Entity
     {
         private readonly Texture2D _rightWalk;
         private readonly Texture2D _leftWalk;
@@ -40,6 +40,10 @@ namespace CowFarm
             this._upWalk = upWalk;
         }
 
+        public override Rectangle GetPosition()
+        {
+            return new Rectangle(_destRect.X, _destRect.Y, SpriteWidth, _currentAnim.Height);
+        }
 
         private void Animate(GameTime gameTime)
         {
@@ -60,12 +64,12 @@ namespace CowFarm
             _sourceRect = new Rectangle(SpriteWidth * _frames + _frames * SpaceFromSprites, 0, SpriteWidth, _currentAnim.Height);
         }
 
-        public void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
 
         }
 
-        public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             int MinX = 0;
             int MinY = 0;
@@ -112,7 +116,7 @@ namespace CowFarm
             _destRect = new Rectangle((int)position.X, (int)position.Y, 54, 54);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_currentAnim, _destRect, _sourceRect, Color.White);
         }

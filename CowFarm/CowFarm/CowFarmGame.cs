@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -28,10 +29,9 @@ namespace CowFarm
 
         private Cow _cow;
         private Grass _grass;
+        private List<Entity> _allEntities;
 
-
-        private double CurrentTime = 0f;
-
+        private DateTime _currentTime;
         private SpriteFont _font;
 
 
@@ -45,7 +45,7 @@ namespace CowFarm
 
         protected override void Initialize()
         {
-            CurrentTime = 0;
+            _currentTime = DateTime.Now;
             base.Initialize();
         }
 
@@ -54,11 +54,18 @@ namespace CowFarm
             spriteBatch = new SpriteBatch(GraphicsDevice);
             LoadCow();
             GrassLoad();
+            LoadFonts();
+            _allEntities = new List<Entity> {_cow, _grass};
+        }
+
+        private void LoadFonts()
+        {
             _font = Content.Load<SpriteFont>("gameFont");
         }
 
         private void LoadCow()
         {
+
             _cowRightWalk = Content.Load<Texture2D>("cowRightWalk");
             _cowLeftWalk = Content.Load<Texture2D>("cowLeftWalk");
             _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
@@ -68,7 +75,7 @@ namespace CowFarm
         private void GrassLoad()
         {
             _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _grass = new Grass(new Rectangle(200, 100, 16, 16), _grassMovement);
+            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);
         }
 
         protected override void UnloadContent()
@@ -78,7 +85,6 @@ namespace CowFarm
 
         protected override void Update(GameTime gameTime)
         {
-            CurrentTime += gameTime.ElapsedGameTime.TotalSeconds;
             _cow.Update(gameTime, graphics);
             _grass.Update(gameTime, graphics);
             base.Update(gameTime);
@@ -87,16 +93,26 @@ namespace CowFarm
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(57, 172, 57));
-
             spriteBatch.Begin();
 
-            //spriteBatch.Draw(_grassMovement, new Rectangle(200, 100, 24, 24), new Rectangle(0, 0, 24, 24), Color.White);
-            _cow.Draw(gameTime, spriteBatch);
-            _grass.Draw(gameTime, spriteBatch);
-            spriteBatch.DrawString(_font, "Time: " + (int)CurrentTime + " sec", new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth/2, 0), Color.Black);
-            spriteBatch.End();
+            _allEntities.Sort(new EntityYPositionComparer());
+            foreach (var entity in _allEntities)
+            {
+                entity.Draw(gameTime, spriteBatch);
+            }
 
+            DrowTime();
+
+            spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void DrowTime()
+        {
+            var inGametime = DateTime.Now - _currentTime;
+            spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.fff") }" , new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100),Color.AliceBlue );
+            spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y +_grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
         }
     }
 }
