@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace CowFarm
 {
-    public class Cow : Animal
+    public class Cow :  Animal , IEatable
     {
         private readonly Texture2D _rightWalk;
         private readonly Texture2D _leftWalk;
@@ -65,7 +65,7 @@ namespace CowFarm
 
         public override void Eat()
         {
-            
+
         }
 
         public override void Load(ContentManager content)
@@ -73,7 +73,10 @@ namespace CowFarm
 
         }
 
-        private KeyboardState prevState = new KeyboardState();        
+        private KeyboardState prevState = new KeyboardState();
+        private bool isMoving = false;
+        private string directory = "none";
+
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             int MinX = 0;
@@ -115,7 +118,7 @@ namespace CowFarm
                 Animate(gameTime);
             }
             else
-            {               
+            {
                 _sourceRect = new Rectangle(0, 0, SpriteWidth, _currentAnim.Height);
             }
 
