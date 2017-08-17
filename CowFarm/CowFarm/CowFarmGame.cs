@@ -82,8 +82,7 @@ namespace CowFarm
         }
         private void GrassLoad()
         {
-            _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _grassGenerator = new GrassGenerator(graphics, _grassMovement);
+            _grassMovement = Content.Load<Texture2D>("grassMovement");            
 
         }
 
@@ -97,9 +96,7 @@ namespace CowFarm
         protected override void Update(GameTime gameTime)
         {
             _allEntities.ForEach(entity => entity.Update(gameTime, graphics));
-
-            if (_grassGenerator.CanBeGenerated())
-                _allEntities.Add(_grassGenerator.Generate());
+            
 
             base.Update(gameTime);
         }

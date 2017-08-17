@@ -5,36 +5,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm
 {
-    public class GrassGenerator : IGenerator
+    public class GrassGenerator 
     {
-        private readonly GraphicsDeviceManager _graphics;
-        private readonly Texture2D _grassMovement;
-        private DateTime _grassSpawnTime;
+        //private readonly GraphicsDeviceManager _graphics;
+        //private readonly Texture2D _grassMovement;
+        //private DateTime _grassSpawnTime;
 
-        private readonly Random _random;
+        //private readonly Random _random;
 
-        public GrassGenerator(GraphicsDeviceManager graphics, Texture2D grassMovement)
-        {
-            this._graphics = graphics;
-            this._random = new Random();
-            this._grassSpawnTime = DateTime.Now.AddSeconds(_random.Next(2, 4));
-            this._grassMovement = grassMovement;
-        }
+        //public GrassGenerator(GraphicsDeviceManager graphics, Texture2D grassMovement)
+        //{
+        //    this._graphics = graphics;
+        //    this._random = new Random();
+        //    this._grassSpawnTime = DateTime.Now.AddSeconds(_random.Next(2, 4));
+        //    this._grassMovement = grassMovement;
+        //}
 
-        public Entity Generate()
-        {
-            if (!CanBeGenerated()) return null;
+        //public Entity Generate()
+        //{
+            
 
-            int x = _random.Next(0, _graphics.PreferredBackBufferWidth - 24);
-            int y = _random.Next(_graphics.PreferredBackBufferHeight / 9, _graphics.PreferredBackBufferHeight - _grassMovement.Height);
+        //    int x = _random.Next(0, _graphics.PreferredBackBufferWidth - 24);
+        //    int y = _random.Next(_graphics.PreferredBackBufferHeight / 9, _graphics.PreferredBackBufferHeight - _grassMovement.Height);
 
-            _grassSpawnTime = DateTime.Now.AddSeconds(_random.Next(2, 4));
-            return new Grass(new Rectangle(x, y, 24, _grassMovement.Height), _grassMovement);
-        }
+        //    _grassSpawnTime = DateTime.Now.AddSeconds(_random.Next(2, 4));
+        //    return new Grass(new Rectangle(x, y, 24, _grassMovement.Height), _grassMovement);
+        //}
 
-        public bool CanBeGenerated()
-        {
-            return DateTime.Now < _grassSpawnTime;
-        }
+        
     }
 }

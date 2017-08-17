@@ -62,6 +62,7 @@
     <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Grass.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="World.cs" />
     <Compile Include="GrassGenerator .cs" />
     <Compile Include="IEatable.cs" />
     <Compile Include="IGenerator.cs" />
