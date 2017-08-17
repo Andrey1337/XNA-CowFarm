@@ -10,5 +10,6 @@ namespace CowFarm
     interface IGenerator
     {
         Entity Generate();
+       
     }
 }

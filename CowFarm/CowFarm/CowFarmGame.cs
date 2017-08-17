@@ -53,6 +53,7 @@ namespace CowFarm
         protected override void Initialize()
         {
             _backGroundColor = new Color(57, 172, 57);
+            
             _currentTime = DateTime.Now;
             base.Initialize();
         }
@@ -63,7 +64,7 @@ namespace CowFarm
             LoadCow();
             GrassLoad();
             LoadFonts();
-            _allEntities = new List<Entity>() { _cow, _grass };
+            _allEntities = new List<Entity>() { _cow};
         }
 
         private void LoadFonts()
@@ -82,8 +83,8 @@ namespace CowFarm
         private void GrassLoad()
         {
             _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);
             _grassGenerator = new GrassGenerator(graphics, _grassMovement);
+
         }
 
         protected override void UnloadContent()
@@ -97,9 +98,8 @@ namespace CowFarm
         {
             _allEntities.ForEach(entity => entity.Update(gameTime, graphics));
 
-            //Grass temp = (Grass)_grassGenerator.Generate();
-            //if (temp != null)
-            //    _allEntities.Add(temp);
+            if (_grassGenerator.CanBeGenerated())
+                _allEntities.Add(_grassGenerator.Generate());
 
             base.Update(gameTime);
         }
@@ -110,7 +110,7 @@ namespace CowFarm
             spriteBatch.Begin();
 
             _allEntities.Sort(new EntityYPositionComparer());
-            _allEntities?.ForEach(entity => entity.Draw(gameTime, spriteBatch));
+            _allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));
 
             DrowTime();
             spriteBatch.End();
