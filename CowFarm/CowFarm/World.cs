@@ -2,11 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.Entity
+namespace CowFarm
 {
-    abstract class World : Entity
-    {
 
+    public abstract class World : Entity
+    {
+        protected List<Entity> _staticEntities;
+        protected List<Entity> _dynamicEntities;
+
+        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        {
+            _staticEntities.ForEach(entity => entity.Update(gameTime, graphics));
+            _dynamicEntities.ForEach(entity => entity.Update(gameTime, graphics));
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {            
+
+        }
     }
 }
