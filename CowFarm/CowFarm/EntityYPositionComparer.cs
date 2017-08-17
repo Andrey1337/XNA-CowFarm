@@ -9,11 +9,11 @@ namespace CowFarm
     {
         public int Compare(Entity x, Entity y)
         {
-                if (y != null && x != null && y.GetPosition().Y + y.GetPosition().Height >= x.GetPosition().Y + x.GetPosition().Height)
-                {
-                    return -1;
-                }
-                return 1;
+            if (y != null && x != null && y.GetPosition().Y + y.GetPosition().Height >= x.GetPosition().Y + x.GetPosition().Height)
+            {
+                return -1;
+            }
+            return 1;
         }
     }
 }

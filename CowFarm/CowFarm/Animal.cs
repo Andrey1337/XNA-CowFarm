@@ -5,7 +5,8 @@ using System.Text;
 
 namespace CowFarm
 {
-    public abstract class Plant : Entity
-    {                     
+    public abstract class Animal : Entity
+    {
+        public abstract void Eat();
     }
 }

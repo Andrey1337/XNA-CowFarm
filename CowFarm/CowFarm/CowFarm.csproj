@@ -57,6 +57,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animal.cs" />
     <Compile Include="Cow.cs" />
     <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Grass.cs" />

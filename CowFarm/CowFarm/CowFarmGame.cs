@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -17,8 +18,10 @@ namespace CowFarm
     /// </summary>
     public class CowFarmGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private Color _backGroundColor;
 
         private Texture2D _cowRightWalk;
         private Texture2D _cowLeftWalk;
@@ -31,9 +34,12 @@ namespace CowFarm
         private Grass _grass;
         private List<Entity> _allEntities;
 
+        private DateTime _spawnGrassTime = DateTime.Now;
         private DateTime _currentTime;
+
         private SpriteFont _font;
 
+        private readonly Random _random = new Random();
 
         public CowFarmGame()
         {
@@ -45,7 +51,9 @@ namespace CowFarm
 
         protected override void Initialize()
         {
+            _backGroundColor = new Color(57, 172, 57);
             _currentTime = DateTime.Now;
+            _spawnGrassTime = DateTime.Now;
             base.Initialize();
         }
 
@@ -55,7 +63,7 @@ namespace CowFarm
             LoadCow();
             GrassLoad();
             LoadFonts();
-            _allEntities = new List<Entity> {_cow, _grass};
+            _allEntities = new List<Entity>() { _cow , _grass};
         }
 
         private void LoadFonts()
@@ -65,7 +73,6 @@ namespace CowFarm
 
         private void LoadCow()
         {
-
             _cowRightWalk = Content.Load<Texture2D>("cowRightWalk");
             _cowLeftWalk = Content.Load<Texture2D>("cowLeftWalk");
             _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
@@ -75,7 +82,7 @@ namespace CowFarm
         private void GrassLoad()
         {
             _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);
+            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);            
         }
 
         protected override void UnloadContent()
@@ -85,24 +92,22 @@ namespace CowFarm
 
         protected override void Update(GameTime gameTime)
         {
-            _cow.Update(gameTime, graphics);
-            _grass.Update(gameTime, graphics);
+            _allEntities.ForEach(entity => entity.Update(gameTime, graphics));
+
+            //GrowGrass();
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(57, 172, 57));
+            GraphicsDevice.Clear(_backGroundColor);
             spriteBatch.Begin();
 
             _allEntities.Sort(new EntityYPositionComparer());
-            foreach (var entity in _allEntities)
-            {
-                entity.Draw(gameTime, spriteBatch);
-            }
+            _allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));
 
             DrowTime();
-
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -110,9 +115,24 @@ namespace CowFarm
         private void DrowTime()
         {
             var inGametime = DateTime.Now - _currentTime;
-            spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.fff") }" , new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
-            spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100),Color.AliceBlue );
-            spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y +_grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
+            spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
+            //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
+            spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
+            spriteBatch.DrawString(_font, _spawnGrassTime.ToString(@"mm\:ss\.ff"), new Vector2(500, 200), Color.AliceBlue);
+        }
+
+        private void GrowGrass()
+        {
+            if (_spawnGrassTime - DateTime.Now >= TimeSpan.FromMilliseconds(1)) return;
+
+            int x = _random.Next(graphics.PreferredBackBufferWidth / 9, (int)(graphics.PreferredBackBufferWidth * 0.9));
+            int y = _random.Next(graphics.PreferredBackBufferHeight / 9,
+                (int)(graphics.PreferredBackBufferHeight * 0.9));
+            _allEntities.Add(new Grass(new Rectangle(x, y, 24, _grassMovement.Height), _grassMovement));
+
+            //_spawnGrassTime = DateTime.Now.AddMilliseconds(_random.Next(4, 6) * _random.NextDouble() * 1500);
+            _spawnGrassTime = DateTime.Now.AddSeconds(_random.Next(25, 30));
         }
     }
 }

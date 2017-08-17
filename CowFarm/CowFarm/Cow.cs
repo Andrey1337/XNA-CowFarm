@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace CowFarm
 {
-    public class Cow : Entity
+    public class Cow : Animal
     {
         private readonly Texture2D _rightWalk;
         private readonly Texture2D _leftWalk;
@@ -33,7 +33,6 @@ namespace CowFarm
         {
             this._currentAnim = currentAnim;
             this._destRect = destRect;
-
             this._rightWalk = rightWalk;
             this._leftWalk = leftWalk;
             this._downWalk = downWalk;
@@ -64,11 +63,17 @@ namespace CowFarm
             _sourceRect = new Rectangle(SpriteWidth * _frames + _frames * SpaceFromSprites, 0, SpriteWidth, _currentAnim.Height);
         }
 
+        public override void Eat()
+        {
+            
+        }
+
         public override void Load(ContentManager content)
         {
 
         }
 
+        private KeyboardState prevState = new KeyboardState();        
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             int MinX = 0;
@@ -77,29 +82,32 @@ namespace CowFarm
             int MaxY = graphics.PreferredBackBufferHeight;
 
             KeyboardState ks = Keyboard.GetState();
+
+            Keys keyPressed = new Keys();
+
             var position = new Vector2(_destRect.X, _destRect.Y);
-            if (ks.IsKeyDown(Keys.D))
+            if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
             {
                 if (position.X + SpriteWidth < MaxX)
                     position.X += CowSpeed;
                 _currentAnim = _rightWalk;
                 Animate(gameTime);
             }
-            else if (ks.IsKeyDown(Keys.A))
+            else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
                 if (position.X > MinX)
                     position.X -= CowSpeed;
                 _currentAnim = _leftWalk;
                 Animate(gameTime);
             }
-            else if (ks.IsKeyDown(Keys.W))
+            else if (ks.IsKeyDown(Keys.W) || ks.IsKeyDown(Keys.Up))
             {
                 if (position.Y > MinY)
                     position.Y -= CowSpeed;
                 _currentAnim = _upWalk;
                 Animate(gameTime);
             }
-            else if (ks.IsKeyDown(Keys.S))
+            else if (ks.IsKeyDown(Keys.S) || ks.IsKeyDown(Keys.Down))
             {
                 if (position.Y + _currentAnim.Height < MaxY)
                     position.Y += CowSpeed;
@@ -107,13 +115,12 @@ namespace CowFarm
                 Animate(gameTime);
             }
             else
-            {
-                _sourceRect = new Rectangle(0, 0, SpriteWidth, _currentAnim.Height);
+            {               
                 _sourceRect = new Rectangle(0, 0, SpriteWidth, _currentAnim.Height);
             }
-            int num = _currentAnim.Height;
 
-            _destRect = new Rectangle((int)position.X, (int)position.Y, 54, 54);
+            _destRect = new Rectangle((int)position.X, (int)position.Y, SpriteWidth, _currentAnim.Height);
+            prevState = ks;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

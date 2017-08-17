@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm
 {
-    public class Grass : IPlant
+    public class Grass : Plant
     {
         private Texture2D _grassMovement;
         private Rectangle _destRect;
@@ -21,13 +21,14 @@ namespace CowFarm
 
         private const int SpriteWidth = 24;
 
-
+        private bool _isAvaibleToEat;
         public Grass(Rectangle destRect, Texture2D grassMovement)
         {
             this._destRect = destRect;
             this._grassMovement = grassMovement;
+            this._isAvaibleToEat = true;
         }
-
+        
 
         public override Rectangle GetPosition()
         {
@@ -36,6 +37,7 @@ namespace CowFarm
 
         public override void Load(ContentManager content)
         {
+
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -48,7 +50,6 @@ namespace CowFarm
                     _frames = 0;
                 else
                     _frames++;
-
                 _elapsed = 0;
             }
             _sourceRect = new Rectangle(SpriteWidth * _frames + _frames * SpaceFromSprites, 0, SpriteWidth, _grassMovement.Height);
