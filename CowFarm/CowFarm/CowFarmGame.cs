@@ -18,9 +18,8 @@ namespace CowFarm
     /// </summary>
     public class CowFarmGame : Microsoft.Xna.Framework.Game
     {
-        readonly GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
+        private readonly GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
         private Color _backGroundColor;
 
         private Texture2D _cowRightWalk;
@@ -38,33 +37,46 @@ namespace CowFarm
 
         private SpriteFont _font;
 
-        private readonly Random _random = new Random();
-
         private GrassGenerator _grassGenerator;
+
+        private FirstWorld _firstWorld;
 
         public CowFarmGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 600;
         }
 
         protected override void Initialize()
         {
+            var a = DateTime.Now;
+            List<Entity>[] arr = new List<Entity>[800];
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = new List<Entity>();
+            }
+            var b = DateTime.Now;
+
+            var c = b - a;
             _backGroundColor = new Color(57, 172, 57);
-            
+
             _currentTime = DateTime.Now;
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             LoadCow();
             GrassLoad();
             LoadFonts();
-            _allEntities = new List<Entity>() { _cow};
+            //_allEntities = new List<Entity>() { _cow };
+
+            _firstWorld = new FirstWorld(new List<Entity>() { _grass }, new List<Entity>() { _cow });
         }
 
         private void LoadFonts()
@@ -82,8 +94,8 @@ namespace CowFarm
         }
         private void GrassLoad()
         {
-            _grassMovement = Content.Load<Texture2D>("grassMovement");            
-
+            _grassMovement = Content.Load<Texture2D>("grassMovement");
+            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);
         }
 
         protected override void UnloadContent()
@@ -95,8 +107,8 @@ namespace CowFarm
 
         protected override void Update(GameTime gameTime)
         {
-            _allEntities.ForEach(entity => entity.Update(gameTime, graphics));
-            
+            //_allEntities.ForEach(entity => entity.Update(gameTime, _graphics));
+            _firstWorld.Update(gameTime, _graphics);
 
             base.Update(gameTime);
         }
@@ -104,23 +116,26 @@ namespace CowFarm
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_backGroundColor);
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
 
-            _allEntities.Sort(new EntityYPositionComparer());
-            _allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));
+            //_allEntities.Sort(new EntityYPositionComparer());
+            //_allEntities.ForEach(entity => entity.Draw(gameTime, _spriteBatch));
+
+            _firstWorld.Draw(gameTime, _spriteBatch);
 
             DrowTime();
-            spriteBatch.End();
+
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
 
         private void DrowTime()
         {
             var inGametime = DateTime.Now - _currentTime;
-            spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(graphics.PreferredBackBufferWidth - graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            _spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
             //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
             //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
-            spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
+            _spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
         }
     }
 }

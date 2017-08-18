@@ -21,8 +21,16 @@ namespace CowFarm
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {            
+        {
+            var allEntities = _staticEntities.Union(_dynamicEntities).ToList();
+            allEntities.Sort(new EntityYPositionComparer());
+            allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));
 
+            //_staticEntities.ForEach(entity => entity.Draw(gameTime,spriteBatch));
+            //_dynamicEntities.ForEach(entity => entity.Draw(gameTime,spriteBatch));        
         }
+
+
+
     }
 }

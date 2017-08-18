@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm
 {
-    public class StartWorld : World
+    public class FirstWorld : World
     {
         
-        public StartWorld(List<Entity> staticEntities, List<Entity> dynamicEntities)
+        public FirstWorld(List<Entity> staticEntities, List<Entity> dynamicEntities)
         {
             this._staticEntities = staticEntities;
             this._dynamicEntities = dynamicEntities;
