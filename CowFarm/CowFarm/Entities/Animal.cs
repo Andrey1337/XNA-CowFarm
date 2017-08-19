@@ -8,13 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CowFarm.Entities
 {
     public abstract class Animal : Entity
-    {
-        //protected readonly Texture2D RightWalk;
-        //protected readonly Texture2D LeftWalk;
-        //protected readonly Texture2D DownWalk;
-        //protected readonly Texture2D UpWalk;
-        //protected Texture2D CurrentAnim;
-
+    {        
         protected readonly AnimatedSprites RightWalk;
         protected readonly AnimatedSprites LeftWalk;
         protected readonly AnimatedSprites DownWalk;

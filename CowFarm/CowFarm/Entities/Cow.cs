@@ -16,37 +16,18 @@ namespace CowFarm.Entities
 
         private const float Delay = 200f;
 
-        private const int SpaceFromSprites = 16;
         public const float CowSpeed = 2f;
-        private const int SpriteWidth = 54;
+
 
         public Cow(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
-            AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk) { }
+            AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
+            base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+        { }
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, SpriteWidth, CurrentAnim.Animation.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
-
-        //private void Animate(GameTime gameTime)
-        //{
-        //    _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-        //    if (_elapsed >= _delay)
-        //    {
-        //        if (_frames >= 2)
-        //        {
-        //            _frames = 1;
-        //        }
-        //        else
-        //        {
-        //            _frames++;
-        //        }
-        //        _elapsed = 0;
-        //    }
-        //    _sourceRect = new Rectangle(SpriteWidth * _frames + _frames * SpaceFromSprites, 0,
-        //        SpriteWidth, CurrentAnim.Animation.Height);
-        //}
 
         public override void Eat()
         {
@@ -75,7 +56,7 @@ namespace CowFarm.Entities
             var position = new Vector2(DestRect.X, DestRect.Y);
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
             {
-                if (position.X + SpriteWidth < MaxX)
+                if (position.X + CurrentAnim.SpriteWidth < MaxX)
                     position.X += CowSpeed;
                 CurrentAnim = RightWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay);
@@ -103,7 +84,7 @@ namespace CowFarm.Entities
             }
             else
             {
-                _sourceRect = new Rectangle(0, 0, SpriteWidth, CurrentAnim.Animation.Height);
+                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
 
             DestRect = new Rectangle((int)position.X, (int)position.Y, CurrentAnim.SpriteWidth,

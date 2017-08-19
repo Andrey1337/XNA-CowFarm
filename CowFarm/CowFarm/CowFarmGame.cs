@@ -78,11 +78,11 @@ namespace CowFarm
             _gameTextures.Add("cowDownWalk", Content.Load<Texture2D>("cowUpWalk"));
             _gameTextures.Add("cowUpWalk", Content.Load<Texture2D>("cowDownWalk"));
 
-            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 49), 
+            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 49),
                 new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), 
+                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16),
                 new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), 
+                new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16),
                 new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
         private void GrassLoad()
@@ -122,7 +122,7 @@ namespace CowFarm
             _spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
             //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
             //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
-            _spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
+            //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
         }
     }
 }

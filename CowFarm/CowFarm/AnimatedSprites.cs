@@ -21,24 +21,24 @@ namespace CowFarm
             this._spaceFromSprites = spaceFromSprites;
             this._framesCounter = 0;
             this._frames = frames;
-            this._elapsed = 0;
+            this._elapsed = 100;
         }
 
         public Rectangle Animate(GameTime gameTime, float delay)
         {
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (_elapsed >= delay)
+            if (!(_elapsed >= delay))
+                return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * _spaceFromSprites, 0,
+                    SpriteWidth, Animation.Height);
+            if (_framesCounter >= _frames - 1)
             {
-                if (_framesCounter >= _frames - 1)
-                {
-                    _framesCounter = 1;
-                }
-                else
-                {
-                    _framesCounter++;
-                }
-                _elapsed = 0;
+                _framesCounter = 1;
             }
+            else
+            {
+                _framesCounter++;
+            }
+            _elapsed = 0;
             return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * _spaceFromSprites, 0,
                 SpriteWidth, Animation.Height);
         }
