@@ -11,10 +11,12 @@ namespace CowFarm
     public class FirstWorld : World
     {
 
-        public FirstWorld(List<Entity>[] staticEntities, List<Entity> dynamicEntities)
+        public FirstWorld(GraphicsDeviceManager graphics, List<Entity>[] staticEntities, List<Entity> dynamicEntities)
         {
-            this._staticEntities = staticEntities;
-            this._dynamicEntities = dynamicEntities;
+            //this.StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
+            this.StaticEntities = staticEntities;
+            this.Graphics = graphics;
+            this.DynamicEntities = dynamicEntities;
         }
 
 

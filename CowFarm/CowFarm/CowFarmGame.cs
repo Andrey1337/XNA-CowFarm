@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
+using CowFarm.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -30,27 +31,16 @@ namespace CowFarm
         private Texture2D _grassMovement;
 
         private Cow _cow;
+
         private Grass _grass;
-        private Grass _grass1;
-        private Grass _grass2;
-        private Grass _grass3;
-        private Grass _grass4;
-        private Grass _grass5;
-        private Grass _grass6;
-        private Grass _grass7;
-        private Grass _grass8;
-        private Grass _grass9;
-        private Grass _grass10;
-        private Grass _grass11;
-        private List<Entity> _allEntities;
 
         private DateTime _currentTime;
 
         private SpriteFont _font;
 
-        private GrassGenerator _grassGenerator;
-
         private FirstWorld _firstWorld;
+
+        private GrassGenerator _grassGenerator;
 
         public CowFarmGame()
         {
@@ -75,13 +65,13 @@ namespace CowFarm
             LoadCow();
             GrassLoad();
             LoadFonts();
-            //_allEntities = new List<Entity>() { _cow };
 
-            var _testArr = new List<Entity>[_graphics.PreferredBackBufferHeight];
+            List<Entity>[] StaticEntities = new List<Entity>[_graphics.PreferredBackBufferHeight];
+            StaticEntities[_grass.GetPosition().Y + _grass.GetPosition().Height] = new List<Entity>() { _grass };
 
-            _testArr[_grass.GetPosition().Height + _grass.GetPosition().Y] = new List<Entity>() { _grass };
-
-            _firstWorld = new FirstWorld(_testArr, new List<Entity>() { _cow });
+            _firstWorld = new FirstWorld(_graphics, StaticEntities, new List<Entity>() { _cow });
+            _grassGenerator = new GrassGenerator(_graphics, _grassMovement);
+            
         }
 
         private void LoadFonts()
@@ -95,7 +85,7 @@ namespace CowFarm
             _cowLeftWalk = Content.Load<Texture2D>("cowLeftWalk");
             _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
             _cowUpWalk = Content.Load<Texture2D>("cowUpWalk");
-            _cow = new Cow(new Rectangle(100, 100, 54, 48), _cowRightWalk, _cowRightWalk, _cowLeftWalk, _cowDownWalk, _cowUpWalk);
+            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 48), _cowRightWalk, _cowRightWalk, _cowLeftWalk, _cowDownWalk, _cowUpWalk);
         }
         private void GrassLoad()
         {
@@ -111,10 +101,9 @@ namespace CowFarm
 
 
         protected override void Update(GameTime gameTime)
-        {
-            //_allEntities.ForEach(entity => entity.Update(gameTime, _graphics));
-            _firstWorld.Update(gameTime, _graphics);
-
+        {            
+            _firstWorld.Update(gameTime);
+            _grassGenerator.Generate(_firstWorld);
             base.Update(gameTime);
         }
 

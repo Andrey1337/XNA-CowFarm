@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm
+namespace CowFarm.Entities
 {
     public class Grass : Plant
     {
-        private Texture2D _grassMovement;
+        private readonly Texture2D _grassMovement;
         private Rectangle _destRect;
         private Rectangle _sourceRect;
 
@@ -28,7 +28,7 @@ namespace CowFarm
             this._grassMovement = grassMovement;
             this._isAvaibleToEat = true;
         }
-        
+
 
         public override Rectangle GetPosition()
         {
@@ -40,7 +40,7 @@ namespace CowFarm
 
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public override void Update(GameTime gameTime)
         {
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 

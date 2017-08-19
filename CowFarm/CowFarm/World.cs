@@ -11,34 +11,38 @@ namespace CowFarm
 
     public abstract class World : Entity
     {
-        protected List<Entity>[] _staticEntities;
-        protected List<Entity> _dynamicEntities;
+        public List<Entity>[] StaticEntities;
+        protected List<Entity> DynamicEntities;
+        protected GraphicsDeviceManager Graphics;
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        
+
+        public override void Update(GameTime gameTime)
         {
-            foreach (var item in _staticEntities)
+            
+            foreach (var item in StaticEntities)
             {
-                item?.ForEach(entity => entity.Update(gameTime, graphics));
+                item?.ForEach(entity => entity.Update(gameTime));
             }
 
-            _dynamicEntities.ForEach(entity => entity.Update(gameTime, graphics));
+            DynamicEntities.ForEach(entity => entity.Update(gameTime));
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Entity cow = _dynamicEntities[0];
+            Entity cow = DynamicEntities[0];
 
             int dynamicYposition = cow.GetPosition().Y + cow.GetPosition().Height;
 
-            for (var i = 0; i < _staticEntities.Length; i++)
+            for (var i = 0; i < StaticEntities.Length; i++)
             {
                 if (i == dynamicYposition)
                 {
                     cow.Draw(gameTime, spriteBatch);
                 }
-                if (_staticEntities[i] != null)
+                if (StaticEntities[i] != null)
                 {
-                    _staticEntities[i].ForEach(entity => entity.Draw(gameTime, spriteBatch));
+                    StaticEntities[i].ForEach(entity => entity.Draw(gameTime, spriteBatch));
                 }
             }
 
@@ -46,10 +50,7 @@ namespace CowFarm
 
             //var allEntities = _staticEntities.Union(_dynamicEntities).ToList();
             //allEntities.Sort(new EntityYPositionComparer());
-            //allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));
-
-            //_staticEntities.ForEach(entity => entity.Draw(gameTime,spriteBatch));
-            //_dynamicEntities.ForEach(entity => entity.Draw(gameTime,spriteBatch));        
+            //allEntities.ForEach(entity => entity.Draw(gameTime, spriteBatch));                
         }
 
 

@@ -9,6 +9,6 @@ namespace CowFarm
 {
     interface IGenerator
     {
-        Entity Generate();
+        void Generate(World world);
     }
 }
