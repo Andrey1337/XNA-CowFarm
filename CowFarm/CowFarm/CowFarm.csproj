@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Animal.cs" />
-    <Compile Include="Entities\AnimatedSprites.cs" />
+    <Compile Include="AnimatedSprites.cs" />
     <Compile Include="Entities\Cow.cs" />
     <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Entities\Grass.cs" />

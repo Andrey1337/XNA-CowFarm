@@ -11,14 +11,14 @@ namespace CowFarm
     public class FirstWorld : World
     {
 
-        public FirstWorld(GraphicsDeviceManager graphics, List<Entity>[] staticEntities, List<Entity> dynamicEntities)
+        public FirstWorld(GraphicsDeviceManager graphics, List<Entity> dynamicEntities, Dictionary<string, Texture2D> gameTextures)
         {
-            //this.StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
-            this.StaticEntities = staticEntities;
+            this.StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             this.Graphics = graphics;
             this.DynamicEntities = dynamicEntities;
+            this.GameTextures = gameTextures;
+            this.GrassGenerator = new GrassGenerator(graphics, gameTextures["grassMovement"]);
         }
-
 
         public override void Load(ContentManager content)
         {

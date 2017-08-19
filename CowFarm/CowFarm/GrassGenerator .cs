@@ -18,26 +18,25 @@ namespace CowFarm
         {
             this._graphics = graphics;
             this._random = new Random();
-            this._grassSpawnTime = DateTime.Now.AddSeconds(_random.Next(2, 4));
+            this._grassSpawnTime = DateTime.Now.AddSeconds(1);
             this._grassMovement = grassMovement;
         }
         
 
         public void Generate(World world)
         {
-            if (DateTime.Now - _grassSpawnTime >= TimeSpan.FromMilliseconds(0))
-            {
-                int x = _random.Next(0, _graphics.PreferredBackBufferWidth - _grassWidth);
-                int y = _random.Next(0, _graphics.PreferredBackBufferHeight - _grassMovement.Height);
+            if (DateTime.Now - _grassSpawnTime < TimeSpan.FromMilliseconds(0)) return;
 
-                Grass grass = new Grass(new Rectangle(x, y, _grassWidth, _grassMovement.Height), _grassMovement);
+            var x = _random.Next(0, _graphics.PreferredBackBufferWidth - _grassWidth);
+            var y = _random.Next(0, _graphics.PreferredBackBufferHeight - _grassMovement.Height);
 
-                if (world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height] != null)
-                    world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height].Add(grass);
-                else
-                    world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height] = new List<Entity>() { grass };
-                _grassSpawnTime = _grassSpawnTime.AddSeconds(_random.Next(1, 2));
-            }
+            var grass = new Grass(new Rectangle(x, y, _grassWidth, _grassMovement.Height), _grassMovement);
+
+            if (world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height] != null)
+                world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height].Add(grass);
+            else
+                world.StaticEntities[grass.GetPosition().Y + grass.GetPosition().Height] = new List<Entity>() { grass };
+            _grassSpawnTime = _grassSpawnTime.AddSeconds(_random.Next(10,15));
         }
     }
 }

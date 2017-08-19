@@ -30,13 +30,6 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cowUpWalk.png">
-      <Name>cowUpWalk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="gameFont.spritefont">
       <Name>gameFont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -58,15 +51,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cowDownWalk.png">
-      <Name>cowDownWalk</Name>
+    <Compile Include="cowRightWalk.png">
+      <Name>cowRightWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cowRightWalk.png">
-      <Name>cowRightWalk</Name>
+    <Compile Include="cowUpWalk.png">
+      <Name>cowUpWalk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cowDownWalk.png">
+      <Name>cowDownWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

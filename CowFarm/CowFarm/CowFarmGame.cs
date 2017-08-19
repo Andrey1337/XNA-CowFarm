@@ -23,16 +23,9 @@ namespace CowFarm
         private SpriteBatch _spriteBatch;
         private Color _backGroundColor;
 
-        private Texture2D _cowRightWalk;
-        private Texture2D _cowLeftWalk;
-        private Texture2D _cowDownWalk;
-        private Texture2D _cowUpWalk;
-
         private Texture2D _grassMovement;
 
         private Cow _cow;
-
-        private Grass _grass;
 
         private DateTime _currentTime;
 
@@ -40,7 +33,8 @@ namespace CowFarm
 
         private FirstWorld _firstWorld;
 
-        private GrassGenerator _grassGenerator;
+
+        private Dictionary<string, Texture2D> _gameTextures;
 
         public CowFarmGame()
         {
@@ -54,24 +48,22 @@ namespace CowFarm
         {
             _backGroundColor = new Color(57, 172, 57);
 
-            _currentTime = DateTime.Now;
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            _currentTime = DateTime.Now;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _gameTextures = new Dictionary<string, Texture2D>();
             LoadCow();
             GrassLoad();
             LoadFonts();
 
-            List<Entity>[] StaticEntities = new List<Entity>[_graphics.PreferredBackBufferHeight];
-            StaticEntities[_grass.GetPosition().Y + _grass.GetPosition().Height] = new List<Entity>() { _grass };
+            _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
-            _firstWorld = new FirstWorld(_graphics, StaticEntities, new List<Entity>() { _cow });
-            _grassGenerator = new GrassGenerator(_graphics, _grassMovement);
-            
         }
 
         private void LoadFonts()
@@ -81,16 +73,22 @@ namespace CowFarm
 
         private void LoadCow()
         {
-            _cowRightWalk = Content.Load<Texture2D>("cowRightWalk");
-            _cowLeftWalk = Content.Load<Texture2D>("cowLeftWalk");
-            _cowDownWalk = Content.Load<Texture2D>("cowDownWalk");
-            _cowUpWalk = Content.Load<Texture2D>("cowUpWalk");
-            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 48), _cowRightWalk, _cowRightWalk, _cowLeftWalk, _cowDownWalk, _cowUpWalk);
+            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("cowRightWalk"));
+            _gameTextures.Add("cowLeftWalk", Content.Load<Texture2D>("cowLeftWalk"));
+            _gameTextures.Add("cowDownWalk", Content.Load<Texture2D>("cowUpWalk"));
+            _gameTextures.Add("cowUpWalk", Content.Load<Texture2D>("cowDownWalk"));
+
+            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 49), 
+                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16),
+                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), 
+                new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16),
+                new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), 
+                new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
         private void GrassLoad()
         {
             _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _grass = new Grass(new Rectangle(200, 100, 24, 24), _grassMovement);
+            _gameTextures.Add("grassMovement", _grassMovement);
         }
 
         protected override void UnloadContent()
@@ -99,11 +97,9 @@ namespace CowFarm
         }
 
 
-
         protected override void Update(GameTime gameTime)
-        {            
+        {
             _firstWorld.Update(gameTime);
-            _grassGenerator.Generate(_firstWorld);
             base.Update(gameTime);
         }
 
@@ -112,17 +108,15 @@ namespace CowFarm
             GraphicsDevice.Clear(_backGroundColor);
             _spriteBatch.Begin();
 
-            //_allEntities.Sort(new EntityYPositionComparer());
-            //_allEntities.ForEach(entity => entity.Draw(gameTime, _spriteBatch));
-
             _firstWorld.Draw(gameTime, _spriteBatch);
-            DrowTime();
+
+            DrawTime();
 
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
-        private void DrowTime()
+        private void DrawTime()
         {
             var inGametime = DateTime.Now - _currentTime;
             _spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
