@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace CowFarm
 {
-    public class Cow :  Animal , IEatable
+    public class Cow : Animal, IEatable
     {
         private readonly Texture2D _rightWalk;
         private readonly Texture2D _leftWalk;
@@ -21,7 +21,7 @@ namespace CowFarm
         private Rectangle _destRect;
         private float _elapsed;
         private const float Delay = 200f;
-        private int _frames = 0;
+        private int _frames;
 
         private const int SpaceFromSprites = 16;
         public const float CowSpeed = 2f;
@@ -86,7 +86,6 @@ namespace CowFarm
 
             KeyboardState ks = Keyboard.GetState();
 
-            Keys keyPressed = new Keys();
 
             var position = new Vector2(_destRect.X, _destRect.Y);
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))

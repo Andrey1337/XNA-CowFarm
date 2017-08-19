@@ -14,5 +14,10 @@ namespace CowFarm
         public abstract void Update(GameTime gameTime, GraphicsDeviceManager graphics);
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         public abstract Rectangle GetPosition();
+
+        internal void ForEach(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

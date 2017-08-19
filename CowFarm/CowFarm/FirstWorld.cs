@@ -10,13 +10,13 @@ namespace CowFarm
 {
     public class FirstWorld : World
     {
-        
-        public FirstWorld(List<Entity> staticEntities, List<Entity> dynamicEntities)
+
+        public FirstWorld(List<Entity>[] staticEntities, List<Entity> dynamicEntities)
         {
             this._staticEntities = staticEntities;
             this._dynamicEntities = dynamicEntities;
         }
-             
+
 
         public override void Load(ContentManager content)
         {
@@ -27,5 +27,6 @@ namespace CowFarm
         {
             throw new NotImplementedException();
         }
+
     }
 }

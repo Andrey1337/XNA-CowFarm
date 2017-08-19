@@ -31,6 +31,17 @@ namespace CowFarm
 
         private Cow _cow;
         private Grass _grass;
+        private Grass _grass1;
+        private Grass _grass2;
+        private Grass _grass3;
+        private Grass _grass4;
+        private Grass _grass5;
+        private Grass _grass6;
+        private Grass _grass7;
+        private Grass _grass8;
+        private Grass _grass9;
+        private Grass _grass10;
+        private Grass _grass11;
         private List<Entity> _allEntities;
 
         private DateTime _currentTime;
@@ -51,16 +62,6 @@ namespace CowFarm
 
         protected override void Initialize()
         {
-            var a = DateTime.Now;
-            List<Entity>[] arr = new List<Entity>[800];
-
-            for (int i = 0; i < arr.Length; i++)
-            {
-                arr[i] = new List<Entity>();
-            }
-            var b = DateTime.Now;
-
-            var c = b - a;
             _backGroundColor = new Color(57, 172, 57);
 
             _currentTime = DateTime.Now;
@@ -76,7 +77,11 @@ namespace CowFarm
             LoadFonts();
             //_allEntities = new List<Entity>() { _cow };
 
-            _firstWorld = new FirstWorld(new List<Entity>() { _grass }, new List<Entity>() { _cow });
+            var _testArr = new List<Entity>[_graphics.PreferredBackBufferHeight];
+
+            _testArr[_grass.GetPosition().Height + _grass.GetPosition().Y] = new List<Entity>() { _grass };
+
+            _firstWorld = new FirstWorld(_testArr, new List<Entity>() { _cow });
         }
 
         private void LoadFonts()
@@ -122,7 +127,6 @@ namespace CowFarm
             //_allEntities.ForEach(entity => entity.Draw(gameTime, _spriteBatch));
 
             _firstWorld.Draw(gameTime, _spriteBatch);
-
             DrowTime();
 
             _spriteBatch.End();
