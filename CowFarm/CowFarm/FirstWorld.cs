@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CowFarm.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,10 @@ namespace CowFarm
             this.DynamicEntities = dynamicEntities;
             this.GameTextures = gameTextures;
             this.GrassGenerator = new GrassGenerator(graphics,
-                gameTextures["grassMovement"], 24);
+                new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6);
+
+            TreeGenerator treeGenerator = new TreeGenerator(graphics, new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);
+            treeGenerator.Generate(StaticEntities);
         }
 
         public override void Load(ContentManager content)

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities
 {
-    public class Grass : Plant
+    public class Tree : Plant
     {
-        private const float Delay = 1500f;
+        private const float Delay = 5000f;
 
-        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement) :
-            base(graphics, destRect, grassMovement)
+        public Tree(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement) : base(graphics,
+            destRect, treeMovement)
         {
-            SpriteWidth = grassMovement.SpriteWidth;
+            SpriteWidth = treeMovement.SpriteWidth;
         }
+
 
         public override void Load(ContentManager content)
         {
@@ -27,7 +24,6 @@ namespace CowFarm.Entities
         {
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
         }
-
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

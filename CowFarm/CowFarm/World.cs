@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm
 {
-
     public abstract class World : Entity
     {
+
         public List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
         protected GraphicsDeviceManager Graphics;
@@ -20,7 +20,7 @@ namespace CowFarm
 
         public override void Update(GameTime gameTime)
         {
-            GrassGenerator.Generate(this);
+            GrassGenerator.Generate(this.StaticEntities);
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
@@ -50,8 +50,5 @@ namespace CowFarm
                 }
             }
         }
-
-
-
     }
 }

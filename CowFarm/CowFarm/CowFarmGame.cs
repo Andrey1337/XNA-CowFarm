@@ -57,7 +57,7 @@ namespace CowFarm
 
             _gameTextures = new Dictionary<string, Texture2D>();
             LoadCow();
-            GrassLoad();
+            PlantLoad();
             LoadFonts();
 
             _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
@@ -83,9 +83,10 @@ namespace CowFarm
                 new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16),
                 new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
-        private void GrassLoad()
+        private void PlantLoad()
         {
             _gameTextures.Add("grassMovement", Content.Load<Texture2D>("grassMovement"));
+            _gameTextures.Add("treeMovement", Content.Load<Texture2D>("treeMovement"));
         }
 
         protected override void UnloadContent()

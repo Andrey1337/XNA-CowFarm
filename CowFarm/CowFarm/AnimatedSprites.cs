@@ -9,8 +9,8 @@ namespace CowFarm
         public int SpriteWidth { get; }
         public int SpriteHeight { get; }
         private int _framesCounter;
-        private readonly int _spaceFromSprites;
-        private readonly int _frames;
+        public int SpaceFromSprites { get; }
+        public int Frames { get; }
         private float _elapsed;
 
         public AnimatedSprites(Texture2D animation, int frames, int spriteWidth, int spaceFromSprites)
@@ -18,9 +18,9 @@ namespace CowFarm
             this.Animation = animation;
             this.SpriteWidth = spriteWidth;
             this.SpriteHeight = Animation.Height;
-            this._spaceFromSprites = spaceFromSprites;
+            this.SpaceFromSprites = spaceFromSprites;
             this._framesCounter = 0;
-            this._frames = frames;
+            this.Frames = frames;
             this._elapsed = 100;
         }
 
@@ -30,9 +30,9 @@ namespace CowFarm
 
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (!(_elapsed >= delay))
-                return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * _spaceFromSprites, 0,
+                return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * SpaceFromSprites, 0,
                     SpriteWidth, Animation.Height);
-            if (_framesCounter >= _frames - 1)
+            if (_framesCounter >= Frames - 1)
             {
                 _framesCounter = (int)ogjectType;
             }
@@ -41,7 +41,7 @@ namespace CowFarm
                 _framesCounter++;
             }
             _elapsed = 0;
-            return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * _spaceFromSprites, 0,
+            return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * SpaceFromSprites, 0,
                 SpriteWidth, Animation.Height);
         }
     }
