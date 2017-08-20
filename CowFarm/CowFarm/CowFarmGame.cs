@@ -14,9 +14,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace CowFarm
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class CowFarmGame : Microsoft.Xna.Framework.Game
     {
         private readonly GraphicsDeviceManager _graphics;
@@ -62,6 +59,7 @@ namespace CowFarm
 
             _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
+            
         }
 
         private void LoadFonts()
