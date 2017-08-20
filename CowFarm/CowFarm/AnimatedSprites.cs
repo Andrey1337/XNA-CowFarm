@@ -24,15 +24,17 @@ namespace CowFarm
             this._elapsed = 100;
         }
 
-        public Rectangle Animate(GameTime gameTime, float delay)
+        public Rectangle Animate(GameTime gameTime, float delay, ObjectMovingType ogjectType)
         {
+
+
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (!(_elapsed >= delay))
                 return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * _spaceFromSprites, 0,
                     SpriteWidth, Animation.Height);
             if (_framesCounter >= _frames - 1)
             {
-                _framesCounter = 1;
+                _framesCounter = (int)ogjectType;
             }
             else
             {

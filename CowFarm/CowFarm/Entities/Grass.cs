@@ -13,17 +13,19 @@ namespace CowFarm.Entities
         private readonly AnimatedSprites _grassMovement;
         private Rectangle _destRect;
         private Rectangle _sourceRect;
-                
+
         private const float Delay = 1500f;
-        
 
         private const int SpriteWidth = 24;
+
+
+        
 
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement) :
             base(graphics, destRect, grassMovement)
         {
             this._destRect = destRect;
-            this._grassMovement = grassMovement;            
+            this._grassMovement = grassMovement;
         }
 
 
@@ -38,8 +40,8 @@ namespace CowFarm.Entities
         }
 
         public override void Update(GameTime gameTime)
-        {            
-            _sourceRect = _grassMovement.Animate(gameTime, Delay);
+        {
+            _sourceRect = _grassMovement.Animate(gameTime, Delay, ObjectMovingType);
         }
 
 

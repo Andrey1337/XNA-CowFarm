@@ -17,7 +17,7 @@ namespace CowFarm.Entities
         private const float Delay = 200f;
 
         public const float CowSpeed = 2f;
-
+        
 
         public Cow(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
             AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
@@ -59,28 +59,28 @@ namespace CowFarm.Entities
                 if (position.X + CurrentAnim.SpriteWidth < MaxX)
                     position.X += CowSpeed;
                 CurrentAnim = RightWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay);
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
                 if (position.X > MinX)
                     position.X -= CowSpeed;
                 CurrentAnim = LeftWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay);
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.W) || ks.IsKeyDown(Keys.Up))
             {
                 if (position.Y > MinY)
                     position.Y -= CowSpeed;
                 CurrentAnim = UpWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay);
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.S) || ks.IsKeyDown(Keys.Down))
             {
                 if (position.Y + CurrentAnim.Animation.Height < MaxY)
                     position.Y += CowSpeed;
                 CurrentAnim = DownWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay);
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace CowFarm
             this.DynamicEntities = dynamicEntities;
             this.GameTextures = gameTextures;
             this.GrassGenerator = new GrassGenerator(graphics,
-                new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15));
+                gameTextures["grassMovement"], 24);
         }
 
         public override void Load(ContentManager content)

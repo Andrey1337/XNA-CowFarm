@@ -23,8 +23,6 @@ namespace CowFarm
         private SpriteBatch _spriteBatch;
         private Color _backGroundColor;
 
-        private Texture2D _grassMovement;
-
         private Cow _cow;
 
         private DateTime _currentTime;
@@ -40,8 +38,8 @@ namespace CowFarm
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = 800;
         }
 
         protected override void Initialize()
@@ -87,8 +85,7 @@ namespace CowFarm
         }
         private void GrassLoad()
         {
-            _grassMovement = Content.Load<Texture2D>("grassMovement");
-            _gameTextures.Add("grassMovement", _grassMovement);
+            _gameTextures.Add("grassMovement", Content.Load<Texture2D>("grassMovement"));
         }
 
         protected override void UnloadContent()

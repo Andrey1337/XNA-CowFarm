@@ -13,11 +13,15 @@ namespace CowFarm.Entities
         protected Rectangle DestRect;
 
         protected GraphicsDeviceManager Graphics;
+
+        protected ObjectMovingType ObjectMovingType;
+
         protected Plant(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
         {
             this.Graphics = graphics;
             this.DestRect = destRect;
             this.GrassMovement = grassMovement;
+            this.ObjectMovingType = ObjectMovingType.Static;
         }
     }
 }

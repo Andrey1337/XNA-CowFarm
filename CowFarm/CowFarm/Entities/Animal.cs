@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CowFarm.Entities
 {
     public abstract class Animal : Entity
-    {        
+    {
         protected readonly AnimatedSprites RightWalk;
         protected readonly AnimatedSprites LeftWalk;
         protected readonly AnimatedSprites DownWalk;
@@ -17,6 +17,8 @@ namespace CowFarm.Entities
 
         protected Rectangle DestRect;
         protected GraphicsDeviceManager Graphics;
+
+        protected ObjectMovingType ObjectMovingType;
 
         protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
@@ -28,6 +30,7 @@ namespace CowFarm.Entities
             this.DownWalk = downWalk;
             this.UpWalk = upWalk;
             this.Graphics = graphics;
+            this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
         public abstract void Eat();

@@ -20,11 +20,11 @@ namespace CowFarm
 
         public override void Update(GameTime gameTime)
         {
+            GrassGenerator.Generate(this);
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
             }
-            GrassGenerator.Generate(this);
 
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
         }
@@ -33,7 +33,7 @@ namespace CowFarm
         {
             Entity cow = DynamicEntities[0];
 
-            int dynamicYposition = cow.GetPosition().Y + cow.GetPosition().Height;
+            var dynamicYposition = cow.GetPosition().Y + cow.GetPosition().Height;
 
             if (dynamicYposition >= StaticEntities.Length)
                 dynamicYposition = Graphics.PreferredBackBufferHeight - 1;

@@ -64,6 +64,7 @@
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="FirstWorld.cs" />
+    <Compile Include="ObjectMovingType.cs" />
     <Compile Include="World.cs" />
     <Compile Include="GrassGenerator .cs" />
     <Compile Include="IEatable.cs" />
