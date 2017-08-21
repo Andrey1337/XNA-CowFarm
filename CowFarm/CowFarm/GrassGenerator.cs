@@ -12,7 +12,7 @@ namespace CowFarm
         public GrassGenerator(GraphicsDeviceManager graphics, AnimatedSprites animatedSprites, int objectsMaxCounter) :
             base(graphics, animatedSprites, objectsMaxCounter)
         {
-            this._grassSpawnTime = DateTime.Now.AddSeconds(1);
+            this._grassSpawnTime = DateTime.Now.AddSeconds(2);
         }
 
         public override void Generate(List<Entity>[] statiEntities)
