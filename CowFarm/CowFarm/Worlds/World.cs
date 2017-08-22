@@ -31,18 +31,32 @@ namespace CowFarm
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Entity cow = DynamicEntities[0];
 
-            var dynamicYposition = cow.GetPosition().Y + cow.GetPosition().Height;
+            var dynamicYposition = int.MaxValue;
+            Entity dynamicEntity = null;
+            var dynamicCount = 0;
 
-            if (dynamicYposition >= StaticEntities.Length)
-                dynamicYposition = Graphics.PreferredBackBufferHeight - 1;
+            if (DynamicEntities.Count >= 1)
+            {
+                dynamicEntity = DynamicEntities[dynamicCount];
+                dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
+                dynamicCount++;
+                if (dynamicYposition >= StaticEntities.Length)
+                    dynamicYposition = Graphics.PreferredBackBufferHeight - 1;
+            }
 
             for (var i = 0; i < StaticEntities.Length; i++)
             {
                 if (i == dynamicYposition)
                 {
-                    cow.Draw(gameTime, spriteBatch);
+                    dynamicEntity?.Draw(gameTime, spriteBatch);
+                    dynamicCount++;
+                    if (dynamicCount <= DynamicEntities.Count - 1)
+                    {
+                        dynamicEntity = DynamicEntities[dynamicCount];
+                        dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
+                    }
+
                 }
                 if (StaticEntities[i] != null)
                 {
