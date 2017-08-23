@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using CowFarm.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm
+namespace CowFarm.Generators
 {
     public class GrassGenerator : Generator
     {

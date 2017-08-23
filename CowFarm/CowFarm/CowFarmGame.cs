@@ -18,6 +18,8 @@ namespace CowFarm
     {
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+
         private Color _backGroundColor;
 
         private Cow _cow;
@@ -28,7 +30,6 @@ namespace CowFarm
 
         private FirstWorld _firstWorld;
 
-
         private Dictionary<string, Texture2D> _gameTextures;
 
         public CowFarmGame()
@@ -37,6 +38,7 @@ namespace CowFarm
             Content.RootDirectory = "Content";
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.PreferredBackBufferWidth = 800;
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -59,7 +61,7 @@ namespace CowFarm
 
             _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
-            
+
         }
 
         private void LoadFonts()
