@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CowFarm.Entities;
 using CowFarm.Generators;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using CowFarm.Entities;
+using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -14,11 +15,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace CowFarm
 {
-    public class CowFarmGame : Microsoft.Xna.Framework.Game
+    public class CowFarmGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
 
         private Color _backGroundColor;
 
@@ -48,6 +48,10 @@ namespace CowFarm
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _currentTime = DateTime.Now;
+
+            MenuScreen menuScreen = new MenuScreen("Farseer Samples");
+
+
             base.Initialize();
         }
 
