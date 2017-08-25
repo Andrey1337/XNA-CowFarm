@@ -40,6 +40,7 @@ namespace CowFarm
             _graphics.PreferredBackBufferWidth = 800;
             IsMouseVisible = true;
         }
+        
 
         protected override void Initialize()
         {
@@ -49,21 +50,34 @@ namespace CowFarm
 
             _currentTime = DateTime.Now;
 
-            MenuScreen menuScreen = new MenuScreen("Farseer Samples");
+            LoadContent();
 
+            _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
+
+            CowGameScreen firstWorld = new CowGameScreen(_firstWorld);
+            //MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
+
+            //menuScreen.AddMenuItem("", EntryType.Separator, null);
+            //menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, firstWorld);
+            //menuScreen.AddMenuItem("", EntryType.Separator, null);
+            //menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
+
+            //var screenManager = new ScreenManager(this);
+
+            //screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
+            //screenManager.AddScreen(new BackgroundScreen());
+            //screenManager.AddScreen(menuScreen);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-
             _gameTextures = new Dictionary<string, Texture2D>();
             LoadCow();
             PlantLoad();
             LoadFonts();
 
-            _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
 
         }
@@ -75,7 +89,7 @@ namespace CowFarm
 
         private void LoadCow()
         {
-            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("cowRightWalk"));
+            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("Common/arrow"));
             _gameTextures.Add("cowLeftWalk", Content.Load<Texture2D>("cowLeftWalk"));
             _gameTextures.Add("cowDownWalk", Content.Load<Texture2D>("cowUpWalk"));
             _gameTextures.Add("cowUpWalk", Content.Load<Texture2D>("cowDownWalk"));
@@ -99,24 +113,24 @@ namespace CowFarm
         }
 
 
-        protected override void Update(GameTime gameTime)
-        {
-            _firstWorld.Update(gameTime);
-            base.Update(gameTime);
-        }
+        //protected override void Update(GameTime gameTime)
+        //{
+        //    _firstWorld.Update(gameTime);
+        //    base.Update(gameTime);
+        //}
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(_backGroundColor);
-            _spriteBatch.Begin();
+        //protected override void Draw(GameTime gameTime)
+        //{
+        //    GraphicsDevice.Clear(_backGroundColor);
+        //    _spriteBatch.Begin();
 
-            _firstWorld.Draw(gameTime, _spriteBatch);
+        //    _firstWorld.Draw(gameTime, _spriteBatch);
 
-            DrawTime();
+        //    DrawTime();
 
-            _spriteBatch.End();
-            base.Draw(gameTime);
-        }
+        //    _spriteBatch.End();
+        //    base.Draw(gameTime);
+        //}
 
         private void DrawTime()
         {
