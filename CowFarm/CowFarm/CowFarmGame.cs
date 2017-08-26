@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using CowFarm.Entities;
-using FarseerPhysics.Samples.ScreenSystem;
+using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -55,18 +55,18 @@ namespace CowFarm
             _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
             CowGameScreen firstWorld = new CowGameScreen(_firstWorld);
-            //MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
+            MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
-            //menuScreen.AddMenuItem("", EntryType.Separator, null);
-            //menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, firstWorld);
-            //menuScreen.AddMenuItem("", EntryType.Separator, null);
-            //menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
+            menuScreen.AddMenuItem("", EntryType.Separator, null);
+            menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, firstWorld);
+            menuScreen.AddMenuItem("", EntryType.Separator, null);
+            menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 
-            //var screenManager = new ScreenManager(this);
+            var screenManager = new ScreenManager(this);
 
-            //screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
-            //screenManager.AddScreen(new BackgroundScreen());
-            //screenManager.AddScreen(menuScreen);
+            
+            screenManager.AddScreen(new BackgroundScreen());
+            screenManager.AddScreen(menuScreen);
 
             base.Initialize();
         }
@@ -89,7 +89,7 @@ namespace CowFarm
 
         private void LoadCow()
         {
-            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("Common/arrow"));
+            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("cowRightWalk"));
             _gameTextures.Add("cowLeftWalk", Content.Load<Texture2D>("cowLeftWalk"));
             _gameTextures.Add("cowDownWalk", Content.Load<Texture2D>("cowUpWalk"));
             _gameTextures.Add("cowUpWalk", Content.Load<Texture2D>("cowDownWalk"));

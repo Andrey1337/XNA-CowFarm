@@ -57,7 +57,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CowGameScreen.cs" />
+    <Compile Include="ScreenSystem\CowGameScreen.cs" />
+    <Compile Include="DrawingSystem\AssetCreator.cs" />
+    <Compile Include="DrawingSystem\LineBatch.cs" />
+    <Compile Include="DrawingSystem\Sprite.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="AnimatedSprites.cs" />
     <Compile Include="Entities\Cow.cs" />
@@ -65,6 +68,21 @@
     <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="ScreenSystem\BackgroundScreen.cs" />
+    <Compile Include="ScreenSystem\FramerateCounterComponent.cs" />
+    <Compile Include="ScreenSystem\GameScreen.cs" />
+    <Compile Include="ScreenSystem\IDemoScreen.cs" />
+    <Compile Include="ScreenSystem\InputHelper.cs" />
+    <Compile Include="ScreenSystem\LogoScreen.cs" />
+    <Compile Include="ScreenSystem\MenuButton.cs" />
+    <Compile Include="ScreenSystem\MenuEntry.cs" />
+    <Compile Include="ScreenSystem\MenuScreen.cs" />
+    <Compile Include="ScreenSystem\MessageBoxScreen.cs" />
+    <Compile Include="ScreenSystem\PhysicsGameScreen.cs" />
+    <Compile Include="ScreenSystem\ScreenManagerComponent.cs" />
+    <Compile Include="ScreenSystem\SpriteFonts.cs" />
+    <Compile Include="ScreenSystem\VirtualButton.cs" />
+    <Compile Include="ScreenSystem\VirtualStick.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />
     <Compile Include="Generators\GrassGenerator.cs" />
     <Compile Include="ObjectMovingType.cs" />
@@ -87,18 +105,6 @@
     <Content Include="Lib\Samples XNA.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Desktop\Farseer Physics Engine 3.5 Samples\Farseer Physics DebugView 3.5\DebugView XNA.csproj">
-      <Project>{fc7845fa-13fe-4ff8-822a-a577f3f59b00}</Project>
-      <Name>DebugView XNA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\Desktop\Farseer Physics Engine 3.5 Samples\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj">
-      <Project>{0a850700-1abb-4288-a391-6726b90ebeb9}</Project>
-      <Name>Farseer Physics XNA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\Desktop\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\Samples XNA.csproj">
-      <Project>{3681ADA2-B2F3-4157-A603-82C742379856}</Project>
-      <Name>Samples XNA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CowFarmContent\CowFarmContent.contentproj">
       <Name>CowFarmContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

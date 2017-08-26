@@ -1,8 +1,7 @@
 ﻿using CowFarm.Worlds;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 
-namespace CowFarm
+namespace CowFarm.ScreenSystem
 {
     public class CowGameScreen : PhysicsGameScreen
     {
@@ -15,7 +14,7 @@ namespace CowFarm
 
         public override void Draw(GameTime gameTime)
         {
-            ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null, Camera.View);
+            ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null);
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
