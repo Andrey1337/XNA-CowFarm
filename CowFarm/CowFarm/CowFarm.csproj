@@ -80,7 +80,6 @@
     <Compile Include="ScreenSystem\MessageBoxScreen.cs" />
     <Compile Include="ScreenSystem\PhysicsGameScreen.cs" />
     <Compile Include="ScreenSystem\ScreenManagerComponent.cs" />
-    <Compile Include="ScreenSystem\SimpleDemo1.cs" />
     <Compile Include="ScreenSystem\SpriteFonts.cs" />
     <Compile Include="ScreenSystem\VirtualButton.cs" />
     <Compile Include="ScreenSystem\VirtualStick.cs" />

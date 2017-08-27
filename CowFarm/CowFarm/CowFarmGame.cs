@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using CowFarm.Entities;
 using CowFarm.ScreenSystem;
+using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -39,6 +40,8 @@ namespace CowFarm
 
         private Dictionary<string, Texture2D> _gameTextures;
 
+        private ScreenManager _screenManager;
+
         public CowFarmGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -56,11 +59,9 @@ namespace CowFarm
 
             _currentTime = DateTime.Now;
 
-            LoadContent();
+            _screenManager = new ScreenManager(this);
 
-            _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
-
-            CowGameScreen firstWorld = new CowGameScreen(_firstWorld);
+            CowGameScreen firstWorld = new CowGameScreen(Content, _graphics, GraphicsDevice);
             SimpleDemo1 demo = new SimpleDemo1();
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
@@ -70,48 +71,21 @@ namespace CowFarm
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 
-            var screenManager = new ScreenManager(this);
-            Components.Add(screenManager);
 
-            screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
-            screenManager.AddScreen(new BackgroundScreen());
-            screenManager.AddScreen(menuScreen);
+            Components.Add(_screenManager);
+
+            _screenManager.AddScreen(new BackgroundScreen());
+            _screenManager.AddScreen(menuScreen);
+            _screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
             //screenManager.AddScreen(firstWorld);
             base.Initialize();
         }
 
-        protected override void LoadContent()
-        {
-            _gameTextures = new Dictionary<string, Texture2D>();
-            LoadCow();
-            PlantLoad();
-            LoadFonts();
-        }
 
-        private void LoadFonts()
-        {
-            _font = Content.Load<SpriteFont>("gameFont");
-        }
 
-        private void LoadCow()
-        {
-            _gameTextures.Add("cowRightWalk", Content.Load<Texture2D>("cowRightWalk"));
-            _gameTextures.Add("cowLeftWalk", Content.Load<Texture2D>("cowLeftWalk"));
-            _gameTextures.Add("cowDownWalk", Content.Load<Texture2D>("cowUpWalk"));
-            _gameTextures.Add("cowUpWalk", Content.Load<Texture2D>("cowDownWalk"));
 
-            _cow = new Cow(_graphics, new Rectangle(100, 100, 54, 49),
-                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16),
-                new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
-        }
-        private void PlantLoad()
-        {
-            _gameTextures.Add("grassMovement", Content.Load<Texture2D>("grassMovement"));
-            _gameTextures.Add("treeMovement", Content.Load<Texture2D>("treeMovement"));
-        }
+
+
 
         protected override void UnloadContent()
         {
@@ -138,13 +112,13 @@ namespace CowFarm
         //    base.Draw(gameTime);
         //}
 
-        private void DrawTime()
-        {
-            var inGametime = DateTime.Now - _currentTime;
-            _spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
-            //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
-            //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
-            //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
-        }
+        //private void DrawTime()
+        //{
+        //    var inGametime = DateTime.Now - _currentTime;
+        //    _spriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+        //    //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
+        //    //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
+        //    //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
+        //}
     }
 }

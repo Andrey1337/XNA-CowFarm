@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 namespace CowFarm.Entities
 {
     public class Cow : Animal, IEatable
@@ -94,7 +95,7 @@ namespace CowFarm.Entities
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
+            spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);            
         }
     }
 }

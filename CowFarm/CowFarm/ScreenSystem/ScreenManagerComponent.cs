@@ -16,7 +16,7 @@ namespace CowFarm.ScreenSystem
     /// </summary>
     public class ScreenManager : DrawableGameComponent
     {
-        private InputHelper _input;
+        private FarseerPhysics.Samples.ScreenSystem.InputHelper _input;
         private bool _isInitialized;
 
         private List<CowFarm.ScreenSystem.GameScreen> _screens;

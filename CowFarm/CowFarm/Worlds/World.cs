@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using CowFarm.Entities;
 using CowFarm.Generators;
+using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 
 namespace CowFarm.Worlds
 {
@@ -47,6 +49,7 @@ namespace CowFarm.Worlds
             {
                 if (i == dynamicYposition)
                 {
+                    
                     dynamicEntity?.Draw(gameTime, spriteBatch);
                     dynamicCount++;
                     if (dynamicCount <= DynamicEntities.Count - 1)

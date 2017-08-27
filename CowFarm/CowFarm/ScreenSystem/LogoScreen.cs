@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FarseerPhysics.Samples.ScreenSystem;
 
 namespace CowFarm.ScreenSystem
 {
-    public class LogoScreen : GameScreen
+    public class LogoScreen : FarseerPhysics.Samples.ScreenSystem.GameScreen
     {
         private const float LogoScreenHeightRatio = 4f / 6f;
         private const float LogoWidthHeightRatio = 1.4f;

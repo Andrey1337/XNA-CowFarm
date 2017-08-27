@@ -9,7 +9,7 @@ namespace CowFarm.ScreenSystem
     /// It draws a background image that remains fixed in place regardless
     /// of whatever transitions the screens on top of it may be doing.
     /// </summary>
-    public class BackgroundScreen : GameScreen
+    public class BackgroundScreen : FarseerPhysics.Samples.ScreenSystem.GameScreen
     {
         private const float LogoScreenHeightRatio = 0.25f;
         private const float LogoScreenBorderRatio = 0.0375f;

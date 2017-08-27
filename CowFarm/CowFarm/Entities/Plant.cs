@@ -26,5 +26,9 @@ namespace CowFarm.Entities
             this.ObjectMovingType = ObjectMovingType.Static;
             this.SpriteWidth = plantMovement.SpriteWidth;
         }
+        public Texture2D GetTexture()
+        {
+            return PlantMovement.Animation;
+        }
     }
 }

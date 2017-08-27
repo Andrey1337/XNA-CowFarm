@@ -199,7 +199,7 @@ namespace CowFarm.ScreenSystem
         /// is only called when the screen is active, and not when some other
         /// screen has taken the focus.
         /// </summary>
-        public virtual void HandleInput(InputHelper input, GameTime gameTime)
+        public virtual void HandleInput(FarseerPhysics.Samples.ScreenSystem.InputHelper input, GameTime gameTime)
         {
         }
 

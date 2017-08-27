@@ -3,7 +3,7 @@ using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace FarseerPhysics.Samples.ScreenSystem
+namespace CowFarm.ScreenSystem
 {
     public class PhysicsGameScreen : GameScreen
     {            
@@ -35,9 +35,7 @@ namespace FarseerPhysics.Samples.ScreenSystem
        
 
         
-
-       
-        
+            
 
         public override void Draw(GameTime gameTime)
         {

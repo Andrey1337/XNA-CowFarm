@@ -33,6 +33,11 @@ namespace CowFarm.Entities
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
+        public Texture2D GetTexture()
+        {
+            return CurrentAnim.Animation;
+        }
+
         public abstract void Eat();
     }
 }
