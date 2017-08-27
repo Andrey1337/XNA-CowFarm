@@ -34,7 +34,7 @@ namespace CowFarm.ScreenSystem
     /// </summary>
     public abstract class GameScreen
     {
-        
+       
         private bool _otherScreenHasFocus;
 
         protected GameScreen()
@@ -122,6 +122,7 @@ namespace CowFarm.ScreenSystem
         /// all gestures are placed in the InputState passed to the HandleInput method.
         /// </summary>
         
+
         /// <summary>
         /// Load graphics content for the screen.
         /// </summary>

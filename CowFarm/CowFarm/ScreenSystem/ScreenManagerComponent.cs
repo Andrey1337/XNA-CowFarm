@@ -16,7 +16,7 @@ namespace CowFarm.ScreenSystem
     /// </summary>
     public class ScreenManager : DrawableGameComponent
     {
-        private CowFarm.ScreenSystem.InputHelper _input;
+        private InputHelper _input;
         private bool _isInitialized;
 
         private List<CowFarm.ScreenSystem.GameScreen> _screens;
@@ -35,7 +35,7 @@ namespace CowFarm.ScreenSystem
             
             Content = game.Content;
             //Content.RootDirectory = "Content";
-            _input = new CowFarm.ScreenSystem.InputHelper(this);
+            //_input = new CowFarm.ScreenSystem.InputHelper(this);
 
             _screens = new List<CowFarm.ScreenSystem.GameScreen>();
             _screensToUpdate = new List<CowFarm.ScreenSystem.GameScreen>();

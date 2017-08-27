@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-
 using Microsoft.Xna.Framework;
 
 namespace CowFarm.ScreenSystem

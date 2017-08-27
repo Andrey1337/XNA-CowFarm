@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.ScreenSystem
 {
-    public class LogoScreen : CowFarm.ScreenSystem.GameScreen
+    public class LogoScreen : GameScreen
     {
         private const float LogoScreenHeightRatio = 4f / 6f;
         private const float LogoWidthHeightRatio = 1.4f;
@@ -53,14 +53,14 @@ namespace CowFarm.ScreenSystem
             _content.Unload();
         }
 
-        public override void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
+        public  void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
         {
             if (input.KeyboardState.GetPressedKeys().Length > 0 || input.GamePadState.IsButtonDown(Buttons.A | Buttons.Start | Buttons.Back) || input.MouseState.LeftButton == ButtonState.Pressed)
                 _duration = TimeSpan.Zero;
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
-                                    bool coveredByOtherScreen)
+            bool coveredByOtherScreen)
         {
             _duration -= gameTime.ElapsedGameTime;
             if (_duration <= TimeSpan.Zero)

@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using CowFarm.Entities;
 using CowFarm.ScreenSystem;
+using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -12,6 +13,12 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using LogoScreen = FarseerPhysics.Samples.ScreenSystem.LogoScreen;
+using BackgroundScreen = FarseerPhysics.Samples.ScreenSystem.BackgroundScreen;
+using EntryType = FarseerPhysics.Samples.ScreenSystem.EntryType;
+using MenuScreen = FarseerPhysics.Samples.ScreenSystem.MenuScreen;
+using ScreenManager = FarseerPhysics.Samples.ScreenSystem.ScreenManager;
+using SimpleDemo1 = FarseerPhysics.Samples.Demos.SimpleDemo1;
 
 namespace CowFarm
 {
@@ -36,11 +43,10 @@ namespace CowFarm
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferHeight = 600;
-            _graphics.PreferredBackBufferWidth = 800;
-            IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
         }
-        
+
 
         protected override void Initialize()
         {
@@ -55,19 +61,22 @@ namespace CowFarm
             _firstWorld = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures);
 
             CowGameScreen firstWorld = new CowGameScreen(_firstWorld);
+            SimpleDemo1 demo = new SimpleDemo1();
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
+            menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, demo);
             menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, firstWorld);
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 
             var screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
 
-            
+            screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
             screenManager.AddScreen(new BackgroundScreen());
             screenManager.AddScreen(menuScreen);
-
+            //screenManager.AddScreen(firstWorld);
             base.Initialize();
         }
 
@@ -77,9 +86,6 @@ namespace CowFarm
             LoadCow();
             PlantLoad();
             LoadFonts();
-
-
-
         }
 
         private void LoadFonts()

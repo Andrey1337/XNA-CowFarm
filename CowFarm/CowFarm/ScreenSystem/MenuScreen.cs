@@ -115,7 +115,7 @@ namespace CowFarm.ScreenSystem
         /// Responds to user input, changing the selected entry and accepting
         /// or cancelling the menu.
         /// </summary>
-        public override void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
+        public  void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
         {
             // Mouse or touch on a menu item
             int hoverIndex = GetMenuEntryAt(input.Cursor);

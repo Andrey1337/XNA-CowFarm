@@ -55,7 +55,7 @@ namespace CowFarm.ScreenSystem
         /// <summary>
         /// Responds to user input, accepting or cancelling the message box.
         /// </summary>
-        public override void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
+        public  void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
         {
             if (input.IsMenuSelect() || input.IsMenuCancel() || input.IsNewMouseButtonPress(CowFarm.ScreenSystem.MouseButtons.LeftButton))
                 ExitScreen();

@@ -3,7 +3,7 @@ using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace CowFarm.ScreenSystem
+namespace FarseerPhysics.Samples.ScreenSystem
 {
     public class PhysicsGameScreen : GameScreen
     {            

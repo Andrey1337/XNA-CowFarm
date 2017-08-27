@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-
+using FarseerPhysics.Samples.DrawingSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Sprite = CowFarm.DrawingSystem.Sprite;
 
 namespace CowFarm.ScreenSystem
 {
@@ -20,7 +19,7 @@ namespace CowFarm.ScreenSystem
     }
 
     public class InputHelper
-    {       
+    {        
 
         private bool _handleVirtualStick;
 
@@ -33,13 +32,13 @@ namespace CowFarm.ScreenSystem
         private VirtualButton _phoneB;
 #endif
 
-        private readonly ScreenManager _manager;
+        private readonly FarseerPhysics.Samples.ScreenSystem.ScreenManager _manager;
         private Viewport _viewport;
 
         /// <summary>
         ///   Constructs a new input state.
         /// </summary>
-        public InputHelper(ScreenManager manager)
+        public InputHelper(FarseerPhysics.Samples.ScreenSystem.ScreenManager manager)
         {
             KeyboardState = new KeyboardState();
             GamePadState = new GamePadState();
@@ -103,7 +102,7 @@ namespace CowFarm.ScreenSystem
         {
             _cursorSprite = new Sprite(_manager.Content.Load<Texture2D>("Common/cursor"));
 #if WINDOWS_PHONE
-            // virtual stick content
+// virtual stick content
             _phoneStick = new VirtualStick(_manager.Content.Load<Texture2D>("Common/socket"),
                                            _manager.Content.Load<Texture2D>("Common/stick"), new Vector2(80f, 400f));
 
@@ -140,7 +139,8 @@ namespace CowFarm.ScreenSystem
                 VirtualState = HandleVirtualStickWP7();
 #endif
             }
-            
+
+    
 
             // Update cursor
             Vector2 oldCursor = Cursor;
