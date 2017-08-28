@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CowFarm.DrowingSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,7 +19,6 @@ namespace CowFarm.Entities
         private const float Delay = 200f;
 
         public const float CowSpeed = 2f;
-
 
         public Cow(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
             AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :

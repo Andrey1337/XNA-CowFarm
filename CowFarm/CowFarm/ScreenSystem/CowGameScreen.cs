@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;
@@ -72,11 +73,13 @@ namespace CowFarm.ScreenSystem
         public override void Draw(GameTime gameTime)
         {
             _graphicsDevice.Clear(new Color(57, 172, 57));
-            ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null);
+
+            ScreenManager.SpriteBatch.Begin();
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
             ScreenManager.SpriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

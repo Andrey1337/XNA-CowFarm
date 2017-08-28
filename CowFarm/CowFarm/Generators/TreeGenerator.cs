@@ -1,22 +1,18 @@
 ﻿using System.Collections.Generic;
+using CowFarm.DrowingSystem;
 using CowFarm.Entities;
-using CowFarm.Generators;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm
+namespace CowFarm.Generators
 {
     public class TreeGenerator : Generator
     {
         public TreeGenerator(GraphicsDeviceManager graphics, AnimatedSprites textureMovement,
-            int objectsMaxCounter) : base(graphics, textureMovement, objectsMaxCounter)
-        {
-
-        }
+            int objectsMaxCounter) : base(graphics, textureMovement, objectsMaxCounter) { }
 
         public override void Generate(List<Entity>[] statiEntities)
         {
-            for (var i = ObjectsCounter; i < Random.Next(1,3); i++)
+            for (var i = ObjectsCounter; i < Random.Next(1, 3); i++)
             {
                 var x = Random.Next(Graphics.PreferredBackBufferWidth / 6, (int)(((double)Graphics.PreferredBackBufferWidth - AnimatedSpriteMovement.SpriteWidth) * 0.9));
                 var y = Random.Next(Graphics.PreferredBackBufferHeight / 6, Graphics.PreferredBackBufferHeight - AnimatedSpriteMovement.Animation.Height);

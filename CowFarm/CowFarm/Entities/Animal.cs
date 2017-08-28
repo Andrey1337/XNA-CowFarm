@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CowFarm.DrowingSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,12 +32,7 @@ namespace CowFarm.Entities
             this.UpWalk = upWalk;
             this.Graphics = graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
-        }
-
-        public Texture2D GetTexture()
-        {
-            return CurrentAnim.Animation;
-        }
+        }        
 
         public abstract void Eat();
     }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm
+namespace CowFarm.DrowingSystem
 {
     public class AnimatedSprites
     {
