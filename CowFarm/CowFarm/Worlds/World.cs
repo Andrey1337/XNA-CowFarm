@@ -10,7 +10,6 @@ namespace CowFarm.Worlds
 {
     public abstract class World : Entity
     {
-
         public List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
         protected GraphicsDeviceManager Graphics;
@@ -31,7 +30,6 @@ namespace CowFarm.Worlds
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
             var dynamicYposition = int.MaxValue;
             Entity dynamicEntity = null;
             var dynamicCount = 0;

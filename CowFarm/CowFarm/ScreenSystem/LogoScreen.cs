@@ -54,7 +54,7 @@ namespace CowFarm.ScreenSystem
             _content.Unload();
         }
 
-        public  void HandleInput(CowFarm.ScreenSystem.InputHelper input, GameTime gameTime)
+        public  void HandleInput(InputHelper input, GameTime gameTime)
         {
             if (input.KeyboardState.GetPressedKeys().Length > 0 || input.GamePadState.IsButtonDown(Buttons.A | Buttons.Start | Buttons.Back) || input.MouseState.LeftButton == ButtonState.Pressed)
                 _duration = TimeSpan.Zero;

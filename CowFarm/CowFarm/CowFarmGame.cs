@@ -26,19 +26,11 @@ namespace CowFarm
     public class CowFarmGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-
-        private Color _backGroundColor;
-
-        private Cow _cow;
+        
+              
 
         private DateTime _currentTime;
-
-        private SpriteFont _font;
-
-        private FirstWorld _firstWorld;
-
-        private Dictionary<string, Texture2D> _gameTextures;
+        
 
         private ScreenManager _screenManager;
 
@@ -46,17 +38,13 @@ namespace CowFarm
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 900;
+            _graphics.PreferredBackBufferHeight = 700;
         }
 
 
         protected override void Initialize()
-        {
-            _backGroundColor = new Color(57, 172, 57);
-
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+        {           
             _currentTime = DateTime.Now;
 
             _screenManager = new ScreenManager(this);
@@ -65,9 +53,8 @@ namespace CowFarm
             SimpleDemo1 demo = new SimpleDemo1();
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
-            menuScreen.AddMenuItem("", EntryType.Separator, null);
-            menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, demo);
-            menuScreen.AddMenuItem("Igra Epta Blya", EntryType.Screen, firstWorld);
+            menuScreen.AddMenuItem("", EntryType.Separator, null);           
+            menuScreen.AddMenuItem("Start The Game", EntryType.Screen, firstWorld);
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 
@@ -80,10 +67,6 @@ namespace CowFarm
             //screenManager.AddScreen(firstWorld);
             base.Initialize();
         }
-
-
-
-
 
 
 

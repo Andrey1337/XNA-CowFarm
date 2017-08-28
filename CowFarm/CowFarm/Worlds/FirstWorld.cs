@@ -33,43 +33,7 @@ namespace CowFarm.Worlds
         public override void Load(ContentManager content)
         {
 
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-
-            var dynamicYposition = int.MaxValue;
-            Entity dynamicEntity = null;
-            var dynamicCount = 0;
-
-            if (DynamicEntities.Count >= 1)
-            {
-                dynamicEntity = DynamicEntities[dynamicCount];
-                dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
-                dynamicCount++;
-                if (dynamicYposition >= StaticEntities.Length)
-                    dynamicYposition = Graphics.PreferredBackBufferHeight - 1;
-            }
-
-            for (var i = 0; i < StaticEntities.Length; i++)
-            {
-                if (i == dynamicYposition)
-                {                    
-                    dynamicEntity?.Draw(gameTime, spriteBatch);
-                    dynamicCount++;
-                    if (dynamicCount <= DynamicEntities.Count - 1)
-                    {
-                        dynamicEntity = DynamicEntities[dynamicCount];
-                        dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
-                    }
-
-                }
-                if (StaticEntities[i] != null)
-                {
-                    StaticEntities[i].ForEach(entity => entity.Draw(gameTime, spriteBatch));
-                }
-            }
-        }
+        }    
 
         public override Rectangle GetPosition()
         {

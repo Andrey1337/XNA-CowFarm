@@ -18,7 +18,7 @@ namespace CowFarm.Entities
         private const float Delay = 200f;
 
         public const float CowSpeed = 2f;
-        
+
 
         public Cow(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
             AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
@@ -95,7 +95,9 @@ namespace CowFarm.Entities
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);            
+            //_sourceRect.Height = CurrentAnim.SpriteHeight;
+            //_sourceRect.Width = CurrentAnim.SpriteWidth;
+            spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
         }
     }
 }

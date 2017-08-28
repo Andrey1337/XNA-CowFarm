@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : FarseerPhysics.Samples.ScreenSystem.PhysicsGameScreen
+    public class CowGameScreen : PhysicsGameScreen
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
@@ -22,7 +22,7 @@ namespace CowFarm.ScreenSystem
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
-            _graphics = graphics;            
+            _graphics = graphics;
             _graphicsDevice = graphicsDevice;
         }
 
@@ -62,10 +62,16 @@ namespace CowFarm.ScreenSystem
             _font = _contentManager.Load<SpriteFont>("gameFont");
         }
 
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            _world.Update(gameTime);
+            Camera.Update(gameTime);
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+        }
 
         public override void Draw(GameTime gameTime)
         {
-            _graphicsDevice.Clear(Color.Blue);
+            _graphicsDevice.Clear(new Color(57, 172, 57));
             ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null);
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
