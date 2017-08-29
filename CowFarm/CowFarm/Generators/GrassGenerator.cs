@@ -15,7 +15,7 @@ namespace CowFarm.Generators
             this._grassSpawnTime = DateTime.Now.AddSeconds(2);
         }
 
-        public override void Generate(List<Entity>[] statiEntities)
+        public void Generate(List<Entity>[] statiEntities, DateTime currentTime)
         {
             if (DateTime.Now - _grassSpawnTime < TimeSpan.FromMilliseconds(0) || ObjectsCounter > ObjectsMaxCounter) return;
 

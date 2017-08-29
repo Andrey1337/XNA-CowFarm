@@ -9,8 +9,8 @@ namespace CowFarm.Generators
     public abstract class Generator
     {
         protected readonly GraphicsDeviceManager Graphics;
-        protected readonly AnimatedSprites AnimatedSpriteMovement;   
-             
+        protected readonly AnimatedSprites AnimatedSpriteMovement;
+
         protected int ObjectsCounter;
         protected readonly int ObjectsMaxCounter;
         protected readonly Random Random;
@@ -22,14 +22,14 @@ namespace CowFarm.Generators
             this.Random = new Random();
 
             this.AnimatedSpriteMovement = animatedSprites;
-            
+
             this.ObjectsMaxCounter = objectsMaxCounter;
             this.ObjectsCounter = 0;
         }
 
 
 
-        public abstract void Generate(List<Entity>[] statiEntities);
+        public virtual void Generate(List<Entity>[] statiEntities) { }
 
     }
 }

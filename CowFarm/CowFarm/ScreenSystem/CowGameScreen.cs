@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Worlds;
+using FarseerPhysics.Common;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.ScreenSystem
 {
@@ -18,13 +21,17 @@ namespace CowFarm.ScreenSystem
         private Dictionary<string, Texture2D> _gameTextures;
         private SpriteFont _font;
         private readonly GraphicsDevice _graphicsDevice;
+        private string _worldSerialize;
 
-
+        private DateTime _currentTime;
+        private TimeSpan _playTime;
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
             _graphics = graphics;
             _graphicsDevice = graphicsDevice;
+            HasCursor = false;
+            _currentTime = DateTime.Now; ;
         }
 
         public override void LoadContent()
@@ -33,7 +40,14 @@ namespace CowFarm.ScreenSystem
             LoadCow();
             PlantLoad();
             LoadFonts();
-            _world = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures, this.ScreenManager);
+            if (_worldSerialize == null)
+                _world = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures, this.ScreenManager);
+            else
+            {
+                _currentTime = DateTime.Now - _playTime;
+                //_world = Newtonsoft.Json.JsonConvert.DeserializeObject<FirstWorld>(_worldSerialize);
+            }
+
         }
 
         private void LoadCow()
@@ -65,8 +79,11 @@ namespace CowFarm.ScreenSystem
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            _world.Update(gameTime);
-            Camera.Update(gameTime);
+            if (!coveredByOtherScreen && !otherScreenHasFocus)
+            {
+                _world.Update(gameTime);
+                //Camera.Update(gameTime);
+            }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
@@ -78,9 +95,31 @@ namespace CowFarm.ScreenSystem
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
+            DrawTime();
+
             ScreenManager.SpriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawTime()
+        {
+            var inGametime = DateTime.Now - _currentTime;
+            ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
+            //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
+            //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
+        }
+
+        public override void HandleInput(InputHelper input, GameTime gameTime)
+        {
+            if (input.IsNewKeyPress(Keys.Escape))
+            {
+                _worldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(_world);
+                _playTime = DateTime.Now - _currentTime;
+                ExitScreen();
+            }
+            base.HandleInput(input, gameTime);
         }
     }
 }
