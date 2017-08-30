@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : PhysicsGameScreen
+    public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
@@ -23,30 +23,42 @@ namespace CowFarm.ScreenSystem
         private readonly GraphicsDevice _graphicsDevice;
         private string _worldSerialize;
 
-        private DateTime _currentTime;
-        private TimeSpan _playTime;
-        public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
+
+
+        private bool _escapeKeyPressed;
+
+        public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics,
+            GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
             _graphics = graphics;
             _graphicsDevice = graphicsDevice;
             HasCursor = false;
-            _currentTime = DateTime.Now; ;
+
+            TransitionOnTime = TimeSpan.FromSeconds(0.4);
+            TransitionOffTime = TimeSpan.FromSeconds(0.3);
+
+
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            LoadCow();
-            PlantLoad();
-            LoadFonts();
+            _escapeKeyPressed = false;
             if (_worldSerialize == null)
-                _world = new FirstWorld(_graphics, new List<Entity>() { _cow }, _gameTextures, this.ScreenManager);
+            {
+                LoadCow();
+                PlantLoad();
+                LoadFonts();
+                _world = new FirstWorld(_graphics, new List<Entity>() { _cow },
+                    _gameTextures, ScreenManager, DateTime.Now);
+            }
             else
             {
-                _currentTime = DateTime.Now - _playTime;
+
                 //_world = Newtonsoft.Json.JsonConvert.DeserializeObject<FirstWorld>(_worldSerialize);
             }
+            _world.GameStartedTime = DateTime.Now - _world.PlayTime;
 
         }
 
@@ -102,21 +114,33 @@ namespace CowFarm.ScreenSystem
             base.Draw(gameTime);
         }
 
+        private TimeSpan _timeKeyEscapeWasPressed;
         private void DrawTime()
         {
-            var inGametime = DateTime.Now - _currentTime;
-            ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            var inGametime = DateTime.Now - _world.GameStartedTime;
+            if (!_escapeKeyPressed)
+            {
+                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+                _timeKeyEscapeWasPressed = inGametime;
+            }
+            else
+            {
+                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {_timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            }
+
             //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
             //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
             //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
         }
+
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 _worldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(_world);
-                _playTime = DateTime.Now - _currentTime;
+                _world.PlayTime = DateTime.Now - _world.GameStartedTime;
+                _escapeKeyPressed = true;
                 ExitScreen();
             }
             base.HandleInput(input, gameTime);

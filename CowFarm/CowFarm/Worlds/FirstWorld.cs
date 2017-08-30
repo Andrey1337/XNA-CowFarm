@@ -12,14 +12,10 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        private ScreenManager _screenManager;
-        public FirstWorld(GraphicsDeviceManager graphics, List<Entity> dynamicEntities, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager)
+        public FirstWorld(GraphicsDeviceManager graphics, List<Entity> dynamicEntities,
+            Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) :
+            base(graphics, dynamicEntities, gameTextures, screenManager, gameStartedTime)
         {
-            _screenManager = screenManager;
-            this.StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
-            this.Graphics = graphics;
-            this.DynamicEntities = dynamicEntities;
-            this.GameTextures = gameTextures;
             this.GrassGenerator = new GrassGenerator(graphics, new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6);
 
             TreeGenerator treeGenerator = new TreeGenerator(graphics, new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);

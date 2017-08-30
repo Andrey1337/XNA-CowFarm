@@ -11,7 +11,7 @@ namespace CowFarm.Generators
         public TreeGenerator(GraphicsDeviceManager graphics, AnimatedSprites textureMovement,
             int objectsMaxCounter) : base(graphics, textureMovement, objectsMaxCounter) { }
 
-        public override void Generate(List<Entity>[] statiEntities)
+        public override void Generate(List<Entity>[] staticEntities)
         {
             for (var i = ObjectsCounter; i < Random.Next(1, 3); i++)
             {
@@ -22,13 +22,13 @@ namespace CowFarm.Generators
                     new Rectangle(x, y, AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.Animation.Height),
                     new AnimatedSprites(AnimatedSpriteMovement.Animation, AnimatedSpriteMovement.Frames,
                         AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.SpaceFromSprites));
-                if (statiEntities[tree.GetPosition().Y + tree.GetPosition().Height] == null)
+                if (staticEntities[tree.GetPosition().Y + tree.GetPosition().Height] == null)
                 {
-                    statiEntities[tree.GetPosition().Y + tree.GetPosition().Height] = new List<Entity>() { tree };
+                    staticEntities[tree.GetPosition().Y + tree.GetPosition().Height] = new List<Entity>() { tree };
                 }
                 else
                 {
-                    statiEntities[tree.GetPosition().Y + tree.GetPosition().Height].Add(tree);
+                    staticEntities[tree.GetPosition().Y + tree.GetPosition().Height].Add(tree);
                 }
             }
         }
