@@ -35,9 +35,10 @@ namespace CowFarm.Worlds
             PlayTime = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
         }
+
         public override void Update(GameTime gameTime)
         {
-            GrassGenerator.Generate(this.StaticEntities);
+            GrassGenerator.Generate(StaticEntities, DateTime.Now);
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));

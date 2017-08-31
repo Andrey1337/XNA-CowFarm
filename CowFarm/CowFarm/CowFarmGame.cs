@@ -21,12 +21,7 @@ namespace CowFarm
     {
         private readonly GraphicsDeviceManager _graphics;
 
-
-
-        private DateTime _currentTime;
-
-
-        private ScreenManager _screenManager;
+        public ScreenManager ScreenManager { get; set; }
 
         public CowFarmGame()
         {
@@ -34,33 +29,34 @@ namespace CowFarm
             Content.RootDirectory = "Content";
             _graphics.PreferredBackBufferWidth = 900;
             _graphics.PreferredBackBufferHeight = 700;
-        }
 
+            ScreenManager = new ScreenManager(this);
+            Components.Add(ScreenManager);
+
+            //FrameRateCounter frameRateCounter = new FrameRateCounter(_screenManager);
+            //frameRateCounter.DrawOrder = 101;
+            //Components.Add(frameRateCounter);
+        }
 
         protected override void Initialize()
         {
-            _currentTime = DateTime.Now;
-
-            _screenManager = new ScreenManager(this);
-
             CowGameScreen firstWorld = new CowGameScreen(Content, _graphics, GraphicsDevice);
+
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
-            menuScreen.AddMenuItem("Start The Game", EntryType.Screen, firstWorld);
+            menuScreen.AddMenuItem("Start Game", EntryType.Screen, firstWorld);
+            //menuScreen.AddMenuItem("Continue", EntryType.Screen, firstWorld);
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 
 
-            Components.Add(_screenManager);
-
-            _screenManager.AddScreen(new BackgroundScreen());
-            _screenManager.AddScreen(menuScreen);
-            _screenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
+            ScreenManager.AddScreen(new BackgroundScreen());
+            ScreenManager.AddScreen(menuScreen);
+            ScreenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
 
             base.Initialize();
         }
-
 
 
         protected override void UnloadContent()

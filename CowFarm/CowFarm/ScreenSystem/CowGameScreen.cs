@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Worlds;
@@ -16,14 +17,12 @@ namespace CowFarm.ScreenSystem
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
-        private World _world;
+        private FirstWorld _world;
         private Cow _cow;
         private Dictionary<string, Texture2D> _gameTextures;
         private SpriteFont _font;
         private readonly GraphicsDevice _graphicsDevice;
         private string _worldSerialize;
-
-
 
         private bool _escapeKeyPressed;
 
@@ -34,12 +33,10 @@ namespace CowFarm.ScreenSystem
             _graphics = graphics;
             _graphicsDevice = graphicsDevice;
             HasCursor = false;
-
             TransitionOnTime = TimeSpan.FromSeconds(0.4);
             TransitionOffTime = TimeSpan.FromSeconds(0.3);
-
-
         }
+
 
         public override void LoadContent()
         {
@@ -47,16 +44,12 @@ namespace CowFarm.ScreenSystem
             _escapeKeyPressed = false;
             if (_worldSerialize == null)
             {
+                _gameTextures = new Dictionary<string, Texture2D>();
                 LoadCow();
                 PlantLoad();
                 LoadFonts();
                 _world = new FirstWorld(_graphics, new List<Entity>() { _cow },
                     _gameTextures, ScreenManager, DateTime.Now);
-            }
-            else
-            {
-
-                //_world = Newtonsoft.Json.JsonConvert.DeserializeObject<FirstWorld>(_worldSerialize);
             }
             _world.GameStartedTime = DateTime.Now - _world.PlayTime;
 
@@ -64,7 +57,6 @@ namespace CowFarm.ScreenSystem
 
         private void LoadCow()
         {
-            _gameTextures = new Dictionary<string, Texture2D>();
             _gameTextures.Add("cowRightWalk", _contentManager.Load<Texture2D>("cowRightWalk"));
             _gameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("cowLeftWalk"));
             _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("cowUpWalk"));
@@ -94,7 +86,6 @@ namespace CowFarm.ScreenSystem
             if (!coveredByOtherScreen && !otherScreenHasFocus)
             {
                 _world.Update(gameTime);
-                //Camera.Update(gameTime);
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
@@ -139,11 +130,19 @@ namespace CowFarm.ScreenSystem
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 _worldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(_world);
+
                 _world.PlayTime = DateTime.Now - _world.GameStartedTime;
                 _escapeKeyPressed = true;
                 ExitScreen();
             }
             base.HandleInput(input, gameTime);
         }
+
+
+
+
+
+
+
     }
 }

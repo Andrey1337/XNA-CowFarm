@@ -16,7 +16,7 @@ namespace CowFarm.Worlds
             Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) :
             base(graphics, dynamicEntities, gameTextures, screenManager, gameStartedTime)
         {
-            this.GrassGenerator = new GrassGenerator(graphics, new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6);
+            this.GrassGenerator = new GrassGenerator(graphics, new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6, gameStartedTime);
 
             TreeGenerator treeGenerator = new TreeGenerator(graphics, new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);
             treeGenerator.Generate(StaticEntities);

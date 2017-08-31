@@ -11,10 +11,7 @@ namespace CowFarm.Entities
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         public abstract Rectangle GetPosition();
-
-        internal void ForEach(Func<object, object> p)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
+ 
