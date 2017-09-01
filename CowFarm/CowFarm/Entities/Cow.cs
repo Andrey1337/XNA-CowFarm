@@ -42,14 +42,14 @@ namespace CowFarm.Entities
 
         private KeyboardState prevState = new KeyboardState();
         private bool isMoving = false;
-        private string directory = "none";
+
 
         public override void Update(GameTime gameTime)
         {
-            int MinX = 0;
-            int MinY = 0;
-            int MaxX = Graphics.PreferredBackBufferWidth;
-            int MaxY = Graphics.PreferredBackBufferHeight;
+            const int minX = 0;
+            const int minY = 0;
+            int maxX = Graphics.PreferredBackBufferWidth;
+            int maxY = Graphics.PreferredBackBufferHeight;
 
             KeyboardState ks = Keyboard.GetState();
 
@@ -57,28 +57,28 @@ namespace CowFarm.Entities
             var position = new Vector2(DestRect.X, DestRect.Y);
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
             {
-                if (position.X + CurrentAnim.SpriteWidth < MaxX)
+                if (position.X + CurrentAnim.SpriteWidth < maxX)
                     position.X += CowSpeed;
                 CurrentAnim = RightWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
-                if (position.X > MinX)
+                if (position.X > minX)
                     position.X -= CowSpeed;
                 CurrentAnim = LeftWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.W) || ks.IsKeyDown(Keys.Up))
             {
-                if (position.Y > MinY)
+                if (position.Y > minY)
                     position.Y -= CowSpeed;
                 CurrentAnim = UpWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
             else if (ks.IsKeyDown(Keys.S) || ks.IsKeyDown(Keys.Down))
             {
-                if (position.Y + CurrentAnim.Animation.Height < MaxY)
+                if (position.Y + CurrentAnim.Animation.Height < maxY)
                     position.Y += CowSpeed;
                 CurrentAnim = DownWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
@@ -95,8 +95,6 @@ namespace CowFarm.Entities
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            //_sourceRect.Height = CurrentAnim.SpriteHeight;
-            //_sourceRect.Width = CurrentAnim.SpriteWidth;
             spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
         }
     }

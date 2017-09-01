@@ -46,7 +46,7 @@ namespace CowFarm
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Start Game", EntryType.Screen, firstWorld);
-            //menuScreen.AddMenuItem("Continue", EntryType.Screen, firstWorld);
+            
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);
 

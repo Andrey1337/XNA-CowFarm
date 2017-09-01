@@ -28,10 +28,13 @@ namespace CowFarm.Worlds
             ScreenManager screenManager, DateTime gameStartedTime)
         {
             ScreenManager = screenManager;
-            StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             Graphics = graphics;
-            DynamicEntities = dynamicEntities;
             GameTextures = gameTextures;
+
+            StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
+            DynamicEntities = dynamicEntities;
+
+
             PlayTime = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
         }
