@@ -37,8 +37,8 @@ namespace CowFarm.Worlds
 
             PlayTime = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
-        }
-
+        }   
+         
         public override void Update(GameTime gameTime)
         {
             GrassGenerator.Generate(StaticEntities, DateTime.Now);
