@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Worlds;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using FarseerPhysics.Samples;
 
 namespace CowFarm.ScreenSystem
 {
     public class FirstWorldScreen : CowGameScreen
     {
         private Cow _cow;
+        private Body _rectangle;
 
-        public FirstWorldScreen(ContentManager contentManager, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice) : base(contentManager, graphics, graphicsDevice)
+        public FirstWorldScreen(ContentManager contentManager, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
+            : base(contentManager, graphics, graphicsDevice)
         {
 
         }
@@ -25,15 +30,18 @@ namespace CowFarm.ScreenSystem
             GameTextures = new Dictionary<string, Texture2D>();
             if (WorldSerialize == null)
             {
-
                 LoadCow();
                 PlantLoad();
                 LoadFonts();
                 World = new FirstWorld(Graphics, new List<Entity>() { _cow },
                     GameTextures, ScreenManager, DateTime.Now);
+                World.Gravity = Vector2.Zero;
             }
+            _rectangle = BodyFactory.CreateRectangle(World, 5f, 5f, 1f);
+            _rectangle.BodyType = BodyType.Dynamic;           
 
-            World.GameStartedTime = DateTime.Now - World.PlayTime;
+
+            World.GameStartedTime = DateTime.Now - World.TimeInTheGame;
         }
         private void LoadCow()
         {

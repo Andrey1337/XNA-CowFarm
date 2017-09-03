@@ -6,26 +6,29 @@ using CowFarm.ScreenSystem;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Content;
 
 namespace CowFarm.Worlds
 {
-    public abstract class World : Entity
+    public abstract class World : FarseerPhysics.Dynamics.World
     {
+        protected GraphicsDeviceManager Graphics;
+        protected ScreenManager ScreenManager;
+
         public List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
-        protected GraphicsDeviceManager Graphics;
-        protected Dictionary<string, Texture2D> GameTextures;
         protected GrassGenerator GrassGenerator;
 
-        public DateTime GameStartedTime { get; set; }
-        public TimeSpan PlayTime { get; set; }
+        protected Dictionary<string, Texture2D> GameTextures;
 
-        protected ScreenManager ScreenManager;
+        public DateTime GameStartedTime { get; set; }
+        public TimeSpan TimeInTheGame { get; set; }
+
 
         protected World(GraphicsDeviceManager graphics, List<Entity> dynamicEntities,
             Dictionary<string, Texture2D> gameTextures,
             ScreenManager screenManager, DateTime gameStartedTime)
+               : base(Vector2.Zero)
         {
             ScreenManager = screenManager;
             Graphics = graphics;
@@ -35,11 +38,16 @@ namespace CowFarm.Worlds
             DynamicEntities = dynamicEntities;
 
 
-            PlayTime = new TimeSpan(0);
+            TimeInTheGame = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
-        }   
-         
-        public override void Update(GameTime gameTime)
+        }
+
+        public virtual void Load(ContentManager content)
+        {
+
+        }
+
+        public virtual void Update(GameTime gameTime)
         {
             GrassGenerator.Generate(StaticEntities, DateTime.Now);
             foreach (var item in StaticEntities)
@@ -50,7 +58,7 @@ namespace CowFarm.Worlds
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var dynamicYposition = int.MaxValue;
             Entity dynamicEntity = null;

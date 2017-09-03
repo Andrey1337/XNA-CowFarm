@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +23,7 @@ namespace CowFarm.Entities
         protected ObjectMovingType ObjectMovingType;
 
         protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+            AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) 
         {
             this.CurrentAnim = currentAnim;
             this.DestRect = destRect;
@@ -32,7 +33,7 @@ namespace CowFarm.Entities
             this.UpWalk = upWalk;
             this.Graphics = graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
-        }        
+        }
 
         public abstract void Eat();
     }

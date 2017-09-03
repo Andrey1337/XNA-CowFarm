@@ -18,13 +18,13 @@ namespace CowFarm.Generators
         protected Generator(GraphicsDeviceManager graphics, AnimatedSprites animatedSprites,
             int objectsMaxCounter)
         {
-            this.Graphics = graphics;
-            this.Random = new Random();
+            Graphics = graphics;
+            Random = new Random();
 
-            this.AnimatedSpriteMovement = animatedSprites;
+            AnimatedSpriteMovement = animatedSprites;
 
-            this.ObjectsMaxCounter = objectsMaxCounter;
-            this.ObjectsCounter = 0;
+            ObjectsMaxCounter = objectsMaxCounter;
+            ObjectsCounter = 0;
         }
 
 

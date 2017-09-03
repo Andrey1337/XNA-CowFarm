@@ -4,7 +4,6 @@ using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Worlds;
-using FarseerPhysics.Common;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,6 +19,7 @@ namespace CowFarm.ScreenSystem
         protected readonly GraphicsDevice GraphicsDevice;
 
         protected World World;
+        
 
         protected Dictionary<string, Texture2D> GameTextures;
         protected SpriteFont Font;
@@ -43,7 +43,8 @@ namespace CowFarm.ScreenSystem
         public override void LoadContent()
         {
             base.LoadContent();
-
+            
+                
             _escapeKeyPressed = false;
         }
 
@@ -98,7 +99,7 @@ namespace CowFarm.ScreenSystem
             {
                 WorldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(World);
 
-                World.PlayTime = DateTime.Now - World.GameStartedTime;
+                World.TimeInTheGame = DateTime.Now - World.GameStartedTime;
                 _escapeKeyPressed = true;
                 ExitScreen();
             }
