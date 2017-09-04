@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
-using FarseerPhysics.Dynamics;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,9 +22,11 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) 
+        protected Animal(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
+            AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+            : base(world, new Vector2(destRect.X, destRect.Y))
         {
+            
             this.CurrentAnim = currentAnim;
             this.DestRect = destRect;
             this.RightWalk = rightWalk;

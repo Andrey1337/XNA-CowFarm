@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -19,8 +20,8 @@ namespace CowFarm.Entities
         protected int SpriteWidth;
 
 
-        protected Plant(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement)
-        {
+        protected Plant(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement) : base(world)
+        {            
             this.Graphics = graphics;
             this.DestRect = destRect;
             this.PlantMovement = plantMovement;

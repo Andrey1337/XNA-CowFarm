@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CowFarm.DrowingSystem;
-using FarseerPhysics.Dynamics;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -21,10 +21,12 @@ namespace CowFarm.Entities
 
         public const float CowSpeed = 2f;
 
-        public Cow(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
+        public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
             AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
-            base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
-        { }
+            base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+        {
+            
+        }
 
         public override Rectangle GetPosition()
         {

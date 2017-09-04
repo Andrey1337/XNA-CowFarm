@@ -1,4 +1,5 @@
 ﻿using CowFarm.DrowingSystem;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +10,7 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
-        public Tree(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement) : base(graphics,
+        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement) : base(world, graphics,
             destRect, treeMovement)
         {
             SpriteWidth = treeMovement.SpriteWidth;

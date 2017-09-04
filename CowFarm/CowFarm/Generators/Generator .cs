@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 
 namespace CowFarm.Generators
@@ -14,13 +15,13 @@ namespace CowFarm.Generators
         protected int ObjectsCounter;
         protected readonly int ObjectsMaxCounter;
         protected readonly Random Random;
+        protected World World;
 
-        protected Generator(GraphicsDeviceManager graphics, AnimatedSprites animatedSprites,
-            int objectsMaxCounter)
+        protected Generator(World world, GraphicsDeviceManager graphics, AnimatedSprites animatedSprites, int objectsMaxCounter)
         {
             Graphics = graphics;
             Random = new Random();
-
+            World = world;
             AnimatedSpriteMovement = animatedSprites;
 
             ObjectsMaxCounter = objectsMaxCounter;
@@ -30,6 +31,5 @@ namespace CowFarm.Generators
 
 
         public virtual void Generate(List<Entity>[] statiEntities) { }
-
     }
 }

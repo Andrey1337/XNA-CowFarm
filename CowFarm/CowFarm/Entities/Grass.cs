@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,8 +14,8 @@ namespace CowFarm.Entities
     {
         private const float Delay = 1500f;
 
-        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement) :
-            base(graphics, destRect, grassMovement)
+        public Grass(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement) :
+            base(world, graphics, destRect, grassMovement)
         {
             SpriteWidth = grassMovement.SpriteWidth;
         }

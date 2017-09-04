@@ -12,15 +12,14 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        public FirstWorld(GraphicsDeviceManager graphics, List<Entity> dynamicEntities,
-            Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager,
-            DateTime gameStartedTime)
-            : base(graphics, dynamicEntities, gameTextures, screenManager, gameStartedTime)
+        public FirstWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
+            ScreenManager screenManager, DateTime gameStartedTime)
+            : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
-            GrassGenerator = new GrassGenerator(graphics,
+            GrassGenerator = new GrassGenerator(this, graphics,
                 new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6, gameStartedTime);
 
-            TreeGenerator treeGenerator = new TreeGenerator(graphics,
+            TreeGenerator treeGenerator = new TreeGenerator(this, graphics,
                 new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);
             treeGenerator.Generate(StaticEntities);
         }
@@ -28,6 +27,6 @@ namespace CowFarm.Worlds
         public override void Load(ContentManager content)
         {
 
-        }                
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace CowFarm.Worlds
         protected GraphicsDeviceManager Graphics;
         protected ScreenManager ScreenManager;
 
-        public List<Entity>[] StaticEntities;
+        protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
         protected GrassGenerator GrassGenerator;
 
@@ -24,8 +24,7 @@ namespace CowFarm.Worlds
         public DateTime GameStartedTime { get; set; }
         public TimeSpan TimeInTheGame { get; set; }
 
-
-        protected World(GraphicsDeviceManager graphics, List<Entity> dynamicEntities,
+        protected World(GraphicsDeviceManager graphics,
             Dictionary<string, Texture2D> gameTextures,
             ScreenManager screenManager, DateTime gameStartedTime)
                : base(Vector2.Zero)
@@ -35,7 +34,7 @@ namespace CowFarm.Worlds
             GameTextures = gameTextures;
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
-            DynamicEntities = dynamicEntities;
+            DynamicEntities = new List<Entity>();
 
 
             TimeInTheGame = new TimeSpan(0);
@@ -46,6 +45,22 @@ namespace CowFarm.Worlds
         {
 
         }
+
+        public void AddDynamicEntity(Entity dynamicEntity)
+        {
+            DynamicEntities.Add(dynamicEntity);
+        }
+
+        public void AddStaticEntity(Entity staticEntity)
+        {
+            int yPos = staticEntity.GetPosition().Y - staticEntity.GetPosition().Height;
+
+            if (StaticEntities[yPos] == null)
+                StaticEntities[yPos] = new List<Entity>() { staticEntity };
+            else
+                StaticEntities[yPos].Add(staticEntity);
+        }
+
 
         public virtual void Update(GameTime gameTime)
         {
