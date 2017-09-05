@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
-using CowFarm.Worlds;
+using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Generators
 {
@@ -28,6 +29,8 @@ namespace CowFarm.Generators
                     new Rectangle(x, y, AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.Animation.Height),
                     new AnimatedSprites(AnimatedSpriteMovement.Animation, AnimatedSpriteMovement.Frames,
                         AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.SpaceFromSprites));
+                tree.CollisionCategories = Category.Cat2;
+                tree.CollidesWith = Category.Cat1;
                 World.AddStaticEntity(tree);
             }
         }

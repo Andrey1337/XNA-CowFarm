@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CowFarm.DrowingSystem;
-using CowFarm.Worlds;
+using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
@@ -25,7 +26,8 @@ namespace CowFarm.Entities
             AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
             base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            
+            CollisionCategories = Category.Cat1;
+            CollidesWith = Category.Cat2;
         }
 
         public override Rectangle GetPosition()

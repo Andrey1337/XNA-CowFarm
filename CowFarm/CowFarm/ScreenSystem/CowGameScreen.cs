@@ -3,23 +3,33 @@ using System.Collections.Generic;
 using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
-using CowFarm.Worlds;
+using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Samples.Demos.Prefabs;
+using FarseerPhysics.Samples.DrawingSystem;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : GameScreen
+    public class CowGameScreen : PhysicsGameScreen
     {
         protected readonly ContentManager ContentManager;
         protected readonly GraphicsDeviceManager Graphics;
         protected readonly GraphicsDevice GraphicsDevice;
 
-        protected World World;
-        
+        protected new World World;
+
+        protected Cow Cow;
+
+        protected Border Border;
+        protected Body Rectangle;
+        protected Sprite RectangleSprite;
+
 
         protected Dictionary<string, Texture2D> GameTextures;
         protected SpriteFont Font;
@@ -34,7 +44,7 @@ namespace CowFarm.ScreenSystem
             ContentManager = contentManager;
             Graphics = graphics;
             GraphicsDevice = graphicsDevice;
-            HasCursor = false;
+            HasCursor = true;
             TransitionOnTime = TimeSpan.FromSeconds(0.4);
             TransitionOffTime = TimeSpan.FromSeconds(0.3);
         }
@@ -43,8 +53,8 @@ namespace CowFarm.ScreenSystem
         public override void LoadContent()
         {
             base.LoadContent();
-            
-                
+
+
             _escapeKeyPressed = false;
         }
 
@@ -65,6 +75,9 @@ namespace CowFarm.ScreenSystem
 
             World.Draw(gameTime, ScreenManager.SpriteBatch);
 
+
+            ScreenManager.SpriteBatch.Draw(RectangleSprite.Texture, ConvertUnits.ToDisplayUnits(Rectangle.Position), null, Color.White, Rectangle.Rotation, RectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
+
             DrawTime();
 
             ScreenManager.SpriteBatch.End();
@@ -79,8 +92,10 @@ namespace CowFarm.ScreenSystem
             var inGametime = DateTime.Now - World.GameStartedTime;
             if (!_escapeKeyPressed)
             {
-                ScreenManager.SpriteBatch.DrawString(Font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(Graphics.PreferredBackBufferWidth - Graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+                //ScreenManager.SpriteBatch.DrawString(Font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(Graphics.PreferredBackBufferWidth - Graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
                 _timeKeyEscapeWasPressed = inGametime;
+                ScreenManager.SpriteBatch.DrawString(Font, "X: " + Cow.GetPosition().X + " Y: " + Cow.GetPosition().Y, new Vector2(Graphics.PreferredBackBufferWidth - Graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+
             }
             else
             {

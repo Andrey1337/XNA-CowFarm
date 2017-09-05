@@ -20,8 +20,8 @@ namespace CowFarm.Entities
         protected int SpriteWidth;
 
 
-        protected Plant(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement) : base(world)
-        {            
+        protected Plant(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement) : base(world, new Vector2(destRect.X, destRect.Y))
+        {
             this.Graphics = graphics;
             this.DestRect = destRect;
             this.PlantMovement = plantMovement;

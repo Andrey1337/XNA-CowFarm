@@ -10,8 +10,8 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
-        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement) : base(world, graphics,
-            destRect, treeMovement)
+        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
+            : base(world, graphics, destRect, treeMovement)
         {
             SpriteWidth = treeMovement.SpriteWidth;
         }

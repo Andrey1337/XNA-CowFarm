@@ -53,7 +53,7 @@ namespace CowFarm.Worlds
 
         public void AddStaticEntity(Entity staticEntity)
         {
-            int yPos = staticEntity.GetPosition().Y - staticEntity.GetPosition().Height;
+            int yPos = staticEntity.GetPosition().Y + staticEntity.GetPosition().Height;
 
             if (StaticEntities[yPos] == null)
                 StaticEntities[yPos] = new List<Entity>() { staticEntity };
