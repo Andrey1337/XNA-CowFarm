@@ -23,8 +23,8 @@ namespace CowFarm.Entities
         public const float CowSpeed = 2f;
 
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
-            AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) :
-            base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+            AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+            : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
             CollisionCategories = Category.Cat1;
             CollidesWith = Category.Cat2;

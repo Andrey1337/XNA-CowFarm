@@ -24,9 +24,7 @@ namespace CowFarm.Worlds
         public DateTime GameStartedTime { get; set; }
         public TimeSpan TimeInTheGame { get; set; }
 
-        protected World(GraphicsDeviceManager graphics,
-            Dictionary<string, Texture2D> gameTextures,
-            ScreenManager screenManager, DateTime gameStartedTime)
+        protected World(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime)
                : base(Vector2.Zero)
         {
             ScreenManager = screenManager;
@@ -35,7 +33,6 @@ namespace CowFarm.Worlds
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
-
 
             TimeInTheGame = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
@@ -92,7 +89,6 @@ namespace CowFarm.Worlds
             {
                 if (i == dynamicYposition)
                 {
-
                     dynamicEntity?.Draw(gameTime, spriteBatch);
                     dynamicCount++;
                     if (dynamicCount <= DynamicEntities.Count - 1)

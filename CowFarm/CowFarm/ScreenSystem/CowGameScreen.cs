@@ -16,13 +16,13 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : PhysicsGameScreen
+    public class CowGameScreen : GameScreen
     {
         protected readonly ContentManager ContentManager;
         protected readonly GraphicsDeviceManager Graphics;
         protected readonly GraphicsDevice GraphicsDevice;
 
-        protected new World World;
+        protected  World World;
 
         protected Cow Cow;
 
@@ -38,8 +38,8 @@ namespace CowFarm.ScreenSystem
 
         private bool _escapeKeyPressed;
 
-        public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics,
-            GraphicsDevice graphicsDevice)
+        protected CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics,
+            GraphicsDevice graphicsDevice) 
         {
             ContentManager = contentManager;
             Graphics = graphics;
@@ -53,7 +53,6 @@ namespace CowFarm.ScreenSystem
         public override void LoadContent()
         {
             base.LoadContent();
-
 
             _escapeKeyPressed = false;
         }
@@ -74,9 +73,6 @@ namespace CowFarm.ScreenSystem
             ScreenManager.SpriteBatch.Begin();
 
             World.Draw(gameTime, ScreenManager.SpriteBatch);
-
-
-            ScreenManager.SpriteBatch.Draw(RectangleSprite.Texture, ConvertUnits.ToDisplayUnits(Rectangle.Position), null, Color.White, Rectangle.Rotation, RectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
 
             DrawTime();
 
@@ -121,10 +117,7 @@ namespace CowFarm.ScreenSystem
             base.HandleInput(input, gameTime);
         }
 
-
-
-
-
+        
 
 
     }
