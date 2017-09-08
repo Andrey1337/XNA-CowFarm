@@ -69,7 +69,6 @@
     <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="ScreenSystem\FirstWorldScreen.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />
     <Compile Include="Generators\GrassGenerator.cs" />
     <Compile Include="ObjectMovingType.cs" />
