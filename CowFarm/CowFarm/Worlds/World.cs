@@ -66,8 +66,9 @@ namespace CowFarm.Worlds
             {
                 item?.ForEach(entity => entity.Update(gameTime));
             }
-
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
+
+            this.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)

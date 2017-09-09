@@ -25,8 +25,7 @@ namespace CowFarm.Entities
         protected Animal(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
             : base(world, new Vector2(destRect.X, destRect.Y))
-        {
-            
+        {            
             this.CurrentAnim = currentAnim;
             this.DestRect = destRect;
             this.RightWalk = rightWalk;
@@ -34,7 +33,7 @@ namespace CowFarm.Entities
             this.DownWalk = downWalk;
             this.UpWalk = upWalk;
             this.Graphics = graphics;
-            this.ObjectMovingType = ObjectMovingType.Dynamic;
+            //this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
         public abstract void Eat();

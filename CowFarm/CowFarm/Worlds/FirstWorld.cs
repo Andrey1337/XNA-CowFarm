@@ -12,6 +12,7 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
+        private Dictionary<string, Texture2D> _gameTextures;
         public FirstWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
             ScreenManager screenManager, DateTime gameStartedTime)
             : base(graphics, gameTextures, screenManager, gameStartedTime)
@@ -22,11 +23,16 @@ namespace CowFarm.Worlds
             TreeGenerator treeGenerator = new TreeGenerator(this, graphics,
                 new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);
             treeGenerator.Generate(StaticEntities);
+            
         }
 
         public override void Load(ContentManager content)
         {
 
         }
+
+        
+
+        
     }
 }

@@ -6,6 +6,7 @@ using CowFarm.Entities;
 using CowFarm.Worlds;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using FarseerPhysics.Samples;
 using FarseerPhysics.Samples.Demos.Prefabs;
 using FarseerPhysics.Samples.DrawingSystem;
@@ -18,13 +19,18 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : GameScreen
+    public class CowGameScreen : PhysicsGameScreen
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
         private readonly GraphicsDevice _graphicsDevice;
 
-        private World _middleWorld;
+        private new World World;
+
+        private Border _border;
+        private Body _rectangle;
+        private Sprite _rectangleSprite;
+
 
         //Worlds 
         private World _rightWorld;
@@ -45,7 +51,7 @@ namespace CowFarm.ScreenSystem
             GraphicsDevice graphicsDevice)
         {
             _gameTextures = null;
-            _middleWorld = null;
+            World = null;
 
             _rightWorld = null;
             _leftWorld = null;
@@ -65,8 +71,6 @@ namespace CowFarm.ScreenSystem
 
         public override void LoadContent()
         {
-            base.LoadContent();
-
             if (_worldSerialize == null)
             {
                 _gameTextures = new Dictionary<string, Texture2D>();
@@ -74,79 +78,36 @@ namespace CowFarm.ScreenSystem
                 LoadFonts();
                 LoadCow();
 
-                _middleWorld = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                World = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
                 CreateCow();
 
-                _middleWorld.AddDynamicEntity(_cow);
+                World.AddDynamicEntity(_cow);
+
+                _cow.BodyType = BodyType.Dynamic;
+                _cow.CollisionCategories = Category.Cat1;
+                _cow.CollidesWith = Category.Cat2;
             }
-            _middleWorld.GameStartedTime = DateTime.Now - _middleWorld.TimeInTheGame;
+
+            base.LoadContent();
+            World.GameStartedTime = DateTime.Now - World.TimeInTheGame;
             _escapeKeyPressed = false;
+
+            _rectangle = BodyFactory.CreateRectangle(World, 1f, 1f, 1f);
+            _rectangle.BodyType = BodyType.Static;
+            _rectangle.CollisionCategories = Category.Cat2;
+            _rectangle.CollidesWith = Category.Cat1;
+
+            SetUserAgent(_rectangle, 1f, 1f);
+
+            // create sprite based on body
+            _rectangleSprite = new Sprite(ScreenManager.Assets.TextureFromShape(
+                _rectangle.FixtureList[0].Shape, MaterialType.Squares, Color.Orange, 1f));
         }
-
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
-        {
-            if (!coveredByOtherScreen && !otherScreenHasFocus)
-            {
-                _middleWorld.Update(gameTime);
-            }
-            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            _graphicsDevice.Clear(new Color(57, 172, 57));
-
-            ScreenManager.SpriteBatch.Begin();
-
-            _middleWorld.Draw(gameTime, ScreenManager.SpriteBatch);
-
-            DrawTime();
-
-            ScreenManager.SpriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-
-        private TimeSpan _timeKeyEscapeWasPressed;
-
-        private void DrawTime()
-        {
-            var inGametime = DateTime.Now - _middleWorld.GameStartedTime;
-            if (!_escapeKeyPressed)
-            {
-                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
-                _timeKeyEscapeWasPressed = inGametime;
-                //ScreenManager.SpriteBatch.DrawString(Font, "X: " + Cow.GetPosition().X + " Y: " + Cow.GetPosition().Y, new Vector2(Graphics.PreferredBackBufferWidth - Graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
-            }
-            else
-            {
-                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {_timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
-            }
-
-            //spriteBatch.DrawString(_font, $"Cow pos x:{_cow.GetPosition().X + _cow.GetPosition().Width} y:{_cow.GetPosition().Y + _cow.GetPosition().Height}", new Vector2(500, 100), Color.AliceBlue);
-            //spriteBatch.DrawString(_font, $"Grass pos x:{_grass.GetPosition().X + _grass.GetPosition().Width} y:{_grass.GetPosition().Y + _grass.GetPosition().Height}", new Vector2(500, 150), Color.AliceBlue);
-            //_spriteBatch.DrawString(_font, DateTime.Now.ToString(@"mm\:ss\.ff"), new Vector2(500, 150), Color.AliceBlue);
-        }
-
-
-        public override void HandleInput(InputHelper input, GameTime gameTime)
-        {
-            if (input.IsNewKeyPress(Keys.Escape))
-            {
-                //WorldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(World);
-
-                _middleWorld.TimeInTheGame = DateTime.Now - _middleWorld.GameStartedTime;
-                _escapeKeyPressed = true;
-                ExitScreen();
-            }
-            base.HandleInput(input, gameTime);
-        }
-
 
         private void CreateCow()
         {
-            _cow = new Cow(_middleWorld, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(World, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
@@ -167,6 +128,65 @@ namespace CowFarm.ScreenSystem
         {
             _font = _contentManager.Load<SpriteFont>("gameFont");
         }
+
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            if (!coveredByOtherScreen && !otherScreenHasFocus)
+            {
+                World.Update(gameTime);
+            }
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            _graphicsDevice.Clear(new Color(57, 172, 57));
+
+            ScreenManager.SpriteBatch.Begin();
+
+            World.Draw(gameTime, ScreenManager.SpriteBatch);
+
+            ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
+
+            DrawTime();
+
+            ScreenManager.SpriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private TimeSpan _timeKeyEscapeWasPressed;
+
+        private void DrawTime()
+        {
+            var inGametime = DateTime.Now - World.GameStartedTime;
+            if (!_escapeKeyPressed)
+            {
+                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+                _timeKeyEscapeWasPressed = inGametime;
+                //ScreenManager.SpriteBatch.DrawString(Font, "X: " + Cow.GetPosition().X + " Y: " + Cow.GetPosition().Y, new Vector2(Graphics.PreferredBackBufferWidth - Graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            }
+            else
+            {
+                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {_timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+            }
+        }
+
+
+        public override void HandleInput(InputHelper input, GameTime gameTime)
+        {
+            if (input.IsNewKeyPress(Keys.Escape))
+            {
+                //WorldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(World);
+
+                World.TimeInTheGame = DateTime.Now - World.GameStartedTime;
+                _escapeKeyPressed = true;
+                ExitScreen();
+            }
+            base.HandleInput(input, gameTime);
+        }
+
+
 
     }
 }

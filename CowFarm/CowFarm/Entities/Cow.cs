@@ -22,12 +22,12 @@ namespace CowFarm.Entities
 
         public const float CowSpeed = 2f;
 
-        public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim,
-            AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+        private Dictionary<string, Texture2D> _gameTextures;
+
+        public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
             : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            CollisionCategories = Category.Cat1;
-            CollidesWith = Category.Cat2;
+
         }
 
         public override Rectangle GetPosition()
@@ -57,7 +57,6 @@ namespace CowFarm.Entities
             int maxY = Graphics.PreferredBackBufferHeight;
 
             KeyboardState ks = Keyboard.GetState();
-
 
             var position = new Vector2(DestRect.X, DestRect.Y);
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
@@ -93,9 +92,7 @@ namespace CowFarm.Entities
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
 
-            DestRect = new Rectangle((int)position.X, (int)position.Y, CurrentAnim.SpriteWidth,
-                CurrentAnim.SpriteHeight);
-
+            DestRect = new Rectangle((int)position.X, (int)position.Y, CurrentAnim.SpriteWidth, CurrentAnim.SpriteHeight);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
