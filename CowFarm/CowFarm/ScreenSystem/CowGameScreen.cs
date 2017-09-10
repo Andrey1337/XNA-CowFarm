@@ -27,7 +27,6 @@ namespace CowFarm.ScreenSystem
 
         private new World World;
 
-
         private Body _rectangle;
         private Sprite _rectangleSprite;
 
@@ -86,11 +85,11 @@ namespace CowFarm.ScreenSystem
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
                 _cow.Body.CollidesWith = Category.All;
-                SetUserAgent(_cow.Body, 10f, 10f);
+                SetUserAgent(_cow.Body, 10f, 0);
             }
             World.GameStartedTime = DateTime.Now - World.TimeInTheGame;
             _escapeKeyPressed = false;
-            
+
             _rectangle = BodyFactory.CreateRectangle(World, 1f, 1f, 1f, new Vector2(1, 1));
             _rectangle.BodyType = BodyType.Static;
             _rectangle.CollisionCategories = Category.All;
@@ -143,8 +142,6 @@ namespace CowFarm.ScreenSystem
 
             ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
 
-            //ScreenManager.SpriteBatch.Draw(_cowSprite.Texture, ConvertUnits.ToDisplayUnits(_cow.Body.Position), null, Color.White, _cow.Body.Rotation, _cowSprite.Origin, 1f, SpriteEffects.None, 0f);
-            //ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_cow.Body.Position), null, Color.White, _cow.Body.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
             World.Draw(gameTime, ScreenManager.SpriteBatch);
 
             DrawTime();
@@ -172,18 +169,18 @@ namespace CowFarm.ScreenSystem
         }
 
 
-        //public override void HandleInput(InputHelper input, GameTime gameTime)
-        //{
-        //    if (input.IsNewKeyPress(Keys.Escape))
-        //    {
-        //        //WorldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(World);
+        public override void HandleInput(InputHelper input, GameTime gameTime)
+        {
+            if (input.IsNewKeyPress(Keys.Escape))
+            {
+                //WorldSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(World);
 
-        //        World.TimeInTheGame = DateTime.Now - World.GameStartedTime;
-        //        _escapeKeyPressed = true;
-        //        //ExitScreen();
-        //    }
-        //    base.HandleInput(input, gameTime);
-        //}
+                World.TimeInTheGame = DateTime.Now - World.GameStartedTime;
+                _escapeKeyPressed = true;
+                //ExitScreen();
+            }
+            base.HandleInput(input, gameTime);
+        }
 
 
 

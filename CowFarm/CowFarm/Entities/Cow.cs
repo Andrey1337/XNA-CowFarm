@@ -28,13 +28,12 @@ namespace CowFarm.Entities
 
         public Body Body;
 
-        private Sprite _cowSprite;
-
-
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            Body = BodyFactory.CreateRectangle(world, 0.5f, (float)currentAnim.SpriteHeight, 0.1f, new Vector2(2, 1));
+            float width = (float)currentAnim.SpriteWidth;
+            float height = (float)currentAnim.SpriteHeight;
+            Body = BodyFactory.CreateRectangle(world, 0.5f, 0.5f, 0, new Vector2(2, 1));
         }
 
         public override Rectangle GetPosition()

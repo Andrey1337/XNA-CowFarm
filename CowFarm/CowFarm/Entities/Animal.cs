@@ -11,7 +11,7 @@ namespace CowFarm.Entities
 {
     public abstract class Animal : Entity
     {
-        public AnimatedSprites RightWalk;
+        protected AnimatedSprites RightWalk;
         protected AnimatedSprites LeftWalk;
         protected AnimatedSprites DownWalk;
         protected AnimatedSprites UpWalk;
@@ -24,7 +24,7 @@ namespace CowFarm.Entities
 
         protected Animal(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-            
+
         {
             this.CurrentAnim = currentAnim;
             this.DestRect = destRect;
