@@ -11,10 +11,10 @@ namespace CowFarm.Entities
 {
     public abstract class Animal : Entity
     {
-        protected readonly AnimatedSprites RightWalk;
-        protected readonly AnimatedSprites LeftWalk;
-        protected readonly AnimatedSprites DownWalk;
-        protected readonly AnimatedSprites UpWalk;
+        public AnimatedSprites RightWalk;
+        protected AnimatedSprites LeftWalk;
+        protected AnimatedSprites DownWalk;
+        protected AnimatedSprites UpWalk;
         protected AnimatedSprites CurrentAnim;
 
         protected Rectangle DestRect;
@@ -24,8 +24,8 @@ namespace CowFarm.Entities
 
         protected Animal(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-            : base(world, new Vector2(destRect.X, destRect.Y))
-        {            
+            
+        {
             this.CurrentAnim = currentAnim;
             this.DestRect = destRect;
             this.RightWalk = rightWalk;

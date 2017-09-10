@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CowFarm.DrowingSystem;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using FarseerPhysics.Samples.DrawingSystem;
+using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -22,12 +26,15 @@ namespace CowFarm.Entities
 
         public const float CowSpeed = 2f;
 
-        private Dictionary<string, Texture2D> _gameTextures;
+        public Body Body;
+
+        private Sprite _cowSprite;
+
 
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-            : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+        : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-
+            Body = BodyFactory.CreateRectangle(world, 0.5f, (float)currentAnim.SpriteHeight, 0.1f, new Vector2(2, 1));
         }
 
         public override Rectangle GetPosition()
@@ -45,9 +52,9 @@ namespace CowFarm.Entities
 
         }
 
+
         private KeyboardState prevState = new KeyboardState();
         private bool isMoving = false;
-
 
         public override void Update(GameTime gameTime)
         {
@@ -69,7 +76,9 @@ namespace CowFarm.Entities
             else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
                 if (position.X > minX)
+                {
                     position.X -= CowSpeed;
+                }
                 CurrentAnim = LeftWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
@@ -97,6 +106,9 @@ namespace CowFarm.Entities
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            //spriteBatch.Draw(_cowSprite.Texture, ConvertUnits.ToDisplayUnits(Body.Position), null, Color.White, Body.Rotation, _cowSprite.Origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(CurrentAnim.Animation, ConvertUnits.ToDisplayUnits(Body.Position), _sourceRect, Color.White);
+
             spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
         }
     }

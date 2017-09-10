@@ -29,8 +29,8 @@ namespace CowFarm.Generators
                     new Rectangle(x, y, AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.Animation.Height),
                     new AnimatedSprites(AnimatedSpriteMovement.Animation, AnimatedSpriteMovement.Frames,
                         AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.SpaceFromSprites));
-                tree.CollisionCategories = Category.Cat2;
-                tree.CollidesWith = Category.Cat1;
+                //tree.CollisionCategories = Category.Cat2;
+                //tree.CollidesWith = Category.Cat1;
                 World.AddStaticEntity(tree);
             }
         }

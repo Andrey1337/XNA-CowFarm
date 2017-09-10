@@ -17,6 +17,7 @@ namespace CowFarm.Worlds
 
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
+
         protected GrassGenerator GrassGenerator;
 
         protected Dictionary<string, Texture2D> GameTextures;
@@ -65,6 +66,7 @@ namespace CowFarm.Worlds
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
+
             }
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
 
