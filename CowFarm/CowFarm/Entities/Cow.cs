@@ -26,14 +26,10 @@ namespace CowFarm.Entities
 
         public const float CowSpeed = 2f;
 
-        public Body Body;
-
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-        : base(world, graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+        : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            float width = (float)currentAnim.SpriteWidth;
-            float height = (float)currentAnim.SpriteHeight;
-            Body = BodyFactory.CreateRectangle(world, 0.55f, 0.45f, 0, new Vector2(2, 1));
+            Body = BodyFactory.CreateRectangle(world, 0.53f, 0.45f, 0, new Vector2(2, 1));
         }
 
         public override Rectangle GetPosition()
@@ -56,8 +52,8 @@ namespace CowFarm.Entities
         }
 
 
-        private KeyboardState prevState = new KeyboardState();
-        private bool isMoving = false;
+        //private KeyboardState prevState = new KeyboardState();
+        //private bool isMoving = false;
 
         public override void Update(GameTime gameTime)
         {
@@ -104,21 +100,39 @@ namespace CowFarm.Entities
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
 
-            DestRect = new Rectangle((int)position.X, (int)position.Y, CurrentAnim.SpriteWidth, CurrentAnim.SpriteHeight);
+            //DestRect = new Rectangle((int)position.X, (int)position.Y, CurrentAnim.SpriteWidth, CurrentAnim.SpriteHeight);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            //vector.X -= 28;
 
             vector.X -= 28;
             vector.Y -= 26;
 
-            spriteBatch.Draw(CurrentAnim.Animation, vector, _sourceRect, Color.White);
+            //spriteBatch.Draw(CurrentAnim.Animation, vector, _sourceRect, Color.White);
+
+            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
 
             //spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
+        }
+
+        public void HandleUserAgent(InputHelper input)
+        {
+            Vector2 force = Vector2.Zero;
+            //torque = 0;
+            float forceAmount = 10f * 0.6f;
+            if (input.KeyboardState.IsKeyDown(Keys.A))
+                force += new Vector2(-forceAmount, 0);
+            if (input.KeyboardState.IsKeyDown(Keys.S))
+                force += new Vector2(0, forceAmount);
+            if (input.KeyboardState.IsKeyDown(Keys.D))
+                force += new Vector2(forceAmount, 0);
+            if (input.KeyboardState.IsKeyDown(Keys.W))
+                force += new Vector2(0, -forceAmount);
+            
+            Body.ApplyForce(force);            
         }
     }
 }

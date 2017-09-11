@@ -1,13 +1,16 @@
 ﻿using CowFarm.DrowingSystem;
-using CowFarm.Worlds;
+using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
     public class Tree : Plant
     {
+        public Body Body;
+
         private const float Delay = 5000f;
 
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
@@ -15,7 +18,6 @@ namespace CowFarm.Entities
         {
             SpriteWidth = treeMovement.SpriteWidth;
         }
-
 
         public override void Load(ContentManager content)
         {
