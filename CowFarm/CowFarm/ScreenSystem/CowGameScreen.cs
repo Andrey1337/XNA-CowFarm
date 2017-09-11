@@ -74,23 +74,21 @@ namespace CowFarm.ScreenSystem
                 PlantLoad();
                 LoadFonts();
                 LoadCow();
-
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
                 CreateCow();
 
                 _world.AddDynamicEntity(_cow);
-
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
-                _cow.Body.CollidesWith = Category.All;
-                SetUserAgent(_cow.Body, 10f, 0);
+                _cow.Body.CollidesWith = Category.All;               
             }
+
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
             _escapeKeyPressed = false;
 
             //--------------------------------------------
-            _rectangle = BodyFactory.CreateRectangle(_world, 1f, 1f, 1f, new Vector2(1, 1));
+            _rectangle = BodyFactory.CreateRectangle(_world, 1f, 1f, 1f, new Vector2(2, 2));
             _rectangle.BodyType = BodyType.Static;
             _rectangle.CollisionCategories = Category.All;
             _rectangle.CollidesWith = Category.All;
@@ -103,7 +101,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(_world, _graphics, new Rectangle(2, 1, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(_world, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
@@ -140,7 +138,6 @@ namespace CowFarm.ScreenSystem
 
             ScreenManager.SpriteBatch.Begin();
 
-
             ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
@@ -171,6 +168,8 @@ namespace CowFarm.ScreenSystem
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
+            _cow.HandleUserAgent(input);
+
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 //_worldSerialize = "Serialized";

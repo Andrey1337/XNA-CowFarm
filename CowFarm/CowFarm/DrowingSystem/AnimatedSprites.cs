@@ -11,6 +11,7 @@ namespace CowFarm.DrowingSystem
         private int _framesCounter;
         public int SpaceFromSprites { get; }
         public int Frames { get; }
+
         private float _elapsed;
 
         public AnimatedSprites(Texture2D animation, int frames, int spriteWidth, int spaceFromSprites)
@@ -26,8 +27,6 @@ namespace CowFarm.DrowingSystem
 
         public Rectangle Animate(GameTime gameTime, float delay, ObjectMovingType ogjectType)
         {
-
-
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (!(_elapsed >= delay))
                 return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * SpaceFromSprites, 0,

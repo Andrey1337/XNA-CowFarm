@@ -25,7 +25,7 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Animal( GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
+        protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
 
         {
