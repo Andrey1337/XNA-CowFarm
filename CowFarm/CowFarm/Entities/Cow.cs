@@ -33,12 +33,16 @@ namespace CowFarm.Entities
         {
             float width = (float)currentAnim.SpriteWidth;
             float height = (float)currentAnim.SpriteHeight;
-            Body = BodyFactory.CreateRectangle(world, 0.5f, 0.5f, 0, new Vector2(2, 1));
+            Body = BodyFactory.CreateRectangle(world, 0.55f, 0.45f, 0, new Vector2(2, 1));
         }
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
+            vector.X -= 28;
+            vector.Y -= 25;
+
+            return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
         public override void Eat()
@@ -105,10 +109,16 @@ namespace CowFarm.Entities
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(_cowSprite.Texture, ConvertUnits.ToDisplayUnits(Body.Position), null, Color.White, Body.Rotation, _cowSprite.Origin, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(CurrentAnim.Animation, ConvertUnits.ToDisplayUnits(Body.Position), _sourceRect, Color.White);
 
-            spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
+            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
+            //vector.X -= 28;
+
+            vector.X -= 28;
+            vector.Y -= 26;
+
+            spriteBatch.Draw(CurrentAnim.Animation, vector, _sourceRect, Color.White);
+
+            //spriteBatch.Draw(CurrentAnim.Animation, DestRect, _sourceRect, Color.White);
         }
     }
 }
