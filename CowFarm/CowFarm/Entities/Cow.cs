@@ -66,6 +66,7 @@ namespace CowFarm.Entities
             }
             else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
+
                 CurrentAnim = LeftWalk;
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
@@ -97,31 +98,34 @@ namespace CowFarm.Entities
 
         public void HandleUserAgent(InputHelper input)
         {
-            Vector2 force = Vector2.Zero;
+            Vector2 force = new Vector2(0, 0);
 
-            float forceAmount = 4f;
-            if (input.KeyboardState.IsKeyDown(Keys.A))
-            {
-                force += new Vector2(-forceAmount, 0);
-            }
-            if (input.KeyboardState.IsKeyDown(Keys.S))
-            {
-                force += new Vector2(0, forceAmount);
-            }
+            float forceAmount = 1.5f;
             if (input.KeyboardState.IsKeyDown(Keys.D))
             {
-                force += new Vector2(forceAmount, 0);
+                force += new Vector2(forceAmount, 0);                
+            }
+            if (input.KeyboardState.IsKeyDown(Keys.A))
+            {
+                force += new Vector2(-forceAmount, 0);                
             }
             if (input.KeyboardState.IsKeyDown(Keys.W))
             {
-                force += new Vector2(0, -forceAmount);
+                force += new Vector2(0, -forceAmount);                
             }
-            if (input.KeyboardState.IsKeyUp(Keys.A) && input.KeyboardState.IsKeyUp(Keys.S) &&
-                input.KeyboardState.IsKeyUp(Keys.W) && input.KeyboardState.IsKeyUp(Keys.D))
+            if (input.KeyboardState.IsKeyDown(Keys.S))
             {
-                Body.Zero();
+                force += new Vector2(0, forceAmount);                
+            }
+            
+
+            if (input.KeyboardState.IsKeyUp(Keys.A) && input.KeyboardState.IsKeyUp(Keys.S) &&
+               input.KeyboardState.IsKeyUp(Keys.W) && input.KeyboardState.IsKeyUp(Keys.D))
+            {
+                Body.Stop();
             }
 
+            Body.Move(force);
             Body.ApplyForce(force);
         }
     }

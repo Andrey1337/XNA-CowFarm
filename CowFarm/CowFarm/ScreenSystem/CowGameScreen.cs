@@ -81,8 +81,8 @@ namespace CowFarm.ScreenSystem
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
-                _cow.Body.CollidesWith = Category.All;               
-            }
+                _cow.Body.CollidesWith = Category.All;
+               }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
             _escapeKeyPressed = false;
