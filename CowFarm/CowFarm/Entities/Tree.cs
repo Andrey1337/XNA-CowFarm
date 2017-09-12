@@ -14,11 +14,11 @@ namespace CowFarm.Entities
         private const float Delay = 5000f;
 
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
-            : base(world, graphics, destRect, treeMovement)
+            : base(graphics, destRect, treeMovement)
         {
-            SpriteWidth = treeMovement.SpriteWidth;
+            //SpriteWidth = treeMovement.SpriteWidth;
 
-            Body = BodyFactory.CreateCircle(world, 0.1f, 0f,
+            Body = BodyFactory.CreateRectangle(world, 0.4f, 0.00000000000000000000000000000000000000000001f, 0f,
                 new Vector2(((float)(destRect.X + treeMovement.SpriteWidth) / 100) - (float)treeMovement.SpriteWidth / 2.05f / 100,
                 ((float)destRect.Y + treeMovement.SpriteHeight) / 100 - 0.2f));
 
@@ -44,7 +44,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, SpriteWidth, PlantMovement.Animation.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
     }
 }

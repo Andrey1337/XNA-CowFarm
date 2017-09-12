@@ -14,10 +14,10 @@ namespace CowFarm.Entities
     {
         private const float Delay = 1500f;
 
-        public Grass(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement) :
-            base(world, graphics, destRect, grassMovement)
+        public Grass(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
+            : base(graphics, destRect, grassMovement)
         {
-            SpriteWidth = grassMovement.SpriteWidth;
+
         }
 
         public override void Load(ContentManager content)

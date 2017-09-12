@@ -116,7 +116,10 @@ namespace CowFarm.ScreenSystem
         {
             _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("grassMovement"));
             _gameTextures.Add("treeMovement", _contentManager.Load<Texture2D>("treeMovement"));
+
+            _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
         }
+
 
         private void LoadFonts()
         {
