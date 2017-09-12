@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CowFarm.DrowingSystem;
 using FarseerPhysics;
@@ -50,11 +51,7 @@ namespace CowFarm.Entities
         {
 
         }
-
-
-        //private KeyboardState prevState = new KeyboardState();
-        //private bool isMoving = false;
-
+        private KeyboardState previousKs = Keyboard.GetState();
         public override void Update(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
@@ -89,10 +86,6 @@ namespace CowFarm.Entities
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= 27;
-            vector.Y -= 26;
-
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
 
@@ -100,24 +93,25 @@ namespace CowFarm.Entities
         {
             Vector2 force = new Vector2(0, 0);
 
-            float forceAmount = 1.5f;
+            float forceAmountX = 1.5f;
+            float forceAmountY = 1f;
+
             if (input.KeyboardState.IsKeyDown(Keys.D))
             {
-                force += new Vector2(forceAmount, 0);                
+                force += new Vector2(forceAmountX, 0);
             }
             if (input.KeyboardState.IsKeyDown(Keys.A))
             {
-                force += new Vector2(-forceAmount, 0);                
+                force += new Vector2(-forceAmountX, 0);
             }
             if (input.KeyboardState.IsKeyDown(Keys.W))
             {
-                force += new Vector2(0, -forceAmount);                
+                force += new Vector2(0, -forceAmountY);
             }
             if (input.KeyboardState.IsKeyDown(Keys.S))
             {
-                force += new Vector2(0, forceAmount);                
+                force += new Vector2(0, forceAmountY);
             }
-            
 
             if (input.KeyboardState.IsKeyUp(Keys.A) && input.KeyboardState.IsKeyUp(Keys.S) &&
                input.KeyboardState.IsKeyUp(Keys.W) && input.KeyboardState.IsKeyUp(Keys.D))

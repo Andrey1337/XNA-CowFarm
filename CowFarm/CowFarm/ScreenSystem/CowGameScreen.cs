@@ -82,18 +82,18 @@ namespace CowFarm.ScreenSystem
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
                 _cow.Body.CollidesWith = Category.All;
-               }
+            }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
             _escapeKeyPressed = false;
 
             //--------------------------------------------
-            _rectangle = BodyFactory.CreateRectangle(_world, 1f, 1f, 1f, new Vector2(2, 2));
-            _rectangle.BodyType = BodyType.Static;
-            _rectangle.CollisionCategories = Category.All;
-            _rectangle.CollidesWith = Category.All;
-            _rectangleSprite = new Sprite(ScreenManager.Assets.TextureFromShape(
-                _rectangle.FixtureList[0].Shape, MaterialType.Squares, Color.Orange, 1f));
+            //_rectangle = BodyFactory.CreateRectangle(_world, 1f, 1f, 1f, new Vector2(2, 2));
+            //_rectangle.BodyType = BodyType.Static;
+            //_rectangle.CollisionCategories = Category.All;
+            //_rectangle.CollidesWith = Category.All;
+            //_rectangleSprite = new Sprite(ScreenManager.Assets.TextureFromShape(
+            //    _rectangle.FixtureList[0].Shape, MaterialType.Squares, Color.Orange, 1f));
             //--------------------------------------------
 
             base.LoadContent();
@@ -138,7 +138,7 @@ namespace CowFarm.ScreenSystem
 
             ScreenManager.SpriteBatch.Begin();
 
-            ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
+            //ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 

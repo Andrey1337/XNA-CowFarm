@@ -21,7 +21,7 @@ namespace CowFarm.Worlds
                 new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6, gameStartedTime);
 
             TreeGenerator treeGenerator = new TreeGenerator(this, graphics,
-                new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 3);
+                new AnimatedSprites(gameTextures["treeMovement"], 2, 104, 30), 2);
             treeGenerator.Generate(StaticEntities);
             
         }
