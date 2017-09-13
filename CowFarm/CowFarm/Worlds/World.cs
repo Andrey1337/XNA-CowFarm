@@ -18,6 +18,8 @@ namespace CowFarm.Worlds
         public List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
 
+        public List<IInteractable>[,] InteractableEntities;
+
         protected GrassGenerator GrassGenerator;
 
         protected Dictionary<string, Texture2D> GameTextures;
@@ -31,6 +33,9 @@ namespace CowFarm.Worlds
             ScreenManager = screenManager;
             Graphics = graphics;
             GameTextures = gameTextures;
+
+            InteractableEntities =
+                new List<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
@@ -62,6 +67,7 @@ namespace CowFarm.Worlds
 
         public virtual void Update(GameTime gameTime)
         {
+            UpdateInteractable();           
             GrassGenerator.Generate(StaticEntities, DateTime.Now);
             foreach (var item in StaticEntities)
             {
@@ -71,6 +77,30 @@ namespace CowFarm.Worlds
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
 
             this.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+        }
+
+        private void UpdateInteractable()
+        {
+            for (var i = 0; i < StaticEntities.Length; i++)
+            {
+                if (StaticEntities[i] == null) continue;
+                foreach (var entity in StaticEntities[i])
+                {
+                    if (!(entity is IInteractable)) continue;
+                    if (InteractableEntities[entity.GetPosition().X,
+                            entity.GetPosition().Y + entity.GetPosition().Height] == null)
+                    {
+                        InteractableEntities[entity.GetPosition().X,
+                                entity.GetPosition().Y + entity.GetPosition().Height] =
+                            new List<IInteractable>() { (IInteractable)entity };
+                    }
+                    else
+                    {
+                        InteractableEntities[entity.GetPosition().X,
+                            entity.GetPosition().Y + entity.GetPosition().Height].Add((IInteractable)entity);
+                    }
+                }
+            }
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)

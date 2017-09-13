@@ -64,6 +64,7 @@
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Decoration.cs" />
     <Compile Include="Entities\Rock .cs" />
+    <Compile Include="IInteractable.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />

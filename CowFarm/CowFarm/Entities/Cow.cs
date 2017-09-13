@@ -21,18 +21,16 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal, IEatable
     {
-        private List<Entity>[] _staticEntities;
+        private List<IInteractable>[,] _interactableEntities;
 
         private Rectangle _sourceRect;
 
         private const float Delay = 200f;
 
-        public const float CowSpeed = 2f;
-
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            //Body = BodyFactory.CreateRectangle(world, 0.54f, 0.24f, 0, new Vector2((float)destRect.X / 100, (float)destRect.X / 100));
+            _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
         }
 
@@ -50,62 +48,69 @@ namespace CowFarm.Entities
 
         }
 
-        public void SetStaticEntity(List<Entity>[] staticEntities)
+        public void SetList(List<IInteractable>[,] interactableEntities)
         {
-            _staticEntities = staticEntities;
+            _interactableEntities = interactableEntities;
         }
+        Rectangle _rectangle;
+        public IEatable NearbyFood()
+        {
 
-        //public bool NearbyFood()
-        //{
-        //    int cowX = GetPosition().X + (int)GetPosition().Width / 2;
-        //    int cowY = GetPosition().Y + (int)GetPosition().Height / 2;
+            if (CurrentAnim == RightWalk)
+            {
+                _rectangle = new Rectangle(GetPosition().X + GetPosition().Width, GetPosition().Y , 40, 40);
+            }
+            if (CurrentAnim == LeftWalk)
+            {
+                _rectangle = new Rectangle(GetPosition().X - 30, GetPosition().Y + 27, 40, 49);
+            }
+            if (CurrentAnim == UpWalk)
+            {
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 40 + 27, 40, 40);
+            }
+            if (CurrentAnim == DownWalk)
+            {
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height + 20, 40, 40);
+            }
 
-        //    int distanceX = 0;
-        //    int distanceY = 0;
 
-        //    Rectangle rectangle = new Rectangle(0, 0, 0, 0);
-        //    if (CurrentAnim == RightWalk)
-        //    {
-        //        rectangle = new Rectangle(GetPosition().X + GetPosition().Width, GetPosition().Y, 40, 40);
-        //    }
-        //    if (CurrentAnim == LeftWalk)
-        //    {
-        //        rectangle = new Rectangle(GetPosition().X - 40, GetPosition().Y, 40, 40);
-        //    }
-        //    if (CurrentAnim == UpWalk)
-        //    {
-        //        rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 40, 40, 40);
-        //    }
-        //    if (CurrentAnim == DownWalk)
-        //    {
-        //        rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 40, 40);
-        //    }
-        //    //int i = 5;
-        //    for (int i = rectangle.X; i < rectangle.X + rectangle.Width; i++)
-        //    {
-        //        if (i < 0)
-        //            continue;
-        //        for (int j = rectangle.Y; j < rectangle.X + rectangle.Width; j++)
-        //        {
-        //            if(j < 0)
-        //                continue;
-        //            if(_staticEntities[i][j].)
-        //        }
-        //    }
-        //    return false;
-        //}
+            for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
+            {
+                if (i < 0 || i >= _interactableEntities.GetLength(0))
+                    continue;
+                for (int j = _rectangle.Y; j < _rectangle.Y + _rectangle.Height; j++)
+                {
+                    if (j < 0 || j >= _interactableEntities.GetLength(1))
+                        continue;
+                    if (_interactableEntities[i, j] == null) continue;
+                    foreach (var entity in _interactableEntities[i, j])
+                    {
+                        if (entity is IEatable)
+                            return (IEatable)entity;
+                    }
+                }
+            }
+            return null;
+        }
 
         public override void Load(ContentManager content)
         {
 
         }
-        private KeyboardState previousKs = Keyboard.GetState();
+
+
         public override void Update(GameTime gameTime)
         {
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
+            if (NearbyFood() != null)
+            {
+                CurrentAnim = DownWalk;
+                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+
+            }
+            else if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
             {
                 if (_force.X == 0)
                 {

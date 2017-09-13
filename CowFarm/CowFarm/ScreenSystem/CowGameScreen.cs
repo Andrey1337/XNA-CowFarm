@@ -78,8 +78,7 @@ namespace CowFarm.ScreenSystem
                 RockLoad();
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
-                CreateCow();
-                _cow.SetStaticEntity(_world.StaticEntities);
+                CreateCow();                
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
