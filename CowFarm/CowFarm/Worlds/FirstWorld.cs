@@ -20,11 +20,19 @@ namespace CowFarm.Worlds
             GrassGenerator = new GrassGenerator(this, graphics,
                 new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6, gameStartedTime);
 
-            TreeGenerator treeGenerator = new TreeGenerator(this, graphics,
-                new AnimatedSprites(gameTextures["treeMovement"], 2, 146, 30), 2);
-            treeGenerator.Generate(StaticEntities);
+            //TreeGenerator treeGenerator = new TreeGenerator(this, graphics,
+            //treeGenerator.Generate(StaticEntities);
 
-            Rock rock = new Rock(this, graphics, new Rectangle(600, 150, 131, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 139, 0));
+            var sprite = new AnimatedSprites(gameTextures["treeMovement"], 2, 146, 30);
+
+            Tree tree = new Tree(this, graphics, new Rectangle(500, 20, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            this.AddStaticEntity(tree);
+
+            tree = new Tree(this, graphics, new Rectangle(700, 150, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            this.AddStaticEntity(tree);
+
+
+            Rock rock = new Rock(this, graphics, new Rectangle(220, 300, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 139, 0));
             this.AddStaticEntity(rock);
 
         }

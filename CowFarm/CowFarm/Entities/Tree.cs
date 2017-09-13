@@ -18,7 +18,7 @@ namespace CowFarm.Entities
         {
             //SpriteWidth = treeMovement.SpriteWidth;
 
-            Body = BodyFactory.CreateRectangle(world, 0.4f, 0.00000000000000000000000000000000000000000001f, 0f,
+            Body = BodyFactory.CreateRectangle(world, 0.4f, 0.05f, 0f,
                 new Vector2(((float)(destRect.X + treeMovement.SpriteWidth) / 100) - (float)treeMovement.SpriteWidth / 2.05f / 100,
                 ((float)destRect.Y + treeMovement.SpriteHeight) / 100 - 0.2f));
 
