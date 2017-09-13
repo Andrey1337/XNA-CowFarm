@@ -9,22 +9,23 @@ using World = CowFarm.Worlds.World;
 namespace CowFarm.Entities
 {
     public class Tree : Plant
-    {
-        public Body Body;
-        private const float Delay = 5000f;
+    {        
+        private const float Delay = float.MaxValue;
 
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
             : base(graphics, destRect, treeMovement)
         {
-            //SpriteWidth = treeMovement.SpriteWidth;
+            float width = (float)16 / 100;
+            float height = (float)1 / 100;
 
-            Body = BodyFactory.CreateRectangle(world, 0.4f, 0.05f, 0f,
-                new Vector2(((float)(destRect.X + treeMovement.SpriteWidth) / 100) - (float)treeMovement.SpriteWidth / 2.05f / 100,
-                ((float)destRect.Y + treeMovement.SpriteHeight) / 100 - 0.2f));
+            float x = (float)(destRect.X + destRect.Width - 80) / 100;
+            float y = (float)(destRect.Y + destRect.Height - 22) / 100;
+
+            Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
-            Body.CollisionCategories = Category.Cat2;
-            Body.CollidesWith = Category.Cat1;
+            Body.CollisionCategories = Category.All;
+            Body.CollidesWith = Category.All;
         }
 
         public override void Load(ContentManager content)

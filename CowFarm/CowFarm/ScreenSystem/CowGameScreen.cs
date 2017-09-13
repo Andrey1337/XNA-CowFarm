@@ -68,12 +68,14 @@ namespace CowFarm.ScreenSystem
 
         public override void LoadContent()
         {
+            _escapeKeyPressed = false;
             if (_worldSerialize == null)
             {
                 _gameTextures = new Dictionary<string, Texture2D>();
                 PlantLoad();
                 LoadFonts();
                 LoadCow();
+                RockLoad();
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
                 CreateCow();
@@ -85,16 +87,7 @@ namespace CowFarm.ScreenSystem
             }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
-            _escapeKeyPressed = false;
 
-            //--------------------------------------------
-            //_rectangle = BodyFactory.CreateRectangle(_world, 1f, 1f, 1f, new Vector2(2, 2));
-            //_rectangle.BodyType = BodyType.Static;
-            //_rectangle.CollisionCategories = Category.All;
-            //_rectangle.CollidesWith = Category.All;
-            //_rectangleSprite = new Sprite(ScreenManager.Assets.TextureFromShape(
-            //    _rectangle.FixtureList[0].Shape, MaterialType.Squares, Color.Orange, 1f));
-            //--------------------------------------------
 
             base.LoadContent();
         }
@@ -117,9 +110,16 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("grassMovement"));
             _gameTextures.Add("treeMovement", _contentManager.Load<Texture2D>("treeMovement"));
 
-            _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
+            _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("firstWorldBackGround"));
+
+
         }
 
+        private void RockLoad()
+        {
+            _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
+
+        }
 
         private void LoadFonts()
         {
@@ -137,11 +137,10 @@ namespace CowFarm.ScreenSystem
 
         public override void Draw(GameTime gameTime)
         {
-            _graphicsDevice.Clear(new Color(57, 172, 57));
+            //_graphicsDevice.Clear(new Color(57, 172, 57));
 
             ScreenManager.SpriteBatch.Begin();
 
-            //ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position), null, Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f, SpriteEffects.None, 0f);
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
@@ -171,7 +170,7 @@ namespace CowFarm.ScreenSystem
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
-            _cow.HandleUserAgent(input);
+            //_cow.HandleUserAgent(input);
 
             if (input.IsNewKeyPress(Keys.Escape))
             {

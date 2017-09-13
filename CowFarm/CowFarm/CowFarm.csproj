@@ -61,6 +61,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Decoration.cs" />
     <Compile Include="Entities\Rock .cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
