@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities
 {
-    public class Grass : Plant
+    public class Grass : Plant, IEatable
     {
         private const float Delay = 5000f;
 
@@ -31,7 +31,7 @@ namespace CowFarm.Entities
         }
 
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
         }

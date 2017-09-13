@@ -38,7 +38,7 @@ namespace CowFarm.Entities
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
         }

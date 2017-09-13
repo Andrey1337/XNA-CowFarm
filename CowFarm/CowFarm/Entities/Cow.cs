@@ -21,6 +21,8 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal, IEatable
     {
+        private List<Entity>[] _staticEntities;
+
         private Rectangle _sourceRect;
 
         private const float Delay = 200f;
@@ -48,6 +50,51 @@ namespace CowFarm.Entities
 
         }
 
+        public void SetStaticEntity(List<Entity>[] staticEntities)
+        {
+            _staticEntities = staticEntities;
+        }
+
+        //public bool NearbyFood()
+        //{
+        //    int cowX = GetPosition().X + (int)GetPosition().Width / 2;
+        //    int cowY = GetPosition().Y + (int)GetPosition().Height / 2;
+
+        //    int distanceX = 0;
+        //    int distanceY = 0;
+
+        //    Rectangle rectangle = new Rectangle(0, 0, 0, 0);
+        //    if (CurrentAnim == RightWalk)
+        //    {
+        //        rectangle = new Rectangle(GetPosition().X + GetPosition().Width, GetPosition().Y, 40, 40);
+        //    }
+        //    if (CurrentAnim == LeftWalk)
+        //    {
+        //        rectangle = new Rectangle(GetPosition().X - 40, GetPosition().Y, 40, 40);
+        //    }
+        //    if (CurrentAnim == UpWalk)
+        //    {
+        //        rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 40, 40, 40);
+        //    }
+        //    if (CurrentAnim == DownWalk)
+        //    {
+        //        rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 40, 40);
+        //    }
+        //    //int i = 5;
+        //    for (int i = rectangle.X; i < rectangle.X + rectangle.Width; i++)
+        //    {
+        //        if (i < 0)
+        //            continue;
+        //        for (int j = rectangle.Y; j < rectangle.X + rectangle.Width; j++)
+        //        {
+        //            if(j < 0)
+        //                continue;
+        //            if(_staticEntities[i][j].)
+        //        }
+        //    }
+        //    return false;
+        //}
+
         public override void Load(ContentManager content)
         {
 
@@ -74,7 +121,7 @@ namespace CowFarm.Entities
                     }
                 }
                 else
-                {                    
+                {
                     CurrentAnim = RightWalk;
                     _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
                 }
@@ -101,7 +148,7 @@ namespace CowFarm.Entities
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
 
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);

@@ -47,7 +47,7 @@ namespace CowFarm.Entities
 
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(DecorationMovement.Animation, DestRect, Color.White);
         }

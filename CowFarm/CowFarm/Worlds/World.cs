@@ -15,7 +15,7 @@ namespace CowFarm.Worlds
         protected GraphicsDeviceManager Graphics;
         protected ScreenManager ScreenManager;
 
-        protected List<Entity>[] StaticEntities;
+        public List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
 
         protected GrassGenerator GrassGenerator;
@@ -92,7 +92,7 @@ namespace CowFarm.Worlds
             {
                 if (i == dynamicYposition)
                 {
-                    dynamicEntity?.Draw(gameTime, spriteBatch);
+                    dynamicEntity?.Draw(spriteBatch);
                     dynamicCount++;
                     if (dynamicCount <= DynamicEntities.Count - 1)
                     {
@@ -103,7 +103,7 @@ namespace CowFarm.Worlds
                 }
                 if (StaticEntities[i] != null)
                 {
-                    StaticEntities[i].ForEach(entity => entity.Draw(gameTime, spriteBatch));
+                    StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));
                 }
             }
         }

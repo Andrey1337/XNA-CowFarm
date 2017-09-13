@@ -79,7 +79,7 @@ namespace CowFarm.ScreenSystem
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
                 CreateCow();
-
+                _cow.SetStaticEntity(_world.StaticEntities);
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
@@ -87,7 +87,6 @@ namespace CowFarm.ScreenSystem
             }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
-
 
             base.LoadContent();
         }
