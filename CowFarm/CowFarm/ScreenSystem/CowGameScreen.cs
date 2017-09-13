@@ -112,7 +112,7 @@ namespace CowFarm.ScreenSystem
 
             _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("firstWorldBackGround"));
 
-
+            _gameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("bushMovement"));
         }
 
         private void RockLoad()

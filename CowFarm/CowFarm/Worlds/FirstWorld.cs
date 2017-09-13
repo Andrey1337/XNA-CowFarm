@@ -12,8 +12,7 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        private Dictionary<string, Texture2D> _gameTextures;
-
+        private readonly Dictionary<string, Texture2D> _gameTextures;
 
 
         public FirstWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
@@ -23,7 +22,7 @@ namespace CowFarm.Worlds
             _gameTextures = gameTextures;
             GrassGenerator = new GrassGenerator(this, graphics,
                 new AnimatedSprites(gameTextures["grassMovement"], 2, 24, 15), 6, gameStartedTime);
-           
+
             var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
 
             Tree tree = new Tree(this, graphics, new Rectangle(640, 170, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
@@ -32,6 +31,9 @@ namespace CowFarm.Worlds
             tree = new Tree(this, graphics, new Rectangle(450, 5, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
+            var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
+            Bush bush = new Bush(this, graphics, new Rectangle(100, 30, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
+            this.AddStaticEntity(bush);
 
             Rock rock = new Rock(this, graphics, new Rectangle(210, 300, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
             this.AddStaticEntity(rock);
