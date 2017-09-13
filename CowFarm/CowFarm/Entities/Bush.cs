@@ -15,7 +15,7 @@ namespace CowFarm.Entities
         {
             float x1 = (float)(destRect.X + 30) / 100;
             float y = (float)(destRect.Y + destRect.Height - 18) / 100;
-            float x2 = x1 + (float)24/ 100;
+            float x2 = x1 + (float)24 / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
 

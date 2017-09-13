@@ -12,7 +12,7 @@ namespace CowFarm.Entities
 {
     public class Grass : Plant
     {
-        private const float Delay = 1500f;
+        private const float Delay = 5000f;
 
         public Grass(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)

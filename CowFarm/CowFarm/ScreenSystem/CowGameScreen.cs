@@ -19,7 +19,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.ScreenSystem
 {
-    public class CowGameScreen : PhysicsGameScreen
+    public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
@@ -123,6 +123,7 @@ namespace CowFarm.ScreenSystem
 
         private void LoadFonts()
         {
+            _gameTextures.Add("timerTexture", _contentManager.Load<Texture2D>("timerTexture"));
             _font = _contentManager.Load<SpriteFont>("gameFont");
         }
 
@@ -144,10 +145,11 @@ namespace CowFarm.ScreenSystem
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
+            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(700, 5), Color.White);
             DrawTime();
 
-            ScreenManager.SpriteBatch.End();
 
+            ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
 
@@ -158,12 +160,12 @@ namespace CowFarm.ScreenSystem
             var inGametime = DateTime.Now - _world.GameStartedTime;
             if (!_escapeKeyPressed)
             {
-                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {inGametime.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+                ScreenManager.SpriteBatch.DrawString(_font, inGametime.ToString(@"mm\:ss\.ff"), new Vector2(780, 16), Color.Black);
                 _timeKeyEscapeWasPressed = inGametime;
             }
             else
             {
-                ScreenManager.SpriteBatch.DrawString(_font, $"Time: {_timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff") }", new Vector2(_graphics.PreferredBackBufferWidth - _graphics.PreferredBackBufferWidth / 5, 0), Color.Black);
+                ScreenManager.SpriteBatch.DrawString(_font, _timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff"), new Vector2(780, 16), Color.Black);
             }
         }
 

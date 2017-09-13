@@ -30,7 +30,8 @@ namespace CowFarm.Entities
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-            Body = BodyFactory.CreateRectangle(world, 0.54f, 0.24f, 0, new Vector2((float)destRect.X / 100, (float)destRect.X / 100));
+            //Body = BodyFactory.CreateRectangle(world, 0.54f, 0.24f, 0, new Vector2((float)destRect.X / 100, (float)destRect.X / 100));
+            Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
         }
 
         public override Rectangle GetPosition()

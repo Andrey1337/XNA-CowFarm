@@ -9,13 +9,13 @@ using World = CowFarm.Worlds.World;
 namespace CowFarm.Entities
 {
     public class Tree : Plant
-    {        
+    {
         private const float Delay = float.MaxValue;
 
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
             : base(graphics, destRect, treeMovement)
         {
-            float width = (float)16 / 100;
+            float width = (float)14 / 100;
             float height = (float)1 / 100;
 
             float x = (float)(destRect.X + destRect.Width - 80) / 100;

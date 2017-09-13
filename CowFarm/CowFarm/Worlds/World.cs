@@ -75,7 +75,6 @@ namespace CowFarm.Worlds
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
             var dynamicYposition = int.MaxValue;
             Entity dynamicEntity = null;
             var dynamicCount = 0;
