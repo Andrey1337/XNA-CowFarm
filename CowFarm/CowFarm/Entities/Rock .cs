@@ -34,7 +34,6 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             Body.CollidesWith = Category.All;
             Body.CollisionCategories = Category.All;
-
         }
 
         public override void Load(ContentManager content)

@@ -19,15 +19,13 @@ namespace CowFarm.Entities
         protected Body Body;
 
         protected ObjectMovingType ObjectMovingType;
-        protected int SpriteWidth;
-
+        
         protected Plant(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement)
         {
             this.Graphics = graphics;
             this.DestRect = destRect;
             this.PlantMovement = plantMovement;
-            this.ObjectMovingType = ObjectMovingType.Static;
-            this.SpriteWidth = plantMovement.SpriteWidth;
+            this.ObjectMovingType = ObjectMovingType.Static;            
         }
     }
 }

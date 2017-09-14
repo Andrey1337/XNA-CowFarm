@@ -26,7 +26,7 @@ namespace CowFarm.Generators
             var y = Random.Next(Graphics.PreferredBackBufferHeight / 6,
                 Graphics.PreferredBackBufferHeight - AnimatedSpriteMovement.Animation.Height);
 
-            var grass = new Grass(World, Graphics,
+            var grass = new Grass(Graphics,
                 new Rectangle(x, y, AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.Animation.Height),
                 new AnimatedSprites(AnimatedSpriteMovement.Animation, AnimatedSpriteMovement.Frames,
                     AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.SpaceFromSprites));

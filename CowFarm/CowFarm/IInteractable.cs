@@ -2,6 +2,6 @@
 {
     public interface IInteractable
     {
-
+        bool IsSelected { get; set; }
     }
 }

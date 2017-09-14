@@ -14,10 +14,10 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
-        public Grass(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
+        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)
         {
-
+            IsSelected = false;
         }
 
         public override void Load(ContentManager content)
@@ -38,7 +38,9 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, SpriteWidth, PlantMovement.Animation.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
+
+        public bool IsSelected { get; set; }
     }
 }

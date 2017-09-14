@@ -30,6 +30,7 @@ namespace CowFarm.Entities
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
+
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
         }
@@ -43,6 +44,7 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
+
         public override void Eat()
         {
 
@@ -52,27 +54,28 @@ namespace CowFarm.Entities
         {
             _interactableEntities = interactableEntities;
         }
-        Rectangle _rectangle;
+
+
+        private Rectangle _rectangle;
         public IEatable NearbyFood()
         {
 
             if (CurrentAnim == RightWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + GetPosition().Width, GetPosition().Y , 40, 40);
+                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 22, GetPosition().Y + 27, 40, 40);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 30, GetPosition().Y + 27, 40, 49);
+                _rectangle = new Rectangle(GetPosition().X - 40, GetPosition().Y + 27, 40, 40);
             }
             if (CurrentAnim == UpWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 40 + 27, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + 4, 40, 40);
             }
             if (CurrentAnim == DownWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height + 20, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + CurrentAnim.SpriteHeight - 4, 40, 40);
             }
-
 
             for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
             {
@@ -85,8 +88,9 @@ namespace CowFarm.Entities
                     if (_interactableEntities[i, j] == null) continue;
                     foreach (var entity in _interactableEntities[i, j])
                     {
-                        if (entity is IEatable)
-                            return (IEatable)entity;
+                        var food = entity as IEatable;
+                        if (food != null)
+                            return food;
                     }
                 }
             }
@@ -98,38 +102,32 @@ namespace CowFarm.Entities
 
         }
 
+        private IEatable _food;
 
         public override void Update(GameTime gameTime)
         {
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
+
+
+
             if (NearbyFood() != null)
             {
-                CurrentAnim = DownWalk;
-                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-
+                _food = NearbyFood();
+                _food.IsSelected = true;
             }
-            else if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
+            if (NearbyFood() != null && NearbyFood() != _food)
             {
-                if (_force.X == 0)
-                {
-                    if (CurrentAnim == RightWalk)
-                        _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-                    else
-                    {
-                        if (ks.IsKeyDown(Keys.A))
-                        {
-                            CurrentAnim = LeftWalk;
-                            _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-                        }
-                    }
-                }
-                else
-                {
-                    CurrentAnim = RightWalk;
-                    _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-                }
+                _food.IsSelected = false;
+                _food = NearbyFood();
+            }
+
+            if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
+            {
+                CurrentAnim = RightWalk;
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+
             }
             else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
             {
@@ -192,8 +190,11 @@ namespace CowFarm.Entities
                 Body.Stop();
             }
 
+
             Body.Move(_force);
             Body.ApplyForce(_force);
         }
+
+        public bool IsSelected { get; set; }
     }
 }
