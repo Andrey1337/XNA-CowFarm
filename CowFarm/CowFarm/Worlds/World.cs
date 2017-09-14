@@ -20,7 +20,7 @@ namespace CowFarm.Worlds
 
         public List<IInteractable>[,] InteractableEntities;
 
-        protected GrassGenerator GrassGenerator;
+        //protected GrassGenerator GrassGenerator;
 
         protected Dictionary<string, Texture2D> GameTextures;
 
@@ -68,7 +68,7 @@ namespace CowFarm.Worlds
         public virtual void Update(GameTime gameTime)
         {
             UpdateInteractable();           
-            GrassGenerator.Generate(StaticEntities, DateTime.Now);
+            //GrassGenerator.Generate(StaticEntities, DateTime.Now);
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));

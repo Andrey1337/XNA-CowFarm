@@ -31,15 +31,17 @@ namespace CowFarm.ScreenSystem
         private Sprite _rectangleSprite;
 
         //Worlds 
-        private World _rightWorld;
-        private World _leftWorld;
-        private World _upWorld;
-        private World _downWorld;
+        //private World _rightWorld;
+        //private World _leftWorld;
+        //private World _upWorld;
+        //private World _downWorld;
 
         private Cow _cow;
 
         private Dictionary<string, Texture2D> _gameTextures;
         private SpriteFont _font;
+
+        private int Score { get; set; }
 
         private string _worldSerialize;
         private bool _escapeKeyPressed;
@@ -50,10 +52,10 @@ namespace CowFarm.ScreenSystem
             _gameTextures = null;
             _world = null;
 
-            _rightWorld = null;
-            _leftWorld = null;
-            _upWorld = null;
-            _downWorld = null;
+            //_rightWorld = null;
+            //_leftWorld = null;
+            //_upWorld = null;
+            //_downWorld = null;
 
             _contentManager = contentManager;
             _graphics = graphics;
@@ -78,7 +80,7 @@ namespace CowFarm.ScreenSystem
                 RockLoad();
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
-                CreateCow();                
+                CreateCow();
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;

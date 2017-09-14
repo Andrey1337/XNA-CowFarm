@@ -39,6 +39,6 @@ namespace CowFarm.Entities
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
-        public abstract void Eat();
+        public abstract void Eat(IEatable entity);
     }
 }

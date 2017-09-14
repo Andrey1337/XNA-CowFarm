@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
 using CowFarm.Worlds;
+using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,8 @@ namespace CowFarm.Entities
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)
         {
-            IsSelected = false;
+            //OnFocus = false;
+            //IsEaten = false;
         }
 
         public override void Load(ContentManager content)
@@ -33,14 +35,69 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Texture2D copyTexture = CopyTexture(PlantMovement.Animation);
+            if (OnFocus)
+            {
+                var back = RepaintRectangle(copyTexture, SourceRect, Color.White);
+                spriteBatch.Draw(back, new Rectangle(DestRect.X - 1, DestRect.Y - 2, DestRect.Width + 2, DestRect.Height + 3), SourceRect, Color.White);
+            }
+
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+
         }
+
+        private Texture2D CopyTexture(Texture2D texture)
+        {
+            Texture2D copyTexture = new Texture2D(Graphics.GraphicsDevice, 60, PlantMovement.SpriteHeight);
+            Color[] oldC = new Color[texture.Width * texture.Height];
+
+            texture.GetData(oldC);
+            copyTexture.SetData<Color>(oldC);
+
+            return copyTexture;
+        }
+
+        public Texture2D RepaintRectangle(Texture2D texture,
+            Rectangle rect, Color newColor)
+        {
+
+            Color[] oldC = new Color[texture.Width * texture.Height];
+            texture.GetData<Color>(oldC);
+            Color[,] colorArray = new Color[texture.Height, texture.Width];
+
+            for (int y = 0; y < texture.Height; y++)
+            {
+                for (int x = 0; x < texture.Width; x++)
+                {
+                    colorArray[y, x] = oldC[y * texture.Width + x];
+                }
+            }
+
+            oldC = new Color[texture.Width * texture.Height];
+            for (int y = 0; y < texture.Height; y++)
+            {
+                for (int x = 0; x < texture.Width; x++)
+                {
+                    if (colorArray[y, x] != Color.White * 0)
+                        oldC[y * texture.Width + x] = Color.White;
+                    else
+                        oldC[y * texture.Width + x] = Color.White * 0;
+                }
+            }
+
+
+            texture.SetData<Color>(oldC);
+            return texture;
+        }
+
+
 
         public override Rectangle GetPosition()
         {
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
 
-        public bool IsSelected { get; set; }
+        public bool OnFocus { get; set; }
+        public bool IsEaten { get; set; }
     }
 }

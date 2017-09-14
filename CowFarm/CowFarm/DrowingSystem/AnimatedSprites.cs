@@ -5,7 +5,7 @@ namespace CowFarm.DrowingSystem
 {
     public class AnimatedSprites
     {
-        public Texture2D Animation { get; }
+        public Texture2D Animation { get; set; }
         public int SpriteWidth { get; }
         public int SpriteHeight { get; }
         private int _framesCounter;

@@ -19,20 +19,24 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Cow : Animal, IEatable
+    public class Cow : Animal
     {
-        private List<IInteractable>[,] _interactableEntities;
+        private readonly List<IInteractable>[,] _interactableEntities;
 
         private Rectangle _sourceRect;
 
         private const float Delay = 200f;
 
+        private int _score;
+
+        //private List<IInteractable> _focusedEntities;
+
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            _focusNumber = 0;
         }
 
         public override Rectangle GetPosition()
@@ -44,22 +48,20 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
-
-        public override void Eat()
+        public override void Eat(IEatable food)
         {
+            if (food is Grass)
+            {
+                _score += 20;
+            }
+            food.IsEaten = true;
 
         }
-
-        public void SetList(List<IInteractable>[,] interactableEntities)
-        {
-            _interactableEntities = interactableEntities;
-        }
-
 
         private Rectangle _rectangle;
-        public IEatable NearbyFood()
+        public List<IEatable> NearbyFood()
         {
-
+            List<IEatable> foodList = new List<IEatable>();
             if (CurrentAnim == RightWalk)
             {
                 _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 22, GetPosition().Y + 27, 40, 40);
@@ -90,11 +92,11 @@ namespace CowFarm.Entities
                     {
                         var food = entity as IEatable;
                         if (food != null)
-                            return food;
+                            foodList.Add(food);
                     }
                 }
             }
-            return null;
+            return foodList;
         }
 
         public override void Load(ContentManager content)
@@ -102,25 +104,54 @@ namespace CowFarm.Entities
 
         }
 
-        private IEatable _food;
+        private IEatable _foodOnFocus;
+        private int _focusNumber;
 
         public override void Update(GameTime gameTime)
         {
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
+            List<IEatable> foodList = NearbyFood();
 
-
-
-            if (NearbyFood() != null)
+            if (_focusNumber < foodList?.Count && foodList[_focusNumber] != null)
             {
-                _food = NearbyFood();
-                _food.IsSelected = true;
+                _foodOnFocus = foodList[_focusNumber];
+                _foodOnFocus.OnFocus = true;
             }
-            if (NearbyFood() != null && NearbyFood() != _food)
+
+            if (foodList != null && foodList.Count != 0 && _focusNumber >= foodList.Count)
+                _focusNumber = 0;
+
+
+            if (_focusNumber < foodList?.Count && foodList[_focusNumber] != _foodOnFocus)
             {
-                _food.IsSelected = false;
-                _food = NearbyFood();
+                _foodOnFocus.OnFocus = false;
+            }
+
+
+
+            //if (NearbyFood() != null)
+            //{
+            //    _food = NearbyFood();
+            //    _food.OnFocus = true;
+            //}
+            //if (_food != null && NearbyFood() != _food || NearbyFood() != null && NearbyFood() != _food)
+            //{
+            //    _food.OnFocus = false;
+            //    _food = NearbyFood();
+            //}
+
+            if (ks.IsKeyDown(Keys.Tab))
+            {
+                if (foodList != null && _focusNumber < foodList.Count)
+                    _focusNumber++;
+                else
+                    _focusNumber = 0;
+            }
+            if (_foodOnFocus != null && ks.IsKeyDown(Keys.E))
+            {
+                Eat(_foodOnFocus);
             }
 
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
@@ -147,12 +178,16 @@ namespace CowFarm.Entities
             }
             else
             {
+
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
         }
 
+
+
         public override void Draw(SpriteBatch spriteBatch)
         {
+
 
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
