@@ -44,5 +44,10 @@ namespace CowFarm.Entities
         {
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
+
+        public override Vector2 GetInteractablePosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width/2, GetPosition().Y+ GetPosition().Y);
+        }
     }
 }

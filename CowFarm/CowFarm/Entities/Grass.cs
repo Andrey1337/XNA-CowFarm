@@ -33,12 +33,11 @@ namespace CowFarm.Entities
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
         }
 
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (OnFocus)
             {
-                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 2, DestRect.Y - 3, DestRect.Width + 4, DestRect.Height + 5), SourceRect, Color.White);
+                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
             }
 
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
@@ -57,44 +56,34 @@ namespace CowFarm.Entities
 
         private Texture2D RepaintRectangle(Texture2D texture)
         {
-            Color[] oldC = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(oldC);
-            Color[,] colorArray = new Color[texture.Height, texture.Width];
+            Color[] color = new Color[texture.Width * texture.Height];
+            texture.GetData<Color>(color);
 
-            for (int y = 0; y < texture.Height; y++)
+            for (int i = 0; i < color.Length; i++)
             {
-                for (int x = 0; x < texture.Width; x++)
+                if (color[i].A > 170)
                 {
-                    colorArray[y, x] = oldC[y * texture.Width + x];
+                    color[i] = Color.White;
+                }
+                else
+                {
+                    color[i].A = 0;
                 }
             }
 
-            oldC = new Color[texture.Width * texture.Height];
-            for (int y = 0; y < texture.Height; y++)
-            {
-                for (int x = 0; x < texture.Width; x++)
-                {
-                    if (colorArray[y, x].A < 180)
-                        oldC[y * texture.Width + x] = Color.White * 0;
-                    else
-                    {
-                        oldC[y * texture.Width + x].R = 255;
-                        oldC[y * texture.Width + x].G = 255;
-                        oldC[y * texture.Width + x].B = 255;
-                    }
-                }
-            }
-
-
-            texture.SetData<Color>(oldC);
+            texture.SetData<Color>(color);
             return texture;
         }
-
 
 
         public override Rectangle GetPosition()
         {
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
+        }
+
+        public override Vector2 GetInteractablePosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }
 
         public bool OnFocus { get; set; }

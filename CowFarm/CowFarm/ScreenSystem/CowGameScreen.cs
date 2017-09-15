@@ -137,7 +137,7 @@ namespace CowFarm.ScreenSystem
         }
 
         public override void Draw(GameTime gameTime)
-        {            
+        {
             ScreenManager.SpriteBatch.Begin();
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);

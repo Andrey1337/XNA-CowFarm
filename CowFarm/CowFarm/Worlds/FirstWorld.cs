@@ -23,7 +23,7 @@ namespace CowFarm.Worlds
 
             Grass grass1 = new Grass(graphics, new Rectangle(100, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass1);
-            Grass grass2 = new Grass(graphics, new Rectangle(150, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
+            Grass grass2 = new Grass(graphics, new Rectangle(170, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass2);
 
             var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
@@ -62,3 +62,4 @@ namespace CowFarm.Worlds
         }
     }
 }
+

@@ -65,19 +65,19 @@ namespace CowFarm.Entities
             List<IInteractable> interactableList = new List<IInteractable>();
             if (CurrentAnim == RightWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 22, GetPosition().Y + 27, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 10, GetPosition().Y + 27, 40, 50);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 40, GetPosition().Y + 27, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X - 20, GetPosition().Y + 27, 40, 50);
             }
             if (CurrentAnim == UpWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + 4, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y, 50, 40);
             }
             if (CurrentAnim == DownWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + CurrentAnim.SpriteHeight - 4, 50, 40);
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 50, 40);
             }
 
             for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
