@@ -38,7 +38,7 @@ namespace CowFarm.Entities
         {
             if (OnFocus)
             {
-                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 1, DestRect.Y - 2, DestRect.Width + 2, DestRect.Height + 3), SourceRect, Color.White);
+                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 2, DestRect.Y - 3, DestRect.Width + 4, DestRect.Height + 5), SourceRect, Color.White);
             }
 
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
@@ -74,10 +74,14 @@ namespace CowFarm.Entities
             {
                 for (int x = 0; x < texture.Width; x++)
                 {
-                    if (colorArray[y, x] == Color.White * 0)
+                    if (colorArray[y, x].A < 180)
                         oldC[y * texture.Width + x] = Color.White * 0;
                     else
-                        oldC[y * texture.Width + x] = Color.White;
+                    {
+                        oldC[y * texture.Width + x].R = 255;
+                        oldC[y * texture.Width + x].G = 255;
+                        oldC[y * texture.Width + x].B = 255;
+                    }
                 }
             }
 
