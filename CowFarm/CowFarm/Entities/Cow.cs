@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -23,13 +24,13 @@ namespace CowFarm.Entities
     {
         private readonly List<IInteractable>[,] _interactableEntities;
 
+        private HashSet<IInteractable> _previousFocusInteractables;
+
         private Rectangle _sourceRect;
 
         private const float Delay = 200f;
 
         private int _score;
-
-        //private List<IInteractable> _focusedEntities;
 
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
@@ -37,6 +38,7 @@ namespace CowFarm.Entities
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             _focusNumber = 0;
+            _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
         }
 
         public override Rectangle GetPosition()
@@ -55,13 +57,12 @@ namespace CowFarm.Entities
                 _score += 20;
             }
             food.IsEaten = true;
-
         }
 
         private Rectangle _rectangle;
-        public List<IEatable> NearbyFood()
+        public IEnumerable<IInteractable> NearbyInteractables()
         {
-            List<IEatable> foodList = new List<IEatable>();
+            List<IInteractable> interactableList = new List<IInteractable>();
             if (CurrentAnim == RightWalk)
             {
                 _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 22, GetPosition().Y + 27, 40, 40);
@@ -76,7 +77,7 @@ namespace CowFarm.Entities
             }
             if (CurrentAnim == DownWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + CurrentAnim.SpriteHeight - 4, 40, 40);
+                _rectangle = new Rectangle(GetPosition().X - 10, GetPosition().Y + CurrentAnim.SpriteHeight - 4, 50, 40);
             }
 
             for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
@@ -88,15 +89,13 @@ namespace CowFarm.Entities
                     if (j < 0 || j >= _interactableEntities.GetLength(1))
                         continue;
                     if (_interactableEntities[i, j] == null) continue;
-                    foreach (var entity in _interactableEntities[i, j])
+                    foreach (var interactable in _interactableEntities[i, j])
                     {
-                        var food = entity as IEatable;
-                        if (food != null)
-                            foodList.Add(food);
+                        interactableList.Add(interactable);
                     }
                 }
             }
-            return foodList;
+            return interactableList;
         }
 
         public override void Load(ContentManager content)
@@ -104,7 +103,7 @@ namespace CowFarm.Entities
 
         }
 
-        private IEatable _foodOnFocus;
+        private IInteractable _interactableOnFocus;
         private int _focusNumber;
 
         public override void Update(GameTime gameTime)
@@ -112,47 +111,37 @@ namespace CowFarm.Entities
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
-            List<IEatable> foodList = NearbyFood();
+            var savedList = NearbyInteractables();
+            List<IInteractable> interactablesList = savedList.ToList();
 
-            if (_focusNumber < foodList?.Count && foodList[_focusNumber] != null)
-            {
-                _foodOnFocus = foodList[_focusNumber];
-                _foodOnFocus.OnFocus = true;
-            }
 
-            if (foodList != null && foodList.Count != 0 && _focusNumber >= foodList.Count)
+            if (_focusNumber >= interactablesList.Count)
                 _focusNumber = 0;
 
-
-            if (_focusNumber < foodList?.Count && foodList[_focusNumber] != _foodOnFocus)
+            if (_focusNumber < interactablesList?.Count && interactablesList[_focusNumber] != null)
             {
-                _foodOnFocus.OnFocus = false;
+                _interactableOnFocus = interactablesList[_focusNumber];
+                _interactableOnFocus.OnFocus = true;
+
             }
 
+            _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
-
-            //if (NearbyFood() != null)
+            //foreach (var interactable in _previousFocusInteractables)
             //{
-            //    _food = NearbyFood();
-            //    _food.OnFocus = true;
-            //}
-            //if (_food != null && NearbyFood() != _food || NearbyFood() != null && NearbyFood() != _food)
-            //{
-            //    _food.OnFocus = false;
-            //    _food = NearbyFood();
+            //    if (!interactablesList.Contains(interactable))
+            //    {
+            //        interactable.OnFocus = false;
+            //    }
             //}
 
-            if (ks.IsKeyDown(Keys.Tab))
-            {
-                if (foodList != null && _focusNumber < foodList.Count)
-                    _focusNumber++;
-                else
-                    _focusNumber = 0;
-            }
-            if (_foodOnFocus != null && ks.IsKeyDown(Keys.E))
-            {
-                Eat(_foodOnFocus);
-            }
+            //if (ks.IsKeyDown(Keys.Tab))
+            //{
+            //    if (interactablesList.Count != 0 && _focusNumber >= interactablesList.Count)
+            //        _focusNumber = 0;
+            //    else
+            //        _focusNumber++;
+            //}
 
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
             {
@@ -181,6 +170,8 @@ namespace CowFarm.Entities
 
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
+
+            _previousFocusInteractables = new HashSet<IInteractable>(savedList);
         }
 
 

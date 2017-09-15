@@ -15,11 +15,12 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
+        private readonly Texture2D _reapaintTexture;
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)
         {
-            //OnFocus = false;
-            //IsEaten = false;
+
+            _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
         }
 
         public override void Load(ContentManager content)
@@ -35,15 +36,12 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D copyTexture = CopyTexture(PlantMovement.Animation);
             if (OnFocus)
             {
-                var back = RepaintRectangle(copyTexture, SourceRect, Color.White);
-                spriteBatch.Draw(back, new Rectangle(DestRect.X - 1, DestRect.Y - 2, DestRect.Width + 2, DestRect.Height + 3), SourceRect, Color.White);
+                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 1, DestRect.Y - 2, DestRect.Width + 2, DestRect.Height + 3), SourceRect, Color.White);
             }
 
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
-
         }
 
         private Texture2D CopyTexture(Texture2D texture)
@@ -57,10 +55,8 @@ namespace CowFarm.Entities
             return copyTexture;
         }
 
-        public Texture2D RepaintRectangle(Texture2D texture,
-            Rectangle rect, Color newColor)
+        private Texture2D RepaintRectangle(Texture2D texture)
         {
-
             Color[] oldC = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(oldC);
             Color[,] colorArray = new Color[texture.Height, texture.Width];
@@ -78,10 +74,10 @@ namespace CowFarm.Entities
             {
                 for (int x = 0; x < texture.Width; x++)
                 {
-                    if (colorArray[y, x] != Color.White * 0)
-                        oldC[y * texture.Width + x] = Color.White;
-                    else
+                    if (colorArray[y, x] == Color.White * 0)
                         oldC[y * texture.Width + x] = Color.White * 0;
+                    else
+                        oldC[y * texture.Width + x] = Color.White;
                 }
             }
 

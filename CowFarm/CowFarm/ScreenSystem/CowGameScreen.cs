@@ -137,17 +137,13 @@ namespace CowFarm.ScreenSystem
         }
 
         public override void Draw(GameTime gameTime)
-        {
-            //_graphicsDevice.Clear(new Color(57, 172, 57));
-
+        {            
             ScreenManager.SpriteBatch.Begin();
-
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
             ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(700, 5), Color.White);
             DrawTime();
-
 
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);

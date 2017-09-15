@@ -15,12 +15,10 @@ namespace CowFarm.Worlds
         protected GraphicsDeviceManager Graphics;
         protected ScreenManager ScreenManager;
 
-        public List<Entity>[] StaticEntities;
+        protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
 
         public List<IInteractable>[,] InteractableEntities;
-
-        //protected GrassGenerator GrassGenerator;
 
         protected Dictionary<string, Texture2D> GameTextures;
 
@@ -64,11 +62,12 @@ namespace CowFarm.Worlds
                 StaticEntities[yPos].Add(staticEntity);
         }
 
-
+        private int num = 0;
         public virtual void Update(GameTime gameTime)
         {
-            UpdateInteractable();           
-            //GrassGenerator.Generate(StaticEntities, DateTime.Now);
+            UpdateInteractable();
+
+            UpdateInteractable();
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
