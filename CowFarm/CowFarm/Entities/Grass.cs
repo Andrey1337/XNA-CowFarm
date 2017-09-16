@@ -18,8 +18,7 @@ namespace CowFarm.Entities
         private readonly Texture2D _reapaintTexture;
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)
-        {
-
+        {        
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
         }
 
@@ -81,7 +80,7 @@ namespace CowFarm.Entities
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
 
-        public override Vector2 GetInteractablePosition()
+        public Vector2 GetInteractablePosition()
         {
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }

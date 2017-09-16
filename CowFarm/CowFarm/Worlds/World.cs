@@ -61,8 +61,7 @@ namespace CowFarm.Worlds
             else
                 StaticEntities[yPos].Add(staticEntity);
         }
-
-        private int num = 0;
+       
         public virtual void Update(GameTime gameTime)
         {
             UpdateInteractable();
@@ -84,21 +83,20 @@ namespace CowFarm.Worlds
                 if (StaticEntities[i] == null) continue;
                 foreach (var entity in StaticEntities[i])
                 {
-                    if (!(entity is IInteractable)) continue;
-                    var plant = entity as Plant;
+                    var interactable = entity as IInteractable;
 
-                    if (plant == null) continue;
+                    if (interactable == null) continue;
 
-                    var position = plant.GetInteractablePosition();
+                    var position = interactable.GetInteractablePosition();
 
                     if (InteractableEntities[(int)position.X, (int)position.Y] == null)
                     {
                         InteractableEntities[(int)position.X, (int)position.Y] =
-                            new List<IInteractable>() { (IInteractable)plant };
+                            new List<IInteractable>() { interactable };
                     }
                     else
                     {
-                        InteractableEntities[(int)position.X, (int)position.Y].Add((IInteractable)plant);
+                        InteractableEntities[(int)position.X, (int)position.Y].Add(interactable);
                     }
                 }
             }

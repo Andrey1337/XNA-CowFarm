@@ -25,6 +25,7 @@ namespace CowFarm.Entities
         private readonly List<IInteractable>[,] _interactableEntities;
 
         private HashSet<IInteractable> _previousFocusInteractables;
+        private int _prevHash;
 
         private Rectangle _sourceRect;
 
@@ -39,13 +40,14 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             _focusNumber = 0;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
+            _prevHash = NearbyInteractables().GetHashCode();
         }
 
         public override Rectangle GetPosition()
         {
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= 27;
-            vector.Y -= 27;
+            vector.X -= (float)CurrentAnim.SpriteWidth / 2;
+            vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
 
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
@@ -65,19 +67,19 @@ namespace CowFarm.Entities
             List<IInteractable> interactableList = new List<IInteractable>();
             if (CurrentAnim == RightWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 10, GetPosition().Y + 27, 40, 50);
+                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 10, GetPosition().Y + CurrentAnim.SpriteHeight / 2, 40, 50);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 20, GetPosition().Y + 27, 40, 50);
+                _rectangle = new Rectangle(GetPosition().X - 40 + 10, GetPosition().Y + CurrentAnim.SpriteHeight / 2, 40, 50);
             }
             if (CurrentAnim == UpWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y, 50, 40);
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y, 50, (int)(GetPosition().Height * 0.8));
             }
             if (CurrentAnim == DownWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 50, 40);
+                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 50, (int)(GetPosition().Height * 0.8));
             }
 
             for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
@@ -106,6 +108,7 @@ namespace CowFarm.Entities
         private IInteractable _interactableOnFocus;
         private int _focusNumber;
 
+
         public override void Update(GameTime gameTime)
         {
             HandleUserAgent();
@@ -114,16 +117,23 @@ namespace CowFarm.Entities
             var savedList = NearbyInteractables();
             List<IInteractable> interactablesList = savedList.ToList();
 
+            //var currentHash = interactablesList.GetHashCode();
+            //if (currentHash == _prevHash)
+            //{
+            //    _focusNumber = 0;
+            //}
 
-            if (_focusNumber >= interactablesList.Count)
-                _focusNumber = 0;
+            //if (_focusNumber >= interactablesList.Count)
+            //    _focusNumber = 0;
 
-            if (_focusNumber < interactablesList?.Count && interactablesList[_focusNumber] != null)
-            {
-                _interactableOnFocus = interactablesList[_focusNumber];
-                _interactableOnFocus.OnFocus = true;
+            //if (_focusNumber < interactablesList?.Count && interactablesList[_focusNumber] != null)
+            //{
+            //    _interactableOnFocus = interactablesList[_focusNumber];
+            //    _interactableOnFocus.OnFocus = true;
 
-            }
+            //}
+            interactablesList.ForEach(interactables => interactables.OnFocus = true);
+
 
             _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
@@ -183,13 +193,13 @@ namespace CowFarm.Entities
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
 
-        Vector2 _force = new Vector2(0, 0);
+        private Vector2 _force = new Vector2(0, 0);
         public void HandleUserAgent()
         {
             _force = new Vector2(0, 0);
 
-            float forceAmountX = 1.5f;
-            float forceAmountY = 1f;
+            const float forceAmountX = 1.5f;
+            const float forceAmountY = 1f;
 
             KeyboardState input = Keyboard.GetState();
 

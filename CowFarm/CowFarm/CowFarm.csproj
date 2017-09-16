@@ -70,7 +70,6 @@
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />
     <Compile Include="Entities\Cow.cs" />
     <Compile Include="Entities\Tree.cs" />
-    <Compile Include="EntityYPositionComparer.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />

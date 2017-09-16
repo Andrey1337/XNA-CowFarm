@@ -27,7 +27,6 @@ namespace CowFarm.Entities
             this.PlantMovement = plantMovement;
             this.ObjectMovingType = ObjectMovingType.Static;
         }
-
-        public abstract Vector2 GetInteractablePosition();
+       
     }
 }
