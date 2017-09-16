@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
@@ -79,7 +80,7 @@ namespace CowFarm.ScreenSystem
                 LoadCow();
                 RockLoad();
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
-
+                
                 CreateCow();
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;

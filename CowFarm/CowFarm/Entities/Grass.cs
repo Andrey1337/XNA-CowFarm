@@ -18,7 +18,7 @@ namespace CowFarm.Entities
         private readonly Texture2D _reapaintTexture;
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
             : base(graphics, destRect, grassMovement)
-        {        
+        {
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
         }
 
@@ -53,14 +53,14 @@ namespace CowFarm.Entities
             return copyTexture;
         }
 
-        private Texture2D RepaintRectangle(Texture2D texture)
+        private static Texture2D RepaintRectangle(Texture2D texture)
         {
             Color[] color = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(color);
 
             for (int i = 0; i < color.Length; i++)
             {
-                if (color[i].A > 170)
+                if (color[i].A > 180)
                 {
                     color[i] = Color.White;
                 }

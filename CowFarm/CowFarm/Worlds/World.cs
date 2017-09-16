@@ -18,7 +18,7 @@ namespace CowFarm.Worlds
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities;
 
-        public List<IInteractable>[,] InteractableEntities;
+        public HashSet<IInteractable>[,] InteractableEntities;
 
         protected Dictionary<string, Texture2D> GameTextures;
 
@@ -33,7 +33,7 @@ namespace CowFarm.Worlds
             GameTextures = gameTextures;
 
             InteractableEntities =
-                new List<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
+                new HashSet<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
@@ -61,7 +61,7 @@ namespace CowFarm.Worlds
             else
                 StaticEntities[yPos].Add(staticEntity);
         }
-       
+
         public virtual void Update(GameTime gameTime)
         {
             UpdateInteractable();
@@ -92,11 +92,12 @@ namespace CowFarm.Worlds
                     if (InteractableEntities[(int)position.X, (int)position.Y] == null)
                     {
                         InteractableEntities[(int)position.X, (int)position.Y] =
-                            new List<IInteractable>() { interactable };
+                            new HashSet<IInteractable>() { interactable };
                     }
                     else
                     {
-                        InteractableEntities[(int)position.X, (int)position.Y].Add(interactable);
+                        if (!InteractableEntities[(int)position.X, (int)position.Y].Contains(interactable))
+                            InteractableEntities[(int)position.X, (int)position.Y].Add(interactable);
                     }
                 }
             }

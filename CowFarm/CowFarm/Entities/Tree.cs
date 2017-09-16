@@ -27,7 +27,7 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
-            //_reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+            _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
         }
 
         public override void Load(ContentManager content)
@@ -42,10 +42,10 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //if (OnFocus)
-            //{
-            //    spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
-            //}
+            if (OnFocus)
+            {
+                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
+            }
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
         }
 
@@ -89,7 +89,7 @@ namespace CowFarm.Entities
 
         public Vector2 GetInteractablePosition()
         {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Y);
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }
 
         public bool OnFocus { get; set; }
