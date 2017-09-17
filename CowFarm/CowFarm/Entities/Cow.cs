@@ -30,11 +30,12 @@ namespace CowFarm.Entities
 
         private const float Delay = 200f;
 
-        private int _score;
+        public int Score;
 
         public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
+
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             _focusNumber = 0;
@@ -58,69 +59,175 @@ namespace CowFarm.Entities
 
         public override void Eat(IEatable food)
         {
+            food.Interact();
+            if (food is Grass)
+                Score += 20;
 
         }
 
         private Rectangle _rectangle;
+
         public IEnumerable<IInteractable> NearbyInteractables()
         {
             List<IInteractable> interactableList = new List<IInteractable>();
             if (CurrentAnim == RightWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20, GetPosition().Y + CurrentAnim.SpriteHeight / 4, 100, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
+                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20,
+                    GetPosition().Y + CurrentAnim.SpriteHeight / 4, 100,
+                    GetPosition().Y + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + 20 - 100, GetPosition().Y + CurrentAnim.SpriteHeight / 4, 100, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
+                _rectangle = new Rectangle(GetPosition().X + 20 - 100, GetPosition().Y + CurrentAnim.SpriteHeight / 4,
+                    100, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == UpWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y - 50, GetPosition().Width + 5 * 2, GetPosition().Height + 40);
+                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y - 50, GetPosition().Width + 5 * 2,
+                    GetPosition().Height + 40);
             }
             if (CurrentAnim == DownWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y + GetPosition().Height, GetPosition().Width + 5 * 2, GetPosition().Height);
+                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y + GetPosition().Height,
+                    GetPosition().Width + 5 * 2, GetPosition().Height);
             }
 
-            for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
+            if (CurrentAnim == RightWalk)
             {
-                if (i < 0 || i >= _interactableEntities.GetLength(0))
-                    continue;
-                for (int j = _rectangle.Y; j < _rectangle.Y + _rectangle.Height; j++)
+                int middleY = _rectangle.Y + _rectangle.Height / 2;
+
+                for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
                 {
-                    if (j < 0 || j >= _interactableEntities.GetLength(1))
+                    if (i < 0 || i >= _interactableEntities.GetLength(0))
                         continue;
-                    if (_interactableEntities[i, j] == null) continue;
-                    foreach (var interactable in _interactableEntities[i, j])
+                    for (int j = 0; j < +_rectangle.Height / 2; j++)
                     {
-                        if (!interactable.CanInteract) continue;
-                        var grass = interactable as Grass;
-                        if (grass != null && Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) <
-                            60)
-                        {
-                            if ((CurrentAnim == RightWalk || CurrentAnim == LeftWalk || CurrentAnim == DownWalk) &&
-                                Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 60)
+                        if (middleY - j < 0 || middleY + j >= _interactableEntities.GetLength(1))
+                            continue;
+
+                        if (_interactableEntities[i, middleY + j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY + j])
                             {
-                                interactableList.Add(interactable);
-                                continue;
+                                AddInteractableToList(interactable, interactableList);
                             }
 
-                            if (Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 40)
-                                interactableList.Add(interactable);
-                        }
-
-                        //var tree = interactable as Tree;
-                        //if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
-                        //{
-                        //    interactableList.Add(interactable);
-                        //    continue;
-                        //}
-
+                        if (_interactableEntities[i, middleY - j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY - j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
                     }
                 }
             }
+            if (CurrentAnim == LeftWalk)
+            {
+                int middleY = _rectangle.Y + _rectangle.Height / 2;
+                for (int i = _rectangle.X + _rectangle.Width; i > _rectangle.X; i--)
+                {
+                    if (i < 0 || i >= _interactableEntities.GetLength(0))
+                        continue;
+                    for (int j = 0; j < +_rectangle.Height / 2; j++)
+                    {
+                        if (middleY - j < 0 || middleY + j >= _interactableEntities.GetLength(1))
+                            continue;
+
+                        if (_interactableEntities[i, middleY + j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY + j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+
+                        if (_interactableEntities[i, middleY - j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY - j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+                    }
+                }
+            }
+            if (CurrentAnim == UpWalk)
+            {
+                int middleX = _rectangle.X + _rectangle.Width / 2;
+                for (int j = _rectangle.Y + _rectangle.Height; j > _rectangle.Y; j--)
+                {
+                    if (j < 0 || j >= _interactableEntities.GetLength(0))
+                        continue;
+                    for (int i = 0; i < _rectangle.Width / 2; i++)
+                    {
+                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(1))
+                            continue;
+                        if (_interactableEntities[middleX + i, j] != null)
+                            foreach (var interactable in _interactableEntities[middleX + i, j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+
+                        if (_interactableEntities[middleX - i, j] != null)
+                            foreach (var interactable in _interactableEntities[middleX - i, j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+                    }
+                }
+            }
+
+            if (CurrentAnim == DownWalk)
+            {
+                int middleX = _rectangle.X + _rectangle.Width / 2;
+                for (int j = _rectangle.Y; j < _rectangle.Y + +_rectangle.Height; j++)
+                {
+                    if (j < 0 || j >= _interactableEntities.GetLength(0))
+                        continue;
+                    for (int i = 0; i < _rectangle.Width / 2; i++)
+                    {
+                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(1))
+                            continue;
+                        if (_interactableEntities[middleX + i, j] != null)
+                            foreach (var interactable in _interactableEntities[middleX + i, j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+
+                        if (_interactableEntities[middleX - i, j] != null)
+                            foreach (var interactable in _interactableEntities[middleX - i, j])
+                            {
+                                AddInteractableToList(interactable, interactableList);
+                            }
+                    }
+                }
+
+
+            }
             return interactableList;
         }
+
+        private void AddInteractableToList(IInteractable interactable, List<IInteractable> interactableList)
+        {
+            if (!interactable.CanInteract) return;
+            var grass = interactable as Grass;
+            if (grass != null &&
+                Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) <
+                60)
+            {
+                if ((CurrentAnim == RightWalk || CurrentAnim == LeftWalk || CurrentAnim == DownWalk) &&
+                    Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 60)
+                {
+                    interactableList.Add(interactable);
+                    return;
+                }
+
+                if (Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 40)
+                    interactableList.Add(interactable);
+            }
+            //var tree = interactable as Tree;
+            //if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
+            //{
+            //    interactableList.Add(interactable);
+            //    continue;
+            //}
+
+        }
+
 
         public override void Load(ContentManager content)
         {
@@ -161,8 +268,8 @@ namespace CowFarm.Entities
                 _focusNumber = 0;
             }
 
-            if (_previousInteractableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus)
-                _previousInteractableOnFocus.OnFocus = false;
+            if (_previousInteractableOnFocus != null && interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactables.Count)
+                if (_previousInteractableOnFocus != null) _previousInteractableOnFocus.OnFocus = false;
 
             _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
@@ -188,7 +295,9 @@ namespace CowFarm.Entities
             if (_eKeyIsPressed && ks.IsKeyUp(Keys.E))
             {
                 _eKeyIsPressed = false;
-                interactableOnFocus?.Interact();
+                var food = interactableOnFocus as IEatable;
+                if (food != null)
+                    Eat(food);
             }
 
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))

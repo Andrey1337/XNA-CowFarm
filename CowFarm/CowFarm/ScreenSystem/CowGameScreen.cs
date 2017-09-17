@@ -119,7 +119,6 @@ namespace CowFarm.ScreenSystem
         private void RockLoad()
         {
             _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
-
         }
 
         private void LoadFonts()
@@ -146,6 +145,8 @@ namespace CowFarm.ScreenSystem
             ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
             DrawTime();
 
+
+            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(10, 16), Color.Black);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }

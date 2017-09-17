@@ -62,10 +62,12 @@ namespace CowFarm.Worlds
                 StaticEntities[yPos].Add(staticEntity);
         }
 
+        private int _num = 0;
         public virtual void Update(GameTime gameTime)
         {
-            UpdateInteractable();
-
+            if (_num == 0)
+                UpdateInteractable();
+            _num++;
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));

@@ -38,9 +38,12 @@ namespace CowFarm.Entities
             if (OnFocus)
             {
                 spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
+                spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
             }
-
-            spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+            else
+            {
+                spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+            }
         }
 
         private Texture2D CopyTexture(Texture2D texture)
@@ -54,7 +57,7 @@ namespace CowFarm.Entities
             return copyTexture;
         }
 
-        private static Texture2D RepaintRectangle(Texture2D texture)
+        public static Texture2D RepaintRectangle(Texture2D texture)
         {
             Color[] color = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(color);
@@ -92,7 +95,6 @@ namespace CowFarm.Entities
         {
             IsEaten = false;
             CanInteract = false;
-
         }
 
         public bool OnFocus { get; set; }
