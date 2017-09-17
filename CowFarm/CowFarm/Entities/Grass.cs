@@ -20,6 +20,7 @@ namespace CowFarm.Entities
             : base(graphics, destRect, grassMovement)
         {
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+            CanInteract = true;
         }
 
         public override void Load(ContentManager content)
@@ -80,12 +81,22 @@ namespace CowFarm.Entities
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
 
+
+
         public Vector2 GetInteractablePosition()
         {
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }
 
+        public void Interact()
+        {
+            IsEaten = false;
+            CanInteract = false;
+
+        }
+
         public bool OnFocus { get; set; }
         public bool IsEaten { get; set; }
+        public bool CanInteract { get; set; }
     }
 }

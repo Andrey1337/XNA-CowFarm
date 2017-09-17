@@ -40,7 +40,6 @@ namespace CowFarm.Entities
             _focusNumber = 0;
 
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
-
         }
 
         public override Rectangle GetPosition()
@@ -59,11 +58,7 @@ namespace CowFarm.Entities
 
         public override void Eat(IEatable food)
         {
-            if (food is Grass)
-            {
-                _score += 20;
-            }
-            food.IsEaten = true;
+
         }
 
         private Rectangle _rectangle;
@@ -80,13 +75,11 @@ namespace CowFarm.Entities
             }
             if (CurrentAnim == UpWalk)
             {
-                //_rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 10, 50, GetPosition().Height);
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y - 10, 50, GetPosition().Height);
+                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y - 50, GetPosition().Width + 5 * 2, GetPosition().Height + 40);
             }
             if (CurrentAnim == DownWalk)
             {
-                //_rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 50, (int)(GetPosition().Height * 0.8));
-                _rectangle = new Rectangle(GetPosition().X, GetPosition().Y + GetPosition().Height, 50, (int)(GetPosition().Height * 0.8));
+                _rectangle = new Rectangle(GetPosition().X - 5, GetPosition().Y + GetPosition().Height, GetPosition().Width + 5 * 2, GetPosition().Height);
             }
 
             for (int i = _rectangle.X; i < _rectangle.X + _rectangle.Width; i++)
@@ -100,32 +93,32 @@ namespace CowFarm.Entities
                     if (_interactableEntities[i, j] == null) continue;
                     foreach (var interactable in _interactableEntities[i, j])
                     {
+                        if (!interactable.CanInteract) continue;
                         var grass = interactable as Grass;
-                        if (grass != null && Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 60)
+                        if (grass != null && Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) <
+                            60)
                         {
-                            interactableList.Add(interactable);
-                            continue;
+                            if ((CurrentAnim == RightWalk || CurrentAnim == LeftWalk || CurrentAnim == DownWalk) &&
+                                Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 60)
+                            {
+                                interactableList.Add(interactable);
+                                continue;
+                            }
+
+                            if (Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 40)
+                                interactableList.Add(interactable);
                         }
 
-                        var tree = interactable as Tree;
-                        if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
-                        {
-                            interactableList.Add(interactable);
-                            continue;
-                        }
+                        //var tree = interactable as Tree;
+                        //if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
+                        //{
+                        //    interactableList.Add(interactable);
+                        //    continue;
+                        //}
 
                     }
                 }
             }
-
-            if (interactableList.Count > 0 && interactableList[0] != null)
-            {
-                var str = Vector2.Distance(GetCenterPosition(),
-                    new Vector2(interactableList[0].GetInteractablePosition().X,
-                        interactableList[0].GetInteractablePosition().Y));
-                Debug.WriteLine(str);
-            }
-
             return interactableList;
         }
 
@@ -134,9 +127,12 @@ namespace CowFarm.Entities
 
         }
 
-        private IInteractable _prevInteractableOnFocus;
+        private IInteractable _previousInteractableOnFocus;
 
         private int _focusNumber;
+
+        private bool _tabKeyIsPressed;
+        private bool _eKeyIsPressed;
 
         public override void Update(GameTime gameTime)
         {
@@ -147,9 +143,10 @@ namespace CowFarm.Entities
 
             var savedList = NearbyInteractables();
 
-            List<IInteractable> interactablesList = savedList.ToList();
+            var interactables = savedList as IList<IInteractable> ?? savedList.ToList();
+            List<IInteractable> interactablesList = interactables.ToList();
 
-            HashSet<IInteractable> hash = new HashSet<IInteractable>(savedList);
+            HashSet<IInteractable> hash = new HashSet<IInteractable>(interactables);
 
             if (hash.SequenceEqual(_previousFocusInteractables))
             {
@@ -158,15 +155,24 @@ namespace CowFarm.Entities
                     interactablesList[_focusNumber].OnFocus = true;
                     interactableOnFocus = interactablesList[_focusNumber];
                 }
-                //interactablesList.ForEach(interactables => interactables.OnFocus = true);
+            }
+            else
+            {
+                _focusNumber = 0;
             }
 
+            if (_previousInteractableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus)
+                _previousInteractableOnFocus.OnFocus = false;
 
             _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
             if (ks.IsKeyDown(Keys.Tab))
+                _tabKeyIsPressed = true;
+
+            if (_tabKeyIsPressed && ks.IsKeyUp(Keys.Tab))
             {
-                if (_focusNumber > interactablesList.Count)
+                _tabKeyIsPressed = false;
+                if (_focusNumber >= interactablesList.Count)
                 {
                     _focusNumber = 0;
                 }
@@ -174,6 +180,15 @@ namespace CowFarm.Entities
                 {
                     _focusNumber++;
                 }
+            }
+            Debug.WriteLine(_focusNumber);
+            if (ks.IsKeyDown(Keys.E))
+                _eKeyIsPressed = true;
+
+            if (_eKeyIsPressed && ks.IsKeyUp(Keys.E))
+            {
+                _eKeyIsPressed = false;
+                interactableOnFocus?.Interact();
             }
 
             if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
@@ -203,8 +218,8 @@ namespace CowFarm.Entities
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
 
-            _previousFocusInteractables = new HashSet<IInteractable>(savedList);
-            _prevInteractableOnFocus = interactableOnFocus;
+            _previousFocusInteractables = new HashSet<IInteractable>(interactables);
+            _previousInteractableOnFocus = interactableOnFocus;
 
         }
 

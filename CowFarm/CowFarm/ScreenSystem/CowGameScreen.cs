@@ -80,7 +80,7 @@ namespace CowFarm.ScreenSystem
                 LoadCow();
                 RockLoad();
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
-                
+
                 CreateCow();
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
@@ -143,7 +143,7 @@ namespace CowFarm.ScreenSystem
 
             _world.Draw(gameTime, ScreenManager.SpriteBatch);
 
-            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(700, 5), Color.White);
+            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
             DrawTime();
 
             ScreenManager.SpriteBatch.End();
@@ -157,12 +157,12 @@ namespace CowFarm.ScreenSystem
             var inGametime = DateTime.Now - _world.GameStartedTime;
             if (!_escapeKeyPressed)
             {
-                ScreenManager.SpriteBatch.DrawString(_font, inGametime.ToString(@"mm\:ss\.ff"), new Vector2(780, 16), Color.Black);
+                ScreenManager.SpriteBatch.DrawString(_font, inGametime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
                 _timeKeyEscapeWasPressed = inGametime;
             }
             else
             {
-                ScreenManager.SpriteBatch.DrawString(_font, _timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff"), new Vector2(780, 16), Color.Black);
+                ScreenManager.SpriteBatch.DrawString(_font, _timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
             }
         }
 

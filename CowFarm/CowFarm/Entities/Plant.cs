@@ -27,6 +27,6 @@ namespace CowFarm.Entities
             this.PlantMovement = plantMovement;
             this.ObjectMovingType = ObjectMovingType.Static;
         }
-       
+
     }
 }

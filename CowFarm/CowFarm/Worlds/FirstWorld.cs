@@ -19,11 +19,11 @@ namespace CowFarm.Worlds
             : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             _gameTextures = gameTextures;
-            //GrassGenerator = new GrassGenerator(this, graphics, new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10), 6, gameStartedTime);
+                                            
 
             Grass grass1 = new Grass(graphics, new Rectangle(100, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass1);
-            Grass grass2 = new Grass(graphics, new Rectangle(170, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
+            Grass grass2 = new Grass(graphics, new Rectangle(110, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass2);
 
             var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
@@ -34,6 +34,11 @@ namespace CowFarm.Worlds
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
 
             tree = new Tree(this, graphics, new Rectangle(437, 5, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            this.AddStaticEntity(tree);
+
+            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
+
+            tree = new Tree(this, graphics, new Rectangle(900, 55, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
             var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);

@@ -27,8 +27,8 @@ namespace CowFarm
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 900;
-            _graphics.PreferredBackBufferHeight = 700;
+            _graphics.PreferredBackBufferWidth = 1200;
+            _graphics.PreferredBackBufferHeight = 900;
 
             ScreenManager = new ScreenManager(this);
             Components.Add(ScreenManager);
