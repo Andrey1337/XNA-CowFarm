@@ -62,7 +62,6 @@ namespace CowFarm.Entities
             food.Interact();
             if (food is Grass)
                 Score += 20;
-
         }
 
         private Rectangle _rectangle;
@@ -105,14 +104,13 @@ namespace CowFarm.Entities
                         if (middleY - j < 0 || middleY + j >= _interactableEntities.GetLength(1))
                             continue;
 
-                        if (_interactableEntities[i, middleY + j] != null)
-                            foreach (var interactable in _interactableEntities[i, middleY + j])
+                        if (_interactableEntities[i, middleY - j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY - j])
                             {
                                 AddInteractableToList(interactable, interactableList);
                             }
-
-                        if (_interactableEntities[i, middleY - j] != null)
-                            foreach (var interactable in _interactableEntities[i, middleY - j])
+                        if (_interactableEntities[i, middleY + j] != null)
+                            foreach (var interactable in _interactableEntities[i, middleY + j])
                             {
                                 AddInteractableToList(interactable, interactableList);
                             }
@@ -195,9 +193,8 @@ namespace CowFarm.Entities
                             }
                     }
                 }
-
-
             }
+
             return interactableList;
         }
 
@@ -268,8 +265,8 @@ namespace CowFarm.Entities
                 _focusNumber = 0;
             }
 
-            if (_previousInteractableOnFocus != null && interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactables.Count)
-                if (_previousInteractableOnFocus != null) _previousInteractableOnFocus.OnFocus = false;
+            if (_previousInteractableOnFocus != null && (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactables.Count))
+                _previousInteractableOnFocus.OnFocus = false;            
 
             _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
@@ -288,7 +285,6 @@ namespace CowFarm.Entities
                     _focusNumber++;
                 }
             }
-            Debug.WriteLine(_focusNumber);
             if (ks.IsKeyDown(Keys.E))
                 _eKeyIsPressed = true;
 
@@ -329,15 +325,12 @@ namespace CowFarm.Entities
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
-
         }
 
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
 

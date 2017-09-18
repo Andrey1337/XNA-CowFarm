@@ -24,7 +24,6 @@ namespace CowFarm.ScreenSystem
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
-        private readonly GraphicsDevice _graphicsDevice;
 
         private World _world;
 
@@ -60,7 +59,7 @@ namespace CowFarm.ScreenSystem
 
             _contentManager = contentManager;
             _graphics = graphics;
-            _graphicsDevice = graphicsDevice;
+            
 
             HasCursor = true;
 
@@ -146,7 +145,7 @@ namespace CowFarm.ScreenSystem
             DrawTime();
 
 
-            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(10, 16), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
