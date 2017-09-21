@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
+using CowFarm.Enums;
 using CowFarm.Worlds;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Samples;
 using FarseerPhysics.Samples.Demos.Prefabs;
-using FarseerPhysics.Samples.DrawingSystem;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -25,13 +25,12 @@ namespace CowFarm.ScreenSystem
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
 
-        private World _world;
-
-        private Body _rectangle;
-        private Sprite _rectangleSprite;
 
         //Worlds 
-        //private World _rightWorld;
+        private World _world { get; set; }
+        private World _rightWorld { get; set; }
+        public World WorldOnFocus { get; set; }
+
         //private World _leftWorld;
         //private World _upWorld;
         //private World _downWorld;
@@ -40,8 +39,6 @@ namespace CowFarm.ScreenSystem
 
         private Dictionary<string, Texture2D> _gameTextures;
         private SpriteFont _font;
-
-        private int Score { get; set; }
 
         private string _worldSerialize;
         private bool _escapeKeyPressed;
@@ -52,14 +49,15 @@ namespace CowFarm.ScreenSystem
             _gameTextures = null;
             _world = null;
 
-            //_rightWorld = null;
+
+            _rightWorld = null;
             //_leftWorld = null;
             //_upWorld = null;
             //_downWorld = null;
 
             _contentManager = contentManager;
             _graphics = graphics;
-            
+
 
             HasCursor = true;
 
@@ -78,13 +76,18 @@ namespace CowFarm.ScreenSystem
                 LoadFonts();
                 LoadCow();
                 RockLoad();
-                _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                BackGroundLoad();
 
+                _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                _rightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                _world.RightWorld = _rightWorld;
                 CreateCow();
                 _world.AddDynamicEntity(_cow);
                 _cow.Body.BodyType = BodyType.Dynamic;
                 _cow.Body.CollisionCategories = Category.All;
                 _cow.Body.CollidesWith = Category.All;
+
+                WorldOnFocus = _world;
             }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
@@ -94,7 +97,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(_world, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(this, _world, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
@@ -110,7 +113,6 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("grassMovement"));
             _gameTextures.Add("treeMovement", _contentManager.Load<Texture2D>("treeMovement"));
 
-            _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("firstWorldBackGround"));
 
             _gameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("bushMovement"));
         }
@@ -118,6 +120,13 @@ namespace CowFarm.ScreenSystem
         private void RockLoad()
         {
             _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
+        }
+
+        private void BackGroundLoad()
+        {
+            _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("firstWorldBackGround"));
+            _gameTextures.Add("secondWorldBackGround", _contentManager.Load<Texture2D>("secondWorldBackGround"));
+
         }
 
         private void LoadFonts()
@@ -130,7 +139,7 @@ namespace CowFarm.ScreenSystem
         {
             if (!coveredByOtherScreen && !otherScreenHasFocus)
             {
-                _world.Update(gameTime);
+                WorldOnFocus.Update(gameTime);
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
@@ -139,7 +148,7 @@ namespace CowFarm.ScreenSystem
         {
             ScreenManager.SpriteBatch.Begin();
 
-            _world.Draw(gameTime, ScreenManager.SpriteBatch);
+            WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
 
             ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
             DrawTime();
@@ -166,11 +175,8 @@ namespace CowFarm.ScreenSystem
             }
         }
 
-
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
-            //_cow.HandleUserAgent(input);
-
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 //_worldSerialize = "Serialized";
@@ -182,7 +188,18 @@ namespace CowFarm.ScreenSystem
             base.HandleInput(input, gameTime);
         }
 
+        public void ChangeWorld(Animal animal, Direction direction)
+        {
+            WorldOnFocus.RemoveDynamicEntity(animal);
 
-
+            switch (direction)
+            {
+                case Direction.Right:
+                    animal.ChangeWorld(Direction.Right);
+                    WorldOnFocus.RightWorld.AddDynamicEntity(animal);
+                    WorldOnFocus = WorldOnFocus.RightWorld;
+                    break;
+            }
+        }
     }
 }

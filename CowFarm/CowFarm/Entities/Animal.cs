@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Enums;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,7 @@ namespace CowFarm.Entities
         protected AnimatedSprites UpWalk;
         protected AnimatedSprites CurrentAnim;
 
-        public Body Body;
+        public Body Body { get; set; }
 
         protected Rectangle DestRect;
         protected GraphicsDeviceManager Graphics;
@@ -37,6 +38,14 @@ namespace CowFarm.Entities
             this.UpWalk = upWalk;
             this.Graphics = graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
+        }
+
+        public virtual void ChangeWorld(Direction directionOfWorld)
+        {
+            if (directionOfWorld == Direction.Right)
+            {
+                Body.Position = new Vector2(0, (float)GetPosition().Y / 100);
+            }
         }
 
         public abstract void Eat(IEatable entity);

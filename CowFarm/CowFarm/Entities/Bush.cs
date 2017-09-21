@@ -43,6 +43,6 @@ namespace CowFarm.Entities
         public override Rectangle GetPosition()
         {
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
-        }        
+        }
     }
 }

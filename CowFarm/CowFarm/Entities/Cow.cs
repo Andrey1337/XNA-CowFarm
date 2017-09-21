@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
+using CowFarm.Enums;
+using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -30,12 +32,14 @@ namespace CowFarm.Entities
 
         private const float Delay = 200f;
 
+        private CowGameScreen _cowGameScreen;
+
         public int Score;
 
-        public Cow(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+        public Cow(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
         {
-
+            _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             _focusNumber = 0;
@@ -204,10 +208,10 @@ namespace CowFarm.Entities
             var grass = interactable as Grass;
             if (grass != null &&
                 Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) <
-                60)
+                70)
             {
                 if ((CurrentAnim == RightWalk || CurrentAnim == LeftWalk || CurrentAnim == DownWalk) &&
-                    Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 60)
+                    Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 70)
                 {
                     interactableList.Add(interactable);
                     return;
@@ -266,7 +270,7 @@ namespace CowFarm.Entities
             }
 
             if (_previousInteractableOnFocus != null && (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactables.Count))
-                _previousInteractableOnFocus.OnFocus = false;            
+                _previousInteractableOnFocus.OnFocus = false;
 
             _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
@@ -296,31 +300,36 @@ namespace CowFarm.Entities
                     Eat(food);
             }
 
-            if (ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Right))
+            if (_force.X + _force.Y == 0)
             {
-                CurrentAnim = RightWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-
-            }
-            else if (ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Left))
-            {
-                CurrentAnim = LeftWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-            }
-            else if (ks.IsKeyDown(Keys.W) || ks.IsKeyDown(Keys.Up))
-            {
-                CurrentAnim = UpWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-            }
-            else if (ks.IsKeyDown(Keys.S) || ks.IsKeyDown(Keys.Down))
-            {
-                CurrentAnim = DownWalk;
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
             else
             {
+                if (_force.Y < 0)
+                {
+                    CurrentAnim = UpWalk;
+                }
+                if (_force.Y > 0)
+                {
+                    CurrentAnim = DownWalk;
+                }
+                if (_force.X > 0)
+                {
+                    CurrentAnim = RightWalk;
+                }
+                if (_force.X < 0)
+                {
+                    CurrentAnim = LeftWalk;
+                }
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+            }
 
-                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+
+            if (GetPosition().X > Graphics.PreferredBackBufferWidth)
+            {
+                _cowGameScreen.ChangeWorld(this, Direction.Right);
+                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2(1, 1));
             }
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.Entities;
+
 using CowFarm.Generators;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Samples.ScreenSystem;
@@ -21,6 +22,11 @@ namespace CowFarm.Worlds
         public HashSet<IInteractable>[,] InteractableEntities;
 
         protected Dictionary<string, Texture2D> GameTextures;
+
+        public World RightWorld { get; set; }
+        public World LeftWorld { get; set; }
+        public World UpWorld { get; set; }
+        public World DownWorld { get; set; }
 
         public DateTime GameStartedTime { get; set; }
         public TimeSpan TimeInTheGame { get; set; }
@@ -51,6 +57,17 @@ namespace CowFarm.Worlds
         {
             DynamicEntities.Add(dynamicEntity);
         }
+
+        public void RemoveDynamicEntity(Entity dynamicEntity)
+        {
+            if (DynamicEntities.Contains(dynamicEntity))
+                DynamicEntities.Remove(dynamicEntity);
+            else
+            {
+                throw new Exception("Entity doesent exist in world");
+            }
+        }
+
 
         public void AddStaticEntity(Entity staticEntity)
         {

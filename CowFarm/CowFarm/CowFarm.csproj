@@ -64,6 +64,7 @@
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Decoration.cs" />
     <Compile Include="Entities\Rock .cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="IInteractable.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Generators\GrassGenerator.cs" />
     <Compile Include="ObjectMovingType.cs" />
     <Compile Include="Generators\TreeGenerator.cs" />
+    <Compile Include="Worlds\SecondWorld.cs" />
     <Compile Include="Worlds\World.cs" />
     <Compile Include="Generators\Generator .cs" />
     <Compile Include="IEatable.cs" />
@@ -114,6 +116,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
