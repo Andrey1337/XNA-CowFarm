@@ -55,7 +55,10 @@ namespace CowFarm.Worlds
 
         public void AddDynamicEntity(Entity dynamicEntity)
         {
-            DynamicEntities.Add(dynamicEntity);
+            if (DynamicEntities == null)
+                DynamicEntities = new List<Entity>() { dynamicEntity };
+            else
+                DynamicEntities.Add(dynamicEntity);
         }
 
         public void RemoveDynamicEntity(Entity dynamicEntity)
@@ -79,12 +82,11 @@ namespace CowFarm.Worlds
                 StaticEntities[yPos].Add(staticEntity);
         }
 
-        private int _num = 0;
+
         public virtual void Update(GameTime gameTime)
         {
-            if (_num == 0)
-                UpdateInteractable();
-            _num++;
+            UpdateInteractable();
+
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));

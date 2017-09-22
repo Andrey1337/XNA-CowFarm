@@ -42,6 +42,9 @@ namespace CowFarm.Entities
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All;
+            Body.CollidesWith = Category.All;
             _focusNumber = 0;
 
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
@@ -326,11 +329,24 @@ namespace CowFarm.Entities
             }
 
 
-            if (GetPosition().X > Graphics.PreferredBackBufferWidth)
+            if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
-                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2(1, 1));
+                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
+                Body.BodyType = BodyType.Dynamic;
+                Body.CollisionCategories = Category.All;
+                Body.CollidesWith = Category.All;
             }
+
+            if (GetCenterPosition().X < 0)
+            {
+                _cowGameScreen.ChangeWorld(this, Direction.Left);
+                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
+                Body.BodyType = BodyType.Dynamic;
+                Body.CollisionCategories = Category.All;
+                Body.CollidesWith = Category.All;
+            }
+            Debug.WriteLine(GetPosition());
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;

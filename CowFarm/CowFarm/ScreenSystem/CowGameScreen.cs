@@ -80,12 +80,13 @@ namespace CowFarm.ScreenSystem
 
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
                 _rightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+
                 _world.RightWorld = _rightWorld;
+                _rightWorld.LeftWorld = _world;
+
                 CreateCow();
                 _world.AddDynamicEntity(_cow);
-                _cow.Body.BodyType = BodyType.Dynamic;
-                _cow.Body.CollisionCategories = Category.All;
-                _cow.Body.CollidesWith = Category.All;
+
 
                 WorldOnFocus = _world;
             }
@@ -97,7 +98,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(this, _world, _graphics, new Rectangle(100, 100, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(this, _world, _graphics, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
@@ -199,6 +200,12 @@ namespace CowFarm.ScreenSystem
                     WorldOnFocus.RightWorld.AddDynamicEntity(animal);
                     WorldOnFocus = WorldOnFocus.RightWorld;
                     break;
+                case Direction.Left:
+                    animal.ChangeWorld(Direction.Left);
+                    WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
+                    WorldOnFocus = WorldOnFocus.LeftWorld;
+                    break;
+
             }
         }
     }

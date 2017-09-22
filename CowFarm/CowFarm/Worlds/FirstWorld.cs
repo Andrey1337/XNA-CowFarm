@@ -19,41 +19,51 @@ namespace CowFarm.Worlds
             : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             _gameTextures = gameTextures;
-                                            
 
-            Grass grass1 = new Grass(graphics, new Rectangle(100, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
+
+            Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass1);
-            Grass grass2 = new Grass(graphics, new Rectangle(110, 100, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
+            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10));
             AddStaticEntity(grass2);
 
             var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-
             Tree tree = new Tree(this, graphics, new Rectangle(644, 164, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-
             tree = new Tree(this, graphics, new Rectangle(437, 5, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
+            tree = new Tree(this, graphics, new Rectangle(1000, 550, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            this.AddStaticEntity(tree);
 
+            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
+            tree = new Tree(this, graphics, new Rectangle(800, 450, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            this.AddStaticEntity(tree);
+
+            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
             tree = new Tree(this, graphics, new Rectangle(900, 55, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
             var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
-
             Bush bush = new Bush(this, graphics, new Rectangle(100, 150, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
             bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
-            bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
-
+            bush = new Bush(this, graphics, new Rectangle(830, 200, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
+
+            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
+            bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
+            this.AddStaticEntity(bush);
+
             Rock rock = new Rock(this, graphics, new Rectangle(210, 300, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
             this.AddStaticEntity(rock);
 
         }
+
+
 
         public override void Load(ContentManager content)
         {

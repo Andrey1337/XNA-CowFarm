@@ -44,7 +44,12 @@ namespace CowFarm.Entities
         {
             if (directionOfWorld == Direction.Right)
             {
-                Body.Position = new Vector2(0, (float)GetPosition().Y / 100);
+                Body.Position = new Vector2(0, (float)(GetPosition().Y + 1) / 100);
+            }
+
+            if (directionOfWorld == Direction.Left)
+            {
+                Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width) / 100, (float)(GetPosition().Y + 1) / 100);
             }
         }
 
