@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Bush.cs" />
+    <Compile Include="Entities\Cat.cs" />
     <Compile Include="Entities\Decoration.cs" />
+    <Compile Include="Entities\NPC.cs" />
     <Compile Include="Entities\Rock .cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="IInteractable.cs" />

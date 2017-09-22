@@ -72,11 +72,8 @@ namespace CowFarm.ScreenSystem
             if (_worldSerialize == null)
             {
                 _gameTextures = new Dictionary<string, Texture2D>();
-                PlantLoad();
-                LoadFonts();
-                LoadCow();
-                RockLoad();
-                BackGroundLoad();
+
+                LoadAll();
 
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
                 _rightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
@@ -96,9 +93,20 @@ namespace CowFarm.ScreenSystem
             base.LoadContent();
         }
 
+
+        private void LoadAll()
+        {
+            PlantLoad();
+            LoadFonts();
+            LoadCow();
+            LoadCat();
+            RockLoad();
+            BackGroundLoad();
+        }
+
         private void CreateCow()
         {
-            _cow = new Cow(this, _world, _graphics, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(this, _world, _graphics, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
@@ -107,6 +115,14 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("cowLeftWalk"));
             _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("cowUpWalk"));
             _gameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("cowDownWalk"));
+        }
+
+        private void LoadCat()
+        {
+            _gameTextures.Add("catRightWalk", _contentManager.Load<Texture2D>("catRightWalk"));
+            _gameTextures.Add("catLeftWalk", _contentManager.Load<Texture2D>("catLeftWalk"));
+            _gameTextures.Add("catDownWalk", _contentManager.Load<Texture2D>("catUpWalk"));
+            _gameTextures.Add("catUpWalk", _contentManager.Load<Texture2D>("catDownWalk"));
         }
 
         private void PlantLoad()

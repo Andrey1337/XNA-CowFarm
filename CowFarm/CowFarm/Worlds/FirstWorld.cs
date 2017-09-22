@@ -39,7 +39,7 @@ namespace CowFarm.Worlds
             this.AddStaticEntity(tree);
 
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            tree = new Tree(this, graphics, new Rectangle(800, 450, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            tree = new Tree(this, graphics, new Rectangle(150, 450, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             this.AddStaticEntity(tree);
 
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);

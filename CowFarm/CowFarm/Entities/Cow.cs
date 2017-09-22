@@ -36,8 +36,8 @@ namespace CowFarm.Entities
 
         public int Score;
 
-        public Cow(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-        : base(graphics, destRect, currentAnim, rightWalk, leftWalk, downWalk, upWalk)
+        public Cow(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+        : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
@@ -47,6 +47,7 @@ namespace CowFarm.Entities
             Body.CollidesWith = Category.All;
             _focusNumber = 0;
 
+            this.CurrentAnim = rightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
         }
 
@@ -79,13 +80,13 @@ namespace CowFarm.Entities
             if (CurrentAnim == RightWalk)
             {
                 _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20,
-                    GetPosition().Y + CurrentAnim.SpriteHeight / 4, 100,
+                    GetPosition().Y - CurrentAnim.SpriteHeight / 2, 70,
                     GetPosition().Y + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + 20 - 100, GetPosition().Y + CurrentAnim.SpriteHeight / 4,
-                    100, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
+                _rectangle = new Rectangle(GetPosition().X + 20 - 70, GetPosition().Y - CurrentAnim.SpriteHeight / 2,
+                    70, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == UpWalk)
             {

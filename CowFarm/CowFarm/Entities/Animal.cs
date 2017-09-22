@@ -26,11 +26,11 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites currentAnim, AnimatedSprites rightWalk,
+        protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
 
         {
-            this.CurrentAnim = currentAnim;
+            
             this.DestRect = destRect;
             this.RightWalk = rightWalk;
             this.LeftWalk = leftWalk;
@@ -49,7 +49,7 @@ namespace CowFarm.Entities
 
             if (directionOfWorld == Direction.Left)
             {
-                Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width) / 100, (float)(GetPosition().Y + 1) / 100);
+                Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width - 2) / 100, (float)(GetPosition().Y + 1) / 100);
             }
         }
 
