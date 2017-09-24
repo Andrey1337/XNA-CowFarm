@@ -80,16 +80,17 @@ namespace CowFarm.Entities
             if (CurrentAnim == RightWalk)
             {
                 _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20
-                    , GetPosition().Height - CurrentAnim.SpriteHeight / 2
+                    , GetPosition().Y + CurrentAnim.SpriteHeight / 4
                     , 70
-                    , GetPosition().Height + CurrentAnim.SpriteHeight / 2);
+                    , GetPosition().Height + CurrentAnim.SpriteHeight / 3);
+                Debug.WriteLine(_rectangle);
             }
             if (CurrentAnim == LeftWalk)
             {
                 _rectangle = new Rectangle(GetPosition().X + 20 - 70
-                    , GetPosition().Y - CurrentAnim.SpriteHeight / 4
+                    , GetPosition().Y + CurrentAnim.SpriteHeight / 4
                     , 70
-                    , GetPosition().Height + CurrentAnim.SpriteHeight / 2);
+                    , GetPosition().Height + CurrentAnim.SpriteHeight / 3);
             }
             if (CurrentAnim == UpWalk)
             {
