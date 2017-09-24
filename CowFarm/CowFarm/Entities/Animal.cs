@@ -30,7 +30,7 @@ namespace CowFarm.Entities
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
 
         {
-            
+
             this.DestRect = destRect;
             this.RightWalk = rightWalk;
             this.LeftWalk = leftWalk;

@@ -79,14 +79,17 @@ namespace CowFarm.Entities
             List<IInteractable> interactableList = new List<IInteractable>();
             if (CurrentAnim == RightWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20,
-                    GetPosition().Y - CurrentAnim.SpriteHeight / 2, 70,
-                    GetPosition().Y + CurrentAnim.SpriteHeight / 2);
+                _rectangle = new Rectangle(GetPosition().X + CurrentAnim.SpriteWidth - 20
+                    , GetPosition().Height - CurrentAnim.SpriteHeight / 2
+                    , 70
+                    , GetPosition().Height + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == LeftWalk)
             {
-                _rectangle = new Rectangle(GetPosition().X + 20 - 70, GetPosition().Y - CurrentAnim.SpriteHeight / 2,
-                    70, GetPosition().Y + CurrentAnim.SpriteHeight / 2);
+                _rectangle = new Rectangle(GetPosition().X + 20 - 70
+                    , GetPosition().Y - CurrentAnim.SpriteHeight / 4
+                    , 70
+                    , GetPosition().Height + CurrentAnim.SpriteHeight / 2);
             }
             if (CurrentAnim == UpWalk)
             {
@@ -347,7 +350,7 @@ namespace CowFarm.Entities
                 Body.CollisionCategories = Category.All;
                 Body.CollidesWith = Category.All;
             }
-            Debug.WriteLine(GetPosition());
+            //Debug.WriteLine(GetPosition());
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
