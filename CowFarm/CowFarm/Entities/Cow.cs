@@ -32,7 +32,7 @@ namespace CowFarm.Entities
 
         private const float Delay = 200f;
 
-        private CowGameScreen _cowGameScreen;
+        private readonly CowGameScreen _cowGameScreen;
 
         public int Score;
 
@@ -252,6 +252,8 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
+            Debug.WriteLine(gameTime.TotalGameTime);
+
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
@@ -397,6 +399,10 @@ namespace CowFarm.Entities
                 Body.Stop();
             }
 
+            //if (_force.Y != 0 && _force.X != 0)
+            //{
+            //    _force /= (float)1.1;
+            //}
 
             Body.Move(_force);
             Body.ApplyForce(_force);

@@ -35,6 +35,8 @@ namespace CowFarm.ScreenSystem
         //private World _upWorld;
         //private World _downWorld;
 
+        private TimeSpan _inGameTime;
+
         private Cow _cow;
 
         private Dictionary<string, Texture2D> _gameTextures;
@@ -43,12 +45,11 @@ namespace CowFarm.ScreenSystem
         private string _worldSerialize;
         private bool _escapeKeyPressed;
 
-        public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics,
-            GraphicsDevice graphicsDevice)
+        public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
         {
             _gameTextures = null;
             _world = null;
-
+            _inGameTime = new TimeSpan();
 
             _rightWorld = null;
             //_leftWorld = null;
@@ -61,7 +62,7 @@ namespace CowFarm.ScreenSystem
 
             HasCursor = true;
 
-            TransitionOnTime = TimeSpan.FromSeconds(0.7);
+            TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
 
@@ -91,6 +92,50 @@ namespace CowFarm.ScreenSystem
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
 
             base.LoadContent();
+        }
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            if (!coveredByOtherScreen && !otherScreenHasFocus)
+            {
+                if (!_escapeKeyPressed)
+                    _inGameTime += gameTime.ElapsedGameTime;
+                WorldOnFocus.Update(gameTime);
+            }
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            ScreenManager.SpriteBatch.Begin();
+
+            WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
+
+            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
+            DrawTime();
+
+
+            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(100, 16), Color.Black);
+            ScreenManager.SpriteBatch.End();
+            base.Draw(gameTime);
+        }
+        private void DrawTime()
+        {
+            ScreenManager.SpriteBatch.DrawString(_font, _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
+
+
+        }
+
+        public override void HandleInput(InputHelper input, GameTime gameTime)
+        {
+            if (input.IsNewKeyPress(Keys.Escape))
+            {
+                //_worldSerialize = "Serialized";
+
+                _world.TimeInTheGame = DateTime.Now - _world.GameStartedTime;
+                _escapeKeyPressed = true;
+                ExitScreen();
+            }
+            base.HandleInput(input, gameTime);
         }
 
 
@@ -152,58 +197,7 @@ namespace CowFarm.ScreenSystem
             _font = _contentManager.Load<SpriteFont>("gameFont");
         }
 
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
-        {
-            if (!coveredByOtherScreen && !otherScreenHasFocus)
-            {
-                WorldOnFocus.Update(gameTime);
-            }
-            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-        }
 
-        public override void Draw(GameTime gameTime)
-        {
-            ScreenManager.SpriteBatch.Begin();
-
-            WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
-
-            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
-            DrawTime();
-
-
-            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(100, 16), Color.Black);
-            ScreenManager.SpriteBatch.End();
-            base.Draw(gameTime);
-        }
-
-        private TimeSpan _timeKeyEscapeWasPressed;
-
-        private void DrawTime()
-        {
-            var inGametime = DateTime.Now - _world.GameStartedTime;
-            if (!_escapeKeyPressed)
-            {
-                ScreenManager.SpriteBatch.DrawString(_font, inGametime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
-                _timeKeyEscapeWasPressed = inGametime;
-            }
-            else
-            {
-                ScreenManager.SpriteBatch.DrawString(_font, _timeKeyEscapeWasPressed.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
-            }
-        }
-
-        public override void HandleInput(InputHelper input, GameTime gameTime)
-        {
-            if (input.IsNewKeyPress(Keys.Escape))
-            {
-                //_worldSerialize = "Serialized";
-
-                _world.TimeInTheGame = DateTime.Now - _world.GameStartedTime;
-                _escapeKeyPressed = true;
-                ExitScreen();
-            }
-            base.HandleInput(input, gameTime);
-        }
 
         public void ChangeWorld(Animal animal, Direction direction)
         {

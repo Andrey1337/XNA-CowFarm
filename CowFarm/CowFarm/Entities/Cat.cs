@@ -23,6 +23,9 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateRectangle(world, 0.28f, 0.08f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
+
+            SpeedX = 1.5f;
+            SpeedY = 1f;
         }
 
         public override void Load(ContentManager content)
@@ -51,8 +54,8 @@ namespace CowFarm.Entities
                 CurrentAnim = UpWalk;
             }
             _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-            
-            Debug.WriteLine(_sourceRect);
+
+           // Debug.WriteLine(_sourceRect);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

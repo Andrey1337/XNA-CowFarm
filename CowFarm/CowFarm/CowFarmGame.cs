@@ -41,7 +41,7 @@ namespace CowFarm
 
         protected override void Initialize()
         {
-            CowGameScreen firstWorld = new CowGameScreen(Content, _graphics, GraphicsDevice);
+            CowGameScreen firstWorld = new CowGameScreen(Content, _graphics);
 
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
