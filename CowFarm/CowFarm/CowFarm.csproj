@@ -61,6 +61,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparables\PositionYComparer.cs" />
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Cat.cs" />
     <Compile Include="Entities\Decoration.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />
     <Compile Include="Generators\GrassGenerator.cs" />
-    <Compile Include="ObjectMovingType.cs" />
+    <Compile Include="Enums\ObjectMovingType.cs" />
     <Compile Include="Generators\TreeGenerator.cs" />
     <Compile Include="Worlds\SecondWorld.cs" />
     <Compile Include="Worlds\World.cs" />

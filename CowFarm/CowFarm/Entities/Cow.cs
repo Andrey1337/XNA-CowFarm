@@ -34,7 +34,6 @@ namespace CowFarm.Entities
 
         private readonly CowGameScreen _cowGameScreen;
 
-        public int Score;
 
         public Cow(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
         : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
@@ -69,7 +68,7 @@ namespace CowFarm.Entities
         {
             food.Interact();
             if (food is Grass)
-                Score += 20;
+                _cowGameScreen.Score += 20;
         }
 
         private Rectangle _rectangle;
@@ -83,7 +82,7 @@ namespace CowFarm.Entities
                     , GetPosition().Y + CurrentAnim.SpriteHeight / 4
                     , 70
                     , GetPosition().Height + CurrentAnim.SpriteHeight / 3);
-                Debug.WriteLine(_rectangle);
+                //Debug.WriteLine(_rectangle);
             }
             if (CurrentAnim == LeftWalk)
             {
@@ -160,11 +159,11 @@ namespace CowFarm.Entities
                 int middleX = _rectangle.X + _rectangle.Width / 2;
                 for (int j = _rectangle.Y + _rectangle.Height; j > _rectangle.Y; j--)
                 {
-                    if (j < 0 || j >= _interactableEntities.GetLength(0))
+                    if (j < 0 || j >= _interactableEntities.GetLength(1))
                         continue;
                     for (int i = 0; i < _rectangle.Width / 2; i++)
                     {
-                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(1))
+                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(0))
                             continue;
                         if (_interactableEntities[middleX + i, j] != null)
                             foreach (var interactable in _interactableEntities[middleX + i, j])
@@ -186,11 +185,11 @@ namespace CowFarm.Entities
                 int middleX = _rectangle.X + _rectangle.Width / 2;
                 for (int j = _rectangle.Y; j < _rectangle.Y + +_rectangle.Height; j++)
                 {
-                    if (j < 0 || j >= _interactableEntities.GetLength(0))
+                    if (j < 0 || j >= _interactableEntities.GetLength(1))
                         continue;
                     for (int i = 0; i < _rectangle.Width / 2; i++)
                     {
-                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(1))
+                        if (middleX - i < 0 || middleX + i >= _interactableEntities.GetLength(0))
                             continue;
                         if (_interactableEntities[middleX + i, j] != null)
                             foreach (var interactable in _interactableEntities[middleX + i, j])
@@ -252,7 +251,7 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            Debug.WriteLine(gameTime.TotalGameTime);
+            DateTime date1 = DateTime.Now;
 
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
@@ -335,7 +334,6 @@ namespace CowFarm.Entities
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 
-
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
@@ -352,11 +350,12 @@ namespace CowFarm.Entities
                 Body.BodyType = BodyType.Dynamic;
                 Body.CollisionCategories = Category.All;
                 Body.CollidesWith = Category.All;
-            }
-            //Debug.WriteLine(GetPosition());
+            }            
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
+
+            //Debug.WriteLine(DateTime.Now - date1);
         }
 
 
@@ -366,6 +365,7 @@ namespace CowFarm.Entities
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
 
+        private KeyboardState _input;
         private Vector2 _force = new Vector2(0, 0);
         public void HandleUserAgent()
         {
@@ -374,35 +374,24 @@ namespace CowFarm.Entities
             const float forceAmountX = 1.5f;
             const float forceAmountY = 1f;
 
-            KeyboardState input = Keyboard.GetState();
+            _input = Keyboard.GetState();
 
-            if (input.IsKeyDown(Keys.D))
+            if (_input.IsKeyDown(Keys.D))
             {
                 _force += new Vector2(forceAmountX, 0);
             }
-            if (input.IsKeyDown(Keys.A))
+            if (_input.IsKeyDown(Keys.A))
             {
                 _force += new Vector2(-forceAmountX, 0);
             }
-            if (input.IsKeyDown(Keys.W))
+            if (_input.IsKeyDown(Keys.W))
             {
                 _force += new Vector2(0, -forceAmountY);
             }
-            if (input.IsKeyDown(Keys.S))
+            if (_input.IsKeyDown(Keys.S))
             {
                 _force += new Vector2(0, forceAmountY);
             }
-
-            if (input.IsKeyUp(Keys.A) && input.IsKeyUp(Keys.S) &&
-               input.IsKeyUp(Keys.W) && input.IsKeyUp(Keys.D))
-            {
-                Body.Stop();
-            }
-
-            //if (_force.Y != 0 && _force.X != 0)
-            //{
-            //    _force /= (float)1.1;
-            //}
 
             Body.Move(_force);
             Body.ApplyForce(_force);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using CowFarm.Comparables;
 using CowFarm.Entities;
 
 using CowFarm.Generators;
@@ -71,7 +73,6 @@ namespace CowFarm.Worlds
             }
         }
 
-
         public void AddStaticEntity(Entity staticEntity)
         {
             int yPos = staticEntity.GetPosition().Y + staticEntity.GetPosition().Height;
@@ -80,13 +81,27 @@ namespace CowFarm.Worlds
                 StaticEntities[yPos] = new List<Entity>() { staticEntity };
             else
                 StaticEntities[yPos].Add(staticEntity);
+
+       
+            var interactable = staticEntity as IInteractable;
+            if (interactable != null)
+            {
+                var interactablePosition = interactable.GetInteractablePosition();
+                if (InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y] == null)
+                {
+                    InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y] =
+                        new HashSet<IInteractable>() { interactable };
+                }
+                else
+                {
+                    InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y].Add(interactable);
+                }
+            }
         }
 
 
         public virtual void Update(GameTime gameTime)
         {
-            UpdateInteractable();
-
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
@@ -96,6 +111,7 @@ namespace CowFarm.Worlds
 
             this.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
         }
+
 
         private void UpdateInteractable()
         {
@@ -126,32 +142,38 @@ namespace CowFarm.Worlds
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var dynamicYposition = int.MaxValue;
-            Entity dynamicEntity = null;
-            var dynamicCount = 0;
-
-            if (DynamicEntities.Count >= 1)
+            if (DynamicEntities.Count > 1)
             {
-                dynamicEntity = DynamicEntities[dynamicCount];
-                dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
-                dynamicCount++;
-                if (dynamicYposition >= StaticEntities.Length)
-                    dynamicYposition = Graphics.PreferredBackBufferHeight - 1;
+                DynamicEntities.Sort(new PositionYComparer());
+                Debug.WriteLine("SORT");
+            }
+
+            int j = 0;
+
+            var dynamicYposition = int.MaxValue;
+
+            if (DynamicEntities.Count > 0)
+            {
+                dynamicYposition = DynamicEntities[j].GetPosition().Y + DynamicEntities[j].GetPosition().Height;
             }
 
             for (var i = 0; i < StaticEntities.Length; i++)
             {
-                if (i == dynamicYposition)
+                while (i == dynamicYposition)
                 {
-                    dynamicEntity?.Draw(spriteBatch);
-                    dynamicCount++;
-                    if (dynamicCount <= DynamicEntities.Count - 1)
-                    {
-                        dynamicEntity = DynamicEntities[dynamicCount];
-                        dynamicYposition = dynamicEntity.GetPosition().Y + dynamicEntity.GetPosition().Height;
-                    }
 
+                    if (i != dynamicYposition) break;
+                    DynamicEntities[j].Draw(spriteBatch);
+                    j++;
+                    if (j < DynamicEntities.Count)
+                        dynamicYposition = DynamicEntities[j].GetPosition().Y + DynamicEntities[j].GetPosition().Height;
+                    else
+                    {
+                        dynamicYposition = int.MaxValue;
+                    }
                 }
+
+
                 if (StaticEntities[i] != null)
                 {
                     StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));

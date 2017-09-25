@@ -28,7 +28,7 @@ namespace CowFarm.ScreenSystem
 
         //Worlds 
         private World _world { get; set; }
-        private World _rightWorld { get; set; }
+        private World RightWorld { get; set; }
         public World WorldOnFocus { get; set; }
 
         //private World _leftWorld;
@@ -38,6 +38,8 @@ namespace CowFarm.ScreenSystem
         private TimeSpan _inGameTime;
 
         private Cow _cow;
+
+        public int Score { get; set; }
 
         private Dictionary<string, Texture2D> _gameTextures;
         private SpriteFont _font;
@@ -51,7 +53,7 @@ namespace CowFarm.ScreenSystem
             _world = null;
             _inGameTime = new TimeSpan();
 
-            _rightWorld = null;
+            RightWorld = null;
             //_leftWorld = null;
             //_upWorld = null;
             //_downWorld = null;
@@ -77,14 +79,13 @@ namespace CowFarm.ScreenSystem
                 LoadAll();
 
                 _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
-                _rightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                RightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
 
-                _world.RightWorld = _rightWorld;
-                _rightWorld.LeftWorld = _world;
+                _world.RightWorld = RightWorld;
+                RightWorld.LeftWorld = _world;
 
                 CreateCow();
                 _world.AddDynamicEntity(_cow);
-
 
                 WorldOnFocus = _world;
             }
@@ -96,9 +97,10 @@ namespace CowFarm.ScreenSystem
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             if (!coveredByOtherScreen && !otherScreenHasFocus)
-            {
+            {                
                 if (!_escapeKeyPressed)
                     _inGameTime += gameTime.ElapsedGameTime;
+                
                 WorldOnFocus.Update(gameTime);
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -110,19 +112,18 @@ namespace CowFarm.ScreenSystem
 
             WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
 
-            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
+
             DrawTime();
 
-
-            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + _cow.Score, new Vector2(100, 16), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
+
         private void DrawTime()
         {
+            ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
             ScreenManager.SpriteBatch.DrawString(_font, _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
-
-
         }
 
         public override void HandleInput(InputHelper input, GameTime gameTime)

@@ -64,7 +64,7 @@ namespace CowFarm.Entities
 
             for (int i = 0; i < color.Length; i++)
             {
-                if (color[i].A > 180)
+                if (color[i].A > 200)
                 {
                     color[i] = Color.White;
                 }

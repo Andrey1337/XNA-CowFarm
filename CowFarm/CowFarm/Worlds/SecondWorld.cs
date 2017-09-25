@@ -11,14 +11,12 @@ namespace CowFarm.Worlds
 {
     public class SecondWorld : World
     {
-
-
         private readonly Dictionary<string, Texture2D> _gameTextures;
         public SecondWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             Cat cat = new Cat(this, graphics, new Rectangle(200, 200, 56, 46), new AnimatedSprites(gameTextures["catRightWalk"], 3, 56, 0), new AnimatedSprites(gameTextures["catLeftWalk"], 3, 56, 0), new AnimatedSprites(gameTextures["catUpWalk"], 3, 56, 0), new AnimatedSprites(gameTextures["catDownWalk"], 3, 56, 0));
 
-            AddStaticEntity(cat);
+            AddDynamicEntity(cat);
 
             _gameTextures = gameTextures;
 
