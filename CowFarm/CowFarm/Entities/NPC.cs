@@ -11,10 +11,12 @@ namespace CowFarm.Entities
         protected float SpeedX { get; set; }
         protected float SpeedY { get; set; }
 
+        protected bool HaveWay;
+
         protected NPC(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _rnd = new Random();
-            PositionToGo = new Vector2(-1, -1);
+            PositionToGo = new Vector2(2, 2);
 
         }
 
@@ -26,34 +28,34 @@ namespace CowFarm.Entities
             PositionToGo = new Vector2(x, y);
         }
 
-        private Vector2 _force;
+        protected Vector2 Force;
         protected void GoToPosition()
         {
-            _force = new Vector2(0, 0);
+            Force = new Vector2(0, 0);
             if (GetPosition().X != PositionToGo.X)
             {
                 if (GetPosition().X < PositionToGo.X)
                 {
-                    _force += new Vector2(SpeedX, 0);
+                    Force += new Vector2(SpeedX, 0);
                 }
                 else
                 {
-                    _force += new Vector2(-SpeedX, 0);
+                    Force += new Vector2(-SpeedX, 0);
                 }
             }
             if (GetPosition().Y != PositionToGo.Y)
             {
                 if (GetPosition().Y < PositionToGo.Y)
                 {
-                    _force += new Vector2(0, SpeedY);
+                    Force += new Vector2(0, SpeedY);
                 }
                 else
                 {
-                    _force += new Vector2(0, -SpeedY);
+                    Force += new Vector2(0, -SpeedY);
                 }
             }
-            Body.Move(_force);
-            Body.ApplyForce(_force);
+            Body.Move(Force);
+            Body.ApplyForce(Force);
         }
     }
 }

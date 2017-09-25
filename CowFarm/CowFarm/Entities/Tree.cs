@@ -16,6 +16,7 @@ namespace CowFarm.Entities
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
             : base(graphics, destRect, treeMovement)
         {
+            
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 

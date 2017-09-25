@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
@@ -19,7 +20,7 @@ namespace CowFarm.Entities
         public Cat(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             CurrentAnim = rightWalk;
-
+            world.AddDynamicEntity(this);
             Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
@@ -30,36 +31,44 @@ namespace CowFarm.Entities
 
         public override void Load(ContentManager content)
         {
-
         }
 
         public override void Update(GameTime gameTime)
         {
-            //if (PositionToGo == new Vector2(-1, -1))
-            //    ChoseWay();
+            if (PositionToGo == new Vector2(-1, -1))
+                ChoseWay();
 
-            //GoToPosition();
+            GoToPosition();
 
-            //KeyboardState input = Keyboard.GetState();
+            if (Body.GetVelocity().X != SpeedX && Body.GetVelocity().Y != SpeedY)
+            {
+                Body.Stop();
+            }
 
-            //if (input.IsKeyDown(Keys.A))
-            //{
-            //    CurrentAnim = LeftWalk;
-            //}
-            //if (input.IsKeyDown(Keys.D))
-            //{
-            //    CurrentAnim = RightWalk;
-            //}
-            //if (input.IsKeyDown(Keys.S))
-            //{
-            //    CurrentAnim = DownWalk;
-            //}
-            //if (input.IsKeyDown(Keys.W))
-            //{
-            //    CurrentAnim = UpWalk;
-            //}
-            //_sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-            _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.SpriteHeight);
+            if (Force.X + Force.Y == 0)
+            {
+                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+            }
+            else
+            {
+                if (Force.Y < 0)
+                {
+                    CurrentAnim = UpWalk;
+                }
+                if (Force.Y > 0)
+                {
+                    CurrentAnim = DownWalk;
+                }
+                if (Force.X > 0)
+                {
+                    CurrentAnim = RightWalk;
+                }
+                if (Force.X < 0)
+                {
+                    CurrentAnim = LeftWalk;
+                }
+                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+            }
 
         }
 

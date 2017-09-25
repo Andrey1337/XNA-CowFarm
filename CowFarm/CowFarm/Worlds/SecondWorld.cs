@@ -18,21 +18,21 @@ namespace CowFarm.Worlds
 
             AddDynamicEntity(cat);
 
-            _gameTextures = gameTextures;
 
             var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
 
             Tree tree = new Tree(this, graphics, new Rectangle(700, 164, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
-            this.AddStaticEntity(tree);
+            AddStaticEntity(tree);
 
             sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
 
             tree = new Tree(this, graphics, new Rectangle(244, 54, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
-            this.AddStaticEntity(tree);
+            AddStaticEntity(tree);
 
             Rock rock = new Rock(this, graphics, new Rectangle(300, 400, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
-            this.AddStaticEntity(rock);
+            AddStaticEntity(rock);
 
+            _gameTextures = gameTextures;
         }
 
 

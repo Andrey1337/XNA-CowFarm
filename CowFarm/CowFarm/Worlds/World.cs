@@ -82,7 +82,7 @@ namespace CowFarm.Worlds
             else
                 StaticEntities[yPos].Add(staticEntity);
 
-       
+
             var interactable = staticEntity as IInteractable;
             if (interactable != null)
             {
@@ -178,6 +178,12 @@ namespace CowFarm.Worlds
                 {
                     StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));
                 }
+            }
+
+            while (j < DynamicEntities.Count)
+            {
+                DynamicEntities[j].Draw(spriteBatch);
+                j++;
             }
         }
     }
