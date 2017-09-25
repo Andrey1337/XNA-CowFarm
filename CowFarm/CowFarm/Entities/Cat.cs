@@ -14,7 +14,7 @@ namespace CowFarm.Entities
     {
         private Rectangle _sourceRect;
 
-        private const float Delay = 150f;
+        private const float Delay = 200f;
 
         public Cat(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
@@ -46,9 +46,12 @@ namespace CowFarm.Entities
             {
                 CurrentAnim = DownWalk;
             }
-
+            if (input.IsKeyDown(Keys.W))
+            {
+                CurrentAnim = UpWalk;
+            }
             _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
-
+            
             Debug.WriteLine(_sourceRect);
         }
 
