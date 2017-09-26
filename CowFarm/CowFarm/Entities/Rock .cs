@@ -13,11 +13,14 @@ namespace CowFarm.Entities
         public Rock(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites decorationMovement) :
             base(graphics, destRect, decorationMovement)
         {
-            float x1 = (float)(destRect.X + 10) / 100;
-            float x2 = (float)(destRect.X + destRect.Width - 12) / 100;
+            //float x1 = (float)(destRect.X + 20) / 100;
+            //float x2 = (float)(destRect.X + destRect.Width - 12) / 100;
 
-            float y1 = (float)(destRect.Y + destRect.Height - 40) / 100;
-            float y2 = (float)(destRect.Y + destRect.Height - 45) / 100;
+            float x1 = (float)(destRect.X + 22) / 100;
+            float x2 = (float)(destRect.X + destRect.Width - 23) / 100;
+
+            float y1 = (float)(destRect.Y + destRect.Height - 30) / 100;
+            float y2 = (float)(destRect.Y + destRect.Height - 35) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
 
@@ -28,8 +31,8 @@ namespace CowFarm.Entities
 
             x1 = x2;
             y1 = y2;
-            x2 = (float)(destRect.X + destRect.Width - 12) / 100;
-            y2 = (float)(destRect.Y + destRect.Height - 38) / 100;
+            x2 = (float)(destRect.X + destRect.Width - 23) / 100;
+            y2 = (float)(destRect.Y + destRect.Height - 35) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             Body.CollidesWith = Category.All;
@@ -53,7 +56,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, DecorationMovement.SpriteWidth, DecorationMovement.Animation.Height - 10);
+            return new Rectangle(DestRect.X, DestRect.Y, DecorationMovement.SpriteWidth, DecorationMovement.SpriteHeight - 40);
         }
     }
 }

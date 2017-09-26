@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using Microsoft.Xna.Framework;
 
@@ -6,6 +7,8 @@ namespace CowFarm.Entities
 {
     public abstract class NPC : Animal
     {
+        protected List<Vector2> WayList;
+
         protected Vector2 PositionToGo;
         private readonly Random _rnd;
         protected float SpeedX { get; set; }
@@ -16,46 +19,64 @@ namespace CowFarm.Entities
         protected NPC(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _rnd = new Random();
-            PositionToGo = new Vector2(2, 2);
+            HaveWay = false;
 
+            WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(500, 100) };
         }
 
+        private int _index;
         protected virtual void ChoseWay()
         {
-            int x = _rnd.Next(Graphics.PreferredBackBufferWidth);
-            int y = _rnd.Next(Graphics.PreferredBackBufferHeight);
+            //int x = _rnd.Next(Graphics.PreferredBackBufferWidth);
+            //int y = _rnd.Next(Graphics.PreferredBackBufferHeight);
 
-            PositionToGo = new Vector2(x, y);
+            HaveWay = true;
+            PositionToGo = WayList[_index];
+            if (_index >= WayList.Count - 1)
+                _index = 0;
+            else
+                _index++;
         }
 
         protected Vector2 Force;
         protected void GoToPosition()
         {
-            Force = new Vector2(0, 0);
-            if (GetPosition().X != PositionToGo.X)
+            int positionX = GetPosition().X;
+            int positionY = GetPosition().Y;
+
+            if (Math.Abs(positionX - PositionToGo.X) < 5 && Math.Abs(positionY - PositionToGo.Y) < 5)
             {
-                if (GetPosition().X < PositionToGo.X)
-                {
-                    Force += new Vector2(SpeedX, 0);
-                }
-                else
-                {
-                    Force += new Vector2(-SpeedX, 0);
-                }
+                HaveWay = false;
             }
-            if (GetPosition().Y != PositionToGo.Y)
+
+            if (HaveWay)
             {
-                if (GetPosition().Y < PositionToGo.Y)
+                Force = new Vector2(0, 0);
+                if (Math.Abs(positionX - PositionToGo.X) >= 5)
                 {
-                    Force += new Vector2(0, SpeedY);
+                    if (positionX < PositionToGo.X)
+                    {
+                        Force += new Vector2(SpeedX, 0);
+                    }
+                    else
+                    {
+                        Force += new Vector2(-SpeedX, 0);
+                    }
                 }
-                else
+                if (Math.Abs(positionY - PositionToGo.Y) >= 5)
                 {
-                    Force += new Vector2(0, -SpeedY);
+                    if (positionY < PositionToGo.Y)
+                    {
+                        Force += new Vector2(0, SpeedY);
+                    }
+                    else
+                    {
+                        Force += new Vector2(0, -SpeedY);
+                    }
                 }
+                Body.Move(Force);
+                Body.ApplyForce(Force);
             }
-            Body.Move(Force);
-            Body.ApplyForce(Force);
         }
     }
 }

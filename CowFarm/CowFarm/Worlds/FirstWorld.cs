@@ -58,7 +58,7 @@ namespace CowFarm.Worlds
             bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
-            Rock rock = new Rock(this, graphics, new Rectangle(210, 300, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
+            Rock rock = new Rock(this, graphics, new Rectangle(210, 300, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 160, 0));
             this.AddStaticEntity(rock);
 
         }

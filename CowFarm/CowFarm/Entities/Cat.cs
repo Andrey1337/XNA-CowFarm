@@ -15,7 +15,7 @@ namespace CowFarm.Entities
     {
         private Rectangle _sourceRect;
 
-        private const float Delay = 200f;
+        private const float Delay = 1000f;
 
         public Cat(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
@@ -25,8 +25,8 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
-            SpeedX = 1.5f;
-            SpeedY = 1f;
+            SpeedX = 0.8f;
+            SpeedY = 0.7f;
         }
 
         public override void Load(ContentManager content)
@@ -35,12 +35,12 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            if (PositionToGo == new Vector2(-1, -1))
+            if (!HaveWay)
                 ChoseWay();
 
             GoToPosition();
 
-            if (Body.GetVelocity().X != SpeedX && Body.GetVelocity().Y != SpeedY)
+            if (!HaveWay)
             {
                 Body.Stop();
             }
@@ -67,6 +67,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
+                //_sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 

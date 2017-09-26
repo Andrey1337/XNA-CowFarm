@@ -29,7 +29,7 @@ namespace CowFarm.Worlds
             tree = new Tree(this, graphics, new Rectangle(244, 54, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
             AddStaticEntity(tree);
 
-            Rock rock = new Rock(this, graphics, new Rectangle(300, 400, 129, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
+            Rock rock = new Rock(this, graphics, new Rectangle(300, 400, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 129, 0));
             AddStaticEntity(rock);
 
             _gameTextures = gameTextures;
