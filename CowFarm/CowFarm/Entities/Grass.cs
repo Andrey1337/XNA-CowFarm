@@ -15,10 +15,12 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
+        private AnimatedSprites _eatenGrassMovement;
         private readonly Texture2D _reapaintTexture;
-        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement)
+        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement, AnimatedSprites eatenGrassMovement)
             : base(graphics, destRect, grassMovement)
         {
+            _eatenGrassMovement = eatenGrassMovement;
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
             CanInteract = true;
         }
@@ -35,14 +37,25 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (OnFocus)
+            if (IsEaten)
             {
-                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
-                spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
+                spriteBatch.Draw(_eatenGrassMovement.Animation, DestRect, SourceRect, Color.White);
             }
             else
             {
-                spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+                if (OnFocus)
+                {
+                    spriteBatch.Draw(_reapaintTexture,
+                        new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5),
+                        SourceRect, Color.White);
+                    spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
+                }
+                else
+                {
+
+                    spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+
+                }
             }
         }
 
@@ -78,13 +91,10 @@ namespace CowFarm.Entities
             return texture;
         }
 
-
         public override Rectangle GetPosition()
         {
             return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
         }
-
-
 
         public Vector2 GetInteractablePosition()
         {
@@ -93,7 +103,7 @@ namespace CowFarm.Entities
 
         public void Interact()
         {
-            IsEaten = false;
+            IsEaten = true;
             CanInteract = false;
         }
 

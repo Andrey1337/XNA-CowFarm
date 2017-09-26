@@ -39,6 +39,8 @@ namespace CowFarm.Entities
         }
 
         protected Vector2 Force;
+
+        
         protected void GoToPosition()
         {
             int positionX = GetPosition().X;

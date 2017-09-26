@@ -15,7 +15,7 @@ namespace CowFarm.Entities
     {
         private Rectangle _sourceRect;
 
-        private const float Delay = 1000f;
+        private const float Delay = 900f;
 
         public Cat(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
