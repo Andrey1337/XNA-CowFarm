@@ -22,9 +22,9 @@ namespace CowFarm.Worlds
         {
             _gameTextures = gameTextures;
 
-            Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
+            Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 2, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 0));
             AddStaticEntity(grass1);
-            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
+            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 2, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
             AddStaticEntity(grass2);
 
             Tree tree = new Tree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);

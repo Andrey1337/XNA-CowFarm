@@ -32,7 +32,8 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
+            //SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
+            SourceRect = new Rectangle(0, 0, PlantMovement.SpriteWidth, PlantMovement.SpriteHeight);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

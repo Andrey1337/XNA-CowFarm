@@ -185,6 +185,8 @@ namespace CowFarm.ScreenSystem
         {
             _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("grassMovement"));
             _gameTextures.Add("treeMovement", _contentManager.Load<Texture2D>("treeMovement"));
+            _gameTextures.Add("orangeTreeMovement", _contentManager.Load<Texture2D>("orangeTreeMovement"));
+
             _gameTextures.Add("eatenGrassMovement", _contentManager.Load<Texture2D>("eatenGrassMovement"));
 
             _gameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("bushMovement"));

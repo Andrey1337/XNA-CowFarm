@@ -17,7 +17,7 @@ namespace CowFarm.DrowingSystem
         public AnimatedSprites(Texture2D animation, int frames, int spriteWidth, int spaceFromSprites)
         {
             this.Animation = animation;
-            this.SpriteWidth = spriteWidth;
+            this.SpriteWidth = (animation.Width - (frames - 1) * spaceFromSprites) / frames;
             this.SpriteHeight = Animation.Height;
             this.SpaceFromSprites = spaceFromSprites;
             this._framesCounter = 0;

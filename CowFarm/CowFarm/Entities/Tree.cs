@@ -29,7 +29,7 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
-            _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+            //_reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
 
             //world.AddStaticEntity(this);
         }
