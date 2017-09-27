@@ -1,4 +1,5 @@
-﻿using CowFarm.DrowingSystem;
+﻿using System.Collections.Generic;
+using CowFarm.DrowingSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,8 @@ namespace CowFarm.Entities
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
 
-        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
-            : base(graphics, destRect, treeMovement)
+        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, destRect, new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0))
         {
 
             float width = (float)14 / 100;

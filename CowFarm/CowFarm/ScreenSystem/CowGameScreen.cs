@@ -161,15 +161,16 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(this, RightWorld, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(this, RightWorld, new Rectangle(460, 370, 54, 49), _gameTextures);
+
         }
 
         private void LoadCow()
         {
             _gameTextures.Add("cowRightWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowRightWalk"));
             _gameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowLeftWalk"));
-            _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowUpWalk"));
-            _gameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowDownWalk"));
+            _gameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowUpWalk"));
+            _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowDownWalk"));
         }
 
         private void LoadCat()
@@ -217,22 +218,20 @@ namespace CowFarm.ScreenSystem
             switch (direction)
             {
                 case Direction.Right:
-                    if (WorldOnFocus.RightWorld != null)
-                    {
-                        WorldOnFocus.RemoveDynamicEntity(animal);
-                        animal.ChangeWorld(Direction.Right);
-                        WorldOnFocus.RightWorld.AddDynamicEntity(animal);
-                        WorldOnFocus = WorldOnFocus.RightWorld;
-                    }
+
+                    WorldOnFocus.RemoveDynamicEntity(animal);
+                    animal.ChangeWorld(Direction.Right);
+                    WorldOnFocus.RightWorld.AddDynamicEntity(animal);
+                    WorldOnFocus = WorldOnFocus.RightWorld;
+
                     break;
                 case Direction.Left:
-                    if (WorldOnFocus.LeftWorld != null)
-                    {
-                        WorldOnFocus.RemoveDynamicEntity(animal);
-                        animal.ChangeWorld(Direction.Left);
-                        WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
-                        WorldOnFocus = WorldOnFocus.LeftWorld;
-                    }
+
+                    WorldOnFocus.RemoveDynamicEntity(animal);
+                    animal.ChangeWorld(Direction.Left);
+                    WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
+                    WorldOnFocus = WorldOnFocus.LeftWorld;
+
                     break;
 
             }

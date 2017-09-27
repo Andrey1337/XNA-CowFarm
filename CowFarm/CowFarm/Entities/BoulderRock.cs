@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Worlds;
 using FarseerPhysics.Factories;
@@ -10,7 +11,7 @@ namespace CowFarm.Entities
 {
     public class BoulderRock : Decoration
     {
-        public BoulderRock(World world, Rectangle destRect, AnimatedSprites decorationMovement) : base(world, destRect, decorationMovement)
+        public BoulderRock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 196, 0))
         {
             float x1 = (float)(destRect.X + 20) / 100;
             float x2 = (float)(destRect.X + destRect.Width - 15) / 100;
@@ -49,7 +50,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            
+
             return new Rectangle(DestRect.X, DestRect.Y, DecorationMovement.SpriteWidth, DecorationMovement.SpriteHeight - 55);
         }
     }

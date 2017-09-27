@@ -20,7 +20,6 @@ namespace CowFarm.Entities
         protected AnimatedSprites UpWalk;
         protected AnimatedSprites CurrentAnim;
 
-
         public Body Body { get; set; }
 
         protected Rectangle DestRect;
@@ -29,14 +28,13 @@ namespace CowFarm.Entities
         protected ObjectMovingType ObjectMovingType;
 
         protected Animal(World world, Rectangle destRect, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+            AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk)
         {
-
             this.DestRect = destRect;
             this.RightWalk = rightWalk;
             this.LeftWalk = leftWalk;
-            this.DownWalk = downWalk;
             this.UpWalk = upWalk;
+            this.DownWalk = downWalk;
             this.Graphics = world.Graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }

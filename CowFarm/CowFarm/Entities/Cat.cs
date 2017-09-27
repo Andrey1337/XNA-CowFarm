@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -17,9 +18,14 @@ namespace CowFarm.Entities
 
         private const float Delay = 900f;
 
-        public Cat(World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(world, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        public Cat(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+            : base(world, destRect,
+                  new AnimatedSprites(gameTextures["catRightWalk"], 3, 56, 0),
+                  new AnimatedSprites(gameTextures["catLeftWalk"], 3, 56, 0),
+                  new AnimatedSprites(gameTextures["catUpWalk"], 3, 56, 0),
+                  new AnimatedSprites(gameTextures["catDownWalk"], 3, 56, 0))
         {
-            CurrentAnim = rightWalk;
+            CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);
             Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.CollisionCategories = Category.All;
@@ -75,7 +81,7 @@ namespace CowFarm.Entities
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)CurrentAnim.SpriteWidth / 2;
             vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-            
+
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 

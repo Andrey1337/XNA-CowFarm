@@ -27,24 +27,19 @@ namespace CowFarm.Worlds
             Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
             AddStaticEntity(grass2);
 
-            var sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            Tree tree = new Tree(this, graphics, new Rectangle(644, 164, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            Tree tree = new Tree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
             this.AddStaticEntity(tree);
 
-            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            tree = new Tree(this, graphics, new Rectangle(437, 5, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            tree = new Tree(this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);
             this.AddStaticEntity(tree);
 
-            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            tree = new Tree(this, graphics, new Rectangle(1000, 550, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            tree = new Tree(this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
             this.AddStaticEntity(tree);
 
-            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            tree = new Tree(this, graphics, new Rectangle(150, 450, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            tree = new Tree(this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
             this.AddStaticEntity(tree);
 
-            sprite = new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0);
-            tree = new Tree(this, graphics, new Rectangle(900, 55, sprite.SpriteWidth, sprite.SpriteHeight), sprite);
+            tree = new Tree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
             this.AddStaticEntity(tree);
 
             var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
@@ -59,7 +54,7 @@ namespace CowFarm.Worlds
             bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
-            Rock rock = new Rock(this, new Rectangle(210, 300, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 160, 0));
+            Rock rock = new Rock(this, new Rectangle(210, 300, 160, 108), gameTextures);
             this.AddStaticEntity(rock);
         }
 
