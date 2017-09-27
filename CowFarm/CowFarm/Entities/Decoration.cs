@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
@@ -18,9 +19,9 @@ namespace CowFarm.Entities
         protected ObjectMovingType ObjectMovingType;
 
 
-        protected Decoration(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites decorationMovement)
+        protected Decoration(World world, Rectangle destRect, AnimatedSprites decorationMovement)
         {
-            this.Graphics = graphics;
+            this.Graphics = world.Graphics;
             this.DestRect = destRect;
             this.DecorationMovement = decorationMovement;
             this.ObjectMovingType = ObjectMovingType.Static;

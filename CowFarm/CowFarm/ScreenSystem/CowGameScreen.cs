@@ -85,9 +85,9 @@ namespace CowFarm.ScreenSystem
                 RightWorld.LeftWorld = _world;
 
                 CreateCow();
-                _world.AddDynamicEntity(_cow);
+                RightWorld.AddDynamicEntity(_cow);
 
-                WorldOnFocus = _world;
+                WorldOnFocus = RightWorld;
             }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
@@ -96,6 +96,7 @@ namespace CowFarm.ScreenSystem
         }
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+
             if (!coveredByOtherScreen && !otherScreenHasFocus)
             {
                 if (!_escapeKeyPressed)
@@ -112,10 +113,8 @@ namespace CowFarm.ScreenSystem
 
             WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
 
-
             DrawTime();
 
-            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -123,11 +122,21 @@ namespace CowFarm.ScreenSystem
         private void DrawTime()
         {
             ScreenManager.SpriteBatch.Draw(_gameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
+            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.DrawString(_font, _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
         }
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
+            if (input.KeyboardState.IsKeyDown(Keys.Right) && WorldOnFocus.RightWorld != null)
+            {
+                WorldOnFocus = WorldOnFocus.RightWorld;
+            }
+            if (input.KeyboardState.IsKeyDown(Keys.Left) && WorldOnFocus.LeftWorld != null)
+            {
+                WorldOnFocus = WorldOnFocus.LeftWorld;
+            }
+
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 //_worldSerialize = "Serialized";
@@ -152,23 +161,23 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(this, _world, _graphics, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
+            _cow = new Cow(this, RightWorld, new Rectangle(460, 370, 54, 49), new AnimatedSprites(_gameTextures["cowRightWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowLeftWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowUpWalk"], 3, 54, 16), new AnimatedSprites(_gameTextures["cowDownWalk"], 3, 54, 16));
         }
 
         private void LoadCow()
         {
-            _gameTextures.Add("cowRightWalk", _contentManager.Load<Texture2D>("cowRightWalk"));
-            _gameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("cowLeftWalk"));
-            _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("cowUpWalk"));
-            _gameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("cowDownWalk"));
+            _gameTextures.Add("cowRightWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowRightWalk"));
+            _gameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowLeftWalk"));
+            _gameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowUpWalk"));
+            _gameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowDownWalk"));
         }
 
         private void LoadCat()
         {
-            _gameTextures.Add("catRightWalk", _contentManager.Load<Texture2D>("catRightWalk"));
-            _gameTextures.Add("catLeftWalk", _contentManager.Load<Texture2D>("catLeftWalk"));
-            _gameTextures.Add("catDownWalk", _contentManager.Load<Texture2D>("catUpWalk"));
-            _gameTextures.Add("catUpWalk", _contentManager.Load<Texture2D>("catDownWalk"));
+            _gameTextures.Add("catRightWalk", _contentManager.Load<Texture2D>("AnimalMovements/catRightWalk"));
+            _gameTextures.Add("catLeftWalk", _contentManager.Load<Texture2D>("AnimalMovements/catLeftWalk"));
+            _gameTextures.Add("catDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/catUpWalk"));
+            _gameTextures.Add("catUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/catDownWalk"));
         }
 
         private void PlantLoad()
@@ -182,7 +191,8 @@ namespace CowFarm.ScreenSystem
 
         private void RockLoad()
         {
-            _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("rockMovement"));
+            _gameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("DecorationMovements/rockMovement"));
+            _gameTextures.Add("boulderRockMovement", _contentManager.Load<Texture2D>("DecorationMovements/boulderRockMovement"));
         }
 
         private void BackGroundLoad()
@@ -202,19 +212,27 @@ namespace CowFarm.ScreenSystem
 
         public void ChangeWorld(Animal animal, Direction direction)
         {
-            WorldOnFocus.RemoveDynamicEntity(animal);
+
 
             switch (direction)
             {
                 case Direction.Right:
-                    animal.ChangeWorld(Direction.Right);
-                    WorldOnFocus.RightWorld.AddDynamicEntity(animal);
-                    WorldOnFocus = WorldOnFocus.RightWorld;
+                    if (WorldOnFocus.RightWorld != null)
+                    {
+                        WorldOnFocus.RemoveDynamicEntity(animal);
+                        animal.ChangeWorld(Direction.Right);
+                        WorldOnFocus.RightWorld.AddDynamicEntity(animal);
+                        WorldOnFocus = WorldOnFocus.RightWorld;
+                    }
                     break;
                 case Direction.Left:
-                    animal.ChangeWorld(Direction.Left);
-                    WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
-                    WorldOnFocus = WorldOnFocus.LeftWorld;
+                    if (WorldOnFocus.LeftWorld != null)
+                    {
+                        WorldOnFocus.RemoveDynamicEntity(animal);
+                        animal.ChangeWorld(Direction.Left);
+                        WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
+                        WorldOnFocus = WorldOnFocus.LeftWorld;
+                    }
                     break;
 
             }

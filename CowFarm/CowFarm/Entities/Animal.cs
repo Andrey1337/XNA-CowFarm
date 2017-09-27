@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
 using CowFarm.Enums;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,7 @@ namespace CowFarm.Entities
         protected AnimatedSprites UpWalk;
         protected AnimatedSprites CurrentAnim;
 
+
         public Body Body { get; set; }
 
         protected Rectangle DestRect;
@@ -26,9 +28,8 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Animal(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk,
+        protected Animal(World world, Rectangle destRect, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-
         {
 
             this.DestRect = destRect;
@@ -36,8 +37,13 @@ namespace CowFarm.Entities
             this.LeftWalk = leftWalk;
             this.DownWalk = downWalk;
             this.UpWalk = upWalk;
-            this.Graphics = graphics;
+            this.Graphics = world.Graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual void ChangeWorld(Direction directionOfWorld)
@@ -52,6 +58,12 @@ namespace CowFarm.Entities
                 Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width - 2) / 100, (float)(GetPosition().Y + 1) / 100);
             }
         }
+
+        protected Vector2 GetCenterPosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
+        }
+
 
         public abstract void Eat(IEatable entity);
     }

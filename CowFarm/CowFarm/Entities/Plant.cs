@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities
 {
-    public abstract class 
+    public abstract class
         Plant : Entity
     {
         protected AnimatedSprites PlantMovement;

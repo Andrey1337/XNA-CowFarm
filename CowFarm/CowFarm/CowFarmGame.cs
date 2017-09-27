@@ -41,12 +41,12 @@ namespace CowFarm
 
         protected override void Initialize()
         {
-            CowGameScreen firstWorld = new CowGameScreen(Content, _graphics);
+            CowGameScreen cowGameScreen = new CowGameScreen(Content, _graphics);
 
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
-            menuScreen.AddMenuItem("Start Game", EntryType.Screen, firstWorld);
+            menuScreen.AddMenuItem("Start Game", EntryType.Screen, cowGameScreen);
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Exit", EntryType.ExitItem, null);

@@ -6,6 +6,8 @@ using CowFarm.Entities;
 
 using CowFarm.Generators;
 using CowFarm.ScreenSystem;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +17,7 @@ namespace CowFarm.Worlds
 {
     public abstract class World : FarseerPhysics.Dynamics.World
     {
-        protected GraphicsDeviceManager Graphics;
+        public GraphicsDeviceManager Graphics { get; }
         protected ScreenManager ScreenManager;
 
         protected List<Entity>[] StaticEntities;
@@ -32,6 +34,7 @@ namespace CowFarm.Worlds
 
         public DateTime GameStartedTime { get; set; }
         public TimeSpan TimeInTheGame { get; set; }
+
 
         protected World(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime)
                : base(Vector2.Zero)
@@ -144,8 +147,7 @@ namespace CowFarm.Worlds
         {
             if (DynamicEntities.Count > 1)
             {
-                DynamicEntities.Sort(new PositionYComparer());
-                Debug.WriteLine("SORT");
+                DynamicEntities.Sort(new PositionYComparer());                
             }
 
             int j = 0;
@@ -159,9 +161,12 @@ namespace CowFarm.Worlds
 
             for (var i = 0; i < StaticEntities.Length; i++)
             {
+                if (StaticEntities[i] != null)
+                {
+                    StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));
+                }
                 while (i == dynamicYposition)
                 {
-
                     if (i != dynamicYposition) break;
                     DynamicEntities[j].Draw(spriteBatch);
                     j++;
@@ -174,10 +179,7 @@ namespace CowFarm.Worlds
                 }
 
 
-                if (StaticEntities[i] != null)
-                {
-                    StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));
-                }
+
             }
 
             while (j < DynamicEntities.Count)

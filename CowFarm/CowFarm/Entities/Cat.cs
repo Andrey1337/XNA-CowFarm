@@ -17,7 +17,7 @@ namespace CowFarm.Entities
 
         private const float Delay = 900f;
 
-        public Cat(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        public Cat(World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(world, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             CurrentAnim = rightWalk;
             world.AddDynamicEntity(this);
@@ -31,21 +31,14 @@ namespace CowFarm.Entities
 
         public override void Load(ContentManager content)
         {
+
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!HaveWay)
-                ChoseWay();
+            GoToPosition(gameTime);
 
-            GoToPosition();
-
-            if (!HaveWay)
-            {
-                Body.Stop();
-            }
-
-            if (Force.X + Force.Y == 0)
+            if (Body.GetVelocity() == Vector2.Zero)
             {
                 _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
@@ -67,7 +60,6 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                //_sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 
@@ -83,7 +75,7 @@ namespace CowFarm.Entities
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)CurrentAnim.SpriteWidth / 2;
             vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-
+            
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 

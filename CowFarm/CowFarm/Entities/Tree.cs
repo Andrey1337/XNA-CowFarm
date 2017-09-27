@@ -16,7 +16,7 @@ namespace CowFarm.Entities
         public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites treeMovement)
             : base(graphics, destRect, treeMovement)
         {
-            
+
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 
@@ -29,6 +29,8 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+
+            //world.AddStaticEntity(this);
         }
 
         public override void Load(ContentManager content)

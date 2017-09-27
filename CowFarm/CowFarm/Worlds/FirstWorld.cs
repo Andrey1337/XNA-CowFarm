@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Generators;
+using FarseerPhysics.Factories;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -19,7 +21,6 @@ namespace CowFarm.Worlds
             : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             _gameTextures = gameTextures;
-
 
             Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
             AddStaticEntity(grass1);
@@ -58,9 +59,8 @@ namespace CowFarm.Worlds
             bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
-            Rock rock = new Rock(this, graphics, new Rectangle(210, 300, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 160, 0));
+            Rock rock = new Rock(this, new Rectangle(210, 300, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 160, 0));
             this.AddStaticEntity(rock);
-
         }
 
 

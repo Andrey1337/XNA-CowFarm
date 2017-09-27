@@ -35,8 +35,8 @@ namespace CowFarm.Entities
         private readonly CowGameScreen _cowGameScreen;
 
 
-        public Cow(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
-        : base(graphics, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk)
+        : base(world, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
@@ -59,10 +59,7 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
-        public Vector2 GetCenterPosition()
-        {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
-        }
+
 
         public override void Eat(IEatable food)
         {
@@ -334,7 +331,7 @@ namespace CowFarm.Entities
                 _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 
-            if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth)
+            if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
@@ -343,14 +340,14 @@ namespace CowFarm.Entities
                 Body.CollidesWith = Category.All;
             }
 
-            if (GetCenterPosition().X < 0)
+            if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
                 Body.BodyType = BodyType.Dynamic;
                 Body.CollisionCategories = Category.All;
                 Body.CollidesWith = Category.All;
-            }            
+            }
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
@@ -362,6 +359,7 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Debug.WriteLine("Cow " + GetPosition().Y + GetPosition().Height);
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
         }
 
