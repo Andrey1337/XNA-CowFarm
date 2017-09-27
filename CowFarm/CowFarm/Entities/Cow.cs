@@ -352,7 +352,7 @@ namespace CowFarm.Entities
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
 
-            //Debug.WriteLine(DateTime.Now - date1);
+           
         }
 
 

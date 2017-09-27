@@ -21,8 +21,11 @@ namespace CowFarm.Worlds
 
             AddDynamicEntity(cat);
 
-            BoulderRock boulderRock = new BoulderRock(this, new Rectangle(300, 400, 140, 115), new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 196, 0));
+            BoulderRock boulderRock = new BoulderRock(this, new Rectangle(350, 400, 140, 115), new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 196, 0));
             AddStaticEntity(boulderRock);
+
+            Rock rock = new Rock(this, new Rectangle(900, 600, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 160, 0));
+            this.AddStaticEntity(rock);
 
             //border
             BodyFactory.CreateEdge(this, new Vector2((float)graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)graphics.PreferredBackBufferWidth / 100, (float)graphics.PreferredBackBufferHeight / 100));
