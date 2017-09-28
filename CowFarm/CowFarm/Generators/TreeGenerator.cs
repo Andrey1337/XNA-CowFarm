@@ -25,7 +25,7 @@ namespace CowFarm.Generators
             //    var x = Random.Next(Graphics.PreferredBackBufferWidth / 6, (int)(((double)Graphics.PreferredBackBufferWidth - AnimatedSpriteMovement.SpriteWidth) * 0.9));
             //    var y = Random.Next(Graphics.PreferredBackBufferHeight / 6, Graphics.PreferredBackBufferHeight - AnimatedSpriteMovement.Animation.Height - 50);
 
-            //    var tree = new Tree(World, Graphics,
+            //    var tree = new GreenTree(World, Graphics,
             //        new Rectangle(x, y, AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.Animation.Height),
             //        new AnimatedSprites(AnimatedSpriteMovement.Animation, AnimatedSpriteMovement.Frames,
             //            AnimatedSpriteMovement.SpriteWidth, AnimatedSpriteMovement.SpaceFromSprites));               

@@ -183,13 +183,15 @@ namespace CowFarm.ScreenSystem
 
         private void PlantLoad()
         {
-            _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("grassMovement"));
-            _gameTextures.Add("treeMovement", _contentManager.Load<Texture2D>("treeMovement"));
-            _gameTextures.Add("orangeTreeMovement", _contentManager.Load<Texture2D>("orangeTreeMovement"));
+            _gameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("Plants/grassMovement"));
 
-            _gameTextures.Add("eatenGrassMovement", _contentManager.Load<Texture2D>("eatenGrassMovement"));
+            _gameTextures.Add("greenTreeMovement", _contentManager.Load<Texture2D>("Plants/greenTreeMovement"));
+            _gameTextures.Add("orangeTreeMovement", _contentManager.Load<Texture2D>("Plants/orangeTreeMovement"));
 
-            _gameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("bushMovement"));
+            _gameTextures.Add("eatenGrassMovement", _contentManager.Load<Texture2D>("Plants/eatenGrassMovement"));
+
+            _gameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("Plants/bushMovement"));
+            _gameTextures.Add("berryBushMovement", _contentManager.Load<Texture2D>("Plants/berryBushMovement"));
         }
 
         private void RockLoad()

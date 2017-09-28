@@ -37,10 +37,10 @@ namespace CowFarm.Entities
 
         public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
         : base(world, destRect,
-              new AnimatedSprites(gameTextures["cowRightWalk"], 3, 54, 16),
-              new AnimatedSprites(gameTextures["cowLeftWalk"], 3, 54, 16),
-              new AnimatedSprites(gameTextures["cowUpWalk"], 3, 54, 16),
-              new AnimatedSprites(gameTextures["cowDownWalk"], 3, 54, 16))
+              new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
+              new AnimatedSprites(gameTextures["cowLeftWalk"], 3, 16),
+              new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
+              new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
@@ -227,7 +227,7 @@ namespace CowFarm.Entities
                 if (Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 40)
                     interactableList.Add(interactable);
             }
-            //var tree = interactable as Tree;
+            //var tree = interactable as GreenTree;
             //if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
             //{
             //    interactableList.Add(interactable);

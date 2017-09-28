@@ -20,10 +20,10 @@ namespace CowFarm.Entities
 
         public Cat(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(world, destRect,
-                  new AnimatedSprites(gameTextures["catRightWalk"], 3, 56, 0),
-                  new AnimatedSprites(gameTextures["catLeftWalk"], 3, 56, 0),
-                  new AnimatedSprites(gameTextures["catUpWalk"], 3, 56, 0),
-                  new AnimatedSprites(gameTextures["catDownWalk"], 3, 56, 0))
+                  new AnimatedSprites(gameTextures["catRightWalk"], 3, 0),
+                  new AnimatedSprites(gameTextures["catLeftWalk"], 3, 0),
+                  new AnimatedSprites(gameTextures["catUpWalk"], 3, 0),
+                  new AnimatedSprites(gameTextures["catDownWalk"], 3, 0))
         {
             CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);

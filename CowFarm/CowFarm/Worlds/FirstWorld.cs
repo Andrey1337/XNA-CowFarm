@@ -22,35 +22,35 @@ namespace CowFarm.Worlds
         {
             _gameTextures = gameTextures;
 
-            Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 2, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 0));
+            Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), gameTextures);
             AddStaticEntity(grass1);
-            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 2, 25, 10), new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 25, 10));
+            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures);
             AddStaticEntity(grass2);
 
-            Tree tree = new Tree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
-            this.AddStaticEntity(tree);
+            GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
+            this.AddStaticEntity(greenTree);
 
-            tree = new Tree(this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);
-            this.AddStaticEntity(tree);
+            greenTree = new GreenTree(this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);
+            this.AddStaticEntity(greenTree);
 
-            tree = new Tree(this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
-            this.AddStaticEntity(tree);
+            greenTree = new GreenTree(this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
+            this.AddStaticEntity(greenTree);
 
-            tree = new Tree(this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
-            this.AddStaticEntity(tree);
+            greenTree = new GreenTree(this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
+            this.AddStaticEntity(greenTree);
 
-            tree = new Tree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
-            this.AddStaticEntity(tree);
+            greenTree = new GreenTree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
+            this.AddStaticEntity(greenTree);
 
-            var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
+            var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
             Bush bush = new Bush(this, graphics, new Rectangle(100, 150, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
-            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
+            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
             bush = new Bush(this, graphics, new Rectangle(830, 200, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 
-            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 84, 0);
+            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
             bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
             this.AddStaticEntity(bush);
 

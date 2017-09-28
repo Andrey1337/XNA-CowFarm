@@ -9,13 +9,13 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Tree : Plant, IInteractable
+    public class GreenTree : Plant, IInteractable
     {
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
 
-        public Tree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["treeMovement"], 1, 155, 0))
+        public GreenTree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
 
             float width = (float)14 / 100;

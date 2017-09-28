@@ -62,11 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparables\PositionYComparer.cs" />
+    <Compile Include="Entities\BerryBush.cs" />
     <Compile Include="Entities\BoulderRock.cs" />
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Cat.cs" />
     <Compile Include="Entities\Decoration.cs" />
     <Compile Include="Entities\NPC.cs" />
+    <Compile Include="Entities\OrangeTree.cs" />
     <Compile Include="Entities\Rock .cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="IInteractable.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />
     <Compile Include="Entities\Cow.cs" />
-    <Compile Include="Entities\Tree.cs" />
+    <Compile Include="Entities\GreenTree.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />

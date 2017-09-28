@@ -14,7 +14,7 @@ namespace CowFarm.DrowingSystem
 
         private float _elapsed;
 
-        public AnimatedSprites(Texture2D animation, int frames, int spriteWidth, int spaceFromSprites)
+        public AnimatedSprites(Texture2D animation, int frames, int spaceFromSprites)
         {
             this.Animation = animation;
             this.SpriteWidth = (animation.Width - (frames - 1) * spaceFromSprites) / frames;

@@ -65,14 +65,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="treeMovement.png">
-      <Name>treeMovement</Name>
+    <Compile Include="Plants\greenTreeMovement.png">
+      <Name>greenTreeMovement</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="grassMovement.png">
+    <Compile Include="Plants\grassMovement.png">
       <Name>grassMovement</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -97,7 +97,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bushMovement.png">
+    <Compile Include="Plants\bushMovement.png">
       <Name>bushMovement</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -140,7 +140,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="eatenGrassMovement.png">
+    <Compile Include="Plants\eatenGrassMovement.png">
       <Name>eatenGrassMovement</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -154,8 +154,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="orangeTreeMovement.png">
+    <Compile Include="Plants\orangeTreeMovement.png">
       <Name>orangeTreeMovement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plants\berryBushMovement.png">
+      <Name>berryBushMovement</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

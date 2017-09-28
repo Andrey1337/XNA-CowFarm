@@ -11,7 +11,7 @@ namespace CowFarm.Entities
 {
     public class BoulderRock : Decoration
     {
-        public BoulderRock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 196, 0))
+        public BoulderRock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 0))
         {
             float x1 = (float)(destRect.X + 20) / 100;
             float x2 = (float)(destRect.X + destRect.Width - 15) / 100;

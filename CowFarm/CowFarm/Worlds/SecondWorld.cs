@@ -25,14 +25,19 @@ namespace CowFarm.Worlds
             AddStaticEntity(boulderRock);
 
             Rock rock = new Rock(this, new Rectangle(900, 600, 160, 108), gameTextures);
-            this.AddStaticEntity(rock);
+            AddStaticEntity(rock);
 
-            Tree tree = new Tree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
-            AddStaticEntity(tree);
+            GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
+            AddStaticEntity(greenTree);
 
-            tree = new Tree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
-            AddStaticEntity(tree);
+            OrangeTree orangeTree = new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
+            AddStaticEntity(orangeTree);
 
+            BerryBush berryBush = new BerryBush(graphics, new Rectangle(200, 200, 83, 79), gameTextures);
+            AddStaticEntity(berryBush);
+
+            greenTree = new GreenTree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
+            AddStaticEntity(greenTree);
 
             //border
             BodyFactory.CreateEdge(this, new Vector2((float)graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)graphics.PreferredBackBufferWidth / 100, (float)graphics.PreferredBackBufferHeight / 100));

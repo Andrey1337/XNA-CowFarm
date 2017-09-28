@@ -17,10 +17,10 @@ namespace CowFarm.Entities
 
         private AnimatedSprites _eatenGrassMovement;
         private readonly Texture2D _reapaintTexture;
-        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites grassMovement, AnimatedSprites eatenGrassMovement)
-            : base(graphics, destRect, grassMovement)
+        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 2, 10))
         {
-            _eatenGrassMovement = eatenGrassMovement;
+            _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
             CanInteract = true;
         }
