@@ -1,16 +1,28 @@
 ﻿using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
     public class BerryBush : Plant
     {
-        public BerryBush(GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+        public BerryBush(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["berryBushMovement"], 1, 0))
         {
+            float x1 = (float)(DestRect.X + 40) / 100;
+            float y = (float)(DestRect.Y + DestRect.Height - 17) / 100;
+
+            float x2 = (float)(DestRect.Width + DestRect.X - 45) / 100;
+           
+
+            Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
+            Body.BodyType = BodyType.Static;
+
         }
 
         public override void Load(ContentManager content)

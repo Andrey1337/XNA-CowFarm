@@ -1,4 +1,5 @@
-﻿using CowFarm.DrowingSystem;
+﻿using System.Collections.Generic;
+using CowFarm.DrowingSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -10,8 +11,8 @@ namespace CowFarm.Entities
 {
     public class Bush : Plant
     {
-        public Bush(World world, GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement)
-            : base(graphics, destRect, plantMovement)
+        public Bush(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, destRect, new AnimatedSprites(gameTextures["bushMovement"], 1, 0))
         {
             float x1 = (float)(destRect.X + 30) / 100;
             float y = (float)(destRect.Y + destRect.Height - 18) / 100;
@@ -42,7 +43,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
         }
     }
 }

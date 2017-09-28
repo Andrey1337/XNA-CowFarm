@@ -14,16 +14,19 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        private readonly Dictionary<string, Texture2D> _gameTextures;
+        //private readonly Dictionary<string, Texture2D> _gameTextures;
+
+        private readonly Texture2D _background;
 
         public FirstWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
             ScreenManager screenManager, DateTime gameStartedTime)
             : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
-            _gameTextures = gameTextures;
+            _background = gameTextures["firstWorldBackGround"];
 
             Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), gameTextures);
             AddStaticEntity(grass1);
+
             Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures);
             AddStaticEntity(grass2);
 
@@ -42,16 +45,13 @@ namespace CowFarm.Worlds
             greenTree = new GreenTree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
 
-            var bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
-            Bush bush = new Bush(this, graphics, new Rectangle(100, 150, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
+            Bush bush = new Bush(this, graphics, new Rectangle(100, 150, 84, 87), gameTextures);
             this.AddStaticEntity(bush);
 
-            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
-            bush = new Bush(this, graphics, new Rectangle(830, 200, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
+            bush = new Bush(this, graphics, new Rectangle(830, 200, 84, 87), gameTextures);
             this.AddStaticEntity(bush);
 
-            bushSprite = new AnimatedSprites(_gameTextures["bushMovement"], 1, 0);
-            bush = new Bush(this, graphics, new Rectangle(400, 450, bushSprite.SpriteWidth, bushSprite.SpriteHeight), bushSprite);
+            bush = new Bush(this, graphics, new Rectangle(400, 450, 84, 87), gameTextures);
             this.AddStaticEntity(bush);
 
             Rock rock = new Rock(this, new Rectangle(210, 300, 160, 108), gameTextures);
@@ -67,7 +67,7 @@ namespace CowFarm.Worlds
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_gameTextures["firstWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.Draw(_background, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(gameTime, spriteBatch);
         }
     }

@@ -94,7 +94,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, PlantMovement.SpriteWidth, PlantMovement.Animation.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
         }
 
         public Vector2 GetInteractablePosition()
