@@ -30,10 +30,22 @@ namespace CowFarm.Worlds
             GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
             AddStaticEntity(greenTree);
 
-            BerryBush berryBush = new BerryBush(this, graphics, new Rectangle(200, 200, 90, 79), gameTextures);
+            BerryBush berryBush = new BerryBush(this, graphics, new Rectangle(100, 500, 90, 79), gameTextures);
             AddStaticEntity(berryBush);
 
+            berryBush = new BerryBush(this, graphics, new Rectangle(940, 430, 90, 79), gameTextures);
+            AddStaticEntity(berryBush);
+
+            Bush bush = new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
+            this.AddStaticEntity(bush);
+
+            bush = new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
+            this.AddStaticEntity(bush);
+
             OrangeTree orangeTree = new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
+            AddStaticEntity(orangeTree);
+
+            orangeTree = new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);
             AddStaticEntity(orangeTree);
 
             greenTree = new GreenTree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
