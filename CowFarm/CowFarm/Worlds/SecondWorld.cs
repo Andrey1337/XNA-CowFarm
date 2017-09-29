@@ -21,37 +21,27 @@ namespace CowFarm.Worlds
             Cat cat = new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures);
             AddDynamicEntity(cat);
 
-            var grass1 = new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures);
+            var grass1 = new Grass(graphics, new Rectangle(540, 300, 25, 51), gameTextures);
             AddStaticEntity(grass1);
 
             BoulderRock boulderRock = new BoulderRock(this, new Rectangle(350, 400, 140, 115), gameTextures);
-            AddStaticEntity(boulderRock);
 
             Rock rock = new Rock(this, new Rectangle(900, 600, 160, 108), gameTextures);
-            //AddStaticEntity(rock);
 
             GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
-            AddStaticEntity(greenTree);
 
             BerryBush berryBush = new BerryBush(this, graphics, new Rectangle(100, 500, 120, 110), gameTextures);
-            AddStaticEntity(berryBush);
 
             berryBush = new BerryBush(this, graphics, new Rectangle(940, 400, 120, 110), gameTextures);
-            AddStaticEntity(berryBush);
 
             Bush bush = new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
-            this.AddStaticEntity(bush);
 
             bush = new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
-            this.AddStaticEntity(bush);
-
 
             OrangeTree orangeTree = new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
             orangeTree = new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);
 
-
             greenTree = new GreenTree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
-            AddStaticEntity(greenTree);
 
             //border
             BodyFactory.CreateEdge(this, new Vector2((float)graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)graphics.PreferredBackBufferWidth / 100, (float)graphics.PreferredBackBufferHeight / 100));

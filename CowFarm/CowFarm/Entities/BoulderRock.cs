@@ -30,6 +30,7 @@ namespace CowFarm.Entities
             x2 = (float)(destRect.X + destRect.Width - 13) / 100;
             y2 = (float)(destRect.Y + destRect.Height - 45) / 100;
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
+            world.AddStaticEntity(this);
         }
 
         public override void Load(ContentManager content)

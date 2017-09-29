@@ -19,7 +19,8 @@ namespace CowFarm.Entities
 
             float x2 = (float)(DestRect.Width + DestRect.X - 55) / 100;
 
-            Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));            
+            Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
+            world.AddStaticEntity(this);
         }
 
         public override void Load(ContentManager content)
@@ -39,7 +40,7 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
+            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height + 1);
         }
     }
 }
