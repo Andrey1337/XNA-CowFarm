@@ -15,11 +15,14 @@ namespace CowFarm.Entities
     {
         private const float Delay = 5000f;
 
-        private AnimatedSprites _eatenGrassMovement;
+        private AnimatedSprites _currentAnim;
+
+        private readonly AnimatedSprites _eatenGrassMovement;
         private readonly Texture2D _reapaintTexture;
         public Grass(GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 2, 10))
+            : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
         {
+            _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
             CanInteract = true;
@@ -32,37 +35,32 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            //SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
-            SourceRect = new Rectangle(0, 0, PlantMovement.SpriteWidth, PlantMovement.SpriteHeight);
+            if (IsEaten)
+                _currentAnim = _eatenGrassMovement;
+
+            SourceRect = _currentAnim.Animate(gameTime, Delay, ObjectMovingType);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (IsEaten)
+
+            if (OnFocus)
             {
-                spriteBatch.Draw(_eatenGrassMovement.Animation, DestRect, SourceRect, Color.White);
+                spriteBatch.Draw(_reapaintTexture,
+                    new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6),
+                    SourceRect, Color.White);
+                spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
             }
             else
             {
-                if (OnFocus)
-                {
-                    spriteBatch.Draw(_reapaintTexture,
-                        new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5),
-                        SourceRect, Color.White);
-                    spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
-                }
-                else
-                {
-
-                    spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
-
-                }
+                spriteBatch.Draw(_currentAnim.Animation, DestRect, SourceRect, Color.White);
             }
+
         }
 
         private Texture2D CopyTexture(Texture2D texture)
         {
-            Texture2D copyTexture = new Texture2D(Graphics.GraphicsDevice, 60, PlantMovement.SpriteHeight);
+            Texture2D copyTexture = new Texture2D(Graphics.GraphicsDevice, texture.Width, texture.Height);
             Color[] oldC = new Color[texture.Width * texture.Height];
 
             texture.GetData(oldC);
@@ -78,7 +76,7 @@ namespace CowFarm.Entities
 
             for (int i = 0; i < color.Length; i++)
             {
-                if (color[i].A > 200)
+                if (color[i].A > 225)
                 {
                     color[i] = Color.White;
                 }

@@ -202,8 +202,8 @@ namespace CowFarm.ScreenSystem
 
         private void BackGroundLoad()
         {
-            _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("firstWorldBackGround"));
-            _gameTextures.Add("secondWorldBackGround", _contentManager.Load<Texture2D>("secondWorldBackGround"));
+            _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
+            _gameTextures.Add("secondWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
 
         }
 

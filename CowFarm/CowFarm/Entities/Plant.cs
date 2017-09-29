@@ -16,7 +16,6 @@ namespace CowFarm.Entities
         protected Rectangle DestRect;
         protected GraphicsDeviceManager Graphics;
         protected Rectangle SourceRect;
-
         protected Body Body;
 
         protected ObjectMovingType ObjectMovingType;

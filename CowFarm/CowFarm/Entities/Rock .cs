@@ -13,7 +13,8 @@ namespace CowFarm.Entities
     {
         public Rock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) :
             base(world, destRect, new AnimatedSprites(gameTextures["rockMovement"], 1, 0))
-        {            
+        {
+            world.AddStaticEntity(this);
             float x1 = (float)(destRect.X + 22) / 100;
             float x2 = (float)(destRect.X + destRect.Width - 23) / 100;
 

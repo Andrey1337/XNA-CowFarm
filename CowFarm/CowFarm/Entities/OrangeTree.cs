@@ -9,6 +9,7 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
@@ -17,6 +18,7 @@ namespace CowFarm.Entities
         private const float Delay = float.MaxValue;
         public OrangeTree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(graphics, destRect, new AnimatedSprites(gameTextures["orangeTreeMovement"], 1, 0))
         {
+            world.AddStaticEntity(this);
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 

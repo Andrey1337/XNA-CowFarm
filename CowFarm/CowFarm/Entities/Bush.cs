@@ -14,6 +14,7 @@ namespace CowFarm.Entities
         public Bush(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["bushMovement"], 1, 0))
         {
+            world.AddStaticEntity(this);
             float x1 = (float)(destRect.X + 30) / 100;
             float y = (float)(destRect.Y + destRect.Height - 18) / 100;
             float x2 = x1 + (float)24 / 100;

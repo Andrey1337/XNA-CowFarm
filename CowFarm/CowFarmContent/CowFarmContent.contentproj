@@ -90,7 +90,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="firstWorldBackGround.png">
+    <Compile Include="WorldsBackgrounds\firstWorldBackGround.png">
       <Name>firstWorldBackGround</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -111,7 +111,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="secondWorldBackGround.png">
+    <Compile Include="WorldsBackgrounds\secondWorldBackGround.png">
       <Name>secondWorldBackGround</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

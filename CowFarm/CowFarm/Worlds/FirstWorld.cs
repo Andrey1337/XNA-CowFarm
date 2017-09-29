@@ -27,35 +27,27 @@ namespace CowFarm.Worlds
             Grass grass1 = new Grass(graphics, new Rectangle(480, 440, 25, 51), gameTextures);
             AddStaticEntity(grass1);
 
-            Grass grass2 = new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures);
-            AddStaticEntity(grass2);
+            grass1 = new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures);
+            AddStaticEntity(grass1);
 
             GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
-
             greenTree = new GreenTree(this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
-
             greenTree = new GreenTree(this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
-
             greenTree = new GreenTree(this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
-
             greenTree = new GreenTree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
             this.AddStaticEntity(greenTree);
 
-            Bush bush = new Bush(this, graphics, new Rectangle(100, 150, 84, 87), gameTextures);
-            this.AddStaticEntity(bush);
-
+            var bush = new Bush(this, graphics, new Rectangle(100, 150, 84, 87), gameTextures);
             bush = new Bush(this, graphics, new Rectangle(830, 200, 84, 87), gameTextures);
-            this.AddStaticEntity(bush);
-
             bush = new Bush(this, graphics, new Rectangle(400, 450, 84, 87), gameTextures);
-            this.AddStaticEntity(bush);
 
-            Rock rock = new Rock(this, new Rectangle(210, 300, 160, 108), gameTextures);
-            this.AddStaticEntity(rock);
+
+            var rock = new Rock(this, new Rectangle(210, 300, 160, 108), gameTextures);
+
         }
 
 
