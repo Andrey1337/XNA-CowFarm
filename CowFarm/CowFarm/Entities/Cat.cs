@@ -14,8 +14,6 @@ namespace CowFarm.Entities
 {
     public class Cat : NPC
     {
-        private Rectangle _sourceRect;
-
         private const float Delay = 900f;
 
         public Cat(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
@@ -46,7 +44,7 @@ namespace CowFarm.Entities
 
             if (Body.GetVelocity() == Vector2.Zero)
             {
-                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
             else
             {
@@ -66,14 +64,14 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+                SourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
+            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
 
         public override Rectangle GetPosition()

@@ -30,9 +30,8 @@ namespace CowFarm.Worlds
 
             GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
 
-            BerryBush berryBush = new BerryBush(this, graphics, new Rectangle(100, 500, 120, 110), gameTextures);
-
-            berryBush = new BerryBush(this, graphics, new Rectangle(940, 400, 120, 110), gameTextures);
+            BerryBush berryBush = new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);
+            berryBush = new BerryBush(this, graphics, new Rectangle(940, 400, 130, 120), gameTextures);
 
             Bush bush = new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
 
@@ -40,7 +39,6 @@ namespace CowFarm.Worlds
 
             OrangeTree orangeTree = new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
             orangeTree = new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);
-
             greenTree = new GreenTree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
 
             //border

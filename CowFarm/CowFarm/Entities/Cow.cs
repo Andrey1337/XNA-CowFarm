@@ -25,15 +25,13 @@ namespace CowFarm.Entities
     public class Cow : Animal
     {
         private HashSet<IInteractable>[,] _interactableEntities;
-
         private HashSet<IInteractable> _previousFocusInteractables;
-
-        private Rectangle _sourceRect;
 
         private const float Delay = 200f;
 
         private readonly CowGameScreen _cowGameScreen;
 
+        public float Boost;        
 
         public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
         : base(world, destRect,
@@ -42,6 +40,9 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
+            Boost = 1;
+            
+
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
@@ -227,13 +228,6 @@ namespace CowFarm.Entities
                 if (Vector2.Distance(GetCenterPosition(), grass.GetInteractablePosition()) < 40)
                     interactableList.Add(interactable);
             }
-            //var tree = interactable as GreenTree;
-            //if (tree != null && Vector2.Distance(GetCenterPosition(), tree.GetInteractablePosition()) < 60)
-            //{
-            //    interactableList.Add(interactable);
-            //    continue;
-            //}
-
         }
 
 
@@ -251,13 +245,10 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            DateTime date1 = DateTime.Now;
-
             HandleUserAgent();
             KeyboardState ks = Keyboard.GetState();
 
             IInteractable interactableOnFocus = null;
-
             var savedList = NearbyInteractables();
 
             var interactables = savedList as IList<IInteractable> ?? savedList.ToList();
@@ -309,9 +300,11 @@ namespace CowFarm.Entities
                     Eat(food);
             }
 
+
+
             if (_force.X + _force.Y == 0)
             {
-                _sourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
             else
             {
@@ -331,7 +324,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                _sourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+                SourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
             }
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
@@ -365,7 +358,7 @@ namespace CowFarm.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             Debug.WriteLine("Cow " + GetPosition().Y + GetPosition().Height);
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), _sourceRect, Color.White);
+            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
 
         private KeyboardState _input;
@@ -395,6 +388,17 @@ namespace CowFarm.Entities
             {
                 _force += new Vector2(0, forceAmountY);
             }
+
+            if (_input.IsKeyDown(Keys.Space) && Boost > 0)
+            {
+                Boost -= 0.01f;
+                _force *= 2f;
+            }
+            if (_input.IsKeyUp(Keys.Space) && Boost < 1f)
+            {
+                Boost += 0.01f;
+            }
+            Debug.WriteLine(Boost);
 
             Body.Move(_force);
             Body.ApplyForce(_force);

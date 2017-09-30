@@ -12,9 +12,9 @@ namespace CowFarm.Entities
     public abstract class
         Plant : Entity
     {
+        protected GraphicsDeviceManager Graphics;
         protected AnimatedSprites PlantMovement;
         protected Rectangle DestRect;
-        protected GraphicsDeviceManager Graphics;
         protected Rectangle SourceRect;
         protected Body Body;
 

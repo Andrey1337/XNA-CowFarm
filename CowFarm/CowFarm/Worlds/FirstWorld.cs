@@ -31,15 +31,11 @@ namespace CowFarm.Worlds
             AddStaticEntity(grass1);
 
             GreenTree greenTree = new GreenTree(this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
-            this.AddStaticEntity(greenTree);
             greenTree = new GreenTree(this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);
-            this.AddStaticEntity(greenTree);
             greenTree = new GreenTree(this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
-            this.AddStaticEntity(greenTree);
             greenTree = new GreenTree(this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
-            this.AddStaticEntity(greenTree);
             greenTree = new GreenTree(this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
-            this.AddStaticEntity(greenTree);
+
 
             var bush = new Bush(this, graphics, new Rectangle(100, 150, 84, 87), gameTextures);
             bush = new Bush(this, graphics, new Rectangle(830, 200, 84, 87), gameTextures);

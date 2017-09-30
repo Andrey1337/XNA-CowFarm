@@ -47,6 +47,7 @@ namespace CowFarm.ScreenSystem
         private string _worldSerialize;
         private bool _escapeKeyPressed;
 
+
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
         {
             _gameTextures = null;
@@ -114,6 +115,9 @@ namespace CowFarm.ScreenSystem
             WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
 
             DrawTime();
+
+            float width = _cow.Boost * 400;
+            ScreenManager.SpriteBatch.Draw(_gameTextures["boostSprite"], new Vector2(8, 800), new Rectangle(0, 0, (int)width, 50), Color.White);
 
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
@@ -211,6 +215,8 @@ namespace CowFarm.ScreenSystem
         {
             _gameTextures.Add("timerTexture", _contentManager.Load<Texture2D>("timerTexture"));
             _font = _contentManager.Load<SpriteFont>("gameFont");
+
+            _gameTextures.Add("boostSprite", _contentManager.Load<Texture2D>("boostSprite"));
         }
 
 

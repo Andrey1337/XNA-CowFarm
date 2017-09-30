@@ -23,6 +23,7 @@ namespace CowFarm.Entities
         public Body Body { get; set; }
 
         protected Rectangle DestRect;
+        protected Rectangle SourceRect;
         protected GraphicsDeviceManager Graphics;
 
         protected ObjectMovingType ObjectMovingType;

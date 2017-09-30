@@ -168,8 +168,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="game.png">
-      <Name>game</Name>
+    <Compile Include="boostSprite.png">
+      <Name>boostSprite</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
