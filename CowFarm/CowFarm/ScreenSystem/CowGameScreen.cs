@@ -149,6 +149,8 @@ namespace CowFarm.ScreenSystem
             ScreenManager.SpriteBatch.DrawString(_font, _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
         }
 
+
+
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
             if (input.KeyboardState.IsKeyDown(Keys.Right) && WorldOnFocus.RightWorld != null)
@@ -180,6 +182,7 @@ namespace CowFarm.ScreenSystem
             LoadCat();
             RockLoad();
             BackGroundLoad();
+            LoadButtons();
         }
 
         private void CreateCow()
@@ -240,7 +243,10 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("sprintBorder", _contentManager.Load<Texture2D>("sprintBorder"));
         }
 
-
+        private void LoadButtons()
+        {
+            _gameTextures.Add("eButtonMovement", _contentManager.Load<Texture2D>("eButtonMovement"));
+        }
 
         public void ChangeWorld(Animal animal, Direction direction)
         {

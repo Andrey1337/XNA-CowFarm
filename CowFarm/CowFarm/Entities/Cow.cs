@@ -395,18 +395,19 @@ namespace CowFarm.Entities
                 {
                     Boost -= 0.01f;
                     Delay = 150f;
-                    _force *= 1.5f;
+                    _force *= 1.7f;
+
                 }
                 else
                 {
-                    Delay = 170f;
-                    _force *= 1.3f;
+                    Delay = 180f;
+                    _force *= 1.2f;
                 }
 
             }
             if (_input.IsKeyUp(Keys.Space) && Boost < 1f)
             {
-                Boost += 0.005f;
+                Boost += 0.003f;
                 Delay = 200f;
                 if (Boost > 1)
                     Boost = 1;

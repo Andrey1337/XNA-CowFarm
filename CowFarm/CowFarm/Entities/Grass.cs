@@ -14,8 +14,11 @@ namespace CowFarm.Entities
     public class Grass : Plant, IEatable
     {
         private const float Delay = 5000f;
+        private const float ButtonDelay = 1000f;
 
         private AnimatedSprites _currentAnim;
+        private readonly AnimatedSprites _eBuutonAnim;
+        private Rectangle _buttonSourceRectangle;
 
         private readonly AnimatedSprites _eatenGrassMovement;
         private readonly Texture2D _reapaintTexture;
@@ -24,6 +27,8 @@ namespace CowFarm.Entities
         {
             _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
+            _eBuutonAnim = new AnimatedSprites(gameTextures["eButtonMovement"], 2, 0);
+
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
             CanInteract = true;
         }
@@ -37,6 +42,10 @@ namespace CowFarm.Entities
         {
             if (IsEaten)
                 _currentAnim = _eatenGrassMovement;
+            if (OnFocus)
+            {
+                _buttonSourceRectangle = _eBuutonAnim.Animate(gameTime, ButtonDelay, ObjectMovingType.Static);
+            }
 
             SourceRect = _currentAnim.Animate(gameTime, Delay, ObjectMovingType);
         }
@@ -50,6 +59,9 @@ namespace CowFarm.Entities
                     new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6),
                     SourceRect, Color.White);
                 spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
+
+                var rect = new Rectangle(DestRect.X + 30, DestRect.Y - 30, _eBuutonAnim.SpriteWidth, _eBuutonAnim.SpriteHeight);
+                spriteBatch.Draw(_eBuutonAnim.Animation, rect, _buttonSourceRectangle, Color.White);
             }
             else
             {

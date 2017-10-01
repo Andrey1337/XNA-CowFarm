@@ -83,7 +83,6 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
-
         public override void Eat(IEatable entity)
         {
             throw new System.NotImplementedException();
