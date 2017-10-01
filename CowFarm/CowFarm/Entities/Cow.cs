@@ -27,11 +27,11 @@ namespace CowFarm.Entities
         private HashSet<IInteractable>[,] _interactableEntities;
         private HashSet<IInteractable> _previousFocusInteractables;
 
-        private const float Delay = 200f;
+        private float Delay = 200f;
 
         private readonly CowGameScreen _cowGameScreen;
 
-        public float Boost;        
+        public float Boost;
 
         public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
         : base(world, destRect,
@@ -41,7 +41,7 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
             Boost = 1;
-            
+
 
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
@@ -389,14 +389,27 @@ namespace CowFarm.Entities
                 _force += new Vector2(0, forceAmountY);
             }
 
-            if (_input.IsKeyDown(Keys.Space) && Boost > 0)
+            if (_input.IsKeyDown(Keys.Space))
             {
-                Boost -= 0.01f;
-                _force *= 2f;
+                if (Boost > 0)
+                {
+                    Boost -= 0.01f;
+                    Delay = 150f;
+                    _force *= 1.5f;
+                }
+                else
+                {
+                    Delay = 170f;
+                    _force *= 1.3f;
+                }
+
             }
             if (_input.IsKeyUp(Keys.Space) && Boost < 1f)
             {
-                Boost += 0.01f;
+                Boost += 0.005f;
+                Delay = 200f;
+                if (Boost > 1)
+                    Boost = 1;
             }
             Debug.WriteLine(Boost);
 

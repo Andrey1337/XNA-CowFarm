@@ -39,6 +39,10 @@ namespace CowFarm.ScreenSystem
 
         private Cow _cow;
 
+
+
+        private Texture2D _sprintTexture;
+
         public int Score { get; set; }
 
         private Dictionary<string, Texture2D> _gameTextures;
@@ -85,6 +89,8 @@ namespace CowFarm.ScreenSystem
                 _world.RightWorld = RightWorld;
                 RightWorld.LeftWorld = _world;
 
+
+
                 CreateCow();
                 RightWorld.AddDynamicEntity(_cow);
 
@@ -116,11 +122,24 @@ namespace CowFarm.ScreenSystem
 
             DrawTime();
 
-            float width = _cow.Boost * 400;
-            ScreenManager.SpriteBatch.Draw(_gameTextures["boostSprite"], new Vector2(8, 800), new Rectangle(0, 0, (int)width, 50), Color.White);
+            DrawSprint();
 
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void DrawSprint()
+        {
+            float width = _cow.Boost * 300;
+
+            var rect1 = new Rectangle(6, 848, 304, 20);
+            var rect2 = new Rectangle(8, 850, (int)width, 16);
+
+            ScreenManager.SpriteBatch.Draw(_gameTextures["sprintBorder"], rect1, Color.White);
+
+            ScreenManager.SpriteBatch.Draw(_sprintTexture, rect2, Color.White);
+
+
         }
 
         private void DrawTime()
@@ -216,7 +235,9 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("timerTexture", _contentManager.Load<Texture2D>("timerTexture"));
             _font = _contentManager.Load<SpriteFont>("gameFont");
 
-            _gameTextures.Add("boostSprite", _contentManager.Load<Texture2D>("boostSprite"));
+            _sprintTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            _sprintTexture.SetData(new Color[] { new Color(52, 101, 181), });
+            _gameTextures.Add("sprintBorder", _contentManager.Load<Texture2D>("sprintBorder"));
         }
 
 
