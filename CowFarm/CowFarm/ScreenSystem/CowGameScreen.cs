@@ -27,16 +27,13 @@ namespace CowFarm.ScreenSystem
 
 
         //Worlds 
+        
         private World _world { get; set; }
         private World RightWorld { get; set; }
         public World WorldOnFocus { get; set; }
-
-        //private World _leftWorld;
         //private World _upWorld;
         //private World _downWorld;
-
         private TimeSpan _inGameTime;
-
         private Cow _cow;
 
 
@@ -67,7 +64,7 @@ namespace CowFarm.ScreenSystem
             _graphics = graphics;
 
 
-            HasCursor = true;
+            HasCursor = false;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -104,12 +101,12 @@ namespace CowFarm.ScreenSystem
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
 
-            if (!coveredByOtherScreen && !otherScreenHasFocus)
+            if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
             {
-                if (!_escapeKeyPressed)
-                    _inGameTime += gameTime.ElapsedGameTime;
+                _inGameTime += gameTime.ElapsedGameTime;
 
                 WorldOnFocus.Update(gameTime);
+
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
@@ -164,7 +161,7 @@ namespace CowFarm.ScreenSystem
 
             if (input.IsNewKeyPress(Keys.Escape))
             {
-                //_worldSerialize = "Serialized";
+                _worldSerialize = "Serialized";
 
                 _world.TimeInTheGame = DateTime.Now - _world.GameStartedTime;
                 _escapeKeyPressed = true;

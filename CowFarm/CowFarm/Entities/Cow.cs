@@ -24,6 +24,7 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal
     {
+       
         private HashSet<IInteractable>[,] _interactableEntities;
         private HashSet<IInteractable> _previousFocusInteractables;
 
@@ -83,7 +84,8 @@ namespace CowFarm.Entities
                     , GetPosition().Y + CurrentAnim.SpriteHeight / 4
                     , 70
                     , GetPosition().Height + CurrentAnim.SpriteHeight / 3);
-                //Debug.WriteLine(_rectangle);
+                
+
             }
             if (CurrentAnim == LeftWalk)
             {
@@ -356,8 +358,7 @@ namespace CowFarm.Entities
 
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
-            Debug.WriteLine("Cow " + GetPosition().Y + GetPosition().Height);
+        {            
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
 
@@ -389,30 +390,28 @@ namespace CowFarm.Entities
                 _force += new Vector2(0, forceAmountY);
             }
 
-            if (_input.IsKeyDown(Keys.Space))
+            if (_input.IsKeyDown(Keys.Space) && _force != Vector2.Zero)
             {
                 if (Boost > 0)
                 {
-                    Boost -= 0.01f;
                     Delay = 150f;
+                    Boost -= 0.01f;
                     _force *= 1.7f;
-
                 }
                 else
                 {
                     Delay = 180f;
                     _force *= 1.2f;
                 }
-
             }
-            if (_input.IsKeyUp(Keys.Space) && Boost < 1f)
+            else
             {
                 Boost += 0.003f;
                 Delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
             }
-            Debug.WriteLine(Boost);
+            Debug.WriteLine(Delay);
 
             Body.Move(_force);
             Body.ApplyForce(_force);

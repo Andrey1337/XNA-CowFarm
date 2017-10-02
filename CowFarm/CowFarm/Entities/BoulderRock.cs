@@ -46,7 +46,6 @@ namespace CowFarm.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(DecorationMovement.Animation, DestRect, Color.White);
-            Debug.WriteLine(GetPosition().Y + GetPosition().Height);
         }
 
         public override Rectangle GetPosition()

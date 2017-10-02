@@ -54,7 +54,7 @@ namespace CowFarm
 
             ScreenManager.AddScreen(new BackgroundScreen());
             ScreenManager.AddScreen(menuScreen);
-            ScreenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(3.0)));
+            ScreenManager.AddScreen(new LogoScreen(TimeSpan.FromSeconds(2.0)));
 
             base.Initialize();
         }
