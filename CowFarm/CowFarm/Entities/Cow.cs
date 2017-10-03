@@ -24,7 +24,7 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal
     {
-       
+
         private HashSet<IInteractable>[,] _interactableEntities;
         private HashSet<IInteractable> _previousFocusInteractables;
 
@@ -43,8 +43,8 @@ namespace CowFarm.Entities
         {
             Boost = 1;
 
-
             _cowGameScreen = cowGameScreen;
+
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
@@ -53,6 +53,8 @@ namespace CowFarm.Entities
             _focusNumber = 0;
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
+            Body.SetTypeName("cow");
+
         }
 
         public override Rectangle GetPosition()
@@ -84,7 +86,7 @@ namespace CowFarm.Entities
                     , GetPosition().Y + CurrentAnim.SpriteHeight / 4
                     , 70
                     , GetPosition().Height + CurrentAnim.SpriteHeight / 3);
-                
+
 
             }
             if (CurrentAnim == LeftWalk)
@@ -331,22 +333,20 @@ namespace CowFarm.Entities
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
             {
+                _cowGameScreen.WorldOnFocus.RemoveBody(this.Body);
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
                 _interactableEntities = _cowGameScreen.WorldOnFocus.InteractableEntities;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
                 Body.BodyType = BodyType.Dynamic;
-                Body.CollisionCategories = Category.All;
-                Body.CollidesWith = Category.All;
             }
 
             if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
             {
+                _cowGameScreen.WorldOnFocus.RemoveBody(this.Body);
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
                 _interactableEntities = _cowGameScreen.WorldOnFocus.InteractableEntities;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
                 Body.BodyType = BodyType.Dynamic;
-                Body.CollisionCategories = Category.All;
-                Body.CollidesWith = Category.All;
             }
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
@@ -358,7 +358,7 @@ namespace CowFarm.Entities
 
 
         public override void Draw(SpriteBatch spriteBatch)
-        {            
+        {
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
 
@@ -411,7 +411,7 @@ namespace CowFarm.Entities
                 if (Boost > 1)
                     Boost = 1;
             }
-            Debug.WriteLine(Delay);
+            //Debug.WriteLine(Delay);
 
             Body.Move(_force);
             Body.ApplyForce(_force);

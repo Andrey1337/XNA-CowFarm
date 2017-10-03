@@ -18,7 +18,6 @@ namespace CowFarm.Worlds
 
         public SecondWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
-
             AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
             AddStaticEntity(new Grass(graphics, new Rectangle(540, 300, 25, 51), gameTextures));
 
@@ -43,7 +42,6 @@ namespace CowFarm.Worlds
 
             _gameTextures = gameTextures;
         }
-
 
 
         public override void Load(ContentManager content)

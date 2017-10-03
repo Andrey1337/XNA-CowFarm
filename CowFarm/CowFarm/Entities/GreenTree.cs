@@ -27,9 +27,8 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
-            Body.CollisionCategories = Category.All;
-            Body.CollidesWith = Category.All;
-            //_reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+            
+            Body.SetTypeName("tree");
 
             world.AddStaticEntity(this);
         }

@@ -27,7 +27,7 @@ namespace CowFarm.ScreenSystem
 
 
         //Worlds 
-        
+
         private World _world { get; set; }
         private World RightWorld { get; set; }
         public World WorldOnFocus { get; set; }
@@ -247,8 +247,6 @@ namespace CowFarm.ScreenSystem
 
         public void ChangeWorld(Animal animal, Direction direction)
         {
-
-
             switch (direction)
             {
                 case Direction.Right:
