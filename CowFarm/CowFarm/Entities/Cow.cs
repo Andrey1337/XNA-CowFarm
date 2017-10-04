@@ -54,14 +54,14 @@ namespace CowFarm.Entities
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
             Body.SetTypeName("cow");
-            _cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
+            //_cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
         }
 
-        void CowCollision(HashSet<Contact> collisionSet)
+        private void CowCollision(CollideEventArg contact)
         {
-            if (collisionSet != null)
+            if (contact != null)
             {
-                Console.WriteLine("Cow collides");
+                Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
             }
         }
 

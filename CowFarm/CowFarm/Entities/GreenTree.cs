@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
@@ -31,9 +32,19 @@ namespace CowFarm.Entities
 
             Body.SetTypeName("tree");
 
+            world.ContactManager.Contacted += TreeCollides;
+
             world.AddStaticEntity(this);
         }
 
+        private void TreeCollides(CollideEventArg contact)
+        {
+            if (contact != null)
+            {
+                if (Body.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdB)
+                    Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
+            }
+        }
         public override void Load(ContentManager content)
         {
 

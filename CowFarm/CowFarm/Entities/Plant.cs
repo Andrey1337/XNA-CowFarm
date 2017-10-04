@@ -9,13 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities
 {
-    public abstract class
-        Plant : Entity
+    public abstract class Plant : Entity
     {
         protected GraphicsDeviceManager Graphics;
         protected AnimatedSprites PlantMovement;
         protected Rectangle DestRect;
-        protected Rectangle SourceRect;        
+        protected Rectangle SourceRect;
 
         protected ObjectMovingType ObjectMovingType;
 
