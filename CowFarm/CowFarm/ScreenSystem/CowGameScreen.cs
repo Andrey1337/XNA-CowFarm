@@ -175,6 +175,7 @@ namespace CowFarm.ScreenSystem
             LoadFonts();
             LoadCow();
             LoadCat();
+            LoadFood();
             RockLoad();
             BackGroundLoad();
             LoadButtons();

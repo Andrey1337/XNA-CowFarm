@@ -52,16 +52,14 @@ namespace CowFarm.Entities
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
-            Body.CollisionCategories = Category.All;
-            Body.CollidesWith = Category.All;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
             _focusNumber = 0;
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
             Body.SetTypeName("cow");
             //_cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
         }
-
-
 
         private void CowCollision(CollideEventArg contact)
         {

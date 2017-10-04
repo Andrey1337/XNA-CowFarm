@@ -16,6 +16,7 @@ namespace CowFarm.Entities
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
         private readonly CowGameScreen _cowGameScreen;
+        private Apple _apple;
 
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
@@ -26,6 +27,9 @@ namespace CowFarm.Entities
 
             float x = (float)(destRect.X + destRect.Width - 80) / 100;
             float y = (float)(destRect.Y + destRect.Height - 22) / 100;
+
+            _apple = new Apple(world, new Rectangle(destRect.X+35, destRect.Y+80, 20, 20), gameTextures);
+            //world.AddDynamicEntity(_apple);
 
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
@@ -38,13 +42,19 @@ namespace CowFarm.Entities
             world.AddStaticEntity(this);
         }
 
-        private void TreeCollides(CollideEventArg contact)
+
+        public void CreateApple(World world)
+        {
+
+        }
+
+        private void TreeCollides(object sender, CollideEventArg contact)
         {
             if (contact == null) return;
 
             if ((Body.BodyId == contact.BodyIdA && _cowGameScreen.Cow.BodyId == contact.BodyIdB) || (Body.BodyId == contact.BodyIdB && _cowGameScreen.Cow.BodyId == contact.BodyIdA))
                 //if (_cowGameScreen.Cow.RunningAlreadyInSprint())
-                    Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
+                Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
 
         }
         public override void Load(ContentManager content)
@@ -54,16 +64,20 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
+
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
+            _apple.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (OnFocus)
-            {
-                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
-            }
+            //if (OnFocus)
+            //{
+            //    spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
+            //}
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+
+            _apple.Draw(spriteBatch);
         }
 
         private Texture2D CopyTexture(Texture2D texture)
@@ -101,7 +115,8 @@ namespace CowFarm.Entities
 
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
+            //return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
+            return DestRect;
         }
 
         public bool CanInteract { get; set; }
