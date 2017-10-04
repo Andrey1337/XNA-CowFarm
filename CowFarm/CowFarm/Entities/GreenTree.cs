@@ -15,11 +15,12 @@ namespace CowFarm.Entities
     {
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
+        private readonly CowGameScreen _cowGameScreen;
 
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
-
+            _cowGameScreen = cowGameScreen;
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 
@@ -39,11 +40,12 @@ namespace CowFarm.Entities
 
         private void TreeCollides(CollideEventArg contact)
         {
-            if (contact != null)
-            {
-                if (Body.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdB)
+            if (contact == null) return;
+
+            if ((Body.BodyId == contact.BodyIdA && _cowGameScreen.Cow.BodyId == contact.BodyIdB) || (Body.BodyId == contact.BodyIdB && _cowGameScreen.Cow.BodyId == contact.BodyIdA))
+                //if (_cowGameScreen.Cow.RunningAlreadyInSprint())
                     Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
-            }
+
         }
         public override void Load(ContentManager content)
         {

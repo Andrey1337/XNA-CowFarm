@@ -35,6 +35,8 @@ namespace CowFarm.Entities
 
         public float Boost;
 
+        private TimeSpan _timeInSprint;
+
         public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
         : base(world, destRect,
               new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
@@ -43,6 +45,8 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
             Boost = 1;
+
+            _timeInSprint = TimeSpan.Zero;
 
             _cowGameScreen = cowGameScreen;
             _interactableEntities = world.InteractableEntities;
@@ -56,6 +60,8 @@ namespace CowFarm.Entities
             Body.SetTypeName("cow");
             //_cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
         }
+
+
 
         private void CowCollision(CollideEventArg contact)
         {
@@ -257,7 +263,7 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            HandleUserAgent();
+            HandleUserAgent(gameTime);
             KeyboardState ks = Keyboard.GetState();
 
             IInteractable interactableOnFocus = null;
@@ -359,10 +365,12 @@ namespace CowFarm.Entities
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);
             _previousInteractableOnFocus = interactableOnFocus;
-
-
         }
 
+        public bool RunningAlreadyInSprint()
+        {
+            return _timeInSprint > TimeSpan.FromSeconds(0.3);
+        }
 
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -372,7 +380,7 @@ namespace CowFarm.Entities
 
         private KeyboardState _input;
         private Vector2 _force = new Vector2(0, 0);
-        public void HandleUserAgent()
+        public void HandleUserAgent(GameTime gameTime)
         {
             _force = new Vector2(0, 0);
 
@@ -402,24 +410,27 @@ namespace CowFarm.Entities
             {
                 if (Boost > 0)
                 {
+                    _timeInSprint += gameTime.ElapsedGameTime;
                     _delay = 150f;
                     Boost -= 0.01f;
                     _force *= 1.7f;
                 }
                 else
                 {
+                    _timeInSprint = TimeSpan.Zero;
                     _delay = 180f;
                     _force *= 1.2f;
                 }
             }
             else
             {
+                _timeInSprint = TimeSpan.Zero;
                 Boost += 0.003f;
                 _delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
             }
-            //Debug.WriteLine(Delay);
+            //Debug.WriteLine(_timeInSprint);
 
             Body.Move(_force);
             Body.ApplyForce(_force);

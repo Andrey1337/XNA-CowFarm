@@ -34,9 +34,7 @@ namespace CowFarm.ScreenSystem
         //private World _upWorld;
         //private World _downWorld;
         private TimeSpan _inGameTime;
-        private Cow _cow;
-
-
+        public Cow Cow;
 
         private Texture2D _sprintTexture;
 
@@ -127,7 +125,7 @@ namespace CowFarm.ScreenSystem
 
         private void DrawSprint()
         {
-            float width = _cow.Boost * 300;
+            float width = Cow.Boost * 300;
 
             var rect1 = new Rectangle(6, 848, 304, 20);
             var rect2 = new Rectangle(8, 850, (int)width, 16);
@@ -184,8 +182,8 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(this, WorldOnFocus, new Rectangle(460, 370, 54, 49), _gameTextures);
-            WorldOnFocus.AddDynamicEntity(_cow);
+            Cow = new Cow(this, WorldOnFocus, new Rectangle(460, 370, 54, 49), _gameTextures);
+            WorldOnFocus.AddDynamicEntity(Cow);
         }
 
         private void LoadCow()
@@ -228,6 +226,11 @@ namespace CowFarm.ScreenSystem
             _gameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
             _gameTextures.Add("secondWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
 
+        }
+
+        private void LoadFood()
+        {
+            _gameTextures.Add("appleMovement", _contentManager.Load<Texture2D>("Food/appleMovement"));
         }
 
         private void LoadFonts()
