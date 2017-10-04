@@ -80,8 +80,8 @@ namespace CowFarm.ScreenSystem
 
                 LoadAll();
 
-                _world = new FirstWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
-                RightWorld = new SecondWorld(_graphics, _gameTextures, ScreenManager, DateTime.Now);
+                _world = new FirstWorld(this, _graphics, _gameTextures, ScreenManager, DateTime.Now);
+                RightWorld = new SecondWorld(this, _graphics, _gameTextures, ScreenManager, DateTime.Now);
 
                 _world.RightWorld = RightWorld;
                 RightWorld.LeftWorld = _world;

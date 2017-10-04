@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -14,7 +15,7 @@ namespace CowFarm.Entities
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
 
-        public GreenTree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
 
@@ -27,7 +28,7 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
-            
+
             Body.SetTypeName("tree");
 
             world.AddStaticEntity(this);

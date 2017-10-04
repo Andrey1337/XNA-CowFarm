@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Samples.ScreenSystem;
@@ -16,7 +17,7 @@ namespace CowFarm.Worlds
     {
         private readonly Dictionary<string, Texture2D> _gameTextures;
 
-        public SecondWorld(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
+        public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
             AddStaticEntity(new Grass(graphics, new Rectangle(540, 300, 25, 51), gameTextures));
@@ -25,7 +26,8 @@ namespace CowFarm.Worlds
 
             new Rock(this, new Rectangle(900, 600, 160, 108), gameTextures);
 
-            new GreenTree(this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
+            new GreenTree(cowGameScreen, this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
+            new GreenTree(cowGameScreen, this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
 
             new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);
             new BerryBush(this, graphics, new Rectangle(940, 400, 130, 120), gameTextures);
@@ -35,7 +37,6 @@ namespace CowFarm.Worlds
 
             new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
             new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);
-            new GreenTree(this, graphics, new Rectangle(244, 54, 155, 261), gameTextures);
 
             //border
             BodyFactory.CreateEdge(this, new Vector2((float)graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)graphics.PreferredBackBufferWidth / 100, (float)graphics.PreferredBackBufferHeight / 100));

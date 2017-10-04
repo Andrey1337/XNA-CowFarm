@@ -108,7 +108,6 @@ namespace CowFarm.Worlds
             foreach (var item in StaticEntities)
             {
                 item?.ForEach(entity => entity.Update(gameTime));
-
             }
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
 

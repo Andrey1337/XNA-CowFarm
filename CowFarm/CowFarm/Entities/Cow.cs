@@ -57,13 +57,12 @@ namespace CowFarm.Entities
             _cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
         }
 
-        static void CowCollision(HashSet<Contact> collisionSet)
+        void CowCollision(HashSet<Contact> collisionSet)
         {
             if (collisionSet != null)
             {
                 Console.WriteLine("Cow collides");
             }
-
         }
 
         public override Rectangle GetPosition()
