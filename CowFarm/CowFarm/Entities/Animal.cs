@@ -20,7 +20,7 @@ namespace CowFarm.Entities
         protected AnimatedSprites UpWalk;
         protected AnimatedSprites CurrentAnim;
 
-        public Body Body { get; set; }
+        
 
         protected Rectangle DestRect;
         protected Rectangle SourceRect;

@@ -8,6 +8,7 @@ using CowFarm.Enums;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Samples.DrawingSystem;
 using FarseerPhysics.Samples.ScreenSystem;
@@ -28,7 +29,7 @@ namespace CowFarm.Entities
         private HashSet<IInteractable>[,] _interactableEntities;
         private HashSet<IInteractable> _previousFocusInteractables;
 
-        private float Delay = 200f;
+        private float _delay = 200f;
 
         private readonly CowGameScreen _cowGameScreen;
 
@@ -44,7 +45,6 @@ namespace CowFarm.Entities
             Boost = 1;
 
             _cowGameScreen = cowGameScreen;
-
             _interactableEntities = world.InteractableEntities;
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
@@ -54,6 +54,15 @@ namespace CowFarm.Entities
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
             Body.SetTypeName("cow");
+            _cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
+        }
+
+        static void CowCollision(HashSet<Contact> collisionSet)
+        {
+            if (collisionSet != null)
+            {
+                Console.WriteLine("Cow collides");
+            }
 
         }
 
@@ -328,7 +337,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+                SourceRect = CurrentAnim.Animate(gameTime, _delay, ObjectMovingType);
             }
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
@@ -394,20 +403,20 @@ namespace CowFarm.Entities
             {
                 if (Boost > 0)
                 {
-                    Delay = 150f;
+                    _delay = 150f;
                     Boost -= 0.01f;
                     _force *= 1.7f;
                 }
                 else
                 {
-                    Delay = 180f;
+                    _delay = 180f;
                     _force *= 1.2f;
                 }
             }
             else
             {
                 Boost += 0.003f;
-                Delay = 200f;
+                _delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
             }

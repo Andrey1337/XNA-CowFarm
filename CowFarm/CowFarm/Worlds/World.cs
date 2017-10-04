@@ -147,7 +147,7 @@ namespace CowFarm.Worlds
         {
             if (DynamicEntities.Count > 1)
             {
-                DynamicEntities.Sort(new PositionYComparer());                
+                DynamicEntities.Sort(new PositionYComparer());
             }
 
             int j = 0;

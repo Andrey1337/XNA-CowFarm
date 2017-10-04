@@ -88,10 +88,10 @@ namespace CowFarm.ScreenSystem
 
 
 
-                CreateCow();
-                RightWorld.AddDynamicEntity(_cow);
 
                 WorldOnFocus = RightWorld;
+                CreateCow();
+
             }
 
             _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
@@ -184,8 +184,8 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            _cow = new Cow(this, RightWorld, new Rectangle(460, 370, 54, 49), _gameTextures);
-
+            _cow = new Cow(this, WorldOnFocus, new Rectangle(460, 370, 54, 49), _gameTextures);
+            WorldOnFocus.AddDynamicEntity(_cow);
         }
 
         private void LoadCow()
