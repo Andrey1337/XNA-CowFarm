@@ -17,6 +17,7 @@ namespace CowFarm.Entities
         private readonly Texture2D _reapaintTexture;
         private readonly CowGameScreen _cowGameScreen;
         private Apple _apple;
+        private bool _hasApple;
 
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
@@ -28,9 +29,8 @@ namespace CowFarm.Entities
             float x = (float)(destRect.X + destRect.Width - 80) / 100;
             float y = (float)(destRect.Y + destRect.Height - 22) / 100;
 
-            _apple = new Apple(world, new Rectangle(destRect.X+35, destRect.Y+80, 20, 20), gameTextures);
-            //world.AddDynamicEntity(_apple);
-
+            _apple = new Apple(world, new Rectangle(destRect.X + 35, destRect.Y + 100, 20, 20), gameTextures);
+            _hasApple = true;
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
@@ -50,11 +50,11 @@ namespace CowFarm.Entities
 
         private void TreeCollides(object sender, CollideEventArg contact)
         {
-            if (contact == null) return;
 
-            if ((Body.BodyId == contact.BodyIdA && _cowGameScreen.Cow.BodyId == contact.BodyIdB) || (Body.BodyId == contact.BodyIdB && _cowGameScreen.Cow.BodyId == contact.BodyIdA))
-                //if (_cowGameScreen.Cow.RunningAlreadyInSprint())
-                Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
+            if (!_hasApple && (Body.BodyId != contact.BodyIdA || _cowGameScreen.Cow.BodyId != contact.BodyIdB) &&
+                (Body.BodyId != contact.BodyIdB || _cowGameScreen.Cow.BodyId != contact.BodyIdA)) return;
+            _apple.Fall(DestRect.Y + DestRect.Height);
+            _hasApple = false;
 
         }
         public override void Load(ContentManager content)

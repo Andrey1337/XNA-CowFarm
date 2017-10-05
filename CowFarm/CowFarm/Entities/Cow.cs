@@ -350,6 +350,8 @@ namespace CowFarm.Entities
                 _interactableEntities = _cowGameScreen.WorldOnFocus.InteractableEntities;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
                 Body.BodyType = BodyType.Dynamic;
+                Body.CollisionCategories = Category.All & ~Category.Cat10;
+                Body.CollidesWith = Category.All & ~Category.Cat10;
             }
 
             if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
@@ -359,6 +361,8 @@ namespace CowFarm.Entities
                 _interactableEntities = _cowGameScreen.WorldOnFocus.InteractableEntities;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
                 Body.BodyType = BodyType.Dynamic;
+                Body.CollisionCategories = Category.All & ~Category.Cat10;
+                Body.CollidesWith = Category.All & ~Category.Cat10;
             }
 
             _previousFocusInteractables = new HashSet<IInteractable>(interactables);

@@ -159,7 +159,7 @@ namespace CowFarm.ScreenSystem
 
             if (input.IsNewKeyPress(Keys.Escape))
             {
-                _worldSerialize = "Serialized";
+                //_worldSerialize = "Serialized";
 
                 _world.TimeInTheGame = DateTime.Now - _world.GameStartedTime;
                 _escapeKeyPressed = true;

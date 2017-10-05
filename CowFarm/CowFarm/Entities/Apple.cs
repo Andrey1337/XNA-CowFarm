@@ -13,13 +13,28 @@ namespace CowFarm.Entities
 {
     public class Apple : Decoration, IEatable
     {
+        private World _world;
+        private Body _floor;
         public Apple(World world, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
-            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            _world = world;
+            Body = BodyFactory.CreateCircle(world, (float)6 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
-            Debug.WriteLine(Body.Position);
+            Body.Restitution = 0.25f;
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
+            _world.ContactManager.Contacted += AppleFloorContacted;
+        }
+
+        private void AppleFloorContacted(object sender, CollideEventArg contact)
+        {
+            if ((Body.BodyId != contact.BodyIdA || _floor.BodyId != contact.BodyIdB) &&
+                (Body.BodyId != contact.BodyIdB || _floor.BodyId != contact.BodyIdA)) return;
+
+            _isFalling = false;
+            _world.RemoveBody(_floor);
+            Body.CollisionCategories = Category.All;
+            Body.CollidesWith = Category.All;
         }
 
         public override void Load(ContentManager content)
@@ -27,15 +42,35 @@ namespace CowFarm.Entities
 
         }
 
+        private bool _isFalling;
+        public void Fall(float height)
+        {
+            float x1 = (float)(GetPosition().X) / 100;
+            float x2 = (float)(GetPosition().X + 10) / 100;
+            float y = (height - 10) / 100;
+            _floor = BodyFactory.CreateEdge(_world, new Vector2(x1, y), new Vector2(x2, y));
+            _floor.CollisionCategories = Category.Cat10;
+            _floor.CollidesWith = Category.Cat10;
+            _isFalling = true;
+        }
+
         public override void Update(GameTime gameTime)
         {
-            Body.Stop();
-
+            Debug.WriteLine(_isFalling);
+            if (_isFalling)
+            {
+                Body.ApplyForce(new Vector2(0, 0.015f));
+            }
+            else
+            {
+                Body.Stop();
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+
         }
 
         public override Rectangle GetPosition()
