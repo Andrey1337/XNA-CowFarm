@@ -15,12 +15,20 @@ namespace CowFarm.Entities
     {
         private World _world;
         private Body _floor;
-        public Apple(World world, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
+        private GreenTree _tree;
+
+        private Vector2 origin;
+        
+        public Apple(World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
+            origin.X = DecorationMovement.Animation.Width / 2;
+            origin.Y = DecorationMovement.Animation.Height / 2;            
+
             _world = world;
-            Body = BodyFactory.CreateCircle(world, (float)6 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            _tree = tree;
+            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
-            Body.Restitution = 0.25f;
+            Body.Restitution = 0.26f;
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
             _world.ContactManager.Contacted += AppleFloorContacted;
@@ -28,13 +36,18 @@ namespace CowFarm.Entities
 
         private void AppleFloorContacted(object sender, CollideEventArg contact)
         {
-            if ((Body.BodyId != contact.BodyIdA || _floor.BodyId != contact.BodyIdB) &&
-                (Body.BodyId != contact.BodyIdB || _floor.BodyId != contact.BodyIdA)) return;
+            //Debug.WriteLine(Body.GetVelocity());
 
-            _isFalling = false;
-            _world.RemoveBody(_floor);
-            Body.CollisionCategories = Category.All;
-            Body.CollidesWith = Category.All;
+            if (Body.BodyId == contact.BodyIdB && _floor.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdA && _floor.BodyId == contact.BodyIdB)
+            {
+                Body.Restitution = 0f;
+                _isFalling = false;
+                _world.RemoveBody(_floor);
+                Body.CollisionCategories = Category.All;
+                Body.CollidesWith = Category.All;
+                _tree.Apple = null;
+                _world.AddDynamicEntity(this);
+            }
         }
 
         public override void Load(ContentManager content)
@@ -52,24 +65,24 @@ namespace CowFarm.Entities
             _floor.CollisionCategories = Category.Cat10;
             _floor.CollidesWith = Category.Cat10;
             _isFalling = true;
+            Debug.WriteLine(_floor.BodyId);
         }
 
         public override void Update(GameTime gameTime)
         {
-            Debug.WriteLine(_isFalling);
             if (_isFalling)
-            {
-                Body.ApplyForce(new Vector2(0, 0.015f));
-            }
+                Body.ApplyForce(new Vector2(0, 0.001f));
             else
             {
                 Body.Stop();
             }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);            
+            //spriteBatch.Draw(DecorationMovement.Animation, new Vector2(GetPosition().X + GetPosition().Width, GetPosition().Y + GetPosition().Height / 2), null, Color.White, Body.Rotation, origin, 1.0f, SpriteEffects.None, 0f);
 
         }
 

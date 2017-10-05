@@ -16,9 +16,9 @@ namespace CowFarm.Entities
         private const float Delay = float.MaxValue;
         private readonly Texture2D _reapaintTexture;
         private readonly CowGameScreen _cowGameScreen;
-        private Apple _apple;
+        public Apple Apple { get; set; }
         private bool _hasApple;
-
+        
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
@@ -28,20 +28,18 @@ namespace CowFarm.Entities
 
             float x = (float)(destRect.X + destRect.Width - 80) / 100;
             float y = (float)(destRect.Y + destRect.Height - 22) / 100;
-
-            _apple = new Apple(world, new Rectangle(destRect.X + 35, destRect.Y + 100, 20, 20), gameTextures);
+            Apple = new Apple(world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), gameTextures);
             _hasApple = true;
+
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
-
             Body.SetTypeName("tree");
-
             world.ContactManager.Contacted += TreeCollides;
-
             world.AddStaticEntity(this);
         }
 
+        
 
         public void CreateApple(World world)
         {
@@ -51,9 +49,9 @@ namespace CowFarm.Entities
         private void TreeCollides(object sender, CollideEventArg contact)
         {
 
-            if (!_hasApple && (Body.BodyId != contact.BodyIdA || _cowGameScreen.Cow.BodyId != contact.BodyIdB) &&
+            if (!_hasApple || (Body.BodyId != contact.BodyIdA || _cowGameScreen.Cow.BodyId != contact.BodyIdB) &&
                 (Body.BodyId != contact.BodyIdB || _cowGameScreen.Cow.BodyId != contact.BodyIdA)) return;
-            _apple.Fall(DestRect.Y + DestRect.Height);
+            Apple.Fall(DestRect.Y + DestRect.Height);
             _hasApple = false;
 
         }
@@ -66,7 +64,7 @@ namespace CowFarm.Entities
         {
 
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
-            _apple.Update(gameTime);
+            Apple?.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -77,7 +75,7 @@ namespace CowFarm.Entities
             //}
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
 
-            _apple.Draw(spriteBatch);
+            Apple?.Draw(spriteBatch);
         }
 
         private Texture2D CopyTexture(Texture2D texture)
