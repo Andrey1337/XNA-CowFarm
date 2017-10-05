@@ -17,12 +17,11 @@ namespace CowFarm.Entities
         private Body _floor;
         private GreenTree _tree;
 
-        private Vector2 origin;
-        
+
+
         public Apple(World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
-            origin.X = DecorationMovement.Animation.Width / 2;
-            origin.Y = DecorationMovement.Animation.Height / 2;            
+
 
             _world = world;
             _tree = tree;
@@ -36,7 +35,6 @@ namespace CowFarm.Entities
 
         private void AppleFloorContacted(object sender, CollideEventArg contact)
         {
-            //Debug.WriteLine(Body.GetVelocity());
 
             if (Body.BodyId == contact.BodyIdB && _floor.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdA && _floor.BodyId == contact.BodyIdB)
             {
@@ -71,7 +69,9 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             if (_isFalling)
+            {
                 Body.ApplyForce(new Vector2(0, 0.001f));
+            }
             else
             {
                 Body.Stop();
@@ -81,16 +81,13 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);            
-            //spriteBatch.Draw(DecorationMovement.Animation, new Vector2(GetPosition().X + GetPosition().Width, GetPosition().Y + GetPosition().Height / 2), null, Color.White, Body.Rotation, origin, 1.0f, SpriteEffects.None, 0f);
-
+            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
         }
 
         public override Rectangle GetPosition()
         {
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)DestRect.Width / 2;
-            //vector.Y -= (float)DestRect.Width / 2;
 
             return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Height, DestRect.Width);
         }

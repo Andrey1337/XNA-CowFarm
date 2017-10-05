@@ -26,9 +26,10 @@ namespace CowFarm.Worlds
 
             new Rock(this, new Rectangle(900, 600, 160, 108), gameTextures);
 
-            //new GreenTree(cowGameScreen, this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
-            new GreenTree(cowGameScreen, this, graphics, new Rectangle(240, 50, 155, 261), gameTextures);
+            new GreenTree(cowGameScreen, this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
 
+            var treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Rectangle(240, 50, 155, 261), gameTextures);
+            treeWithAplle.CreateApple();
             new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);
             new BerryBush(this, graphics, new Rectangle(940, 400, 130, 120), gameTextures);
 

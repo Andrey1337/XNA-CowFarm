@@ -415,13 +415,13 @@ namespace CowFarm.Entities
                     _timeInSprint += gameTime.ElapsedGameTime;
                     _delay = 150f;
                     Boost -= 0.01f;
-                    _force *= 1.7f;
+                    _force *= 2f;
                 }
                 else
                 {
                     _timeInSprint = TimeSpan.Zero;
                     _delay = 180f;
-                    _force *= 1.2f;
+                    _force *= 1.3f;
                 }
             }
             else

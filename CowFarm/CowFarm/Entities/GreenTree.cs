@@ -14,36 +14,34 @@ namespace CowFarm.Entities
     public class GreenTree : Plant, IInteractable
     {
         private const float Delay = float.MaxValue;
-        private readonly Texture2D _reapaintTexture;
         private readonly CowGameScreen _cowGameScreen;
         public Apple Apple { get; set; }
         private bool _hasApple;
-        
+        private World _world;
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
+            _world = world;
             _cowGameScreen = cowGameScreen;
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 
             float x = (float)(destRect.X + destRect.Width - 80) / 100;
             float y = (float)(destRect.Y + destRect.Height - 22) / 100;
-            Apple = new Apple(world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), gameTextures);
-            _hasApple = true;
 
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
-
             Body.BodyType = BodyType.Static;
             Body.SetTypeName("tree");
             world.ContactManager.Contacted += TreeCollides;
             world.AddStaticEntity(this);
         }
 
-        
 
-        public void CreateApple(World world)
+
+        public void CreateApple()
         {
-
+            Apple = new Apple(_world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), _cowGameScreen.GameTextures);
+            _hasApple = true;
         }
 
         private void TreeCollides(object sender, CollideEventArg contact)
