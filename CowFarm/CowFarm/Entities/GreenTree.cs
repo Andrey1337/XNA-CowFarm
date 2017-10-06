@@ -17,7 +17,8 @@ namespace CowFarm.Entities
         private readonly CowGameScreen _cowGameScreen;
         public Apple Apple { get; set; }
         private bool _hasApple;
-        private World _world;
+        private readonly World _world;
+
         public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
@@ -40,7 +41,7 @@ namespace CowFarm.Entities
 
         public void CreateApple()
         {
-            Apple = new Apple(_world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), _cowGameScreen.GameTextures);
+            Apple = new Apple(_cowGameScreen, _world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), _cowGameScreen.GameTextures);
             _hasApple = true;
         }
 

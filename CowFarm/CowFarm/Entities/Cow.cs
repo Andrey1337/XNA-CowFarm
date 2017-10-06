@@ -78,8 +78,6 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
-
-
         public override void Eat(IEatable food)
         {
             food.Interact();
@@ -246,7 +244,6 @@ namespace CowFarm.Entities
             }
         }
 
-
         public override void Load(ContentManager content)
         {
 
@@ -315,8 +312,6 @@ namespace CowFarm.Entities
                 if (food != null)
                     Eat(food);
             }
-
-
 
             if (_force.X + _force.Y == 0)
             {
