@@ -50,11 +50,11 @@ namespace CowFarm.Entities
             {
                 if (Force.Y < 0)
                 {
-                    CurrentAnim = UpWalk;
+                    CurrentAnim = DownWalk;
                 }
                 if (Force.Y > 0)
                 {
-                    CurrentAnim = DownWalk;
+                    CurrentAnim = UpWalk;
                 }
                 if (Force.X > 0)
                 {

@@ -18,12 +18,14 @@ namespace CowFarm.Worlds
     public abstract class World : FarseerPhysics.Dynamics.World
     {
         public GraphicsDeviceManager Graphics { get; }
-        protected ScreenManager ScreenManager;
+        protected ScreenManager ScreenManager { get; }
 
         protected List<Entity>[] StaticEntities;
-        protected List<Entity> DynamicEntities;
+        protected List<Entity> DynamicEntities { get; private set; }
 
-        public HashSet<IInteractable>[,] InteractableEntities;
+        public HashSet<IInteractable>[,] InteractableEntities { get; }
+
+        public Dictionary<int, Entity> InteractablesDictionary { get; }
 
         protected Dictionary<string, Texture2D> GameTextures;
 
@@ -45,6 +47,7 @@ namespace CowFarm.Worlds
 
             InteractableEntities =
                 new HashSet<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
+            InteractablesDictionary = new Dictionary<int, Entity>();
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
@@ -52,6 +55,8 @@ namespace CowFarm.Worlds
             TimeInTheGame = new TimeSpan(0);
             GameStartedTime = gameStartedTime;
         }
+
+        
 
         public virtual void Load(ContentManager content)
         {
@@ -89,6 +94,8 @@ namespace CowFarm.Worlds
             var interactable = staticEntity as IInteractable;
             if (interactable != null)
             {
+                
+
                 var interactablePosition = interactable.GetInteractablePosition();
                 if (InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y] == null)
                 {

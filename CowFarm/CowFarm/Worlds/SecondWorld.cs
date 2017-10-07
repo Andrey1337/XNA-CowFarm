@@ -20,7 +20,7 @@ namespace CowFarm.Worlds
         public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
-            AddStaticEntity(new Grass(graphics, new Rectangle(540, 300, 25, 51), gameTextures));
+            new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);
 
             new BoulderRock(this, new Rectangle(350, 400, 140, 115), gameTextures);
 

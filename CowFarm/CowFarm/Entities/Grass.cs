@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
 using CowFarm.Worlds;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
@@ -22,15 +26,23 @@ namespace CowFarm.Entities
 
         private readonly AnimatedSprites _eatenGrassMovement;
         private readonly Texture2D _reapaintTexture;
-        public Grass(GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+        public Grass(GraphicsDeviceManager graphics, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
         {
             _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
             _eBuutonAnim = new AnimatedSprites(gameTextures["eButtonMovement"], 2, 0);
 
+            Body = BodyFactory.CreateRectangle(world, (float)destRect.Width / 100, (float)destRect.Height / 100, 0,
+                new Vector2((float)destRect.X / 100, (float)(destRect.Y +20)/ 100));
+            //Debug.WriteLine(Body.Position);
+            Body.BodyType = BodyType.Static;
+            Body.CollisionCategories = Category.Cat10;
+            Body.CollidesWith = Category.Cat10;
+
             _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
             CanInteract = true;
+            world.AddStaticEntity(this);
         }
 
         public override void Load(ContentManager content)
@@ -60,8 +72,8 @@ namespace CowFarm.Entities
                     SourceRect, Color.White);
                 spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
 
-                var rect = new Rectangle(DestRect.X + 30, DestRect.Y - 30, _eBuutonAnim.SpriteWidth, _eBuutonAnim.SpriteHeight);
-                spriteBatch.Draw(_eBuutonAnim.Animation, rect, _buttonSourceRectangle, Color.White);
+                //var rect = new Rectangle(DestRect.X + 30, DestRect.Y - 30, _eBuutonAnim.SpriteWidth, _eBuutonAnim.SpriteHeight);
+                //spriteBatch.Draw(_eBuutonAnim.Animation, rect, _buttonSourceRectangle, Color.White);
             }
             else
             {

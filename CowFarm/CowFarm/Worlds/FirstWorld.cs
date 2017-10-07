@@ -23,8 +23,8 @@ namespace CowFarm.Worlds
         {
             _background = gameTextures["firstWorldBackGround"];
 
-            AddStaticEntity(new Grass(graphics, new Rectangle(480, 440, 25, 51), gameTextures));
-            AddStaticEntity(new Grass(graphics, new Rectangle(540, 250, 25, 51), gameTextures));
+           // new Grass(graphics,this, new Rectangle(480, 440, 25, 51), gameTextures);
+            //new Grass(graphics, this, new Rectangle(540, 250, 25, 51), gameTextures);
 
             new GreenTree(cowGameScreen, this, graphics, new Rectangle(644, 164, 155, 261), gameTextures);
             new GreenTree(cowGameScreen, this, graphics, new Rectangle(437, 5, 155, 261), gameTextures);

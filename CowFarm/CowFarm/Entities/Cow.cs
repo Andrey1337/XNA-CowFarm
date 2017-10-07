@@ -25,7 +25,6 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal
     {
-
         private HashSet<IInteractable>[,] _interactableEntities;
         private HashSet<IInteractable> _previousFocusInteractables;
 
@@ -58,16 +57,17 @@ namespace CowFarm.Entities
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
             Body.SetTypeName("cow");
-            //_cowGameScreen.WorldOnFocus.ContactManager.Contacted += CowCollision;
+            _cowGameScreen.WorldOnFocus.ContactManager.Nearby += NearbyCow;
         }
 
-        private void CowCollision(CollideEventArg contact)
+        private void NearbyCow(object sender, NearbyEventArg nearby)
         {
-            if (contact != null)
+            if (Body.BodyId == nearby.bodyA.BodyId || Body.BodyId == nearby.bodyB.BodyId)
             {
-                Debug.WriteLine(contact.BodyIdA + " " + contact.BodyIdB);
+                //Debug.WriteLine("ZDAROVA");
             }
         }
+
 
         public override Rectangle GetPosition()
         {
@@ -258,6 +258,7 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
+            
             HandleUserAgent(gameTime);
             KeyboardState ks = Keyboard.GetState();
 

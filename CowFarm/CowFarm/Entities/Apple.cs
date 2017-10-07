@@ -18,15 +18,15 @@ namespace CowFarm.Entities
         private readonly World _world;
         private Body _floor;
         private readonly GreenTree _tree;
-        private readonly CowGameScreen _cowGameScreen;
+        //private readonly CowGameScreen _cowGameScreen;
 
-        private Vector2 _origin;
+        private readonly Vector2 _origin;
         public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
             _origin.X = DecorationMovement.SpriteWidth / 2;
             _origin.Y = DecorationMovement.SpriteHeight / 2;
 
-            _cowGameScreen = cowGameScreen;
+            //_cowGameScreen = cowGameScreen;
             _world = world;
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
@@ -39,7 +39,7 @@ namespace CowFarm.Entities
 
         private void AppleFloorContacted(object sender, CollideEventArg contact)
         {
-
+            //Debug.WriteLine("DRATUTI");
             if (_isFalling && Body.BodyId == contact.BodyIdB && _floor.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdA && _floor.BodyId == contact.BodyIdB)
             {
                 Body.Restitution = 0f;
@@ -51,15 +51,6 @@ namespace CowFarm.Entities
                 _world.AddDynamicEntity(this);
 
             }
-
-
-
-            if (Body.BodyId == contact.BodyIdB && _cowGameScreen.Cow.BodyId == contact.BodyIdA ||
-                Body.BodyId == contact.BodyIdA && _cowGameScreen.Cow.BodyId == contact.BodyIdB)
-            {
-            }
-
-
         }
 
         public override void Load(ContentManager content)
@@ -87,12 +78,9 @@ namespace CowFarm.Entities
             }
             else
             {
-                if (Body.GetVelocity() != Vector2.Zero)
-                {
-                    _rotationAngle += 0.1f;
-                    float circle = MathHelper.Pi * 2;
-                    _rotationAngle %= circle;
-                }
+                _rotationAngle += 0.01f;
+                float circle = MathHelper.Pi * 2;
+                _rotationAngle %= circle;
                 Body.Stop();
             }
 
@@ -100,8 +88,8 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
-            spriteBatch.Draw(DecorationMovement.Animation, new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin, 0.3f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+            //spriteBatch.Draw(DecorationMovement.Animation, new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin, 0.34f, SpriteEffects.None, 0f);
         }
 
         public override Rectangle GetPosition()
