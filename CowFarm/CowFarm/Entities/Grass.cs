@@ -33,9 +33,9 @@ namespace CowFarm.Entities
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
             _eBuutonAnim = new AnimatedSprites(gameTextures["eButtonMovement"], 2, 0);
 
-            Body = BodyFactory.CreateRectangle(world, (float)destRect.Width / 100, (float)destRect.Height / 100, 0,
-                new Vector2((float)destRect.X / 100, (float)(destRect.Y +20)/ 100));
-            //Debug.WriteLine(Body.Position);
+            Body = BodyFactory.CreateRectangle(world, (float)destRect.Width / 100, (float)destRect.Height / 200, 0,
+                new Vector2((float)(destRect.X + destRect.Width / 2) / 100, (float)(destRect.Y + 30) / 100));
+            Body.BodyTypeName = "grass";
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;

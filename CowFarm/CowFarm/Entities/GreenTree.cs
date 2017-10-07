@@ -32,7 +32,7 @@ namespace CowFarm.Entities
 
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
             Body.BodyType = BodyType.Static;
-            Body.SetTypeName("tree");
+            Body.BodyTypeName = "tree";
             world.ContactManager.Contacted += TreeCollides;
             world.AddStaticEntity(this);
         }

@@ -56,15 +56,18 @@ namespace CowFarm.Entities
             _focusNumber = 0;
             this.CurrentAnim = RightWalk;
             _previousFocusInteractables = new HashSet<IInteractable>(NearbyInteractables());
-            Body.SetTypeName("cow");
+            Body.BodyTypeName = "cow";
             _cowGameScreen.WorldOnFocus.ContactManager.Nearby += NearbyCow;
         }
 
         private void NearbyCow(object sender, NearbyEventArg nearby)
         {
+            //Debug.WriteLine(nearby.bodyA.BodyId + " " + nearby.bodyA.BodyTypeName);
+            //Debug.WriteLine(nearby.bodyB.BodyId + " " + nearby.bodyB.BodyTypeName);
+            //Debug.WriteLine("-------------");
             if (Body.BodyId == nearby.bodyA.BodyId || Body.BodyId == nearby.bodyB.BodyId)
             {
-                //Debug.WriteLine("ZDAROVA");
+
             }
         }
 
@@ -258,7 +261,7 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            
+
             HandleUserAgent(gameTime);
             KeyboardState ks = Keyboard.GetState();
 

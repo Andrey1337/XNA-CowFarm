@@ -20,7 +20,7 @@ namespace CowFarm.Entities
             float x2 = x1 + (float)24 / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
-
+            Body.BodyTypeName = "bush";
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
