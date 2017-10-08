@@ -31,25 +31,24 @@ namespace CowFarm.Entities
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
+            Body.BodyTypeName = "apple";
             Body.Restitution = 0.26f;
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
             _world.ContactManager.Contacted += AppleFloorContacted;
         }
 
-        private void AppleFloorContacted(object sender, CollideEventArg contact)
+        private void AppleFloorContacted(object sender, CollideEventArg collide)
         {
-            //Debug.WriteLine("DRATUTI");
-            if (_isFalling && Body.BodyId == contact.BodyIdB && _floor.BodyId == contact.BodyIdA || Body.BodyId == contact.BodyIdA && _floor.BodyId == contact.BodyIdB)
+            if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
             {
                 Body.Restitution = 0f;
                 _isFalling = false;
                 _world.RemoveBody(_floor);
-                Body.CollisionCategories = Category.All;
-                Body.CollidesWith = Category.All;
+                Body.CollisionCategories = Category.All & ~Category.Cat10;
+                Body.CollidesWith = Category.All & ~Category.Cat10;
                 _tree.Apple = null;
                 _world.AddDynamicEntity(this);
-
             }
         }
 

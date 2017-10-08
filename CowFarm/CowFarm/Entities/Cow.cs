@@ -62,12 +62,15 @@ namespace CowFarm.Entities
 
         private void NearbyCow(object sender, NearbyEventArg nearby)
         {
-            //Debug.WriteLine(nearby.bodyA.BodyId + " " + nearby.bodyA.BodyTypeName);
-            //Debug.WriteLine(nearby.bodyB.BodyId + " " + nearby.bodyB.BodyTypeName);
-            //Debug.WriteLine("-------------");
-            if (Body.BodyId == nearby.bodyA.BodyId || Body.BodyId == nearby.bodyB.BodyId)
-            {
 
+            foreach (var variable in nearby.Dictionary.Values)
+            {
+                foreach (var item in variable)
+                {
+                    if (item.BodyTypeName == "cow")
+                        continue;
+                    Debug.WriteLine(item.BodyTypeName);
+                }
             }
         }
 

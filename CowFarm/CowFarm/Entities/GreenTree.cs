@@ -34,9 +34,9 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Static;
             Body.BodyTypeName = "tree";
             world.ContactManager.Contacted += TreeCollides;
+
             world.AddStaticEntity(this);
         }
-
 
 
         public void CreateApple()
@@ -46,12 +46,13 @@ namespace CowFarm.Entities
         }
 
         private void TreeCollides(object sender, CollideEventArg contact)
-        {
+        {            
+            if (!_hasApple || !contact.Dictionary.ContainsKey(BodyId)) return;
+            {
+                Apple.Fall(DestRect.Y + DestRect.Height);
 
-            if (!_hasApple || (Body.BodyId != contact.BodyIdA || _cowGameScreen.Cow.BodyId != contact.BodyIdB) &&
-                (Body.BodyId != contact.BodyIdB || _cowGameScreen.Cow.BodyId != contact.BodyIdA)) return;
-            Apple.Fall(DestRect.Y + DestRect.Height);
-            _hasApple = false;
+                _hasApple = false;
+            }
 
         }
         public override void Load(ContentManager content)

@@ -25,7 +25,6 @@ namespace CowFarm.ScreenSystem
         private readonly ContentManager _contentManager;
         private readonly GraphicsDeviceManager _graphics;
 
-
         //Worlds 
 
         private World _world { get; set; }
@@ -39,7 +38,6 @@ namespace CowFarm.ScreenSystem
         private Texture2D _sprintTexture;
 
         public int Score { get; set; }
-
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         private SpriteFont _font;
 
