@@ -72,6 +72,8 @@ namespace CowFarm.Entities
                     Debug.WriteLine(item.BodyTypeName);
                 }
             }
+            if (nearby.Dictionary.Count != 0)
+                Debug.WriteLine("////////////////");
         }
 
 
