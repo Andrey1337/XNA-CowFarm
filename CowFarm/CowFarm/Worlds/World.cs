@@ -17,6 +17,8 @@ namespace CowFarm.Worlds
 {
     public abstract class World : FarseerPhysics.Dynamics.World
     {
+        public Dictionary<int, IInteractable> InteractablesDictionary { get; }
+
         public GraphicsDeviceManager Graphics { get; }
         protected ScreenManager ScreenManager { get; }
 
@@ -25,7 +27,6 @@ namespace CowFarm.Worlds
 
         public HashSet<IInteractable>[,] InteractableEntities { get; }
 
-        public Dictionary<int, Entity> InteractablesDictionary { get; }
 
         protected Dictionary<string, Texture2D> GameTextures;
 
@@ -47,7 +48,7 @@ namespace CowFarm.Worlds
 
             InteractableEntities =
                 new HashSet<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
-            InteractablesDictionary = new Dictionary<int, Entity>();
+            InteractablesDictionary = new Dictionary<int, IInteractable>();
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
@@ -56,7 +57,7 @@ namespace CowFarm.Worlds
             GameStartedTime = gameStartedTime;
         }
 
-        
+
 
         public virtual void Load(ContentManager content)
         {
@@ -94,18 +95,7 @@ namespace CowFarm.Worlds
             var interactable = staticEntity as IInteractable;
             if (interactable != null)
             {
-                
-
-                var interactablePosition = interactable.GetInteractablePosition();
-                if (InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y] == null)
-                {
-                    InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y] =
-                        new HashSet<IInteractable>() { interactable };
-                }
-                else
-                {
-                    InteractableEntities[(int)interactablePosition.X, (int)interactablePosition.Y].Add(interactable);
-                }
+                InteractablesDictionary.Add(staticEntity.BodyId, interactable);
             }
         }
 
@@ -119,34 +109,6 @@ namespace CowFarm.Worlds
             DynamicEntities.ForEach(entity => entity.Update(gameTime));
 
             this.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
-        }
-
-
-        private void UpdateInteractable()
-        {
-            for (var i = 0; i < StaticEntities.Length; i++)
-            {
-                if (StaticEntities[i] == null) continue;
-                foreach (var entity in StaticEntities[i])
-                {
-                    var interactable = entity as IInteractable;
-
-                    if (interactable == null) continue;
-
-                    var position = interactable.GetInteractablePosition();
-
-                    if (InteractableEntities[(int)position.X, (int)position.Y] == null)
-                    {
-                        InteractableEntities[(int)position.X, (int)position.Y] =
-                            new HashSet<IInteractable>() { interactable };
-                    }
-                    else
-                    {
-                        if (!InteractableEntities[(int)position.X, (int)position.Y].Contains(interactable))
-                            InteractableEntities[(int)position.X, (int)position.Y].Add(interactable);
-                    }
-                }
-            }
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
