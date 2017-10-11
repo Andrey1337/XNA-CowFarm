@@ -10,6 +10,7 @@ namespace CowFarm.Entities
     {
         protected Body Body { get; set; }
         public int BodyId => Body.BodyId;
+        public string BodyTypeName => Body.BodyTypeName;
         public abstract void Load(ContentManager content);
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);

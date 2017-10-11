@@ -25,12 +25,11 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal
     {
+        private HashSet<Entity> _previousFocusInteractables;
 
-        private HashSet<IInteractable> _previousFocusInteractables;
+        private readonly Dictionary<int, Entity> _interactablesDictionary;
 
-        private Dictionary<int, IInteractable> _interactablesDictionary;
-
-        private IEnumerable<IInteractable> _savedList;
+        private IEnumerable<Entity> _savedList;
 
         private float _delay = 200f;
 
@@ -48,8 +47,8 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
             Boost = 1;
-            _savedList = new List<IInteractable>();
-            _previousFocusInteractables = new HashSet<IInteractable>();
+            _savedList = new List<Entity>();
+            _previousFocusInteractables = new HashSet<Entity>();
             _interactablesDictionary = world.InteractablesDictionary;
 
             _timeInSprint = TimeSpan.Zero;
@@ -69,15 +68,42 @@ namespace CowFarm.Entities
 
         private void NearbyCow(object sender, NearbyEventArg nearby)
         {
-            if (nearby.Dictionary.ContainsKey(BodyId))
-            {
-                _savedList = (from body in nearby.Dictionary[BodyId] where _interactablesDictionary.ContainsKey(body.BodyId) select _interactablesDictionary[body.BodyId]);
-            }
-            else
+            if (!nearby.Dictionary.ContainsKey(BodyId))
             {
                 _savedList = null;
+                return;
             }
+            _savedList = (from body in nearby.Dictionary[BodyId]
+                          where _interactablesDictionary.ContainsKey(body.BodyId)
+                          select _interactablesDictionary[body.BodyId]);
+            
+            SortCowNearby();
+            _savedList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));            
         }
+
+        private void SortCowNearby()
+        {
+            List<Entity> list = new List<Entity>();
+            if (CurrentAnim == RightWalk)
+            {
+                list.AddRange(_savedList.Where(entity => entity.GetPosition().X > GetPosition().X + GetPosition().Width / 2));
+            }
+            if (CurrentAnim == LeftWalk)
+            {
+                list.AddRange(_savedList.Where(entity => entity.GetPosition().X + entity.GetPosition().Width < GetPosition().X + GetPosition().Width / 2));
+            }
+            if (CurrentAnim == DownWalk)
+            {
+                list.AddRange(_savedList.Where(entity => entity.GetPosition().Y + entity.GetPosition().Height / 2 + entity.GetPosition().Height / 4 > GetPosition().Y + GetPosition().Height / 2));
+            }
+            if (CurrentAnim == UpWalk)
+            {
+                list.AddRange(_savedList.Where(entity => entity.GetPosition().Y + entity.GetPosition().Height < GetPosition().Y + GetPosition().Height / 2));
+            }
+
+            _savedList = list;
+        }
+
 
         public override Rectangle GetPosition()
         {
@@ -95,7 +121,7 @@ namespace CowFarm.Entities
                 _cowGameScreen.Score += 20;
         }
 
-        private Rectangle _rectangle;
+        //private Rectangle _rectangle;
 
         //public IEnumerable<IInteractable> NearbyInteractables()
         //{
@@ -266,8 +292,6 @@ namespace CowFarm.Entities
         private bool _tabKeyIsPressed;
         private bool _eKeyIsPressed;
 
-
-
         public override void Update(GameTime gameTime)
         {
 
@@ -279,15 +303,13 @@ namespace CowFarm.Entities
             {
                 IInteractable interactableOnFocus = null;
 
-                List<IInteractable> interactablesList = _savedList.ToList();
+                List<Entity> interactablesList = _savedList.ToList();
 
-                HashSet<IInteractable> hash = new HashSet<IInteractable>(_savedList);
+                HashSet<Entity> hash = new HashSet<Entity>(_savedList);
 
 
-                
-                _previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble))
-                    .ToList()
-                    .ForEach(interactable => interactable.OnFocus = false);
+
+                //_previousFocusInteractables.Where(interacteble => !interactablesList.Contains(interacteble as IInteractable)).ToList().ForEach(interactable => interactable.OnFocus = false);
 
                 if (ks.IsKeyDown(Keys.Tab))
                     _tabKeyIsPressed = true;
@@ -315,7 +337,7 @@ namespace CowFarm.Entities
                         Eat(food);
                 }
 
-                _previousFocusInteractables = new HashSet<IInteractable>(_savedList);
+                _previousFocusInteractables = new HashSet<Entity>(_savedList);
                 _previousInteractableOnFocus = interactableOnFocus;
             }
 
