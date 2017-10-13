@@ -57,7 +57,7 @@ namespace CowFarm.Worlds
             GameStartedTime = gameStartedTime;
         }
 
-
+        
 
         public virtual void Load(ContentManager content)
         {
@@ -75,7 +75,10 @@ namespace CowFarm.Worlds
         public void RemoveDynamicEntity(Entity dynamicEntity)
         {
             if (DynamicEntities.Contains(dynamicEntity))
+            {
                 DynamicEntities.Remove(dynamicEntity);
+                RemoveBody(dynamicEntity.Body);
+            }
             else
             {
                 throw new Exception("Entity doesent exist in world");
@@ -90,7 +93,7 @@ namespace CowFarm.Worlds
                 StaticEntities[yPos] = new List<Entity>() { staticEntity };
             else
                 StaticEntities[yPos].Add(staticEntity);
-            
+
             if (staticEntity is IInteractable)
             {
                 InteractablesDictionary.Add(staticEntity.BodyId, staticEntity);

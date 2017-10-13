@@ -26,12 +26,11 @@ namespace CowFarm.ScreenSystem
         private readonly GraphicsDeviceManager _graphics;
 
         //Worlds 
-
-        private World _world { get; set; }
-        private World RightWorld { get; set; }
+        public List<World> WordlsList { get; private set; }
+        private World FirstWorld { get; set; }
+        private World SecondWorld { get; set; }
         public World WorldOnFocus { get; set; }
-        //private World _upWorld;
-        //private World _downWorld;
+
         private TimeSpan _inGameTime;
         public Cow Cow;
 
@@ -46,22 +45,10 @@ namespace CowFarm.ScreenSystem
 
 
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
-        {
-            GameTextures = null;
-            _world = null;
-            _inGameTime = new TimeSpan();
-
-            RightWorld = null;
-            //_leftWorld = null;
-            //_upWorld = null;
-            //_downWorld = null;
-
+        {           
             _contentManager = contentManager;
             _graphics = graphics;
-
-
             HasCursor = false;
-
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
@@ -72,31 +59,28 @@ namespace CowFarm.ScreenSystem
             _escapeKeyPressed = false;
             if (_worldSerialize == null)
             {
+                _inGameTime = new TimeSpan();
                 GameTextures = new Dictionary<string, Texture2D>();
 
                 LoadAll();
 
-                _world = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
-                RightWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
+                FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
+                SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
 
-                _world.RightWorld = RightWorld;
-                RightWorld.LeftWorld = _world;
+                FirstWorld.RightWorld = SecondWorld;
+                SecondWorld.LeftWorld = FirstWorld;
+                WordlsList = new List<World> { FirstWorld, SecondWorld };
 
-
-
-
-                WorldOnFocus = RightWorld;
+                WorldOnFocus = SecondWorld;
                 CreateCow();
 
             }
-
-            _world.GameStartedTime = DateTime.Now - _world.TimeInTheGame;
+            FirstWorld.GameStartedTime = DateTime.Now - FirstWorld.TimeInTheGame;
 
             base.LoadContent();
         }
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
             {
                 _inGameTime += gameTime.ElapsedGameTime;
@@ -159,7 +143,7 @@ namespace CowFarm.ScreenSystem
             {
                 //_worldSerialize = "Serialized";
 
-                _world.TimeInTheGame = DateTime.Now - _world.GameStartedTime;
+                FirstWorld.TimeInTheGame = DateTime.Now - FirstWorld.GameStartedTime;
                 _escapeKeyPressed = true;
                 ExitScreen();
             }
