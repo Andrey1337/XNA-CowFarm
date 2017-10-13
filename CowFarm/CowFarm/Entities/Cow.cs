@@ -74,8 +74,6 @@ namespace CowFarm.Entities
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
-
-            //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
         }
 
         private List<Entity> SortCowNearby()
@@ -85,33 +83,30 @@ namespace CowFarm.Entities
             List<Entity> canBeOnFocusList = new List<Entity>();
             if (CurrentAnim == RightWalk)
             {
-                //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 50
                 && GetPosition().X + GetPosition().Width / 1.1 < entity.GetPosition().X + GetPosition().Width / 2
                 && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
-                canBeOnFocusList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
-                Debug.WriteLine("/////");
             }
             if (CurrentAnim == LeftWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 50
-                && GetPosition().X + GetPosition().Width * 0.1 > entity.GetPosition().X
-                && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
+                && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20
+                && GetPosition().X + GetPosition().Width * 0.1 > entity.GetPosition().X));
             }
             if (CurrentAnim == DownWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + (float)(entity.GetPosition().Height / 2))) < 25
-                && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height
-                ));
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 1.2)), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + (float)(entity.GetPosition().Height / 2))) < 25
+                && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height));
             }
             if (CurrentAnim == UpWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
-                && GetPosition().Y + GetPosition().Height + 2 > entity.GetPosition().Y + GetPosition().Height));
+                && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height
+                ));
             }
             return canBeOnFocusList;
         }
@@ -131,6 +126,8 @@ namespace CowFarm.Entities
             food.Interact();
             if (food is Grass)
                 _cowGameScreen.Score += 20;
+            if (food is Apple)
+                _cowGameScreen.Score += 40;
         }
 
 
@@ -154,7 +151,7 @@ namespace CowFarm.Entities
 
             if (_canBeOnFocusList.Count != 0)
             {
-                
+
                 List<Entity> interactablesList = _canBeOnFocusList.ToList();
 
                 HashSet<Entity> hash = new HashSet<Entity>(_canBeOnFocusList);

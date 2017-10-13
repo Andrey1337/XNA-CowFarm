@@ -45,7 +45,7 @@ namespace CowFarm.ScreenSystem
 
 
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
-        {           
+        {
             _contentManager = contentManager;
             _graphics = graphics;
             HasCursor = false;
@@ -214,6 +214,9 @@ namespace CowFarm.ScreenSystem
         private void LoadFood()
         {
             GameTextures.Add("appleMovement", _contentManager.Load<Texture2D>("Food/appleMovement"));
+            GameTextures.Add("eatenAppleMovement", _contentManager.Load<Texture2D>("Food/eatenAppleMovement"));
+
+
         }
 
         private void LoadFonts()

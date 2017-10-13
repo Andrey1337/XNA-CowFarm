@@ -21,6 +21,7 @@ namespace CowFarm.Entities
         private Body _floor;
         private readonly GreenTree _tree;
         private readonly CowGameScreen _cowGameScreen;
+        private Texture2D _eatenAppleMovement;
 
         // private readonly Vector2 _origin;
 
@@ -30,7 +31,7 @@ namespace CowFarm.Entities
             //_origin.Y = DecorationMovement.SpriteHeight / 2;
 
             ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(DecorationMovement.Animation, Graphics));
-
+            _eatenAppleMovement = gameTextures["eatenAppleMovement"];
             _cowGameScreen = cowGameScreen;
             _world = world;
             _tree = tree;
@@ -86,11 +87,21 @@ namespace CowFarm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (OnFocus)
+            if (IsEaten)
             {
-                spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
+                spriteBatch.Draw(_eatenAppleMovement, GetPosition(), Color.White);
             }
-            spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+            else
+            {
+                if (OnFocus)
+                {
+                    spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), new Color(209, 209, 224));
+                }
+                else
+                {
+                    spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+                }
+            }
         }
 
         public override Rectangle GetPosition()
