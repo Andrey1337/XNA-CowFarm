@@ -61,7 +61,7 @@ namespace CowFarm.Entities
             Body.CollidesWith = Category.All & ~Category.Cat10;
             _focusNumber = 0;
             this.CurrentAnim = RightWalk;
-
+            temp = new List<Entity>();
             Body.BodyTypeName = "cow";
             _cowGameScreen.WorldOnFocus.ContactManager.Nearby += NearbyCow;
         }
@@ -76,30 +76,42 @@ namespace CowFarm.Entities
                           where _interactablesDictionary.ContainsKey(body.BodyId)
                           select _interactablesDictionary[body.BodyId]);
 
-            SortCowNearby();
             _savedList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
             Debug.WriteLine("-------------");
         }
 
         private List<Entity> SortCowNearby()
         {
+            if (_savedList == null)
+                return null;
             List<Entity> list = new List<Entity>();
             if (CurrentAnim == RightWalk)
             {
-                list.AddRange(_savedList.Where(entity => entity.GetPosition().X > GetPosition().X + GetPosition().Width / 2));
+                list.AddRange(_savedList.Where(entity => ((IInteractable)entity).CanInteract
+                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 40
+                && GetPosition().X + GetPosition().Width / 1.1 < entity.GetPosition().X + GetPosition().Width / 2
+                && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
             }
             if (CurrentAnim == LeftWalk)
             {
-                list.AddRange(_savedList.Where(entity => entity.GetPosition().X + entity.GetPosition().Width < GetPosition().X + GetPosition().Width / 2));
-                Debug.WriteLine("TRUE");
+                list.AddRange(_savedList.Where(entity => ((IInteractable)entity).CanInteract
+                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 50
+                && GetPosition().X + GetPosition().Width * 0.1 > entity.GetPosition().X
+                && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
             }
             if (CurrentAnim == DownWalk)
             {
-                list.AddRange(_savedList.Where(entity => entity.GetPosition().Y + entity.GetPosition().Height / 2 + entity.GetPosition().Height / 4 > GetPosition().Y + GetPosition().Height / 2));
+                list.AddRange(_savedList.Where(entity => ((IInteractable)entity).CanInteract
+                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
+                && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height
+                && entity.GetPosition().Y + entity.GetPosition().Height / 2 + entity.GetPosition().Height / 4 > GetPosition().Y + GetPosition().Height / 2));
             }
             if (CurrentAnim == UpWalk)
             {
-                list.AddRange(_savedList.Where(entity => entity.GetPosition().Y + entity.GetPosition().Height < GetPosition().Y + GetPosition().Height / 2));
+                list.AddRange(_savedList.Where(entity => ((IInteractable)entity).CanInteract
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
+                && GetPosition().Y + GetPosition().Height + 2 > entity.GetPosition().Y + GetPosition().Height
+                ));
             }
             return list;
         }
@@ -291,20 +303,19 @@ namespace CowFarm.Entities
 
         private bool _tabKeyIsPressed;
         private bool _eKeyIsPressed;
-
+        private List<Entity> temp;
         public override void Update(GameTime gameTime)
         {
-            SortCowNearby();
             HandleUserAgent(gameTime);
             KeyboardState ks = Keyboard.GetState();
+            if (_force != Vector2.Zero)
+                temp = SortCowNearby();
 
-
-            if (_savedList != null)
+            if (temp.Count != 0)
             {
-                //Debug.WriteLine("Helo");
-                List<Entity> interactablesList = _savedList.ToList();
+                List<Entity> interactablesList = temp.ToList();
 
-                HashSet<Entity> hash = new HashSet<Entity>(_savedList);
+                HashSet<Entity> hash = new HashSet<Entity>(temp);
 
                 IInteractable interactableOnFocus = null;
 
@@ -354,14 +365,21 @@ namespace CowFarm.Entities
                 if (_eKeyIsPressed && ks.IsKeyUp(Keys.E))
                 {
                     _eKeyIsPressed = false;
+
                     var food = interactableOnFocus as IEatable;
                     if (food != null)
                         Eat(food);
+                    SortCowNearby();
                 }
 
                 _previousFocusInteractables = new HashSet<Entity>(_savedList);
                 _previousInteractableOnFocus = interactableOnFocus;
 
+            }
+            else
+            {
+                if (_previousInteractableOnFocus != null)
+                    _previousInteractableOnFocus.OnFocus = false;
             }
 
             if (_force == Vector2.Zero)

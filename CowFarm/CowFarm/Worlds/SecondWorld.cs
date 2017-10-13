@@ -34,8 +34,8 @@ namespace CowFarm.Worlds
             new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);
             new BerryBush(this, graphics, new Rectangle(940, 400, 130, 120), gameTextures);
 
-            new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
-            new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
+            //new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
+            //new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
 
             new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
             new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);
