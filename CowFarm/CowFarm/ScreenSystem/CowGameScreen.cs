@@ -150,7 +150,6 @@ namespace CowFarm.ScreenSystem
             base.HandleInput(input, gameTime);
         }
 
-
         private void LoadAll()
         {
             PlantLoad();

@@ -31,7 +31,7 @@ namespace CowFarm.Worlds
             new GreenTree(cowGameScreen, this, graphics, new Rectangle(1000, 550, 155, 261), gameTextures);
             new GreenTree(cowGameScreen, this, graphics, new Rectangle(150, 450, 155, 261), gameTextures);
             new GreenTree(cowGameScreen, this, graphics, new Rectangle(900, 55, 155, 261), gameTextures);
-            
+
 
             new Bush(this, graphics, new Rectangle(100, 150, 84, 87), gameTextures);
             new Bush(this, graphics, new Rectangle(830, 200, 84, 87), gameTextures);

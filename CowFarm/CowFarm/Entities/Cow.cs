@@ -104,7 +104,7 @@ namespace CowFarm.Entities
             if (CurrentAnim == UpWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 25
                 && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height
                 ));
             }
@@ -149,6 +149,7 @@ namespace CowFarm.Entities
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
+
             if (_canBeOnFocusList.Count != 0)
             {
 
@@ -158,6 +159,10 @@ namespace CowFarm.Entities
 
                 IInteractable interactableOnFocus = null;
 
+                if (!hash.SequenceEqual(_previousFocusInteractables))
+                {
+                    _focusNumber = 0;
+                }
                 if (_focusNumber < interactablesList.Count && interactablesList[_focusNumber] != null)
                 {
                     var interactable = interactablesList[_focusNumber] as IInteractable;
@@ -168,14 +173,19 @@ namespace CowFarm.Entities
                     }
                 }
 
-                if (_previousInteractableOnFocus != null && (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactablesList.Count))
+                if (_previousInteractableOnFocus != null &&
+                    (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus ||
+                     _focusNumber != 0 && _focusNumber == interactablesList.Count))
                     _previousInteractableOnFocus.OnFocus = false;
 
-                foreach (var entity in _previousFocusInteractables.Where(interacteble => !hash.Contains(interacteble)))
+                foreach (var entity in _previousFocusInteractables.Where(
+                    interacteble => !hash.Contains(interacteble)))
                 {
                     var interactable = entity as IInteractable;
                     if (interactable != null) interactable.OnFocus = false;
                 }
+
+
 
                 if (ks.IsKeyDown(Keys.Tab))
                     _tabKeyIsPressed = true;
@@ -204,11 +214,12 @@ namespace CowFarm.Entities
                         Eat(food);
                 }
 
-                _previousFocusInteractables = new HashSet<Entity>(_canBeOnFocusList);
+                _previousFocusInteractables = hash;
                 _previousInteractableOnFocus = interactableOnFocus;
             }
             else
             {
+                _focusNumber = 0;
                 if (_previousInteractableOnFocus != null)
                     _previousInteractableOnFocus.OnFocus = false;
             }
@@ -240,7 +251,6 @@ namespace CowFarm.Entities
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
             {
-
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
                 _interactablesDictionary = _cowGameScreen.WorldOnFocus.InteractablesDictionary;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
@@ -251,7 +261,6 @@ namespace CowFarm.Entities
 
             if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
             {
-
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
                 _interactablesDictionary = _cowGameScreen.WorldOnFocus.InteractablesDictionary;
                 Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));

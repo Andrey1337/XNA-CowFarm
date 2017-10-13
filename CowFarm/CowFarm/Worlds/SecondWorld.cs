@@ -20,9 +20,8 @@ namespace CowFarm.Worlds
         public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
         {
             AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
-            
-            new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);
-            new Grass(graphics, this, new Rectangle(550, 300, 25, 51), gameTextures);
+
+            new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);            
 
             new BoulderRock(this, new Rectangle(350, 400, 140, 115), gameTextures);
 
@@ -32,11 +31,12 @@ namespace CowFarm.Worlds
 
             var treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Rectangle(240, 50, 155, 261), gameTextures);
             treeWithAplle.CreateApple();
+
             new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);
             new BerryBush(this, graphics, new Rectangle(940, 400, 130, 120), gameTextures);
 
-            //new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
-            //new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
+            new Bush(this, graphics, new Rectangle(590, 290, 84, 87), gameTextures);
+            new Bush(this, graphics, new Rectangle(430, 230, 84, 87), gameTextures);
 
             new OrangeTree(this, graphics, new Rectangle(550, 500, 155, 261), gameTextures);
             new OrangeTree(this, graphics, new Rectangle(1000, 60, 155, 261), gameTextures);

@@ -23,12 +23,12 @@ namespace CowFarm.Entities
         private readonly CowGameScreen _cowGameScreen;
         private Texture2D _eatenAppleMovement;
 
-        // private readonly Vector2 _origin;
+        private readonly Vector2 _origin;
 
         public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
-            //_origin.X = DecorationMovement.SpriteWidth / 2;
-            //_origin.Y = DecorationMovement.SpriteHeight / 2;
+            _origin.X = DecorationMovement.SpriteWidth / 2;
+            _origin.Y = DecorationMovement.SpriteHeight / 2;
 
             ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(DecorationMovement.Animation, Graphics));
             _eatenAppleMovement = gameTextures["eatenAppleMovement"];
@@ -82,26 +82,51 @@ namespace CowFarm.Entities
             if (_isFalling)
                 Body.ApplyForce(new Vector2(0, 0.001f));
             else
-                Body.Stop();
+            {
+                if (!IsEaten)
+                {
+                    if (Body.GetVelocity().X != 0)
+                    {
+                        _rotationAngle += Body.GetVelocity().X / 10;
+                        float circle = MathHelper.Pi * 2;
+                        _rotationAngle %= circle;
+                    }
+
+                    Body.Hikuah(0.08f);
+                }
+                else
+                {
+                    Body.Stop();
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (IsEaten)
-            {
                 spriteBatch.Draw(_eatenAppleMovement, GetPosition(), Color.White);
-            }
             else
             {
+
+
                 if (OnFocus)
                 {
-                    spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), new Color(209, 209, 224));
+                    spriteBatch.Draw(DecorationMovement.Animation,
+                        new Vector2(GetPosition().X + GetPosition().Width / 2,
+                            GetPosition().Y + GetPosition().Height / 2), null, new Color(209, 209, 224), _rotationAngle,
+                        _origin, 0.34f, SpriteEffects.None, 0f);
+                    //spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), new Color(209, 209, 224));
                 }
                 else
                 {
-                    spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
+                    spriteBatch.Draw(DecorationMovement.Animation,
+                        new Vector2(GetPosition().X + GetPosition().Width / 2,
+                            GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin,
+                        0.34f, SpriteEffects.None, 0f);
+                    //spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
                 }
             }
+
         }
 
         public override Rectangle GetPosition()
