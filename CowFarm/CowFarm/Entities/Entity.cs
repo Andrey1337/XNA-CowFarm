@@ -14,6 +14,6 @@ namespace CowFarm.Entities
         public abstract void Load(ContentManager content);
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract Rectangle GetPosition();
+        public abstract Rectangle GetPosition();       
     }
 }

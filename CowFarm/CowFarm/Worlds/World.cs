@@ -73,7 +73,6 @@ namespace CowFarm.Worlds
 
             if (dynamicEntity is IInteractable)
                 InteractablesDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
-
         }
 
         public void RemoveDynamicEntity(Entity dynamicEntity)

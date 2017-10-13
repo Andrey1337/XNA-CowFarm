@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
+using CowFarm.Enums;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using FarseerPhysics;
@@ -80,25 +81,48 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             if (_isFalling)
-                Body.ApplyForce(new Vector2(0, 0.001f));
-            else
             {
-                if (!IsEaten)
-                {
-                    if (Body.GetVelocity().X != 0)
-                    {
-                        _rotationAngle += Body.GetVelocity().X / 10;
-                        float circle = MathHelper.Pi * 2;
-                        _rotationAngle %= circle;
-                    }
-
-                    Body.Hikuah(0.08f);
-                }
-                else
-                {
-                    Body.Stop();
-                }
+                Body.ApplyForce(new Vector2(0, 0.001f));
+                return;
             }
+            if (IsEaten)
+            {
+                Body.Stop();
+                return;
+            }
+            if (Body.GetVelocity().X != 0)
+            {
+                _rotationAngle += Body.GetVelocity().X / 10;
+                float circle = MathHelper.Pi * 2;
+                _rotationAngle %= circle;
+            }
+
+            Body.Hikuah(0.08f);
+
+            //if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
+            //{
+            //    _cowGameScreen.ChangeWorld(this, Direction.Right);
+               
+            //    Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
+            //    Body.BodyType = BodyType.Dynamic;
+            //    Body.CollisionCategories = Category.All & ~Category.Cat10;
+            //    Body.CollidesWith = Category.All & ~Category.Cat10;
+            //}
+
+            //if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
+            //{
+            //    _cowGameScreen.ChangeWorld(this, Direction.Left);
+                
+            //    Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
+            //    Body.BodyType = BodyType.Dynamic;
+            //    Body.CollisionCategories = Category.All & ~Category.Cat10;
+            //    Body.CollidesWith = Category.All & ~Category.Cat10;
+            //}
+        }
+
+        private Vector2 GetCenterPosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -107,8 +131,6 @@ namespace CowFarm.Entities
                 spriteBatch.Draw(_eatenAppleMovement, GetPosition(), Color.White);
             else
             {
-
-
                 if (OnFocus)
                 {
                     spriteBatch.Draw(DecorationMovement.Animation,

@@ -5,6 +5,7 @@ using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Enums;
+using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -34,10 +35,12 @@ namespace CowFarm.ScreenSystem
         private TimeSpan _inGameTime;
         public Cow Cow;
 
-        private Texture2D _sprintTexture;
+
 
         public int Score { get; set; }
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
+        public Dictionary<string, SpriteFont> GameFonts { get; private set; }
+
         private SpriteFont _font;
 
         private string _worldSerialize;
@@ -53,16 +56,15 @@ namespace CowFarm.ScreenSystem
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
 
-
         public override void LoadContent()
         {
             _escapeKeyPressed = false;
             if (_worldSerialize == null)
             {
                 _inGameTime = new TimeSpan();
-                GameTextures = new Dictionary<string, Texture2D>();
 
-                LoadAll();
+                GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
+                GameFonts = ResourceLoader.LoadFonts(_contentManager);
 
                 FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
                 SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
@@ -79,6 +81,7 @@ namespace CowFarm.ScreenSystem
 
             base.LoadContent();
         }
+
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
@@ -114,16 +117,14 @@ namespace CowFarm.ScreenSystem
 
             ScreenManager.SpriteBatch.Draw(GameTextures["sprintBorder"], rect1, Color.White);
 
-            ScreenManager.SpriteBatch.Draw(_sprintTexture, rect2, Color.White);
-
-
+            ScreenManager.SpriteBatch.Draw(GameTextures["sprintTexture"], rect2, Color.White);
         }
 
         private void DrawTime()
         {
             ScreenManager.SpriteBatch.Draw(GameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
-            ScreenManager.SpriteBatch.DrawString(_font, "Score: " + Score, new Vector2(100, 16), Color.Black);
-            ScreenManager.SpriteBatch.DrawString(_font, _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], "Score: " + Score, new Vector2(100, 16), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
         }
 
 
@@ -150,88 +151,14 @@ namespace CowFarm.ScreenSystem
             base.HandleInput(input, gameTime);
         }
 
-        private void LoadAll()
-        {
-            PlantLoad();
-            LoadFonts();
-            LoadCow();
-            LoadCat();
-            LoadFood();
-            RockLoad();
-            BackGroundLoad();
-            LoadButtons();
-        }
-
         private void CreateCow()
         {
             Cow = new Cow(this, WorldOnFocus, new Rectangle(460, 370, 54, 49), GameTextures);
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 
-        private void LoadCow()
-        {
-            GameTextures.Add("cowRightWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowRightWalk"));
-            GameTextures.Add("cowLeftWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowLeftWalk"));
-            GameTextures.Add("cowUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowUpWalk"));
-            GameTextures.Add("cowDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/cowDownWalk"));
-        }
-
-        private void LoadCat()
-        {
-            GameTextures.Add("catRightWalk", _contentManager.Load<Texture2D>("AnimalMovements/catRightWalk"));
-            GameTextures.Add("catLeftWalk", _contentManager.Load<Texture2D>("AnimalMovements/catLeftWalk"));
-            GameTextures.Add("catDownWalk", _contentManager.Load<Texture2D>("AnimalMovements/catUpWalk"));
-            GameTextures.Add("catUpWalk", _contentManager.Load<Texture2D>("AnimalMovements/catDownWalk"));
-        }
-
-        private void PlantLoad()
-        {
-            GameTextures.Add("grassMovement", _contentManager.Load<Texture2D>("Plants/grassMovement"));
-
-            GameTextures.Add("greenTreeMovement", _contentManager.Load<Texture2D>("Plants/greenTreeMovement"));
-            GameTextures.Add("orangeTreeMovement", _contentManager.Load<Texture2D>("Plants/orangeTreeMovement"));
-
-            GameTextures.Add("eatenGrassMovement", _contentManager.Load<Texture2D>("Plants/eatenGrassMovement"));
-
-            GameTextures.Add("bushMovement", _contentManager.Load<Texture2D>("Plants/bushMovement"));
-            GameTextures.Add("berryBushMovement", _contentManager.Load<Texture2D>("Plants/berryBushMovement"));
-        }
-
-        private void RockLoad()
-        {
-            GameTextures.Add("rockMovement", _contentManager.Load<Texture2D>("DecorationMovements/rockMovement"));
-            GameTextures.Add("boulderRockMovement", _contentManager.Load<Texture2D>("DecorationMovements/boulderRockMovement"));
-        }
-
-        private void BackGroundLoad()
-        {
-            GameTextures.Add("firstWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
-            GameTextures.Add("secondWorldBackGround", _contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
-
-        }
-
-        private void LoadFood()
-        {
-            GameTextures.Add("appleMovement", _contentManager.Load<Texture2D>("Food/appleMovement"));
-            GameTextures.Add("eatenAppleMovement", _contentManager.Load<Texture2D>("Food/eatenAppleMovement"));
 
 
-        }
-
-        private void LoadFonts()
-        {
-            GameTextures.Add("timerTexture", _contentManager.Load<Texture2D>("timerTexture"));
-            _font = _contentManager.Load<SpriteFont>("gameFont");
-
-            _sprintTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
-            _sprintTexture.SetData(new Color[] { new Color(52, 101, 181), });
-            GameTextures.Add("sprintBorder", _contentManager.Load<Texture2D>("sprintBorder"));
-        }
-
-        private void LoadButtons()
-        {
-            GameTextures.Add("eButtonMovement", _contentManager.Load<Texture2D>("eButtonMovement"));
-        }
 
         public void ChangeWorld(Animal animal, Direction direction)
         {
