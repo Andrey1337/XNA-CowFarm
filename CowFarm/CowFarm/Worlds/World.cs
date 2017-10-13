@@ -57,7 +57,7 @@ namespace CowFarm.Worlds
             GameStartedTime = gameStartedTime;
         }
 
-        
+
 
         public virtual void Load(ContentManager content)
         {
@@ -70,6 +70,10 @@ namespace CowFarm.Worlds
                 DynamicEntities = new List<Entity>() { dynamicEntity };
             else
                 DynamicEntities.Add(dynamicEntity);
+
+            if (dynamicEntity is IInteractable)
+                InteractablesDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
+
         }
 
         public void RemoveDynamicEntity(Entity dynamicEntity)

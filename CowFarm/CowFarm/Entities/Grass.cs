@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -25,7 +26,7 @@ namespace CowFarm.Entities
         private Rectangle _buttonSourceRectangle;
 
         private readonly AnimatedSprites _eatenGrassMovement;
-        private readonly Texture2D _reapaintTexture;
+
         public Grass(GraphicsDeviceManager graphics, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
         {
@@ -40,7 +41,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
 
-            _reapaintTexture = RepaintRectangle(CopyTexture(PlantMovement.Animation));
+            ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(PlantMovement.Animation, Graphics));
             CanInteract = true;
             world.AddStaticEntity(this);
         }
@@ -67,11 +68,8 @@ namespace CowFarm.Entities
 
             if (OnFocus)
             {
-                spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
+                spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
                 spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
-
-                //var rect = new Rectangle(DestRect.X + 30, DestRect.Y - 30, _eBuutonAnim.SpriteWidth, _eBuutonAnim.SpriteHeight);
-                //spriteBatch.Draw(_eBuutonAnim.Animation, rect, _buttonSourceRectangle, Color.White);
             }
             else
             {
@@ -80,37 +78,6 @@ namespace CowFarm.Entities
 
         }
 
-        private Texture2D CopyTexture(Texture2D texture)
-        {
-            Texture2D copyTexture = new Texture2D(Graphics.GraphicsDevice, texture.Width, texture.Height);
-            Color[] oldC = new Color[texture.Width * texture.Height];
-
-            texture.GetData(oldC);
-            copyTexture.SetData<Color>(oldC);
-
-            return copyTexture;
-        }
-
-        public static Texture2D RepaintRectangle(Texture2D texture)
-        {
-            Color[] color = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(color);
-
-            for (int i = 0; i < color.Length; i++)
-            {
-                if (color[i].A > 225)
-                {
-                    color[i] = Color.White;
-                }
-                else
-                {
-                    color[i].A = 0;
-                }
-            }
-
-            texture.SetData<Color>(color);
-            return texture;
-        }
 
         public override Rectangle GetPosition()
         {
@@ -128,6 +95,7 @@ namespace CowFarm.Entities
             CanInteract = false;
         }
 
+        public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }
         public bool IsEaten { get; set; }
         public bool CanInteract { get; set; }

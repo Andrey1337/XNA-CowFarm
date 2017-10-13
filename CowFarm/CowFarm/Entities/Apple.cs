@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.ScreenSystem;
+using CowFarm.Utility;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -15,18 +16,22 @@ namespace CowFarm.Entities
     public class Apple : Decoration, IEatable
     {
         private float _rotationAngle;
+
         private readonly World _world;
         private Body _floor;
         private readonly GreenTree _tree;
-        //private readonly CowGameScreen _cowGameScreen;
+        private readonly CowGameScreen _cowGameScreen;
 
-        private readonly Vector2 _origin;
+        // private readonly Vector2 _origin;
+
         public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
         {
-            _origin.X = DecorationMovement.SpriteWidth / 2;
-            _origin.Y = DecorationMovement.SpriteHeight / 2;
+            //_origin.X = DecorationMovement.SpriteWidth / 2;
+            //_origin.Y = DecorationMovement.SpriteHeight / 2;
 
-            //_cowGameScreen = cowGameScreen;
+            ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(DecorationMovement.Animation, Graphics));
+
+            _cowGameScreen = cowGameScreen;
             _world = world;
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
@@ -35,6 +40,7 @@ namespace CowFarm.Entities
             Body.Restitution = 0.26f;
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
+
             _world.ContactManager.Contacted += AppleFloorContacted;
         }
 
@@ -49,6 +55,7 @@ namespace CowFarm.Entities
                 Body.CollidesWith = Category.All & ~Category.Cat10;
                 _tree.Apple = null;
                 _world.AddDynamicEntity(this);
+                CanInteract = true;
             }
         }
 
@@ -72,23 +79,18 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             if (_isFalling)
-            {
                 Body.ApplyForce(new Vector2(0, 0.001f));
-            }
             else
-            {
-                _rotationAngle += 0.01f;
-                float circle = MathHelper.Pi * 2;
-                _rotationAngle %= circle;
                 Body.Stop();
-            }
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (OnFocus)
+            {
+                spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
+            }
             spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
-            //spriteBatch.Draw(DecorationMovement.Animation, new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin, 0.34f, SpriteEffects.None, 0f);
         }
 
         public override Rectangle GetPosition()
@@ -99,15 +101,13 @@ namespace CowFarm.Entities
             return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Height, DestRect.Width);
         }
 
+        public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }
         public bool CanInteract { get; set; }
-        public Vector2 GetInteractablePosition()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Interact()
         {
+            IsEaten = true;
+            CanInteract = false;
 
         }
 

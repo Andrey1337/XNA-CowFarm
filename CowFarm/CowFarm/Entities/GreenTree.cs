@@ -68,11 +68,7 @@ namespace CowFarm.Entities
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
-            //if (OnFocus)
-            //{
-            //    spriteBatch.Draw(_reapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 3, DestRect.Width + 6, DestRect.Height + 5), SourceRect, Color.White);
-            //}
+        {            
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
 
             Apple?.Draw(spriteBatch);
@@ -112,8 +108,7 @@ namespace CowFarm.Entities
         }
 
         public override Rectangle GetPosition()
-        {
-            //return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
+        {           
             return DestRect;
         }
 
@@ -129,6 +124,7 @@ namespace CowFarm.Entities
             throw new System.NotImplementedException();
         }
 
+        public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }
     }
 }

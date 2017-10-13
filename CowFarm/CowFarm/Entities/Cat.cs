@@ -29,6 +29,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
+            Body.BodyTypeName = "cat";
             SpeedX = 0.8f;
             SpeedY = 0.7f;
         }
