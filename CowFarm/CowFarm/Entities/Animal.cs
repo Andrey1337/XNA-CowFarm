@@ -38,23 +38,18 @@ namespace CowFarm.Entities
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
+        //public virtual void ChangeWorld(Direction directionOfWorld)
+        //{
+        //    if (directionOfWorld == Direction.Right)
+        //    {
+        //        Body.Position = new Vector2(0, (float)(GetPosition().Y + 1) / 100);
+        //    }
 
-        public virtual void ChangeWorld(Direction directionOfWorld)
-        {
-            if (directionOfWorld == Direction.Right)
-            {
-                Body.Position = new Vector2(0, (float)(GetPosition().Y + 1) / 100);
-            }
-
-            if (directionOfWorld == Direction.Left)
-            {
-                Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width - 2) / 100, (float)(GetPosition().Y + 1) / 100);
-            }
-        }
+        //    if (directionOfWorld == Direction.Left)
+        //    {
+        //        Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width - 100) / 100, (float)(GetPosition().Y + 1) / 100);
+        //    }
+        //}
 
         protected Vector2 GetCenterPosition()
         {
@@ -62,6 +57,6 @@ namespace CowFarm.Entities
         }
 
 
-        public abstract void Eat(IEatable entity);
+        public abstract void Eat(IEatable food);
     }
 }

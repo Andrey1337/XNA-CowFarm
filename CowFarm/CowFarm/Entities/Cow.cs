@@ -23,7 +23,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Cow : Animal
+    public class Cow : Animal, IDynamic
     {
         private HashSet<Entity> _previousFocusInteractables;
 
@@ -71,6 +71,7 @@ namespace CowFarm.Entities
         {
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
+            nearby.Dictionary[BodyId].ForEach(body => Debug.WriteLine(body.BodyTypeName));
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
@@ -104,7 +105,7 @@ namespace CowFarm.Entities
             if (CurrentAnim == UpWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 25
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
                 && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height
                 ));
             }
@@ -149,7 +150,7 @@ namespace CowFarm.Entities
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
-
+            _canBeOnFocusList.ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
             if (_canBeOnFocusList.Count != 0)
             {
 
@@ -252,24 +253,12 @@ namespace CowFarm.Entities
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Right);
-                _interactablesDictionary = _cowGameScreen.WorldOnFocus.InteractablesDictionary;
-                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
-                Body.BodyType = BodyType.Dynamic;
-                Body.CollisionCategories = Category.All & ~Category.Cat10;
-                Body.CollidesWith = Category.All & ~Category.Cat10;
             }
 
             if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
-                _interactablesDictionary = _cowGameScreen.WorldOnFocus.InteractablesDictionary;
-                Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
-                Body.BodyType = BodyType.Dynamic;
-                Body.CollisionCategories = Category.All & ~Category.Cat10;
-                Body.CollidesWith = Category.All & ~Category.Cat10;
             }
-
-
         }
 
         public bool RunningAlreadyInSprint()
@@ -341,5 +330,27 @@ namespace CowFarm.Entities
         }
 
         public bool IsSelected { get; set; }
+
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    _interactablesDictionary = world.InteractablesDictionary;
+                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2(0, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
+                    Body.BodyType = BodyType.Dynamic;
+                    Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    Body.CollidesWith = Category.All & ~Category.Cat10;
+                    break;
+
+                case Direction.Left:
+                    _interactablesDictionary = world.InteractablesDictionary;
+                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
+                    Body.BodyType = BodyType.Dynamic;
+                    Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    Body.CollidesWith = Category.All & ~Category.Cat10;
+                    break;
+            }
+        }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Entities\OrangeTree.cs" />
     <Compile Include="Entities\Rock .cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="IDynamic.cs" />
     <Compile Include="IInteractable.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />

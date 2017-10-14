@@ -97,13 +97,9 @@ namespace CowFarm.ScreenSystem
         public override void Draw(GameTime gameTime)
         {
             ScreenManager.SpriteBatch.Begin();
-
             WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
-
             DrawTime();
-
             DrawSprint();
-
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -111,12 +107,9 @@ namespace CowFarm.ScreenSystem
         private void DrawSprint()
         {
             float width = Cow.Boost * 300;
-
             var rect1 = new Rectangle(6, 848, 304, 20);
             var rect2 = new Rectangle(8, 850, (int)width, 16);
-
             ScreenManager.SpriteBatch.Draw(GameTextures["sprintBorder"], rect1, Color.White);
-
             ScreenManager.SpriteBatch.Draw(GameTextures["sprintTexture"], rect2, Color.White);
         }
 
@@ -126,8 +119,6 @@ namespace CowFarm.ScreenSystem
             ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], "Score: " + Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
         }
-
-
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
@@ -157,28 +148,35 @@ namespace CowFarm.ScreenSystem
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 
-
-
-
-        public void ChangeWorld(Animal animal, Direction direction)
+        public void ChangeWorld(IDynamic dynamic, Direction direction)
         {
             switch (direction)
             {
                 case Direction.Right:
-
-                    WorldOnFocus.RemoveDynamicEntity(animal);
-                    animal.ChangeWorld(Direction.Right);
-                    WorldOnFocus.RightWorld.AddDynamicEntity(animal);
-                    WorldOnFocus = WorldOnFocus.RightWorld;
-
+                    WorldOnFocus.RemoveDynamicEntity((Entity)dynamic);
+                    dynamic.ChangeWorld(WorldOnFocus.RightWorld, direction);
+                    WorldOnFocus.RightWorld.AddDynamicEntity((Entity)dynamic);
                     break;
+
                 case Direction.Left:
+                    WorldOnFocus.RemoveDynamicEntity((Entity)dynamic);
+                    dynamic.ChangeWorld(WorldOnFocus.LeftWorld, direction);
+                    WorldOnFocus.LeftWorld.AddDynamicEntity((Entity)dynamic);
+                    break;
+            }
 
-                    WorldOnFocus.RemoveDynamicEntity(animal);
-                    animal.ChangeWorld(Direction.Left);
-                    WorldOnFocus.LeftWorld.AddDynamicEntity(animal);
-                    WorldOnFocus = WorldOnFocus.LeftWorld;
+            if (!(dynamic is Cow)) return;
 
+            switch (direction)
+            {
+                case Direction.Right:
+                    if (WorldOnFocus.RightWorld != null)
+                        WorldOnFocus = WorldOnFocus.RightWorld;
+                    break;
+
+                case Direction.Left:
+                    if (WorldOnFocus.LeftWorld != null)
+                        WorldOnFocus = WorldOnFocus.LeftWorld;
                     break;
 
             }

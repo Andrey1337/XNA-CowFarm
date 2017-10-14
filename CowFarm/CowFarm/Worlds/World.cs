@@ -80,11 +80,8 @@ namespace CowFarm.Worlds
             if (DynamicEntities.Contains(dynamicEntity))
             {
                 DynamicEntities.Remove(dynamicEntity);
+
                 RemoveBody(dynamicEntity.Body);
-            }
-            else
-            {
-                throw new Exception("Entity doesent exist in world");
             }
         }
 

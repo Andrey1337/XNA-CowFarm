@@ -19,7 +19,7 @@ namespace CowFarm.Entities
         private bool _hasApple;
         private readonly World _world;
 
-        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
+        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, IDictionary<string, Texture2D> gameTextures)
             : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
             _world = world;
@@ -46,7 +46,7 @@ namespace CowFarm.Entities
         }
 
         private void TreeCollides(object sender, CollideEventArg contact)
-        {            
+        {
             if (!_hasApple || !contact.Dictionary.ContainsKey(BodyId)) return;
             {
                 Apple.Fall(DestRect.Y + DestRect.Height);
@@ -68,7 +68,7 @@ namespace CowFarm.Entities
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {            
+        {
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
 
             Apple?.Draw(spriteBatch);
@@ -108,7 +108,7 @@ namespace CowFarm.Entities
         }
 
         public override Rectangle GetPosition()
-        {           
+        {
             return DestRect;
         }
 

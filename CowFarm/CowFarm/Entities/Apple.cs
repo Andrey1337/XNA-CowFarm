@@ -14,7 +14,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Apple : Decoration, IEatable
+    public class Apple : Decoration, IEatable, IDynamic
     {
         private float _rotationAngle;
 
@@ -22,7 +22,7 @@ namespace CowFarm.Entities
         private Body _floor;
         private readonly GreenTree _tree;
         private readonly CowGameScreen _cowGameScreen;
-        private Texture2D _eatenAppleMovement;
+        private readonly Texture2D _eatenAppleMovement;
 
         private readonly Vector2 _origin;
 
@@ -99,30 +99,15 @@ namespace CowFarm.Entities
 
             Body.Hikuah(0.08f);
 
-            //if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
-            //{
-            //    _cowGameScreen.ChangeWorld(this, Direction.Right);
-               
-            //    Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)GetCenterPosition().X / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
-            //    Body.BodyType = BodyType.Dynamic;
-            //    Body.CollisionCategories = Category.All & ~Category.Cat10;
-            //    Body.CollidesWith = Category.All & ~Category.Cat10;
-            //}
+            if (GetPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
+            {
+                _cowGameScreen.ChangeWorld(this, Direction.Right);
+            }
 
-            //if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
-            //{
-            //    _cowGameScreen.ChangeWorld(this, Direction.Left);
-                
-            //    Body = BodyFactory.CreateRectangle(_cowGameScreen.WorldOnFocus, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height) / 100));
-            //    Body.BodyType = BodyType.Dynamic;
-            //    Body.CollisionCategories = Category.All & ~Category.Cat10;
-            //    Body.CollidesWith = Category.All & ~Category.Cat10;
-            //}
-        }
-
-        private Vector2 GetCenterPosition()
-        {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
+            if (GetPosition().X + GetPosition().Width < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
+            {
+                _cowGameScreen.ChangeWorld(this, Direction.Left);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -137,7 +122,6 @@ namespace CowFarm.Entities
                         new Vector2(GetPosition().X + GetPosition().Width / 2,
                             GetPosition().Y + GetPosition().Height / 2), null, new Color(209, 209, 224), _rotationAngle,
                         _origin, 0.34f, SpriteEffects.None, 0f);
-                    //spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), new Color(209, 209, 224));
                 }
                 else
                 {
@@ -145,10 +129,8 @@ namespace CowFarm.Entities
                         new Vector2(GetPosition().X + GetPosition().Width / 2,
                             GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin,
                         0.34f, SpriteEffects.None, 0f);
-                    //spriteBatch.Draw(DecorationMovement.Animation, GetPosition(), Color.White);
                 }
             }
-
         }
 
         public override Rectangle GetPosition()
@@ -170,5 +152,30 @@ namespace CowFarm.Entities
         }
 
         public bool IsEaten { get; set; }
+
+
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
+                    Body.BodyTypeName = "apple";
+                    Body.BodyType = BodyType.Dynamic;
+                    Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    Body.CollidesWith = Category.All & ~Category.Cat10;
+
+                    break;
+
+                case Direction.Left:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
+                    Body.BodyTypeName = "apple";
+                    Body.BodyType = BodyType.Dynamic;
+                    Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    Body.CollidesWith = Category.All & ~Category.Cat10;
+
+                    break;
+            }
+        }
     }
 }
