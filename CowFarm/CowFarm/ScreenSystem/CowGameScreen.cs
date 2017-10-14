@@ -35,13 +35,9 @@ namespace CowFarm.ScreenSystem
         private TimeSpan _inGameTime;
         public Cow Cow;
 
-
-
         public int Score { get; set; }
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
-
-        private SpriteFont _font;
 
         private string _worldSerialize;
         private bool _escapeKeyPressed;
@@ -59,24 +55,23 @@ namespace CowFarm.ScreenSystem
         public override void LoadContent()
         {
             _escapeKeyPressed = false;
-            if (_worldSerialize == null)
-            {
-                _inGameTime = new TimeSpan();
 
-                GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
-                GameFonts = ResourceLoader.LoadFonts(_contentManager);
+            _inGameTime = new TimeSpan();
 
-                FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
-                SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
+            GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
+            GameFonts = ResourceLoader.LoadFonts(_contentManager);
 
-                FirstWorld.RightWorld = SecondWorld;
-                SecondWorld.LeftWorld = FirstWorld;
-                WordlsList = new List<World> { FirstWorld, SecondWorld };
+            FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
+            SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
 
-                WorldOnFocus = SecondWorld;
-                CreateCow();
+            FirstWorld.RightWorld = SecondWorld;
+            SecondWorld.LeftWorld = FirstWorld;
+            WordlsList = new List<World> { FirstWorld, SecondWorld };
 
-            }
+            WorldOnFocus = SecondWorld;
+            CreateCow();
+
+
             FirstWorld.GameStartedTime = DateTime.Now - FirstWorld.TimeInTheGame;
 
             base.LoadContent();
@@ -170,13 +165,11 @@ namespace CowFarm.ScreenSystem
             switch (direction)
             {
                 case Direction.Right:
-                    if (WorldOnFocus.RightWorld != null)
-                        WorldOnFocus = WorldOnFocus.RightWorld;
+                    WorldOnFocus = WorldOnFocus.RightWorld;
                     break;
 
                 case Direction.Left:
-                    if (WorldOnFocus.LeftWorld != null)
-                        WorldOnFocus = WorldOnFocus.LeftWorld;
+                    WorldOnFocus = WorldOnFocus.LeftWorld;
                     break;
 
             }

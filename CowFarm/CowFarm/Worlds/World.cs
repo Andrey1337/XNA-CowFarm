@@ -100,7 +100,6 @@ namespace CowFarm.Worlds
             }
         }
 
-
         public virtual void Update(GameTime gameTime)
         {
             foreach (var item in StaticEntities)
