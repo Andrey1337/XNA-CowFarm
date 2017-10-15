@@ -1,4 +1,6 @@
-﻿using CowFarm.Entities;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
+using CowFarm.Entities;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,12 +22,26 @@ namespace CowFarm.Inventory
         public void Add(Item item)
         {
             for (var i = 0; i < _containers.Length; i++)
-            {                
+            {
                 if (_containers[i] == null || !_containers[i].PossibleToAdd(item.BodyTypeName)) continue;
                 _containers[i].Add();
                 item.Pick();
                 return;
             }
+
+            for (var i = 0; i < _containers.Length; i++)
+            {
+                if (_containers[i] != null) continue;
+                _containers[i] = new Container(item);
+                _containers[i].Add();
+                item.Pick();
+                return;
+            }
+        }
+
+        public void Drop(int index)
+        {
+            
         }
 
         readonly Vector2 _drawPos;
@@ -35,13 +51,17 @@ namespace CowFarm.Inventory
             var pos = _drawPos;
             pos.X += 26;
             pos.Y += 10;
-            Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 40, 40);
+
             for (var i = 0; i < _containers.Length; i++)
             {
+                Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 40, 40);
                 if (_containers[i] != null)
                 {
-                    spriteBatch.Draw(_containers[0].Item.IconTexture, rect, Color.White);
+                    spriteBatch.Draw(_containers[i].Item.IconTexture, rect, Color.White);
+
                 }
+                pos.X += 15 + rect.Width;
+
             }
         }
     }

@@ -21,15 +21,15 @@ namespace CowFarm.Worlds
         {
             AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
 
-            new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);            
+            new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);
 
             new BoulderRock(this, new Rectangle(350, 400, 140, 115), gameTextures);
 
             new Rock(this, new Rectangle(900, 600, 160, 108), gameTextures);
 
-            new GreenTree(cowGameScreen, this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
-
-            var treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Rectangle(240, 50, 155, 261), gameTextures);
+            var treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Rectangle(700, 164, 155, 261), gameTextures);
+            treeWithAplle.CreateApple();
+            treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Rectangle(240, 50, 155, 261), gameTextures);
             treeWithAplle.CreateApple();
 
             new BerryBush(this, graphics, new Rectangle(100, 500, 130, 120), gameTextures);

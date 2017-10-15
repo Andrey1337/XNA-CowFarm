@@ -29,5 +29,10 @@ namespace CowFarm.Entities
         {
             CurrentWorld.RemoveDynamicEntity(this);
         }
+
+        public virtual void Drop()
+        {            
+        }
+
     }
 }

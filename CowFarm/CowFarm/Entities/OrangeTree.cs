@@ -33,8 +33,7 @@ namespace CowFarm.Entities
         }
 
         public override void Load(ContentManager content)
-        {
-            throw new NotImplementedException();
+        {           
         }
 
         public override void Update(GameTime gameTime)

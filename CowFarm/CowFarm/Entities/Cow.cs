@@ -195,15 +195,10 @@ namespace CowFarm.Entities
                     if (interactable != null) interactable.OnFocus = false;
                 }
 
-                if (ks.IsKeyDown(Keys.Tab))
-                    _tabKeyIsPressed = true;
 
-                if (ks.IsKeyDown(Keys.E))
-                    _eKeyIsPressed = true;
-
-                if (_tabKeyIsPressed && ks.IsKeyUp(Keys.Tab))
+                if (!_tabKeyIsPressed && ks.IsKeyDown(Keys.Tab))
                 {
-                    _tabKeyIsPressed = false;
+                    _tabKeyIsPressed = true;
                     if (_focusNumber >= interactablesList.Count)
                     {
                         _focusNumber = 0;
@@ -214,28 +209,34 @@ namespace CowFarm.Entities
                     }
                 }
 
-                if (_eKeyIsPressed && ks.IsKeyUp(Keys.E))
+                if (!_eKeyIsPressed && ks.IsKeyDown(Keys.E))
                 {
-                    _eKeyIsPressed = false;
+                    _eKeyIsPressed = true;
                     var food = interactableOnFocus as IEatable;
                     if (food != null)
                         Eat(food);
                 }
 
-                if (ks.IsKeyDown(Keys.F))
+                if (!_fKeyIsPressed && ks.IsKeyDown(Keys.F))
                 {
                     _fKeyIsPressed = true;
-
-                }
-
-                if (_fKeyIsPressed && ks.IsKeyUp(Keys.F))
-                {
                     var item = interactableOnFocus as Item;
                     if (item != null)
                     {
-                        Inventory.Add(item);                        
+                        Inventory.Add(item);
                     }
                 }
+
+                if (ks.IsKeyUp(Keys.Tab))
+                    _tabKeyIsPressed = false;
+
+                if (ks.IsKeyUp(Keys.E))
+                    _eKeyIsPressed = false;
+
+                if (ks.IsKeyUp(Keys.F))
+
+                    _fKeyIsPressed = false;
+
 
                 _previousFocusInteractables = hash;
                 _previousInteractableOnFocus = interactableOnFocus;
@@ -285,13 +286,13 @@ namespace CowFarm.Entities
 
         private void HandleInventory()
         {
-            //var ks = Keyboard.GetState();
+            var ks = Keyboard.GetState();
 
-            //if (ks.IsKeyDown(Keys.))
-            //{
-            //    _fKeyIsPressed = true;
+            if (ks.IsKeyDown(Keys.D1))
+            {                
+                
+            }
 
-            //}
         }
 
         public bool RunningAlreadyInSprint()
