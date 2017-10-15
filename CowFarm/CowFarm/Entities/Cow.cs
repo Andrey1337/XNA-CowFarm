@@ -25,11 +25,7 @@ namespace CowFarm.Entities
 {
     public class Cow : Animal, IDynamic
     {
-        private HashSet<Entity> _previousFocusInteractables;
-
-        private Dictionary<int, Entity> _interactablesDictionary;
-
-        private IEnumerable<Entity> _nearbyList;
+        public Inventory.Inventory Inventory;
 
         private float _delay = 200f;
 
@@ -39,6 +35,10 @@ namespace CowFarm.Entities
 
         private TimeSpan _timeInSprint;
 
+        private Dictionary<int, Entity> _interactablesDictionary;
+        private IEnumerable<Entity> _nearbyList;
+        private HashSet<Entity> _previousFocusInteractables;
+
         public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
         : base(world, destRect,
               new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
@@ -46,6 +46,8 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
+
+            Inventory = new Inventory.Inventory(gameTextures["inventoryPanel"]);
             _cowGameScreen = cowGameScreen;
 
             Boost = 1;
@@ -131,6 +133,11 @@ namespace CowFarm.Entities
                 _cowGameScreen.Score += 40;
         }
 
+        public void Pick(Item item)
+        {
+
+        }
+
 
         public override void Load(ContentManager content)
         {
@@ -143,6 +150,8 @@ namespace CowFarm.Entities
 
         private bool _tabKeyIsPressed;
         private bool _eKeyIsPressed;
+        private bool _fKeyIsPressed;
+
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
@@ -186,8 +195,6 @@ namespace CowFarm.Entities
                     if (interactable != null) interactable.OnFocus = false;
                 }
 
-
-
                 if (ks.IsKeyDown(Keys.Tab))
                     _tabKeyIsPressed = true;
 
@@ -213,6 +220,21 @@ namespace CowFarm.Entities
                     var food = interactableOnFocus as IEatable;
                     if (food != null)
                         Eat(food);
+                }
+
+                if (ks.IsKeyDown(Keys.F))
+                {
+                    _fKeyIsPressed = true;
+
+                }
+
+                if (_fKeyIsPressed && ks.IsKeyUp(Keys.F))
+                {
+                    var item = interactableOnFocus as Item;
+                    if (item != null)
+                    {
+                        Inventory.Add(item);                        
+                    }
                 }
 
                 _previousFocusInteractables = hash;
@@ -259,6 +281,17 @@ namespace CowFarm.Entities
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
             }
+        }
+
+        private void HandleInventory()
+        {
+            //var ks = Keyboard.GetState();
+
+            //if (ks.IsKeyDown(Keys.))
+            //{
+            //    _fKeyIsPressed = true;
+
+            //}
         }
 
         public bool RunningAlreadyInSprint()
@@ -352,5 +385,7 @@ namespace CowFarm.Entities
                     break;
             }
         }
+
+
     }
 }

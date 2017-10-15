@@ -23,5 +23,6 @@ namespace CowFarm.Entities
             this.DecorationMovement = decorationMovement;
             this.ObjectMovingType = ObjectMovingType.Static;
         }
+
     }
 }

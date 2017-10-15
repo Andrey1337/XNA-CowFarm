@@ -26,8 +26,8 @@ namespace CowFarm.Utility
             RockLoad(contentManager);
             BackGroundLoad(contentManager);
             LoadButtons(contentManager);
+            LoadIcons(contentManager);
             return GameTextures;
-
         }
 
         public static Dictionary<string, SpriteFont> LoadFonts(ContentManager contentManager)
@@ -89,9 +89,14 @@ namespace CowFarm.Utility
             GameTextures.Add("eatenAppleMovement", contentManager.Load<Texture2D>("Food/eatenAppleMovement"));
         }
 
+        private static void LoadIcons(ContentManager contentManager)
+        {
+            GameTextures.Add("appleIcon", contentManager.Load<Texture2D>("ItemIcons/appleIcon"));
+        }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             GameTextures.Add("timerTexture", contentManager.Load<Texture2D>("timerTexture"));
+            GameTextures.Add("inventoryPanel", contentManager.Load<Texture2D>("Miscs/inventoryPanel"));
 
             GameTextures.Add("sprintBorder", contentManager.Load<Texture2D>("sprintBorder"));
 

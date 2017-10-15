@@ -95,9 +95,11 @@ namespace CowFarm.ScreenSystem
             WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
             DrawTime();
             DrawSprint();
+            Cow.Inventory.Draw(ScreenManager.SpriteBatch);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
+
 
         private void DrawSprint()
         {
@@ -158,6 +160,11 @@ namespace CowFarm.ScreenSystem
                     dynamic.ChangeWorld(WorldOnFocus.LeftWorld, direction);
                     WorldOnFocus.LeftWorld.AddDynamicEntity((Entity)dynamic);
                     break;
+            }
+
+            if (dynamic is Item)
+            {
+
             }
 
             if (!(dynamic is Cow)) return;

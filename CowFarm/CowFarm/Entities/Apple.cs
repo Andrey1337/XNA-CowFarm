@@ -14,7 +14,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Apple : Decoration, IEatable, IDynamic
+    public class Apple : Item, IEatable, IDynamic
     {
         private float _rotationAngle;
 
@@ -26,12 +26,12 @@ namespace CowFarm.Entities
 
         private readonly Vector2 _origin;
 
-        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0))
+        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0), gameTextures["appleIcon"])
         {
-            _origin.X = DecorationMovement.SpriteWidth / 2;
-            _origin.Y = DecorationMovement.SpriteHeight / 2;
+            _origin.X = ItemMovement.SpriteWidth / 2;
+            _origin.Y = ItemMovement.SpriteHeight / 2;
 
-            ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(DecorationMovement.Animation, Graphics));
+            ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(ItemMovement.Animation, Graphics));
             _eatenAppleMovement = gameTextures["eatenAppleMovement"];
             _cowGameScreen = cowGameScreen;
             _world = world;
@@ -90,6 +90,7 @@ namespace CowFarm.Entities
                 Body.Stop();
                 return;
             }
+
             if (Body.GetVelocity().X != 0)
             {
                 _rotationAngle += Body.GetVelocity().X / 10;
@@ -118,14 +119,14 @@ namespace CowFarm.Entities
             {
                 if (OnFocus)
                 {
-                    spriteBatch.Draw(DecorationMovement.Animation,
+                    spriteBatch.Draw(ItemMovement.Animation,
                         new Vector2(GetPosition().X + GetPosition().Width / 2,
                             GetPosition().Y + GetPosition().Height / 2), null, new Color(209, 209, 224), _rotationAngle,
                         _origin, 0.34f, SpriteEffects.None, 0f);
                 }
                 else
                 {
-                    spriteBatch.Draw(DecorationMovement.Animation,
+                    spriteBatch.Draw(ItemMovement.Animation,
                         new Vector2(GetPosition().X + GetPosition().Width / 2,
                             GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin,
                         0.34f, SpriteEffects.None, 0f);
@@ -160,22 +161,29 @@ namespace CowFarm.Entities
             {
                 case Direction.Right:
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    Body.BodyTypeName = "apple";
-                    Body.BodyType = BodyType.Dynamic;
-                    Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    Body.CollidesWith = Category.All & ~Category.Cat10;
+                    //Body.BodyTypeName = "apple";
+                    //CurrentWorld = world;
+                    //Body.BodyType = BodyType.Dynamic;
+                    //Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    //Body.CollidesWith = Category.All & ~Category.Cat10;
 
                     break;
 
                 case Direction.Left:
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    Body.BodyTypeName = "apple";
-                    Body.BodyType = BodyType.Dynamic;
-                    Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    Body.CollidesWith = Category.All & ~Category.Cat10;
+                    //Body.BodyTypeName = "apple";
+                    //Body.BodyType = BodyType.Dynamic;
+                    //Body.CollisionCategories = Category.All & ~Category.Cat10;
+                    //Body.CollidesWith = Category.All & ~Category.Cat10;
 
                     break;
             }
+
+            Body.BodyTypeName = "apple";
+            CurrentWorld = world;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
         }
     }
 }

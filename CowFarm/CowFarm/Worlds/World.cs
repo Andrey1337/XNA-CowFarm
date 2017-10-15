@@ -18,7 +18,6 @@ namespace CowFarm.Worlds
     public abstract class World : FarseerPhysics.Dynamics.World
     {
         public Dictionary<int, Entity> InteractablesDictionary { get; }
-
         public GraphicsDeviceManager Graphics { get; }
         protected ScreenManager ScreenManager { get; }
 

@@ -79,7 +79,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Materials\" />
     <Folder Include="Samples\" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +190,20 @@
   <ItemGroup>
     <Compile Include="Food\eatenAppleMovement.png">
       <Name>eatenAppleMovement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Miscs\inventoryPanel.png">
+      <Name>inventoryPanel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemIcons\appleIcon.png">
+      <Name>appleIcon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
