@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Cryptography;
 using CowFarm.Entities;
@@ -13,10 +14,13 @@ namespace CowFarm.Inventory
     {
         private readonly Container[] _containers;
 
+        private readonly Dictionary<string, Texture2D> _gameTextures;
+
         private readonly Texture2D _inventoryTexture;
-        public Inventory(Texture2D inventoryTexture)
+        public Inventory(Dictionary<string, Texture2D> gameTextures)
         {
-            _inventoryTexture = inventoryTexture;
+            _inventoryTexture = gameTextures["inventoryPanel"];
+            _gameTextures = gameTextures;
             _containers = new Container[9];
             _drawPos = new Vector2(330, 827);
         }

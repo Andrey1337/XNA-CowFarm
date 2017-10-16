@@ -47,9 +47,9 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
 
-            Inventory = new Inventory.Inventory(gameTextures["inventoryPanel"]);
+            Inventory = new Inventory.Inventory(gameTextures);
             _cowGameScreen = cowGameScreen;
-
+            _isKeyesIsPressed = new bool[9];
             Boost = 1;
             _nearbyList = new List<Entity>();
             _canBeOnFocusList = _nearbyList.ToList();
@@ -285,14 +285,23 @@ namespace CowFarm.Entities
             }
         }
 
+
+        private bool[] _isKeyesIsPressed;
+
         private void HandleInventory()
         {
             var ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.D1))
+
+            if (/*!_isKeyesIsPressed[0] &&*/ ks.IsKeyDown(Keys.D1))
             {
+                _isKeyesIsPressed[0] = true;
                 Inventory.Drop(_cowGameScreen.WorldOnFocus, ItemDropPos(), 1);
             }
+            //if (ks.IsKeyUp(Keys.D1))
+            //{
+            //    _isKeyesIsPressed[0] = false;
+            //}
 
         }
 
