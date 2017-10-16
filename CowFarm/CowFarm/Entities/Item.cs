@@ -30,9 +30,7 @@ namespace CowFarm.Entities
             CurrentWorld.RemoveDynamicEntity(this);
         }
 
-        public virtual void Drop()
-        {            
-        }
+        public abstract void Drop(World world, Vector2 position);
 
     }
 }

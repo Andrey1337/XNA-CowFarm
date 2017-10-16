@@ -156,6 +156,7 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             HandleUserAgent(gameTime);
+            HandleInventory();
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
@@ -289,12 +290,38 @@ namespace CowFarm.Entities
             var ks = Keyboard.GetState();
 
             if (ks.IsKeyDown(Keys.D1))
-            {                
-                
+            {
+                Inventory.Drop(_cowGameScreen.WorldOnFocus, ItemDropPos(), 1);
             }
 
         }
 
+        private Vector2 ItemDropPos()
+        {
+            var dropPos = new Vector2(GetPosition().X, GetPosition().Y);
+            if (CurrentAnim == LeftWalk)
+            {
+                dropPos.X -= 10;
+                dropPos.Y += (float)GetPosition().Height / 2;
+            }
+            if (CurrentAnim == RightWalk)
+            {
+                dropPos.X += GetPosition().Width + 10;
+                dropPos.Y += (float)GetPosition().Height / 2;
+            }
+            if (CurrentAnim == UpWalk)
+            {
+                dropPos.X += (float)GetPosition().Width / 2;
+                dropPos.Y -= 10;
+            }
+            if (CurrentAnim == DownWalk)
+            {
+                dropPos.X += (float)GetPosition().Width / 2;
+                dropPos.Y += GetPosition().Height;
+            }
+
+            return dropPos;
+        }
         public bool RunningAlreadyInSprint()
         {
             return _timeInSprint > TimeSpan.FromSeconds(0.3);

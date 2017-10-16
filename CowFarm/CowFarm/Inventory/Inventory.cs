@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Runtime.Serialization.Formatters;
 using System.Security.Cryptography;
 using CowFarm.Entities;
+using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +11,7 @@ namespace CowFarm.Inventory
 {
     public class Inventory
     {
-        private Container[] _containers;
+        private readonly Container[] _containers;
 
         private readonly Texture2D _inventoryTexture;
         public Inventory(Texture2D inventoryTexture)
@@ -39,13 +41,19 @@ namespace CowFarm.Inventory
             }
         }
 
-        public void Drop(int index)
+        public void Drop(World world, Vector2 position, int index)
         {
-            
+            position.X /= 100;
+            position.Y /= 100;
+            int i = --index;
+            if (_containers[i] == null) return;
+            _containers[i].Drop(world, position);
+            if (_containers[i].ItemsCount == 0)
+                _containers[i] = null;
         }
 
         readonly Vector2 _drawPos;
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.Draw(_inventoryTexture, _drawPos, Color.White);
             var pos = _drawPos;
@@ -58,6 +66,10 @@ namespace CowFarm.Inventory
                 if (_containers[i] != null)
                 {
                     spriteBatch.Draw(_containers[i].Item.IconTexture, rect, Color.White);
+                    if (_containers[i].ItemsCount > 1)
+                    {
+                        spriteBatch.DrawString(font, _containers[i].ItemsCount.ToString(), new Vector2(rect.X + 30, rect.Y + 20), Color.White);
+                    }
 
                 }
                 pos.X += 15 + rect.Width;

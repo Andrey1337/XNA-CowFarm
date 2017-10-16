@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using CowFarm.Entities;
+using CowFarm.Worlds;
+using Microsoft.Xna.Framework;
 
 namespace CowFarm.Inventory
 {
     public class Container
     {
         public Item Item;
-        private int _itemsCount;
+        public int ItemsCount;
         private int _maxCount;
 
         public Container(Item item)
@@ -18,12 +20,18 @@ namespace CowFarm.Inventory
 
         public bool PossibleToAdd(string itemName)
         {
-            return Item.BodyTypeName == itemName && _itemsCount < _maxCount;
+            return Item.BodyTypeName == itemName && ItemsCount < _maxCount;
         }
 
         public void Add()
         {
-            _itemsCount++;
+            ItemsCount++;
+        }
+
+        public void Drop(World world, Vector2 position)
+        {
+            Item.Drop(world, position);
+            ItemsCount--;
         }
     }
 }

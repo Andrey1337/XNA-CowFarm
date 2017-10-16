@@ -161,21 +161,10 @@ namespace CowFarm.Entities
             {
                 case Direction.Right:
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    //Body.BodyTypeName = "apple";
-                    //CurrentWorld = world;
-                    //Body.BodyType = BodyType.Dynamic;
-                    //Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    //Body.CollidesWith = Category.All & ~Category.Cat10;
-
                     break;
 
                 case Direction.Left:
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    //Body.BodyTypeName = "apple";
-                    //Body.BodyType = BodyType.Dynamic;
-                    //Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    //Body.CollidesWith = Category.All & ~Category.Cat10;
-
                     break;
             }
 
@@ -184,6 +173,17 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
+        }
+
+        public override void Drop(World world, Vector2 position)
+        {
+            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position);
+            Body.BodyTypeName = "apple";
+            Body.BodyType = BodyType.Dynamic;
+
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+            world.AddDynamicEntity(this);
         }
     }
 }
