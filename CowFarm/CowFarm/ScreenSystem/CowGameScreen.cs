@@ -162,10 +162,10 @@ namespace CowFarm.ScreenSystem
                     break;
             }
 
-            if (dynamic is Item)
-            {
+            //if (dynamic is Item)
+            //{
 
-            }
+            //}
 
             if (!(dynamic is Cow)) return;
 

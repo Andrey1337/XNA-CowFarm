@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Cryptography;
 using CowFarm.Entities;
+using CowFarm.ScreenSystem;
+using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
@@ -15,12 +18,16 @@ namespace CowFarm.Inventory
         private readonly Container[] _containers;
 
         private readonly Dictionary<string, Texture2D> _gameTextures;
+        private readonly CowGameScreen _cowGameScreen;
+        private readonly Type[] _typesIds;
 
         private readonly Texture2D _inventoryTexture;
-        public Inventory(Dictionary<string, Texture2D> gameTextures)
+        public Inventory(CowGameScreen cowGameScreen)
         {
-            _inventoryTexture = gameTextures["inventoryPanel"];
-            _gameTextures = gameTextures;
+            _cowGameScreen = cowGameScreen;
+            _typesIds = ItemsTypesHelper.GetItemsTypes();
+            _gameTextures = cowGameScreen.GameTextures;
+            _inventoryTexture = _gameTextures["inventoryPanel"];
             _containers = new Container[9];
             _drawPos = new Vector2(330, 827);
         }
@@ -29,7 +36,7 @@ namespace CowFarm.Inventory
         {
             for (var i = 0; i < _containers.Length; i++)
             {
-                if (_containers[i] == null || !_containers[i].PossibleToAdd(item.BodyTypeName)) continue;
+                if (_containers[i] == null || !_containers[i].PossibleToAdd(item.ItemId)) continue;
                 _containers[i].Add();
                 item.Pick();
                 return;
@@ -49,9 +56,11 @@ namespace CowFarm.Inventory
         {
             position.X /= 100;
             position.Y /= 100;
+
+
             int i = --index;
             if (_containers[i] == null) return;
-            _containers[i].Drop(world, position);
+            _containers[i].Drop(world, position, _typesIds, _cowGameScreen);
             if (_containers[i].ItemsCount == 0)
                 _containers[i] = null;
         }
@@ -69,7 +78,7 @@ namespace CowFarm.Inventory
                 Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 40, 40);
                 if (_containers[i] != null)
                 {
-                    spriteBatch.Draw(_containers[i].Item.IconTexture, rect, Color.White);
+                    spriteBatch.Draw(_containers[i].IconTexture, rect, Color.White);
                     if (_containers[i].ItemsCount > 1)
                     {
                         spriteBatch.DrawString(font, _containers[i].ItemsCount.ToString(), new Vector2(rect.X + 30, rect.Y + 20), Color.White);

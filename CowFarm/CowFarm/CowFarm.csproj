@@ -99,6 +99,7 @@
     <Compile Include="Entities\GreenTree.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Utility\ItemsTypesHelper.cs" />
     <Compile Include="Utility\ResourceLoader.cs" />
     <Compile Include="Utility\TextureHelper.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />

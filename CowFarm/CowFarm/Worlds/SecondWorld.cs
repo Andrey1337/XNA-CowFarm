@@ -47,7 +47,6 @@ namespace CowFarm.Worlds
             _gameTextures = gameTextures;
         }
 
-
         public override void Load(ContentManager content)
         {
 

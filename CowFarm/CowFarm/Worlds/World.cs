@@ -24,9 +24,6 @@ namespace CowFarm.Worlds
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities { get; private set; }
 
-        public HashSet<IInteractable>[,] InteractableEntities { get; }
-
-
         protected Dictionary<string, Texture2D> GameTextures;
 
         public World RightWorld { get; set; }
@@ -45,8 +42,6 @@ namespace CowFarm.Worlds
             Graphics = graphics;
             GameTextures = gameTextures;
 
-            InteractableEntities =
-                new HashSet<IInteractable>[graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight];
             InteractablesDictionary = new Dictionary<int, Entity>();
 
             StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
@@ -71,7 +66,9 @@ namespace CowFarm.Worlds
                 DynamicEntities.Add(dynamicEntity);
 
             if (dynamicEntity is IInteractable)
+            {                
                 InteractablesDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
+            }
         }
 
         public void RemoveDynamicEntity(Entity dynamicEntity)
@@ -81,6 +78,9 @@ namespace CowFarm.Worlds
                 DynamicEntities.Remove(dynamicEntity);
 
                 RemoveBody(dynamicEntity.Body);
+
+                if (dynamicEntity is IInteractable && InteractablesDictionary.ContainsKey(dynamicEntity.BodyId))
+                    InteractablesDictionary.Remove(dynamicEntity.BodyId);
             }
         }
 

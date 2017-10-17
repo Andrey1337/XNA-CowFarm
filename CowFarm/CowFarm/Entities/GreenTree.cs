@@ -41,7 +41,7 @@ namespace CowFarm.Entities
 
         public void CreateApple()
         {
-            Apple = new Apple(_cowGameScreen, _world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20), _cowGameScreen.GameTextures);
+            Apple = new Apple(_cowGameScreen, _world, this, new Rectangle(DestRect.X + 35, DestRect.Y + 100, 20, 20));
             _hasApple = true;
         }
 

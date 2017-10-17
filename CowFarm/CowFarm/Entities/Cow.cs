@@ -47,8 +47,10 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
 
-            Inventory = new Inventory.Inventory(gameTextures);
+            Inventory = new Inventory.Inventory(cowGameScreen);
+
             _cowGameScreen = cowGameScreen;
+            CurrentWorld = world;
             _isKeyesIsPressed = new bool[9];
             Boost = 1;
             _nearbyList = new List<Entity>();
@@ -73,7 +75,7 @@ namespace CowFarm.Entities
         {
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
-            nearby.Dictionary[BodyId].ForEach(body => Debug.WriteLine(body.BodyTypeName));
+
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
@@ -108,12 +110,12 @@ namespace CowFarm.Entities
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
-                && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height
-                ));
+                && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height));
             }
+
+
             return canBeOnFocusList;
         }
-
 
         public override Rectangle GetPosition()
         {
@@ -132,12 +134,6 @@ namespace CowFarm.Entities
             if (food is Apple)
                 _cowGameScreen.Score += 40;
         }
-
-        public void Pick(Item item)
-        {
-
-        }
-
 
         public override void Load(ContentManager content)
         {
@@ -160,9 +156,9 @@ namespace CowFarm.Entities
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
-            _canBeOnFocusList.ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
             if (_canBeOnFocusList.Count != 0)
             {
+
 
                 List<Entity> interactablesList = _canBeOnFocusList.ToList();
 
@@ -285,23 +281,21 @@ namespace CowFarm.Entities
             }
         }
 
-
         private bool[] _isKeyesIsPressed;
 
         private void HandleInventory()
         {
             var ks = Keyboard.GetState();
 
-
-            if (/*!_isKeyesIsPressed[0] &&*/ ks.IsKeyDown(Keys.D1))
+            if (!_isKeyesIsPressed[0] && ks.IsKeyDown(Keys.D1))
             {
                 _isKeyesIsPressed[0] = true;
-                Inventory.Drop(_cowGameScreen.WorldOnFocus, ItemDropPos(), 1);
+                Inventory.Drop(CurrentWorld, ItemDropPos(), 1);
             }
-            //if (ks.IsKeyUp(Keys.D1))
-            //{
-            //    _isKeyesIsPressed[0] = false;
-            //}
+            if (ks.IsKeyUp(Keys.D1))
+            {
+                _isKeyesIsPressed[0] = false;
+            }
 
         }
 
@@ -401,6 +395,8 @@ namespace CowFarm.Entities
 
         public bool IsSelected { get; set; }
 
+        public World CurrentWorld { get; set; }
+
         public void ChangeWorld(World world, Direction direction)
         {
             switch (direction)
@@ -421,6 +417,7 @@ namespace CowFarm.Entities
                     Body.CollidesWith = Category.All & ~Category.Cat10;
                     break;
             }
+            CurrentWorld = world;
         }
 
 

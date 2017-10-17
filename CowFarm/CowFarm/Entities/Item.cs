@@ -9,6 +9,7 @@ namespace CowFarm.Entities
     public abstract class Item : Entity
     {
         protected AnimatedSprites ItemMovement;
+        public int ItemId { get; protected set; }
         public Texture2D IconTexture { get; }
         protected Rectangle DestRect;
         protected GraphicsDeviceManager Graphics => CurrentWorld.Graphics;
@@ -30,7 +31,6 @@ namespace CowFarm.Entities
             CurrentWorld.RemoveDynamicEntity(this);
         }
 
-        public abstract void Drop(World world, Vector2 position);
-
+       
     }
 }

@@ -1,26 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CowFarm.Entities;
+using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Inventory
 {
     public class Container
     {
-        public Item Item;
+        public int ItemId;
         public int ItemsCount;
         private int _maxCount;
+        public Texture2D IconTexture;
 
         public Container(Item item)
         {
-            Item = item;
+            ItemId = item.ItemId;
+            IconTexture = item.IconTexture;
             if (item is Apple)
                 _maxCount = 3;
         }
 
-        public bool PossibleToAdd(string itemName)
+        public bool PossibleToAdd(int itemId)
         {
-            return Item.BodyTypeName == itemName && ItemsCount < _maxCount;
+            return ItemId == itemId && ItemsCount < _maxCount;
         }
 
         public void Add()
@@ -28,9 +33,14 @@ namespace CowFarm.Inventory
             ItemsCount++;
         }
 
-        public void Drop(World world, Vector2 position)
+        public void Drop(World world, Vector2 position, Type[] itemsTypes, CowGameScreen cowGameScreen)
         {
-            Item.Drop(world, position);
+            if (itemsTypes[ItemId] == null)
+                throw new Exception("No itemId exists");
+
+            object[] args = { cowGameScreen, world, position };
+            Activator.CreateInstance(itemsTypes[ItemId], args);
+
             ItemsCount--;
         }
     }

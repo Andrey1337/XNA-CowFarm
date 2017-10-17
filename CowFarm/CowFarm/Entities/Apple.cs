@@ -14,7 +14,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Apple : Item, IEatable, IDynamic
+    public class Apple : Item, IEatable, IDynamic, IInteractable
     {
         private float _rotationAngle;
 
@@ -26,13 +26,12 @@ namespace CowFarm.Entities
 
         private readonly Vector2 _origin;
 
-        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect, IDictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["appleMovement"], 1, 0), gameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(world, destRect, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
-
-            ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(ItemMovement.Animation, Graphics));
-            _eatenAppleMovement = gameTextures["eatenAppleMovement"];
+            ItemId = 0;
+            _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
             _cowGameScreen = cowGameScreen;
             _world = world;
             _tree = tree;
@@ -46,6 +45,23 @@ namespace CowFarm.Entities
             _world.ContactManager.Contacted += AppleFloorContacted;
         }
 
+
+        public Apple(CowGameScreen cowGameScreen, World world, Vector2 position) : base(world, new Rectangle((int)position.X, (int)position.Y, 20, 20), new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        {
+            _origin.X = ItemMovement.SpriteWidth / 2;
+            _origin.Y = ItemMovement.SpriteHeight / 2;
+            _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
+            _cowGameScreen = cowGameScreen;
+            _world = world;
+            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position);
+            Body.BodyTypeName = "apple";
+            ItemId = 0;
+            CanInteract = true;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+            world.AddDynamicEntity(this);
+        }
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
@@ -149,7 +165,6 @@ namespace CowFarm.Entities
         {
             IsEaten = true;
             CanInteract = false;
-
         }
 
         public bool IsEaten { get; set; }
@@ -175,15 +190,6 @@ namespace CowFarm.Entities
             Body.CollidesWith = Category.All & ~Category.Cat10;
         }
 
-        public override void Drop(World world, Vector2 position)
-        {
-            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position);
-            Body.BodyTypeName = "apple";
-            Body.BodyType = BodyType.Dynamic;
 
-            Body.CollisionCategories = Category.All & ~Category.Cat10;
-            Body.CollidesWith = Category.All & ~Category.Cat10;
-            world.AddDynamicEntity(this);
-        }
     }
 }
