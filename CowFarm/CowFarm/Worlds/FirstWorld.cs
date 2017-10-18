@@ -18,8 +18,8 @@ namespace CowFarm.Worlds
         private readonly Texture2D _background;
 
         public FirstWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
-            ScreenManager screenManager, DateTime gameStartedTime)
-            : base(graphics, gameTextures, screenManager, gameStartedTime)
+            ScreenManager screenManager)
+            : base(graphics, gameTextures, screenManager)
         {
             _background = gameTextures["firstWorldBackGround"];
 

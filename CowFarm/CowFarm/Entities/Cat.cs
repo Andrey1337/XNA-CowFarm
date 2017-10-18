@@ -16,8 +16,8 @@ namespace CowFarm.Entities
     {
         private const float Delay = 900f;
 
-        public Cat(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-            : base(world, destRect,
+        public Cat(World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+            : base(world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
                   new AnimatedSprites(gameTextures["catRightWalk"], 3, 0),
                   new AnimatedSprites(gameTextures["catLeftWalk"], 3, 0),
                   new AnimatedSprites(gameTextures["catUpWalk"], 3, 0),
@@ -25,7 +25,7 @@ namespace CowFarm.Entities
         {
             CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);
-            Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, position / 100);
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;

@@ -53,7 +53,6 @@ namespace CowFarm.Entities
 
                 _hasApple = false;
             }
-
         }
         public override void Load(ContentManager content)
         {
@@ -62,7 +61,6 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
             Apple?.Update(gameTime);
         }
@@ -70,42 +68,8 @@ namespace CowFarm.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
-
             Apple?.Draw(spriteBatch);
-        }
-
-        private Texture2D CopyTexture(Texture2D texture)
-        {
-            Texture2D copyTexture = new Texture2D(Graphics.GraphicsDevice, 155, PlantMovement.SpriteHeight);
-            Color[] oldC = new Color[texture.Width * texture.Height];
-
-            texture.GetData(oldC);
-            copyTexture.SetData<Color>(oldC);
-
-            return copyTexture;
-        }
-
-
-        private Texture2D RepaintRectangle(Texture2D texture)
-        {
-            Color[] color = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(color);
-
-            for (int i = 0; i < color.Length; i++)
-            {
-                if (color[i].A > 170)
-                {
-                    color[i] = Color.White;
-                }
-                else
-                {
-                    color[i].A = 0;
-                }
-            }
-
-            texture.SetData<Color>(color);
-            return texture;
-        }
+        }      
 
         public override Rectangle GetPosition()
         {

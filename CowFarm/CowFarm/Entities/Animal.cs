@@ -36,26 +36,7 @@ namespace CowFarm.Entities
             this.DownWalk = downWalk;
             this.Graphics = world.Graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
-        }
-
-        //public virtual void ChangeWorld(Direction directionOfWorld)
-        //{
-        //    if (directionOfWorld == Direction.Right)
-        //    {
-        //        Body.Position = new Vector2(0, (float)(GetPosition().Y + 1) / 100);
-        //    }
-
-        //    if (directionOfWorld == Direction.Left)
-        //    {
-        //        Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth + GetPosition().Width - 100) / 100, (float)(GetPosition().Y + 1) / 100);
-        //    }
-        //}
-
-        protected Vector2 GetCenterPosition()
-        {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
-        }
-
+        }              
 
         public abstract void Eat(IEatable food);
     }

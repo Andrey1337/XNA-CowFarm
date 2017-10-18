@@ -14,7 +14,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Apple : Item, IEatable, IDynamic, IInteractable
+    public class Apple : Item, IEatable, IDynamic
     {
         private float _rotationAngle;
 
@@ -159,6 +159,11 @@ namespace CowFarm.Entities
         }
 
         public Texture2D ReapaintTexture { get; set; }
+        public Vector2 GetInteractablePosition()
+        {
+            return  new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 2));
+        }
+
         public bool OnFocus { get; set; }
         public bool CanInteract { get; set; }
         public void Interact()

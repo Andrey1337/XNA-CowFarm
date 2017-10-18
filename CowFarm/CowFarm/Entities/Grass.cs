@@ -19,11 +19,11 @@ namespace CowFarm.Entities
     public class Grass : Plant, IEatable
     {
         private const float Delay = 5000f;
-        private const float ButtonDelay = 1000f;
+        //private const float ButtonDelay = 1000f;
 
         private AnimatedSprites _currentAnim;
         private readonly AnimatedSprites _eBuutonAnim;
-        private Rectangle _buttonSourceRectangle;
+        //private Rectangle _buttonSourceRectangle;
 
         private readonly AnimatedSprites _eatenGrassMovement;
 
@@ -34,8 +34,8 @@ namespace CowFarm.Entities
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
             _eBuutonAnim = new AnimatedSprites(gameTextures["eButtonMovement"], 2, 0);
 
-            Body = BodyFactory.CreateRectangle(world, (float)destRect.Width / 100, (float)destRect.Height / 200, 0,
-                new Vector2((float)(destRect.X + destRect.Width / 2) / 100, (float)(destRect.Y + 30) / 100));
+            Body = BodyFactory.CreateRectangle(world, (float)DestRect.Width / 100, (float)DestRect.Height / 200, 0, new Vector2((float)(DestRect.X + DestRect.Width / 2) / 100, (float)(DestRect.Y + 30) / 100));
+
             Body.BodyTypeName = "grass";
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.Cat10;
@@ -55,10 +55,10 @@ namespace CowFarm.Entities
         {
             if (IsEaten)
                 _currentAnim = _eatenGrassMovement;
-            if (OnFocus)
-            {
-                _buttonSourceRectangle = _eBuutonAnim.Animate(gameTime, ButtonDelay, ObjectMovingType.Static);
-            }
+            //if (OnFocus)
+            //{
+            //    _buttonSourceRectangle = _eBuutonAnim.Animate(gameTime, ButtonDelay, ObjectMovingType.Static);
+            //}
 
             SourceRect = _currentAnim.Animate(gameTime, Delay, ObjectMovingType);
         }
@@ -78,10 +78,9 @@ namespace CowFarm.Entities
 
         }
 
-
         public override Rectangle GetPosition()
         {
-            return new Rectangle(DestRect.X, DestRect.Y, DestRect.Width, DestRect.Height);
+            return DestRect;
         }
 
         public Vector2 GetInteractablePosition()

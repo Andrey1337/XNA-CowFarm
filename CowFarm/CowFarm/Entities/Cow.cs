@@ -85,34 +85,38 @@ namespace CowFarm.Entities
         {
             if (_nearbyList == null)
                 return null;
+
             List<Entity> canBeOnFocusList = new List<Entity>();
             if (CurrentAnim == RightWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 50
+                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2),
+                ((IInteractable)entity).GetInteractablePosition()) < 50
                 && GetPosition().X + GetPosition().Width / 1.1 < entity.GetPosition().X + GetPosition().Width / 2
                 && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
             }
             if (CurrentAnim == LeftWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 50
+                && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2),
+                ((IInteractable)entity).GetInteractablePosition()) < 50
                 && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20
                 && GetPosition().X + GetPosition().Width * 0.1 > entity.GetPosition().X));
             }
             if (CurrentAnim == DownWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 1.2)), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + (float)(entity.GetPosition().Height / 2))) < 25
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height),
+                ((IInteractable)entity).GetInteractablePosition()) < 25
                 && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height));
             }
             if (CurrentAnim == UpWalk)
             {
                 canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
-                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2), new Vector2(entity.GetPosition().X + entity.GetPosition().Width / 2, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 35
+                && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2),
+                ((IInteractable)entity).GetInteractablePosition()) < 25
                 && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height));
             }
-
 
             return canBeOnFocusList;
         }
@@ -158,8 +162,6 @@ namespace CowFarm.Entities
 
             if (_canBeOnFocusList.Count != 0)
             {
-
-
                 List<Entity> interactablesList = _canBeOnFocusList.ToList();
 
                 HashSet<Entity> hash = new HashSet<Entity>(_canBeOnFocusList);
@@ -180,18 +182,14 @@ namespace CowFarm.Entities
                     }
                 }
 
-                if (_previousInteractableOnFocus != null &&
-                    (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus ||
-                     _focusNumber != 0 && _focusNumber == interactablesList.Count))
+                if (_previousInteractableOnFocus != null && (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactablesList.Count))
                     _previousInteractableOnFocus.OnFocus = false;
 
-                foreach (var entity in _previousFocusInteractables.Where(
-                    interacteble => !hash.Contains(interacteble)))
+                foreach (var entity in _previousFocusInteractables.Where(interacteble => !hash.Contains(interacteble)))
                 {
                     var interactable = entity as IInteractable;
                     if (interactable != null) interactable.OnFocus = false;
                 }
-
 
                 if (!_tabKeyIsPressed && ks.IsKeyDown(Keys.Tab))
                 {
@@ -231,9 +229,7 @@ namespace CowFarm.Entities
                     _eKeyIsPressed = false;
 
                 if (ks.IsKeyUp(Keys.F))
-
                     _fKeyIsPressed = false;
-
 
                 _previousFocusInteractables = hash;
                 _previousInteractableOnFocus = interactableOnFocus;
@@ -281,6 +277,11 @@ namespace CowFarm.Entities
             }
         }
 
+        private Vector2 GetCenterPosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
+        }
+
         private bool[] _isKeyesIsPressed;
 
         private void HandleInventory()
@@ -296,7 +297,6 @@ namespace CowFarm.Entities
             {
                 _isKeyesIsPressed[0] = false;
             }
-
         }
 
         private Vector2 ItemDropPos()
@@ -392,9 +392,7 @@ namespace CowFarm.Entities
             Body.Move(_force);
             Body.ApplyForce(_force);
         }
-
         public bool IsSelected { get; set; }
-
         public World CurrentWorld { get; set; }
 
         public void ChangeWorld(World world, Direction direction)
@@ -402,21 +400,17 @@ namespace CowFarm.Entities
             switch (direction)
             {
                 case Direction.Right:
-                    _interactablesDictionary = world.InteractablesDictionary;
                     Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2(0, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
-                    Body.BodyType = BodyType.Dynamic;
-                    Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    Body.CollidesWith = Category.All & ~Category.Cat10;
                     break;
 
                 case Direction.Left:
-                    _interactablesDictionary = world.InteractablesDictionary;
                     Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
-                    Body.BodyType = BodyType.Dynamic;
-                    Body.CollisionCategories = Category.All & ~Category.Cat10;
-                    Body.CollidesWith = Category.All & ~Category.Cat10;
                     break;
             }
+            _interactablesDictionary = world.InteractablesDictionary;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
             CurrentWorld = world;
         }
 

@@ -61,18 +61,15 @@ namespace CowFarm.ScreenSystem
             GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
             GameFonts = ResourceLoader.LoadFonts(_contentManager);
 
-            FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
-            SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager, DateTime.Now);
+            FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager);
+            SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager);
 
             FirstWorld.RightWorld = SecondWorld;
             SecondWorld.LeftWorld = FirstWorld;
             WordlsList = new List<World> { FirstWorld, SecondWorld };
 
             WorldOnFocus = SecondWorld;
-            CreateCow();
-
-
-            FirstWorld.GameStartedTime = DateTime.Now - FirstWorld.TimeInTheGame;
+            CreateCow();           
 
             base.LoadContent();
         }
@@ -131,8 +128,7 @@ namespace CowFarm.ScreenSystem
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 //_worldSerialize = "Serialized";
-
-                FirstWorld.TimeInTheGame = DateTime.Now - FirstWorld.GameStartedTime;
+               
                 _escapeKeyPressed = true;
                 ExitScreen();
             }

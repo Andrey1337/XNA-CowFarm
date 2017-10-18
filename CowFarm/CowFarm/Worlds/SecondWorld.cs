@@ -17,9 +17,9 @@ namespace CowFarm.Worlds
     {
         private readonly Dictionary<string, Texture2D> _gameTextures;
 
-        public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager, DateTime gameStartedTime) : base(graphics, gameTextures, screenManager, gameStartedTime)
+        public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager) : base(graphics, gameTextures, screenManager)
         {
-            AddDynamicEntity(new Cat(this, new Rectangle(100, 100, 56, 46), gameTextures));
+            AddDynamicEntity(new Cat(this, new Vector2(100, 100), gameTextures));
 
             new Grass(graphics, this, new Rectangle(540, 300, 25, 51), gameTextures);
 

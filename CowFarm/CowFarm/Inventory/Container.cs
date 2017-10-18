@@ -12,7 +12,7 @@ namespace CowFarm.Inventory
     {
         public int ItemId;
         public int ItemsCount;
-        private int _maxCount;
+        private readonly int _maxCount;
         public Texture2D IconTexture;
 
         public Container(Item item)
