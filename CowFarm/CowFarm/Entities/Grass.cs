@@ -27,8 +27,8 @@ namespace CowFarm.Entities
 
         private readonly AnimatedSprites _eatenGrassMovement;
 
-        public Grass(GraphicsDeviceManager graphics, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
+        public Grass(GraphicsDeviceManager graphics, World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
         {
             _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);

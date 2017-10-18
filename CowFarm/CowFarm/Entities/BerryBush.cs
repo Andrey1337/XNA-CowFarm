@@ -11,8 +11,8 @@ namespace CowFarm.Entities
 {
     public class BerryBush : Plant
     {
-        public BerryBush(World world, GraphicsDeviceManager graphics, Rectangle destRect, IDictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["berryBushMovement"], 1, 0))
+        public BerryBush(World world, GraphicsDeviceManager graphics, Vector2 position, IDictionary<string, Texture2D> gameTextures)
+            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 130, 120), new AnimatedSprites(gameTextures["berryBushMovement"], 1, 0))
         {
             float x1 = (float)(DestRect.X + 47) / 100;
             float y = (float)(DestRect.Y + DestRect.Height - 17) / 100;

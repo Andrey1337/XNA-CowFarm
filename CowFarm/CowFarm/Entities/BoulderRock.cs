@@ -11,24 +11,25 @@ namespace CowFarm.Entities
 {
     public class BoulderRock : Decoration
     {
-        public BoulderRock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(world, destRect, new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 0))
+        public BoulderRock(World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+            : base(world, new Rectangle((int)position.X, (int)position.Y, 140, 115), new AnimatedSprites(gameTextures["boulderRockMovement"], 1, 0))
         {
-            float x1 = (float)(destRect.X + 20) / 100;
-            float x2 = (float)(destRect.X + destRect.Width - 15) / 100;
+            float x1 = (float)(DestRect.X + 20) / 100;
+            float x2 = (float)(DestRect.X + DestRect.Width - 15) / 100;
 
-            float y1 = (float)(destRect.Y + destRect.Height - 40) / 100;
-            float y2 = (float)(destRect.Y + destRect.Height - 45) / 100;
+            float y1 = (float)(DestRect.Y + DestRect.Height - 40) / 100;
+            float y2 = (float)(DestRect.Y + DestRect.Height - 45) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
-            x1 = (float)(destRect.X + 19) / 100;
-            x2 = (float)(destRect.X + 60) / 100;
-            y2 = (float)(destRect.Y + destRect.Height - 20) / 100;
+            x1 = (float)(DestRect.X + 19) / 100;
+            x2 = (float)(DestRect.X + 60) / 100;
+            y2 = (float)(DestRect.Y + DestRect.Height - 20) / 100;
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             x1 = x2;
             y1 = y2;
 
-            x2 = (float)(destRect.X + destRect.Width - 13) / 100;
-            y2 = (float)(destRect.Y + destRect.Height - 45) / 100;
+            x2 = (float)(DestRect.X + DestRect.Width - 13) / 100;
+            y2 = (float)(DestRect.Y + DestRect.Height - 45) / 100;
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             world.AddStaticEntity(this);
         }

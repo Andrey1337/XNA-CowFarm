@@ -1,7 +1,7 @@
 ﻿using CowFarm.Enums;
 using CowFarm.Worlds;
 
-namespace CowFarm
+namespace CowFarm.Interfaces
 {
     public interface IDynamic
     {

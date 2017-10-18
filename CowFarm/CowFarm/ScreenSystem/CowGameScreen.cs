@@ -5,6 +5,7 @@ using System.IO;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Enums;
+using CowFarm.Interfaces;
 using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics;

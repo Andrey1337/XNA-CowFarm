@@ -19,16 +19,16 @@ namespace CowFarm.Entities
         private bool _hasApple;
         private readonly World _world;
 
-        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Rectangle destRect, IDictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
+        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Vector2 position, IDictionary<string, Texture2D> gameTextures)
+            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
         {
             _world = world;
             _cowGameScreen = cowGameScreen;
             float width = (float)14 / 100;
             float height = (float)1 / 100;
 
-            float x = (float)(destRect.X + destRect.Width - 80) / 100;
-            float y = (float)(destRect.Y + destRect.Height - 22) / 100;
+            float x = (float)(DestRect.X + DestRect.Width - 80) / 100;
+            float y = (float)(DestRect.Y + DestRect.Height - 22) / 100;
 
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
             Body.BodyType = BodyType.Static;
@@ -37,7 +37,6 @@ namespace CowFarm.Entities
 
             world.AddStaticEntity(this);
         }
-
 
         public void CreateApple()
         {
@@ -69,7 +68,7 @@ namespace CowFarm.Entities
         {
             spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
             Apple?.Draw(spriteBatch);
-        }      
+        }
 
         public override Rectangle GetPosition()
         {

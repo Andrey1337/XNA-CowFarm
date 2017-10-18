@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
 using CowFarm.Enums;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;

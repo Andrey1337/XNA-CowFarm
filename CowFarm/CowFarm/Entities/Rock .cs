@@ -11,27 +11,27 @@ namespace CowFarm.Entities
 {
     public class Rock : Decoration
     {
-        public Rock(World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) :
-            base(world, destRect, new AnimatedSprites(gameTextures["rockMovement"], 1, 0))
+        public Rock(World world, Vector2 position, Dictionary<string, Texture2D> gameTextures) :
+            base(world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
-            float x1 = (float)(destRect.X + 22) / 100;
-            float x2 = (float)(destRect.X + destRect.Width - 23) / 100;
+            float x1 = (float)(DestRect.X + 22) / 100;
+            float x2 = (float)(DestRect.X + DestRect.Width - 23) / 100;
 
-            float y1 = (float)(destRect.Y + destRect.Height - 30) / 100;
-            float y2 = (float)(destRect.Y + destRect.Height - 35) / 100;
+            float y1 = (float)(DestRect.Y + DestRect.Height - 30) / 100;
+            float y2 = (float)(DestRect.Y + DestRect.Height - 35) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
 
-            x2 = (float)(destRect.X + destRect.Width - 50) / 100;
-            y2 = (float)(destRect.Y + destRect.Height - 20) / 100;
+            x2 = (float)(DestRect.X + DestRect.Width - 50) / 100;
+            y2 = (float)(DestRect.Y + DestRect.Height - 20) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
 
             x1 = x2;
             y1 = y2;
-            x2 = (float)(destRect.X + destRect.Width - 22) / 100;
-            y2 = (float)(destRect.Y + destRect.Height - 35) / 100;
+            x2 = (float)(DestRect.X + DestRect.Width - 22) / 100;
+            y2 = (float)(DestRect.Y + DestRect.Height - 35) / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             Body.CollidesWith = Category.All;

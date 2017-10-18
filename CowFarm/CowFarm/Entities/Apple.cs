@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Enums;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using FarseerPhysics;

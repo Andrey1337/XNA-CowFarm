@@ -46,7 +46,6 @@ namespace CowFarm.Worlds
         }
 
 
-
         public virtual void Load(ContentManager content)
         {
 
@@ -138,9 +137,6 @@ namespace CowFarm.Worlds
                         dynamicYposition = int.MaxValue;
                     }
                 }
-
-
-
             }
 
             while (j < DynamicEntities.Count)

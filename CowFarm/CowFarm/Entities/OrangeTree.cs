@@ -16,13 +16,13 @@ namespace CowFarm.Entities
     class OrangeTree : Plant
     {
         private const float Delay = float.MaxValue;
-        public OrangeTree(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures) : base(graphics, destRect, new AnimatedSprites(gameTextures["orangeTreeMovement"], 1, 0))
+        public OrangeTree(World world, GraphicsDeviceManager graphics, Vector2 position, Dictionary<string, Texture2D> gameTextures) : base(graphics, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(gameTextures["orangeTreeMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float width = (float)14 / 100;
             float height = (float)1 / 100;
-            float x = (float)(destRect.X + destRect.Width - 80) / 100;
-            float y = (float)(destRect.Y + destRect.Height - 22) / 100;
+            float x = (float)(DestRect.X + DestRect.Width - 80) / 100;
+            float y = (float)(DestRect.Y + DestRect.Height - 22) / 100;
             Body = BodyFactory.CreateRectangle(world, width, height, 0f, new Vector2(x, y));
 
             Body.BodyType = BodyType.Static;
@@ -31,7 +31,7 @@ namespace CowFarm.Entities
         }
 
         public override void Load(ContentManager content)
-        {           
+        {
         }
 
         public override void Update(GameTime gameTime)

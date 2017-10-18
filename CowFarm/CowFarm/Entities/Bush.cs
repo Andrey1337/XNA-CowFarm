@@ -11,12 +11,12 @@ namespace CowFarm.Entities
 {
     public class Bush : Plant
     {
-        public Bush(World world, GraphicsDeviceManager graphics, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, destRect, new AnimatedSprites(gameTextures["bushMovement"], 1, 0))
+        public Bush(World world, GraphicsDeviceManager graphics, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 84, 87), new AnimatedSprites(gameTextures["bushMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
-            float x1 = (float)(destRect.X + 30) / 100;
-            float y = (float)(destRect.Y + destRect.Height - 18) / 100;
+            float x1 = (float)(DestRect.X + 30) / 100;
+            float y = (float)(DestRect.Y + DestRect.Height - 18) / 100;
             float x2 = x1 + (float)24 / 100;
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
