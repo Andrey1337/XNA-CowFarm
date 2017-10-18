@@ -27,10 +27,7 @@ namespace CowFarm.Entities
         }
 
 
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         public override void Update(GameTime gameTime)
         {

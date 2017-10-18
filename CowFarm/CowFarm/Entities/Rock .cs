@@ -38,10 +38,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
         }
 
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         public override void Update(GameTime gameTime)
         {

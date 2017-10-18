@@ -47,9 +47,8 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
-
             Inventory = new Inventory.Inventory(cowGameScreen);
-
+           
             _cowGameScreen = cowGameScreen;
             CurrentWorld = world;
             _isKeyesIsPressed = new bool[9];
@@ -140,10 +139,7 @@ namespace CowFarm.Entities
                 _cowGameScreen.Score += 40;
         }
 
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         private IInteractable _previousInteractableOnFocus;
 

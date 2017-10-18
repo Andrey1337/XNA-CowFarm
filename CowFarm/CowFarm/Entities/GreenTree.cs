@@ -53,10 +53,7 @@ namespace CowFarm.Entities
                 _hasApple = false;
             }
         }
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         public override void Update(GameTime gameTime)
         {

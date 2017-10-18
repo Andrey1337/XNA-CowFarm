@@ -78,10 +78,7 @@ namespace CowFarm.Entities
             }
         }
 
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         private bool _isFalling;
         public void Fall(float height)

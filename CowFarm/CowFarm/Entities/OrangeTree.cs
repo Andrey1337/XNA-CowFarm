@@ -29,11 +29,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
         }
-
-        public override void Load(ContentManager content)
-        {
-        }
-
+       
         public override void Update(GameTime gameTime)
         {
             SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);

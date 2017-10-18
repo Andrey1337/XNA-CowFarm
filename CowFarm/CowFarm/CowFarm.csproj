@@ -101,6 +101,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Utility\ItemsTypesHelper.cs" />
     <Compile Include="Utility\ResourceLoader.cs" />
+    <Compile Include="Utility\TextDrawHeleper.cs" />
     <Compile Include="Utility\TextureHelper.cs" />
     <Compile Include="Worlds\FirstWorld.cs" />
     <Compile Include="Generators\GrassGenerator.cs" />

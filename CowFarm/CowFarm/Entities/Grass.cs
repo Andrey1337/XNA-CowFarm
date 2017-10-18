@@ -46,10 +46,7 @@ namespace CowFarm.Entities
             world.AddStaticEntity(this);
         }
 
-        public override void Load(ContentManager content)
-        {
-
-        }
+        
 
         public override void Update(GameTime gameTime)
         {

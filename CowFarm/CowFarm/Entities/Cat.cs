@@ -32,12 +32,7 @@ namespace CowFarm.Entities
             Body.BodyTypeName = "cat";
             SpeedX = 0.8f;
             SpeedY = 0.7f;
-        }
-
-        public override void Load(ContentManager content)
-        {
-
-        }
+        }       
 
         public override void Update(GameTime gameTime)
         {

@@ -30,6 +30,7 @@ namespace CowFarm.Inventory
             _inventoryTexture = _gameTextures["inventoryPanel"];
             _containers = new Container[9];
             _drawPos = new Vector2(330, 827);
+
         }
 
         public void Add(Item item)
@@ -81,13 +82,14 @@ namespace CowFarm.Inventory
                     spriteBatch.Draw(_containers[i].IconTexture, rect, Color.White);
                     if (_containers[i].ItemsCount > 1)
                     {
-                        spriteBatch.DrawString(font, _containers[i].ItemsCount.ToString(), new Vector2(rect.X + 30, rect.Y + 20), Color.White);
+                        TextDrawHeleper.DrawText(spriteBatch, font, _containers[i].ItemsCount.ToString(), Color.Black, Color.White, 1, new Vector2(rect.X + 27, rect.Y + 20));
                     }
-
                 }
                 pos.X += 15 + rect.Width;
 
             }
         }
+
+
     }
 }
