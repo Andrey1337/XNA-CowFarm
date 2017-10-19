@@ -78,7 +78,7 @@ namespace CowFarm.Entities
             }
         }
 
-        
+
 
         private bool _isFalling;
         public void Fall(float height)
@@ -159,7 +159,7 @@ namespace CowFarm.Entities
         public Texture2D ReapaintTexture { get; set; }
         public Vector2 GetInteractablePosition()
         {
-            return  new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 2));
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 2));
         }
 
         public bool OnFocus { get; set; }
@@ -178,11 +178,15 @@ namespace CowFarm.Entities
             switch (direction)
             {
                 case Direction.Right:
+                    var posY = Body.Position.Y;
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
+                    Body.Position = new Vector2(0.25f, posY);
                     break;
 
                 case Direction.Left:
+                    posY = Body.Position.Y;
                     Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
+                    Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, posY);
                     break;
             }
 

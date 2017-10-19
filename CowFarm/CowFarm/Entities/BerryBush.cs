@@ -21,9 +21,7 @@ namespace CowFarm.Entities
 
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y), new Vector2(x2, y));
             world.AddStaticEntity(this);
-        }
-
-        
+        }        
 
         public override void Update(GameTime gameTime)
         {

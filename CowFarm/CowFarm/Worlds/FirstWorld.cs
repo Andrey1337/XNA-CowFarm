@@ -32,13 +32,12 @@ namespace CowFarm.Worlds
             new GreenTree(cowGameScreen, this, graphics, new Vector2(150, 450), gameTextures);
             new GreenTree(cowGameScreen, this, graphics, new Vector2(900, 55), gameTextures);
 
-
             new Bush(this, graphics, new Vector2(100, 150), gameTextures);
             new Bush(this, graphics, new Vector2(830, 200), gameTextures);
             new Bush(this, graphics, new Vector2(400, 450), gameTextures);
 
             new Rock(this, new Vector2(210, 300), gameTextures);
-        }        
+        }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
