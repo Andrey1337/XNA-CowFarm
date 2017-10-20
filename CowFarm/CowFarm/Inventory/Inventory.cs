@@ -61,10 +61,9 @@ namespace CowFarm.Inventory
             }
         }
 
-        private Container containerOnFocus;
+        private Container _containerOnFocus;
         public void Update()
         {
-
             var mouseState = Mouse.GetState();
             var mousePoint = new Point(mouseState.X, mouseState.Y);
 
@@ -74,12 +73,12 @@ namespace CowFarm.Inventory
                 {
                     if (mouseState.LeftButton == ButtonState.Pressed)
                         _indexOnFocus = i;
-                    containerOnFocus = _containers[i];
-                    containerOnFocus.OnFocus = true;
+                    _containerOnFocus = _containers[i];
+                    _containerOnFocus.OnFocus = true;
                 }
-                if (containerOnFocus != null && !containerOnFocus.Position.Contains(mousePoint))
+                if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
                 {
-                    containerOnFocus.OnFocus = false;
+                    _containerOnFocus.OnFocus = false;
                 }
             }
         }
