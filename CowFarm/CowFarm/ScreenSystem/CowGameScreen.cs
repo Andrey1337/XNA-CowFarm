@@ -43,12 +43,11 @@ namespace CowFarm.ScreenSystem
         private string _worldSerialize;
         private bool _escapeKeyPressed;
 
-
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
         {
             _contentManager = contentManager;
             _graphics = graphics;
-            HasCursor = false;
+            HasCursor = true;
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }

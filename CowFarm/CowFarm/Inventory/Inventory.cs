@@ -9,6 +9,7 @@ using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.Inventory
 {
@@ -32,8 +33,7 @@ namespace CowFarm.Inventory
             _inventoryTexture = gameTextures["inventoryPanel"];
             _selectionTexture = gameTextures["selectionTexture"];
             _containers = new Container[9];
-            _drawPos = new Vector2(330, 827);
-
+            _drawPos = new Vector2(330, 827);       
         }
 
         public void Add(Item item)
@@ -54,6 +54,11 @@ namespace CowFarm.Inventory
                 item.Pick();
                 return;
             }
+        }
+
+        public void Update()
+        {
+            var mouseState = Mouse.GetState();
         }
 
         public void ItemOnFocus(int index)
@@ -80,13 +85,15 @@ namespace CowFarm.Inventory
             pos.X += 26;
             pos.Y += 10;
             spriteBatch.Draw(_selectionTexture, new Vector2(pos.X - 5 + (_indexOnFocus * 40) + (_indexOnFocus * 15), pos.Y - 5), Color.White);
+
+
             for (var i = 0; i < _containers.Length; i++)
             {
                 Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 40, 40);
                 if (_containers[i] != null)
                 {
                     spriteBatch.Draw(_containers[i].IconTexture, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), Color.White);
-                    
+
                     if (_containers[i].ItemsCount > 1)
                     {
                         TextDrawHeleper.DrawText(spriteBatch, font, _containers[i].ItemsCount.ToString(), Color.Black, Color.White, 1, new Vector2(rect.X + 27, rect.Y + 20));
