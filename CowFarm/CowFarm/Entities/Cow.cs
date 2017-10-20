@@ -40,18 +40,18 @@ namespace CowFarm.Entities
         private IEnumerable<Entity> _nearbyList;
         private HashSet<Entity> _previousFocusInteractables;
 
-        public Cow(CowGameScreen cowGameScreen, World world, Rectangle destRect, Dictionary<string, Texture2D> gameTextures)
-        : base(world, destRect,
+        public Cow(CowGameScreen cowGameScreen, World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+        : base(world, new Rectangle((int)position.X, (int)position.Y, 54, 49),
               new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowLeftWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
-            Inventory = new Inventory.Inventory(cowGameScreen);
+
+            Inventory = new Inventory.Inventory(cowGameScreen);                                  
 
             _cowGameScreen = cowGameScreen;
             CurrentWorld = world;
-            _isKeyesIsPressed = new bool[9];
             Boost = 1;
             _nearbyList = new List<Entity>();
             _canBeOnFocusList = _nearbyList.ToList();
@@ -60,7 +60,7 @@ namespace CowFarm.Entities
 
             _timeInSprint = TimeSpan.Zero;
 
-            Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
@@ -143,14 +143,11 @@ namespace CowFarm.Entities
 
         private int _focusNumber;
 
-        private bool _tabKeyIsPressed;
-        private bool _eKeyIsPressed;
-        private bool _fKeyIsPressed;
+        private KeyboardState _prevKeyState;
 
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
-            Debug.WriteLine(GetPosition());
             HandleUserAgent(gameTime);
             HandleInventory();
             KeyboardState ks = Keyboard.GetState();
@@ -187,9 +184,9 @@ namespace CowFarm.Entities
                     if (interactable != null) interactable.OnFocus = false;
                 }
 
-                if (!_tabKeyIsPressed && ks.IsKeyDown(Keys.Tab))
+
+                if (ks.IsKeyDown(Keys.Tab) && _prevKeyState.IsKeyUp(Keys.Tab))
                 {
-                    _tabKeyIsPressed = true;
                     if (_focusNumber >= interactablesList.Count)
                     {
                         _focusNumber = 0;
@@ -200,32 +197,21 @@ namespace CowFarm.Entities
                     }
                 }
 
-                if (!_eKeyIsPressed && ks.IsKeyDown(Keys.E))
+                if (ks.IsKeyDown(Keys.E) && _prevKeyState.IsKeyUp(Keys.E))
                 {
-                    _eKeyIsPressed = true;
                     var food = interactableOnFocus as IEatable;
                     if (food != null)
                         Eat(food);
                 }
 
-                if (!_fKeyIsPressed && ks.IsKeyDown(Keys.F))
+                if (ks.IsKeyDown(Keys.F) && _prevKeyState.IsKeyUp(Keys.F))
                 {
-                    _fKeyIsPressed = true;
                     var item = interactableOnFocus as Item;
                     if (item != null)
                     {
                         Inventory.Add(item);
                     }
                 }
-
-                if (ks.IsKeyUp(Keys.Tab))
-                    _tabKeyIsPressed = false;
-
-                if (ks.IsKeyUp(Keys.E))
-                    _eKeyIsPressed = false;
-
-                if (ks.IsKeyUp(Keys.F))
-                    _fKeyIsPressed = false;
 
                 _previousFocusInteractables = hash;
                 _previousInteractableOnFocus = interactableOnFocus;
@@ -271,6 +257,8 @@ namespace CowFarm.Entities
             {
                 _cowGameScreen.ChangeWorld(this, Direction.Left);
             }
+
+            _prevKeyState = ks;
         }
 
         private Vector2 GetCenterPosition()
@@ -278,20 +266,16 @@ namespace CowFarm.Entities
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
         }
 
-        private bool[] _isKeyesIsPressed;
-
         private void HandleInventory()
         {
             var ks = Keyboard.GetState();
 
-            if (!_isKeyesIsPressed[0] && ks.IsKeyDown(Keys.D1))
+            for (int i = 0; i < 10; i++)
             {
-                _isKeyesIsPressed[0] = true;
-                Inventory.Drop(CurrentWorld, ItemDropPos(), 1);
-            }
-            if (ks.IsKeyUp(Keys.D1))
-            {
-                _isKeyesIsPressed[0] = false;
+                if (ks.IsKeyDown((Keys)i + 49) && _prevKeyState.IsKeyUp((Keys)i + 49))
+                {
+                    Inventory.Drop(CurrentWorld, ItemDropPos(), i);
+                }
             }
         }
 
@@ -396,17 +380,14 @@ namespace CowFarm.Entities
             switch (direction)
             {
                 case Direction.Right:
-                    var posY = Body.Position.Y;
-                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2(0, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
-                    Body.Position = new Vector2(0, posY);
+                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2(0, Body.Position.Y));
                     break;
 
                 case Direction.Left:
-                    posY = Body.Position.Y;
-                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)(GetPosition().Y + GetPosition().Height / 2 + 1) / 100));
-                    Body.Position = new Vector2((float)Graphics.PreferredBackBufferWidth / 100, posY);
+                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, Body.Position.Y));
                     break;
             }
+
             Body.BodyTypeName = "cow";
             _interactablesDictionary = world.InteractablesDictionary;
             Body.BodyType = BodyType.Dynamic;

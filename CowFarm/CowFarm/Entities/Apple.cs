@@ -39,7 +39,7 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
             Body.BodyTypeName = "apple";
-            Body.Restitution = 0.26f;
+
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
 
@@ -61,12 +61,18 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
+            
+
             world.AddDynamicEntity(this);
+            //Fall(position.Y * 100 );
         }
+
+
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
             {
+                Debug.WriteLine("TRUE");
                 Body.Restitution = 0f;
                 _isFalling = false;
                 _world.RemoveBody(_floor);
@@ -79,13 +85,13 @@ namespace CowFarm.Entities
         }
 
 
-
         private bool _isFalling;
         public void Fall(float height)
         {
             float x1 = (float)(GetPosition().X) / 100;
-            float x2 = (float)(GetPosition().X + 10) / 100;
+            float x2 = (float)(GetPosition().X + 30) / 100;
             float y = (height - 10) / 100;
+            Body.Restitution = 0.26f;
             _floor = BodyFactory.CreateEdge(_world, new Vector2(x1, y), new Vector2(x2, y));
             _floor.CollisionCategories = Category.Cat10;
             _floor.CollidesWith = Category.Cat10;
@@ -178,15 +184,11 @@ namespace CowFarm.Entities
             switch (direction)
             {
                 case Direction.Right:
-                    var posY = Body.Position.Y;
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    Body.Position = new Vector2(0.25f, posY);
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, Body.Position.Y));
                     break;
 
                 case Direction.Left:
-                    posY = Body.Position.Y;
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, (float)(GetPosition().Y + GetPosition().Height / 2 - 10) / 100));
-                    Body.Position = new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, posY);
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, Body.Position.Y));
                     break;
             }
 

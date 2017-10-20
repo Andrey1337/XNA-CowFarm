@@ -70,7 +70,7 @@ namespace CowFarm.ScreenSystem
             WordlsList = new List<World> { FirstWorld, SecondWorld };
 
             WorldOnFocus = SecondWorld;
-            CreateCow();           
+            CreateCow();
 
             base.LoadContent();
         }
@@ -129,7 +129,7 @@ namespace CowFarm.ScreenSystem
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 //_worldSerialize = "Serialized";
-               
+
                 _escapeKeyPressed = true;
                 ExitScreen();
             }
@@ -138,7 +138,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            Cow = new Cow(this, WorldOnFocus, new Rectangle(460, 370, 54, 49), GameTextures);
+            Cow = new Cow(this, WorldOnFocus, new Vector2(460, 370), GameTextures);
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 

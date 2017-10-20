@@ -59,11 +59,11 @@ namespace CowFarm.Inventory
             position.Y /= 100;
 
 
-            int i = --index;
-            if (_containers[i] == null) return;
-            _containers[i].Drop(world, position, _typesIds, _cowGameScreen);
-            if (_containers[i].ItemsCount == 0)
-                _containers[i] = null;
+
+            if (_containers[index] == null) return;
+            _containers[index].Drop(world, position, _typesIds, _cowGameScreen);
+            if (_containers[index].ItemsCount == 0)
+                _containers[index] = null;
         }
 
         readonly Vector2 _drawPos;
