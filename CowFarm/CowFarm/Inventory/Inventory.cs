@@ -15,14 +15,17 @@ namespace CowFarm.Inventory
 {
     public class Inventory
     {
-        private readonly Container[] _containers;
+        private Container[] _containers;
 
         private readonly CowGameScreen _cowGameScreen;
         private readonly Type[] _typesIds;
 
         private int _indexOnFocus;
 
-        private readonly Texture2D _selectionTexture;
+        private Container _containerOnFocus;
+
+        private Container _swapContainer1;
+        private Container _swapContainer2;
 
         public Inventory(CowGameScreen cowGameScreen)
         {
@@ -40,6 +43,18 @@ namespace CowFarm.Inventory
                 _containers[i] = new Container(rect, cowGameScreen.GameTextures["cleanTexture"]);
                 pos.X += 13 + rect.Width;
             }
+
+        }
+
+        private void SwapContainers(Container container1, Container container2)
+        {
+            if (container1 == null)
+                return;
+
+            Container temp = new Container(new Rectangle(0, 0, 0, 0), _cowGameScreen.GameTextures["cleanTexture"]);
+            temp.Swap(container1);
+            container1.Swap(container2);
+            container2.Swap(temp);
         }
 
         public void Add(Item item)
@@ -61,7 +76,7 @@ namespace CowFarm.Inventory
             }
         }
 
-        private Container _containerOnFocus;
+        private MouseState _prevMouseState;
         public void Update()
         {
             var mouseState = Mouse.GetState();
@@ -71,16 +86,32 @@ namespace CowFarm.Inventory
             {
                 if (_containers[i].Position.Contains(mousePoint))
                 {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
-                        _indexOnFocus = i;
                     _containerOnFocus = _containers[i];
                     _containerOnFocus.OnFocus = true;
+                    if (mouseState.LeftButton == ButtonState.Pressed && _prevMouseState.LeftButton != ButtonState.Pressed)
+                    {
+                        _indexOnFocus = i;
+                        if (_swapContainer1 == null && !_containers[i].IsEmpty())
+                        {
+                            _swapContainer1 = _containers[i];
+                        }
+                        else
+                        {
+                            if (_swapContainer1 != _containers[i])
+                            {
+                                SwapContainers(_swapContainer1, _containers[i]);
+                                _swapContainer1 = null;
+                            }
+
+                        }
+                    }
                 }
                 if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
                 {
                     _containerOnFocus.OnFocus = false;
                 }
             }
+            _prevMouseState = mouseState;
         }
 
         public void ItemOnFocus(int index)
@@ -103,8 +134,9 @@ namespace CowFarm.Inventory
             var pos = _drawPos;
             pos.X += 26;
             pos.Y += 10;
+            if (_indexOnFocus != -1)
+                spriteBatch.Draw(_cowGameScreen.GameTextures["selectionTexture"], new Vector2(pos.X - 5 + (_indexOnFocus * 40) + (_indexOnFocus * 15), pos.Y - 5), Color.White);
 
-            spriteBatch.Draw(_cowGameScreen.GameTextures["selectionTexture"], new Vector2(pos.X - 5 + (_indexOnFocus * 40) + (_indexOnFocus * 15), pos.Y - 5), Color.White);
 
             for (var i = 0; i < _containers.Length; i++)
             {

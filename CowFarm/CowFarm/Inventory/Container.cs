@@ -12,12 +12,11 @@ namespace CowFarm.Inventory
 {
     public class Container
     {
-        private Item _item;
+        public Item Item;
         public int ItemsCount;
-        private int _maxCount;
-        public Texture2D IconTexture;
+        public int MaxCount;
         public Rectangle Position { get; }
-        private Texture2D _backgroundTexture;
+        private readonly Texture2D _backgroundTexture;
 
         public bool OnFocus;
 
@@ -27,24 +26,30 @@ namespace CowFarm.Inventory
             _backgroundTexture = background;
         }
 
+        public void Swap(Container container)
+        {
+            Item = container.Item;
+            ItemsCount = container.ItemsCount;
+            MaxCount = container.MaxCount;
+        }
+
         public bool PossibleToAdd(Item item)
         {
-            if (_item == null)
+            if (Item == null)
                 return false;
-            return _item.ItemId == item.ItemId && ItemsCount <= _maxCount;
+            return Item.ItemId == item.ItemId && ItemsCount <= MaxCount;
         }
 
         public bool IsEmpty()
         {
-            return _item == null;
+            return Item == null;
         }
 
         public void Add(Item item)
         {
             if (item is Apple)
-                _maxCount = 3;
-            _item = item;
-            IconTexture = _item.IconTexture;
+                MaxCount = 3;
+            Item = item;
             ItemsCount++;
         }
 
@@ -52,13 +57,13 @@ namespace CowFarm.Inventory
         {
             if (OnFocus)
             {
-                spriteBatch.Draw(_backgroundTexture, Position, new Color(183, 183, 183));                
+                spriteBatch.Draw(_backgroundTexture, Position, new Color(183, 183, 183));
             }
-            if (_item == null) return;
-           
-            
+            if (Item == null) return;
 
-            spriteBatch.Draw(IconTexture, new Rectangle(Position.X + 1, Position.Y + 1, 40, 40), Color.White);
+
+
+            spriteBatch.Draw(Item.IconTexture, new Rectangle(Position.X + 1, Position.Y + 1, 40, 40), Color.White);
 
             if (ItemsCount > 1)
             {
@@ -68,17 +73,17 @@ namespace CowFarm.Inventory
 
         public void Drop(World world, Vector2 position, Type[] itemsTypes, CowGameScreen cowGameScreen)
         {
-            if (_item == null)
+            if (Item == null)
                 return;
-            if (itemsTypes[_item.ItemId] == null)
+            if (itemsTypes[Item.ItemId] == null)
                 throw new Exception("No itemId exists");
 
             object[] args = { cowGameScreen, world, position };
-            Activator.CreateInstance(itemsTypes[_item.ItemId], args);
+            Activator.CreateInstance(itemsTypes[Item.ItemId], args);
 
             ItemsCount--;
             if (ItemsCount == 0)
-                _item = null;
+                Item = null;
         }
     }
 }
