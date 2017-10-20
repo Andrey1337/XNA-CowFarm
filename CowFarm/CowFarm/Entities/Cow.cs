@@ -40,14 +40,13 @@ namespace CowFarm.Entities
         private IEnumerable<Entity> _nearbyList;
         private HashSet<Entity> _previousFocusInteractables;
 
-        public Cow(CowGameScreen cowGameScreen, World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
+        public Cow(CowGameScreen cowGameScreen, World world, Vector2 position, IDictionary<string, Texture2D> gameTextures)
         : base(world, new Rectangle((int)position.X, (int)position.Y, 54, 49),
               new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowLeftWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
-
             Inventory = new Inventory.Inventory(cowGameScreen);                                  
 
             _cowGameScreen = cowGameScreen;
@@ -274,8 +273,12 @@ namespace CowFarm.Entities
             {
                 if (ks.IsKeyDown((Keys)i + 49) && _prevKeyState.IsKeyUp((Keys)i + 49))
                 {
-                    Inventory.Drop(CurrentWorld, ItemDropPos(), i);
+                    Inventory.ItemOnFocus(i);
                 }
+            }
+            if (ks.IsKeyDown(Keys.G) && _prevKeyState.IsKeyUp(Keys.G))
+            {
+                Inventory.Drop(CurrentWorld,ItemDropPos());
             }
         }
 

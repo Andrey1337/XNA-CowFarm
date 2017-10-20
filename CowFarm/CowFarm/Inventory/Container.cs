@@ -20,7 +20,7 @@ namespace CowFarm.Inventory
             ItemId = item.ItemId;
             IconTexture = item.IconTexture;
             if (item is Apple)
-                _maxCount = 1;
+                _maxCount = 3;
         }
 
         public bool PossibleToAdd(int itemId)

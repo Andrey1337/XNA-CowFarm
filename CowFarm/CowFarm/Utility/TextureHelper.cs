@@ -11,15 +11,15 @@ namespace CowFarm.Utility
             Color[] oldC = new Color[texture.Width * texture.Height];
 
             texture.GetData(oldC);
-            copyTexture.SetData<Color>(oldC);
+            copyTexture.SetData(oldC);
 
             return copyTexture;
-        }
+        }        
 
         public static Texture2D RepaintRectangle(Texture2D texture)
         {
             Color[] color = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(color);
+            texture.GetData(color);
 
             for (int i = 0; i < color.Length; i++)
             {
@@ -33,7 +33,7 @@ namespace CowFarm.Utility
                 }
             }
 
-            texture.SetData<Color>(color);
+            texture.SetData(color);
             return texture;
         }
     }

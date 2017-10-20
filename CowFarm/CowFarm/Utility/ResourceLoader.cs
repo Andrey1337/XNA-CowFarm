@@ -17,7 +17,7 @@ namespace CowFarm.Utility
                 return GameTextures;
             }
             GameTextures = new Dictionary<string, Texture2D>();
-
+            LoadSelectionTexture(graphicsDevice, contentManager, 50, 50);
             PlantLoad(contentManager);
             LoadMisc(contentManager, graphicsDevice);
             LoadCow(contentManager);
@@ -28,6 +28,29 @@ namespace CowFarm.Utility
             LoadButtons(contentManager);
             LoadIcons(contentManager);
             return GameTextures;
+        }
+
+        public static void LoadSelectionTexture(GraphicsDevice graphicsDevice, ContentManager contentManager, int textureWidth, int textureHeight)
+        {
+            Texture2D selectionTexture = new Texture2D(graphicsDevice, textureWidth, textureHeight);
+            Color[] color = new Color[textureWidth * textureHeight];
+            selectionTexture.GetData(color);
+            for (int i = 0; i < textureWidth; i++)
+            {
+                for (int j = 0; j < textureHeight; j++)
+                {
+                    if (i < 4 || i > textureWidth - 5)
+                    {
+                        color[i * textureWidth + j] = Color.Black;
+                    }
+                    if (j < 4 || j > textureHeight - 5)
+                    {
+                        color[i * textureWidth + j] = Color.Black;
+                    }
+                }
+            }
+            selectionTexture.SetData(color);
+            GameTextures.Add("selectionTexture", selectionTexture);
         }
 
         public static Dictionary<string, SpriteFont> LoadFonts(ContentManager contentManager)

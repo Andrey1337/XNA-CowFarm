@@ -1,8 +1,5 @@
 ﻿using CowFarm.DrowingSystem;
-using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities

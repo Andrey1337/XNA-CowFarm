@@ -11,7 +11,7 @@ namespace CowFarm.Utility
 
             spritebatch.DrawString(font, text, position + new Vector2(1.5f * scale, 1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 0f);
             spritebatch.DrawString(font, text, position + new Vector2(-1.5f * scale, -1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 0f);
-            spritebatch.DrawString(font, text, position + new Vector2(2 * scale, -1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 0f);
+            spritebatch.DrawString(font, text, position + new Vector2(1 * scale, -1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 0f);
             spritebatch.DrawString(font, text, position + new Vector2(-1.5f * scale, 1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 0f);
 
             spritebatch.DrawString(font, text, position, frontColor, 0, origin, scale, SpriteEffects.None, 0f);

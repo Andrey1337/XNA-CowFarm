@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Interfaces;
 using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics.Dynamics;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
 using CowFarm.Enums;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;

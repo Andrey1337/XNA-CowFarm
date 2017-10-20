@@ -1,4 +1,4 @@
-﻿namespace CowFarm
+﻿namespace CowFarm.Interfaces
 {
     public interface IEatable : IInteractable
     {
