@@ -79,7 +79,7 @@ namespace CowFarm.ScreenSystem
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
             {
                 _inGameTime += gameTime.ElapsedGameTime;
-
+                Cow.Inventory.Update();
                 WorldOnFocus.Update(gameTime);
 
             }

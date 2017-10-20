@@ -72,7 +72,7 @@ namespace CowFarm.Entities
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
             {
-                Debug.WriteLine("TRUE");
+               
                 Body.Restitution = 0f;
                 _isFalling = false;
                 _world.RemoveBody(_floor);
