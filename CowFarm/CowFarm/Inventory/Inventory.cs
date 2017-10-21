@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Cryptography;
 using CowFarm.Entities;
@@ -15,17 +16,14 @@ namespace CowFarm.Inventory
 {
     public class Inventory
     {
-        private Container[] _containers;
+        private readonly Container[] _containers;
 
         private readonly CowGameScreen _cowGameScreen;
         private readonly Type[] _typesIds;
 
         private int _indexOnFocus;
 
-        private Container _containerOnFocus;
-
-        private Container _swapContainer1;
-        private Container _swapContainer2;
+        private Container _swapContainer;
 
         public Inventory(CowGameScreen cowGameScreen)
         {
@@ -37,79 +35,99 @@ namespace CowFarm.Inventory
             var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);
 
             _containers = new Container[9];
-            for (int i = 0; i < _containers.Length; i++)
+            for (var i = 0; i < _containers.Length; i++)
             {
                 var rect = new Rectangle((int)pos.X, (int)pos.Y, 42, 42);
                 _containers[i] = new Container(rect, cowGameScreen.GameTextures["cleanTexture"]);
                 pos.X += 13 + rect.Width;
             }
-
         }
 
         private void SwapContainers(Container container1, Container container2)
         {
-            if (container1 == null)
+            if (_swapContainer == null)
+            {
                 return;
+            }
+            if (container1 == container2)
+            {
+                _swapContainer.IsPicked = false;
+                _swapContainer = null;
+                return;
+            }
 
-            Container temp = new Container(new Rectangle(0, 0, 0, 0), _cowGameScreen.GameTextures["cleanTexture"]);
+            _swapContainer.IsPicked = false;
+            Container temp = new Container();
             temp.Swap(container1);
             container1.Swap(container2);
             container2.Swap(temp);
+
+            if (!container1.IsEmpty())
+            {
+                _swapContainer = container1;
+                _swapContainer.IsPicked = true;
+            }
+            else
+            {
+                _swapContainer = null;
+            }
         }
 
         public void Add(Item item)
         {
-            for (var i = 0; i < _containers.Length; i++)
+            foreach (var container in _containers)
             {
-                if (_containers[i] == null || !_containers[i].PossibleToAdd(item)) continue;
-                _containers[i].Add(item);
-                item.Pick();
+                if (container == null || !container.PossibleToAdd(item)) continue;
+                container.Add(item);
                 return;
             }
 
-            for (var i = 0; i < _containers.Length; i++)
+            foreach (var container in _containers)
             {
-                if (!_containers[i].IsEmpty()) continue;
-                _containers[i].Add(item);
-                item.Pick();
+                if (!container.IsEmpty()) continue;
+                container.Add(item);
                 return;
             }
         }
 
         private MouseState _prevMouseState;
+        private Container _containerOnFocus;
         public void Update()
         {
             var mouseState = Mouse.GetState();
             var mousePoint = new Point(mouseState.X, mouseState.Y);
 
-            for (int i = 0; i < _containers.Length; i++)
+            for (var i = 0; i < _containers.Length; i++)
             {
                 if (_containers[i].Position.Contains(mousePoint))
                 {
                     _containerOnFocus = _containers[i];
                     _containerOnFocus.OnFocus = true;
-                    if (mouseState.LeftButton == ButtonState.Pressed && _prevMouseState.LeftButton != ButtonState.Pressed)
-                    {
-                        _indexOnFocus = i;
-                        if (_swapContainer1 == null && !_containers[i].IsEmpty())
-                        {
-                            _swapContainer1 = _containers[i];
-                        }
-                        else
-                        {
-                            if (_swapContainer1 != _containers[i])
-                            {
-                                SwapContainers(_swapContainer1, _containers[i]);
-                                _swapContainer1 = null;
-                            }
 
+                    if (mouseState.LeftButton != ButtonState.Pressed ||
+                        _prevMouseState.LeftButton == ButtonState.Pressed) continue;
+
+                    _indexOnFocus = i;
+
+
+                    if (_swapContainer == null)
+                    {
+                        if (!_containers[i].IsEmpty())
+                        {
+                            _swapContainer = _containers[i];
+                            _swapContainer.IsPicked = true;
                         }
                     }
+                    else
+                    {
+                        SwapContainers(_swapContainer, _containers[i]);
+                    }
                 }
-                if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
-                {
-                    _containerOnFocus.OnFocus = false;
-                }
+            }
+
+            if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
+            {
+                _containerOnFocus.OnFocus = false;
             }
             _prevMouseState = mouseState;
         }
@@ -138,11 +156,12 @@ namespace CowFarm.Inventory
                 spriteBatch.Draw(_cowGameScreen.GameTextures["selectionTexture"], new Vector2(pos.X - 5 + (_indexOnFocus * 40) + (_indexOnFocus * 15), pos.Y - 5), Color.White);
 
 
-            for (var i = 0; i < _containers.Length; i++)
+            foreach (var container in _containers)
             {
-                _containers[i].Draw(spriteBatch, font);
+                container.Draw(spriteBatch, font);
             }
 
+            _swapContainer?.Draw(spriteBatch, font);
         }
 
 
