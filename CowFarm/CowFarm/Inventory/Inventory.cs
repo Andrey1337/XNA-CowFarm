@@ -41,6 +41,8 @@ namespace CowFarm.Inventory
                 _containers[i] = new Container(rect, cowGameScreen.GameTextures["cleanTexture"]);
                 pos.X += 13 + rect.Width;
             }
+
+            _swapContainer = new Container();
         }
 
         private void SwapContainers(Container container1, Container container2)

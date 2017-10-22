@@ -48,9 +48,14 @@ namespace CowFarm.Entities
               new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
         {
             Inventory = new Inventory.Inventory(cowGameScreen);                                  
-            Inventory.Add(new Apple(cowGameScreen,world,Vector2.Zero));
-            Inventory.Add(new Apple(cowGameScreen,world,Vector2.Zero));
-            Inventory.Add(new Apple(cowGameScreen,world,Vector2.Zero));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
+
 
             _cowGameScreen = cowGameScreen;
             CurrentWorld = world;

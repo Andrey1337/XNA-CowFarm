@@ -92,6 +92,7 @@
     <Compile Include="Interfaces\IInteractable.cs" />
     <Compile Include="Inventory\Container.cs" />
     <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\SwapContainer.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />
