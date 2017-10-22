@@ -7,30 +7,53 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.Inventory
 {
-    public class SwapContainer
+    public class SwapContainer : Container
     {
-        public Item Item;
-        public int ItemsCount;
-        private int _maxCount;
-
         public SwapContainer()
         {
         }
 
-        public void Swap()
+        public new void Swap(Container container)
         {
-            
-        }
-        
+            if (container.Item == null || Item == null || container.Item.GetType() != Item.GetType() || container.IsFull())
+            {
+                Container temp = new Container();
+                temp.Swap(this);
+                base.Swap(container);
+                container.Swap(temp);
+                return;
+            }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+            if (ItemsCount <= container.MaxCount - container.ItemsCount)
+            {
+                container.Add(ItemsCount);
+                ItemsCount = 0;
+                Item = null;
+            }
+            else
+            {
+                ItemsCount -= container.MaxCount - container.ItemsCount;
+                container.Add(container.MaxCount - container.ItemsCount);
+
+            }
+
+        }
+
+
+        public new void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            var mousePoint = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            spriteBatch.Draw(Item.IconTexture, new Rectangle((int)mousePoint.X + 1, (int)mousePoint.Y + 1, 40, 40), Color.White);
+            if (Item == null || ItemsCount == 0)
+                return;
+
+            var mouseState = Mouse.GetState();
+            var mousePoint = new Vector2(mouseState.X, mouseState.Y);
+            var rect = new Rectangle((int)mousePoint.X - 20, (int)mousePoint.Y - 20, 40, 40);
+            spriteBatch.Draw(Item.IconTexture, rect, Color.White);
+
             if (ItemsCount > 1)
             {
                 TextDrawHeleper.DrawText(spriteBatch, font, ItemsCount.ToString(), Color.Black, Color.White, 1,
-                    new Vector2(mousePoint.X + 27, mousePoint.Y + 20));
+                    new Vector2(rect.X + 26, rect.Y + 19));
             }
         }
     }

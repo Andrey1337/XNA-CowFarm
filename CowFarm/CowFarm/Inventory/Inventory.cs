@@ -23,7 +23,7 @@ namespace CowFarm.Inventory
 
         private int _indexOnFocus;
 
-        private Container _swapContainer;
+        public SwapContainer SwapContainer;
 
         public Inventory(CowGameScreen cowGameScreen)
         {
@@ -42,37 +42,7 @@ namespace CowFarm.Inventory
                 pos.X += 13 + rect.Width;
             }
 
-            _swapContainer = new Container();
-        }
-
-        private void SwapContainers(Container container1, Container container2)
-        {
-            if (_swapContainer == null)
-            {
-                return;
-            }
-            if (container1 == container2)
-            {
-                _swapContainer.IsPicked = false;
-                _swapContainer = null;
-                return;
-            }
-
-            _swapContainer.IsPicked = false;
-            Container temp = new Container();
-            temp.Swap(container1);
-            container1.Swap(container2);
-            container2.Swap(temp);
-
-            if (!container1.IsEmpty())
-            {
-                _swapContainer = container1;
-                _swapContainer.IsPicked = true;
-            }
-            else
-            {
-                _swapContainer = null;
-            }
+            SwapContainer = new SwapContainer();
         }
 
         public void Add(Item item)
@@ -111,19 +81,7 @@ namespace CowFarm.Inventory
 
                     _indexOnFocus = i;
 
-
-                    if (_swapContainer == null)
-                    {
-                        if (!_containers[i].IsEmpty())
-                        {
-                            _swapContainer = _containers[i];
-                            _swapContainer.IsPicked = true;
-                        }
-                    }
-                    else
-                    {
-                        SwapContainers(_swapContainer, _containers[i]);
-                    }
+                    SwapContainer.Swap(_containers[i]);
                 }
             }
 
@@ -141,8 +99,8 @@ namespace CowFarm.Inventory
 
         public void Drop(World world, Vector2 position)
         {
-            position.X /= 100;
-            position.Y /= 100;
+            position /= 100;
+
 
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }
@@ -162,8 +120,8 @@ namespace CowFarm.Inventory
             {
                 container.Draw(spriteBatch, font);
             }
-
-            _swapContainer?.Draw(spriteBatch, font);
+            
+            SwapContainer?.Draw(spriteBatch, font);
         }
 
 

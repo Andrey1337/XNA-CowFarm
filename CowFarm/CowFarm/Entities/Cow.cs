@@ -49,13 +49,9 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);                                  
             Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));
-
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));            
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));            
+            Inventory.Add(new Apple(cowGameScreen,world, Vector2.One));            
 
             _cowGameScreen = cowGameScreen;
             CurrentWorld = world;
