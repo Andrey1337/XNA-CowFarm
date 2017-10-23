@@ -68,6 +68,7 @@ namespace CowFarm.Inventory
         {
             var mouseState = Mouse.GetState();
             var mousePoint = new Point(mouseState.X, mouseState.Y);
+            var ks = Keyboard.GetState();
 
             for (var i = 0; i < _containers.Length; i++)
             {
@@ -81,7 +82,9 @@ namespace CowFarm.Inventory
 
                     _indexOnFocus = i;
 
+
                     SwapContainer.Swap(_containers[i]);
+
                 }
             }
 

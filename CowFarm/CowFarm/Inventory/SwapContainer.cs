@@ -12,10 +12,31 @@ namespace CowFarm.Inventory
 {
     public class SwapContainer : Container
     {
-        public SwapContainer() { }
-
         public new void Swap(Container container)
-        {                             
+        {
+            var ks = Keyboard.GetState();
+
+            if (ks.IsKeyDown(Keys.LeftControl))
+            {
+                if (ItemStack.IsEmpty())
+                {
+                    int count = Convert.ToInt32((double)container.ItemsCount / 2);
+                    for (int i = 0; i < count; i++)
+                    {
+                        ItemStack.Add(container.Item);
+                        container.Remove();
+                    }
+                    return;
+                }
+
+                if ((container.ItemStack.IsEmpty() || container.Item.ItemId == Item.ItemId) && !container.ItemStack.IsFull())
+                {
+                    container.ItemStack.Add(ItemStack.Item);
+                    ItemStack.Remove();
+                }
+                return;
+            }
+
             if (container.Item == null || Item == null || container.Item.ItemId != Item.ItemId || container.ItemStack.IsFull())
             {
                 container.Swap(this);
@@ -27,6 +48,11 @@ namespace CowFarm.Inventory
                 Remove();
                 container.Add();
             }
+        }
+
+        public void SwapHalf(Container container)
+        {
+
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
