@@ -1,4 +1,7 @@
-﻿using CowFarm.Entities;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.Serialization.Formatters;
+using CowFarm.Entities;
 using CowFarm.Utility;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
@@ -9,38 +12,36 @@ namespace CowFarm.Inventory
 {
     public class SwapContainer : Container
     {
-        public SwapContainer()
-        {
-        }
+        public SwapContainer() { }
 
         public new void Swap(Container container)
         {
+            var ks = Keyboard.GetState();           
+
             if (container.Item == null || Item == null || container.Item.GetType() != Item.GetType() || container.IsFull())
             {
-                Container temp = new Container();
+                Container temp = new SwapContainer();
                 temp.Swap(this);
                 base.Swap(container);
                 container.Swap(temp);
                 return;
             }
 
-            if (ItemsCount <= container.MaxCount - container.ItemsCount)
+            int space = container.MaxCount - container.ItemsCount;
+            if (ItemsCount <= space)
             {
                 container.Add(ItemsCount);
-                ItemsCount = 0;
-                Item = null;
+                Remove(ItemsCount);
             }
             else
             {
-                ItemsCount -= container.MaxCount - container.ItemsCount;
-                container.Add(container.MaxCount - container.ItemsCount);
-
+                container.Add(space);
+                Remove(space);
             }
 
         }
 
-
-        public new void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             if (Item == null || ItemsCount == 0)
                 return;
@@ -56,5 +57,7 @@ namespace CowFarm.Inventory
                     new Vector2(rect.X + 26, rect.Y + 19));
             }
         }
+
+
     }
 }

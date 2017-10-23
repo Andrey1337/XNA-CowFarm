@@ -16,7 +16,7 @@ namespace CowFarm.Inventory
 {
     public class Inventory
     {
-        private readonly Container[] _containers;
+        private readonly InventoryConainer[] _containers;
 
         private readonly CowGameScreen _cowGameScreen;
         private readonly Type[] _typesIds;
@@ -34,11 +34,11 @@ namespace CowFarm.Inventory
 
             var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);
 
-            _containers = new Container[9];
+            _containers = new InventoryConainer[9];
             for (var i = 0; i < _containers.Length; i++)
             {
                 var rect = new Rectangle((int)pos.X, (int)pos.Y, 42, 42);
-                _containers[i] = new Container(rect, cowGameScreen.GameTextures["cleanTexture"]);
+                _containers[i] = new InventoryConainer(rect, cowGameScreen.GameTextures["cleanTexture"]);
                 pos.X += 13 + rect.Width;
             }
 
@@ -63,7 +63,7 @@ namespace CowFarm.Inventory
         }
 
         private MouseState _prevMouseState;
-        private Container _containerOnFocus;
+        private InventoryConainer _containerOnFocus;
         public void Update()
         {
             var mouseState = Mouse.GetState();
@@ -101,7 +101,6 @@ namespace CowFarm.Inventory
         {
             position /= 100;
 
-
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }
 
@@ -120,7 +119,7 @@ namespace CowFarm.Inventory
             {
                 container.Draw(spriteBatch, font);
             }
-            
+
             SwapContainer?.Draw(spriteBatch, font);
         }
 
