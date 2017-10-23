@@ -28,7 +28,7 @@ namespace CowFarm.Inventory
             {
                 spriteBatch.Draw(_backgroundTexture, Position, new Color(183, 183, 183));
             }
-            if (Item == null) return;
+            if (ItemStack == null || Item == null) return;
 
             spriteBatch.Draw(Item.IconTexture, new Rectangle(Position.X + 1, Position.Y + 1, 40, 40), Color.White);
             if (ItemsCount > 1)
@@ -47,9 +47,7 @@ namespace CowFarm.Inventory
             object[] args = { cowGameScreen, world, position };
             Activator.CreateInstance(itemsTypes[Item.ItemId], args);
 
-            ItemsCount--;
-            if (ItemsCount == 0)
-                Item = null;
+            ItemStack.Remove();
         }
 
     }

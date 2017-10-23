@@ -1,4 +1,5 @@
-﻿using CowFarm.Entities;
+﻿using System;
+using CowFarm.Entities;
 
 namespace CowFarm.Inventory
 {
@@ -8,16 +9,35 @@ namespace CowFarm.Inventory
         public int ItemsCount { get; set; }
         public int MaxCount { get; set; }
 
-        public ItemStack(Item item, int itemsCount, int maxCount)
+        public ItemStack()
         {
-            Item = item;
-            ItemsCount = itemsCount;
-            MaxCount = maxCount;
+            MaxCount = 3;
         }
 
         public bool IsFull()
         {
             return ItemsCount == MaxCount;
+        }
+
+        public bool IsEmpty()
+        {
+            return Item == null;
+        }
+
+        public void Add(Item item = null)
+        {
+            if (item != null)
+                Item = item;
+            ItemsCount++;
+        }
+
+        public void Remove()
+        {
+            if (ItemsCount <= 0)
+                throw new Exception("Items count minus");
+            ItemsCount--;
+            if (ItemsCount == 0)
+                Item = null;
         }
     }
 }

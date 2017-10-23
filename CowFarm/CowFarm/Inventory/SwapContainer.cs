@@ -15,30 +15,18 @@ namespace CowFarm.Inventory
         public SwapContainer() { }
 
         public new void Swap(Container container)
-        {
-            var ks = Keyboard.GetState();           
-
-            if (container.Item == null || Item == null || container.Item.GetType() != Item.GetType() || container.IsFull())
+        {                             
+            if (container.Item == null || Item == null || container.Item.ItemId != Item.ItemId || container.ItemStack.IsFull())
             {
-                Container temp = new SwapContainer();
-                temp.Swap(this);
-                base.Swap(container);
-                container.Swap(temp);
+                container.Swap(this);
                 return;
             }
 
-            int space = container.MaxCount - container.ItemsCount;
-            if (ItemsCount <= space)
+            for (var i = 0; i <= ItemsCount && !container.ItemStack.IsFull(); i++)
             {
-                container.Add(ItemsCount);
-                Remove(ItemsCount);
+                Remove();
+                container.Add();
             }
-            else
-            {
-                container.Add(space);
-                Remove(space);
-            }
-
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)

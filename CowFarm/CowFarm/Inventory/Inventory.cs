@@ -56,7 +56,7 @@ namespace CowFarm.Inventory
 
             foreach (var container in _containers)
             {
-                if (!container.IsEmpty()) continue;
+                if (!container.ItemStack.IsEmpty()) continue;
                 container.Add(item);
                 return;
             }

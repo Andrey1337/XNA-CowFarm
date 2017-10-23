@@ -13,29 +13,23 @@ namespace CowFarm.Inventory
 {
     public abstract class Container
     {
-        public Item Item { get; protected set; }
-        public int ItemsCount { get; protected set; }
-        public int MaxCount { get; protected set; }
-        
-                
+        public ItemStack ItemStack;
+        public Item Item => ItemStack.Item;
+        public int ItemsCount => ItemStack.ItemsCount;
+        public int MaxCount => ItemStack.MaxCount;
+
+
         public void Swap(Container container)
         {
-            Item = container.Item;
-            ItemsCount = container.ItemsCount;
-            if (container.Item is Apple)
-            {
-                MaxCount = 3;
-            }
+            ItemStack temp = ItemStack;
+            ItemStack = container.ItemStack;
+            container.ItemStack = temp;
         }
 
-        public bool IsFull()
+        protected Container()
         {
-            return ItemsCount == MaxCount;
-        }
-        public bool IsEmpty()
-        {
-            return Item == null;
-        }
+            ItemStack = new ItemStack();
+        }       
 
         public bool PossibleToAdd(Item item)
         {
@@ -44,29 +38,21 @@ namespace CowFarm.Inventory
             return Item.ItemId == item.ItemId && ItemsCount < MaxCount;
         }
 
-        public void Add(Item item)
+        public void Add(Item item = null)
         {
-            if (item is Apple)
-                MaxCount = 3;
-            Item = item;
-            ItemsCount++;
-            item.Pick();
+            ItemStack.Add(item);
+            item?.Pick();
         }
 
-        public void Add(int count)
+        public void Remove()
         {
-            ItemsCount += count;
-        }
-
-        public void Remove(int count)
-        {
-            ItemsCount -= count;
+            ItemStack.ItemsCount--;
             if (ItemsCount == 0)
-                Item = null;
+                ItemStack.Item = null;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch, SpriteFont font);
 
-        
+
     }
 }
