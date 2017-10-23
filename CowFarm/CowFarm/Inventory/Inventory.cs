@@ -67,8 +67,7 @@ namespace CowFarm.Inventory
         public void Update()
         {
             var mouseState = Mouse.GetState();
-            var mousePoint = new Point(mouseState.X, mouseState.Y);
-            var ks = Keyboard.GetState();
+            var mousePoint = new Point(mouseState.X, mouseState.Y);            
 
             for (var i = 0; i < _containers.Length; i++)
             {

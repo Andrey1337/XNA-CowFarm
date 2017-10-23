@@ -17,8 +17,7 @@ namespace CowFarm.Inventory
         public Item Item => ItemStack.Item;
         public int ItemsCount => ItemStack.ItemsCount;
         public int MaxCount => ItemStack.MaxCount;
-
-
+    
         public void Swap(Container container)
         {
             ItemStack temp = ItemStack;
@@ -52,7 +51,6 @@ namespace CowFarm.Inventory
         }
 
         public abstract void Draw(SpriteBatch spriteBatch, SpriteFont font);
-
 
     }
 }

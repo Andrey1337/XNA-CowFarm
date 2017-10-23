@@ -78,13 +78,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparables\PositionYComparer.cs" />
-    <Compile Include="Entities\Apple.cs" />
+    <Compile Include="Entities\Items\Apple.cs" />
     <Compile Include="Entities\BerryBush.cs" />
     <Compile Include="Entities\BoulderRock.cs" />
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Cat.cs" />
     <Compile Include="Entities\Decoration.cs" />
-    <Compile Include="Entities\Item.cs" />
+    <Compile Include="Entities\Items\Item.cs" />
+    <Compile Include="Entities\Items\Rocks.cs" />
     <Compile Include="Entities\NPC.cs" />
     <Compile Include="Entities\OrangeTree.cs" />
     <Compile Include="Entities\Rock .cs" />

@@ -61,18 +61,15 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
-            
-
+        
             world.AddDynamicEntity(this);
-            //Fall(position.Y * 100 );
         }
-
 
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
             {
-               
+
                 Body.Restitution = 0f;
                 _isFalling = false;
                 _world.RemoveBody(_floor);
@@ -83,7 +80,6 @@ namespace CowFarm.Entities
                 CanInteract = true;
             }
         }
-
 
         private bool _isFalling;
         public void Fall(float height)
@@ -198,7 +194,5 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
         }
-
-
     }
 }

@@ -20,7 +20,7 @@ namespace CowFarm.Inventory
             {
                 if (ItemStack.IsEmpty())
                 {
-                    int count = Convert.ToInt32((double)container.ItemsCount / 2);
+                    int count = Convert.ToInt32((double)container.ItemsCount / 2 + 0.1);
                     for (int i = 0; i < count; i++)
                     {
                         ItemStack.Add(container.Item);
@@ -48,11 +48,6 @@ namespace CowFarm.Inventory
                 Remove();
                 container.Add();
             }
-        }
-
-        public void SwapHalf(Container container)
-        {
-
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)

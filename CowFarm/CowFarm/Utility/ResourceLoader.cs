@@ -28,6 +28,7 @@ namespace CowFarm.Utility
             BackGroundLoad(contentManager);
             LoadButtons(contentManager);
             LoadIcons(contentManager);
+            LoadItems(contentManager);
             return GameTextures;
         }
 
@@ -123,9 +124,15 @@ namespace CowFarm.Utility
             GameTextures.Add("eatenAppleMovement", contentManager.Load<Texture2D>("Food/eatenAppleMovement"));
         }
 
+        private static void LoadItems(ContentManager contentManager)
+        {
+            GameTextures.Add("rocksMovement", contentManager.Load<Texture2D>("Items/rocksMovement"));
+        }
+
         private static void LoadIcons(ContentManager contentManager)
         {
             GameTextures.Add("appleIcon", contentManager.Load<Texture2D>("ItemIcons/appleIcon"));
+            GameTextures.Add("rocksIcon", contentManager.Load<Texture2D>("ItemIcons/rocksIcon"));
         }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {

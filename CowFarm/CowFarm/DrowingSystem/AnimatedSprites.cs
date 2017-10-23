@@ -25,7 +25,7 @@ namespace CowFarm.DrowingSystem
             this._elapsed = 100;
         }
 
-        public Rectangle Animate(GameTime gameTime, float delay, ObjectMovingType ogjectType)
+        public Rectangle Animate(GameTime gameTime, ObjectMovingType ogjectType, float delay = float.MaxValue)
         {
             _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (!(_elapsed >= delay))

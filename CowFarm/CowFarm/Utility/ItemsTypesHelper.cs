@@ -1,5 +1,6 @@
 ﻿using System;
 using CowFarm.Entities;
+using CowFarm.Entities.Items;
 
 namespace CowFarm.Utility
 {
@@ -16,6 +17,7 @@ namespace CowFarm.Utility
             ItemType = new Type[9];
 
             ItemType[0] = typeof(Apple);
+            ItemType[1] = typeof(Rocks);
             return ItemType;
         }
     }

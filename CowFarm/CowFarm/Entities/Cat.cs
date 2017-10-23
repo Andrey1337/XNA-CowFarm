@@ -33,7 +33,7 @@ namespace CowFarm.Entities
             Body.BodyTypeName = "cat";
             SpeedX = 0.8f;
             SpeedY = 0.7f;
-        }       
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -61,7 +61,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, Delay, ObjectMovingType);
+                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
 
         }

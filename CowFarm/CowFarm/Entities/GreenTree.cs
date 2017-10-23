@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -52,11 +53,11 @@ namespace CowFarm.Entities
                 _hasApple = false;
             }
         }
-        
+
 
         public override void Update(GameTime gameTime)
         {
-            SourceRect = PlantMovement.Animate(gameTime, Delay, ObjectMovingType);
+            SourceRect = PlantMovement.Animate(gameTime, ObjectMovingType);
             Apple?.Update(gameTime);
         }
 

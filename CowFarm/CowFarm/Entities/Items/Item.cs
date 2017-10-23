@@ -24,12 +24,14 @@ namespace CowFarm.Entities
             DestRect = destRect;
             ItemMovement = itemMovement;
             ObjectMovingType = ObjectMovingType.Static;
+
         }
 
         public virtual void Pick()
         {
             CurrentWorld.RemoveDynamicEntity(this);
         }
+
 
        
     }

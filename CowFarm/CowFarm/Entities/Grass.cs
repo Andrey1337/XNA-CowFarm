@@ -47,7 +47,7 @@ namespace CowFarm.Entities
             world.AddStaticEntity(this);
         }
 
-        
+
 
         public override void Update(GameTime gameTime)
         {
@@ -58,7 +58,7 @@ namespace CowFarm.Entities
             //    _buttonSourceRectangle = _eBuutonAnim.Animate(gameTime, ButtonDelay, ObjectMovingType.Static);
             //}
 
-            SourceRect = _currentAnim.Animate(gameTime, Delay, ObjectMovingType);
+            SourceRect = _currentAnim.Animate(gameTime, ObjectMovingType, Delay);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

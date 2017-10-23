@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
+using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -32,6 +33,8 @@ namespace CowFarm.Worlds
             treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Vector2(240, 50), gameTextures);
             treeWithAplle.CreateApple();
 
+            new Rocks(cowGameScreen, this, new Vector2(2, 3));
+
             new BerryBush(this, graphics, new Vector2(100, 500), gameTextures);
             new BerryBush(this, graphics, new Vector2(940, 400), gameTextures);
 
@@ -46,7 +49,7 @@ namespace CowFarm.Worlds
 
             _gameTextures = gameTextures;
         }
-        
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_gameTextures["secondWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);

@@ -5,6 +5,7 @@ using CowFarm.Comparables;
 using CowFarm.Entities;
 
 using CowFarm.Generators;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;

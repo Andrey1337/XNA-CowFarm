@@ -248,7 +248,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, _delay, ObjectMovingType);
+                SourceRect = CurrentAnim.Animate(gameTime,  ObjectMovingType, _delay);
             }
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
