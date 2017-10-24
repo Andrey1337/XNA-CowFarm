@@ -18,16 +18,14 @@ namespace CowFarm.Entities.Items
         {
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, position);
             Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
             Body.BodyTypeName = "rocks";
-
             ItemId = 1;
-            Body.CollisionCategories = Category.All;
-            Body.CollidesWith = Category.All;
             world.AddDynamicEntity(this);
 
             CanInteract = true;
         }
-
 
         public override void Update(GameTime gameTime)
         {
