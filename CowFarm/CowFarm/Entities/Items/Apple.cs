@@ -43,6 +43,8 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
 
+            StackCount = 3;
+
             _world.ContactManager.Contacted += AppleFloorContacted;
         }
 
@@ -61,7 +63,7 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
-        
+            StackCount = 3;       
             world.AddDynamicEntity(this);
         }
 

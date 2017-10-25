@@ -24,6 +24,8 @@ namespace CowFarm.Entities.Items
             ItemId = 1;
             world.AddDynamicEntity(this);
 
+            StackCount = 2;
+
             CanInteract = true;
         }
 

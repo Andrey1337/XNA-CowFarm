@@ -16,7 +16,7 @@ namespace CowFarm.Inventory
         public ItemStack ItemStack;
         public Item Item => ItemStack.Item;
         public int ItemsCount => ItemStack.ItemsCount;
-        public int MaxCount => ItemStack.MaxCount;
+        
     
         public void Swap(Container container)
         {
@@ -34,7 +34,7 @@ namespace CowFarm.Inventory
         {
             if (Item == null)
                 return false;
-            return Item.ItemId == item.ItemId && ItemsCount < MaxCount;
+            return Item.ItemId == item.ItemId && ItemsCount < Item.StackCount;
         }
 
         public void Add(Item item = null)

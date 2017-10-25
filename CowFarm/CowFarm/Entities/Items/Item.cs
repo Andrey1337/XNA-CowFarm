@@ -17,6 +17,8 @@ namespace CowFarm.Entities
         public World CurrentWorld { get; set; }
         protected ObjectMovingType ObjectMovingType;
 
+        public int StackCount { get; protected set ;}
+
         protected Item(World world, Rectangle destRect, AnimatedSprites itemMovement, Texture2D iconTexture)
         {
             IconTexture = iconTexture;
