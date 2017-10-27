@@ -20,7 +20,7 @@ namespace CowFarm.Worlds
     {
         public Dictionary<int, Entity> InteractablesDictionary { get; }
         public GraphicsDeviceManager Graphics { get; }
-        protected ScreenManager ScreenManager { get; }
+        
 
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities { get; private set; }
@@ -34,10 +34,10 @@ namespace CowFarm.Worlds
         public World UpWorld { get; set; }
         public World DownWorld { get; set; }
 
-        protected World(CowGameScreen cowGameScreen, ScreenManager screenManager)
+        protected World(CowGameScreen cowGameScreen)
                : base(Vector2.Zero)
         {
-            ScreenManager = screenManager;
+            
             Graphics = cowGameScreen.Graphics;
             GameTextures = cowGameScreen.GameTextures;
 

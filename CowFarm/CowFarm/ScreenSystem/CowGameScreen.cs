@@ -65,8 +65,8 @@ namespace CowFarm.ScreenSystem
             GameSounds = ResourceLoader.LoadSongs(_contentManager);
 
 
-            FirstWorld = new FirstWorld(this, ScreenManager);
-            SecondWorld = new SecondWorld(this, ScreenManager);
+            FirstWorld = new FirstWorld(this);
+            SecondWorld = new SecondWorld(this);
 
             FirstWorld.RightWorld = SecondWorld;
             SecondWorld.LeftWorld = FirstWorld;
@@ -140,7 +140,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            Cow = new Cow( this, WorldOnFocus, new Vector2(460, 370));
+            Cow = new Cow(this, WorldOnFocus, new Vector2(460, 370));
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 

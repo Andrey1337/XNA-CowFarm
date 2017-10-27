@@ -42,7 +42,7 @@ namespace CowFarm.Entities
         private HashSet<Entity> _previousFocusInteractables;
 
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
-        : base(cowGameScreen, world, 
+        : base(cowGameScreen, world,
               new Rectangle((int)position.X, (int)position.Y, 54, 49),
               new AnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16),
               new AnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),

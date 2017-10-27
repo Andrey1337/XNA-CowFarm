@@ -15,7 +15,7 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        public FirstWorld(CowGameScreen cowGameScreen, ScreenManager screenManager) : base(cowGameScreen, screenManager)
+        public FirstWorld(CowGameScreen cowGameScreen) : base(cowGameScreen) 
         {
             new Grass(cowGameScreen, this, new Vector2(480, 440));
             new Grass(cowGameScreen, this, new Vector2(540, 250));
@@ -32,7 +32,7 @@ namespace CowFarm.Worlds
 
             new Rock(cowGameScreen, this, new Vector2(210, 300));
         }
-
+        
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GameTextures["firstWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
