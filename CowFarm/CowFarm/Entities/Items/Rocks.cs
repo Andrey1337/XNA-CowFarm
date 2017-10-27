@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
 {
     public class Rocks : Item, IInteractable
     {
-        public Rocks(CowGameScreen cowGameScreen, World world, Vector2 position) : base(world, new Rectangle((int)position.X, (int)position.Y, 30, 23), new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
+        public Rocks(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 30, 23), new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
         {
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, position);
             Body.BodyType = BodyType.Dynamic;

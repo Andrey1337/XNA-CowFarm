@@ -27,23 +27,24 @@ namespace CowFarm.Worlds
 
         protected Dictionary<string, Texture2D> GameTextures;
 
+        
+
         public World RightWorld { get; set; }
         public World LeftWorld { get; set; }
         public World UpWorld { get; set; }
         public World DownWorld { get; set; }
-         
-        protected World(GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager)
+
+        protected World(CowGameScreen cowGameScreen, ScreenManager screenManager)
                : base(Vector2.Zero)
         {
             ScreenManager = screenManager;
-            Graphics = graphics;
-            GameTextures = gameTextures;
+            Graphics = cowGameScreen.Graphics;
+            GameTextures = cowGameScreen.GameTextures;
 
             InteractablesDictionary = new Dictionary<int, Entity>();
 
-            StaticEntities = new List<Entity>[graphics.PreferredBackBufferHeight];
+            StaticEntities = new List<Entity>[cowGameScreen.Graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
-                      
         }
 
 
@@ -60,7 +61,7 @@ namespace CowFarm.Worlds
                 DynamicEntities.Add(dynamicEntity);
 
             if (dynamicEntity is IInteractable)
-            {                
+            {
                 InteractablesDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
             }
         }

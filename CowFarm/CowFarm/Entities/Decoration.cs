@@ -1,4 +1,5 @@
 ﻿using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using World = CowFarm.Worlds.World;
 
@@ -13,7 +14,7 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Decoration(World world, Rectangle destRect, AnimatedSprites decorationMovement)
+        protected Decoration(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites decorationMovement) : base(cowGameScreen)
         {
             this.Graphics = world.Graphics;
             this.DestRect = destRect;

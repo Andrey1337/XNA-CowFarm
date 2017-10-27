@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,9 +19,9 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Plant(GraphicsDeviceManager graphics, Rectangle destRect, AnimatedSprites plantMovement)
+        protected Plant(CowGameScreen cowGameScreen, Rectangle destRect, AnimatedSprites plantMovement) : base(cowGameScreen)
         {
-            this.Graphics = graphics;
+            this.Graphics = cowGameScreen.Graphics; 
             this.DestRect = destRect;
             this.PlantMovement = plantMovement;
             this.ObjectMovingType = ObjectMovingType.Static;

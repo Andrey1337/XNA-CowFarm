@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -11,8 +12,8 @@ namespace CowFarm.Entities
 {
     public class Rock : Decoration
     {
-        public Rock(World world, Vector2 position, Dictionary<string, Texture2D> gameTextures) :
-            base(world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new AnimatedSprites(gameTextures["rockMovement"], 1, 0))
+        public Rock(CowGameScreen cowGameScreen, World world, Vector2 position) :
+            base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new AnimatedSprites(cowGameScreen.GameTextures["rockMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float x1 = (float)(DestRect.X + 22) / 100;
@@ -38,7 +39,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
         }
 
-        
+
 
         public override void Update(GameTime gameTime)
         {

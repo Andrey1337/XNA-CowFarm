@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
+using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -40,15 +41,16 @@ namespace CowFarm.Entities
         private IEnumerable<Entity> _nearbyList;
         private HashSet<Entity> _previousFocusInteractables;
 
-        public Cow(CowGameScreen cowGameScreen, World world, Vector2 position, IDictionary<string, Texture2D> gameTextures)
-        : base(world, new Rectangle((int)position.X, (int)position.Y, 54, 49),
-              new AnimatedSprites(gameTextures["cowRightWalk"], 3, 16),
-              new AnimatedSprites(gameTextures["cowLeftWalk"], 3, 16),
-              new AnimatedSprites(gameTextures["cowUpWalk"], 3, 16),
-              new AnimatedSprites(gameTextures["cowDownWalk"], 3, 16))
+        public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
+        : base(cowGameScreen, world, 
+              new Rectangle((int)position.X, (int)position.Y, 54, 49),
+              new AnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16),
+              new AnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),
+              new AnimatedSprites(cowGameScreen.GameTextures["cowUpWalk"], 3, 16),
+              new AnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
         {
-            Inventory = new Inventory.Inventory(cowGameScreen);                                  
-           
+            Inventory = new Inventory.Inventory(cowGameScreen);
+
             _cowGameScreen = cowGameScreen;
             CurrentWorld = world;
             Boost = 1;
@@ -244,7 +246,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime,  ObjectMovingType, _delay);
+                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, _delay);
             }
 
             if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
@@ -278,7 +280,7 @@ namespace CowFarm.Entities
             }
             if (ks.IsKeyDown(Keys.G) && _prevKeyState.IsKeyUp(Keys.G))
             {
-                Inventory.Drop(CurrentWorld,ItemDropPos());
+                Inventory.Drop(CurrentWorld, ItemDropPos());
             }
         }
 
@@ -298,7 +300,7 @@ namespace CowFarm.Entities
             if (CurrentAnim == UpWalk)
             {
                 dropPos.X += (float)GetPosition().Width / 2;
-                dropPos.Y -= 10;
+                dropPos.Y += 10;
             }
             if (CurrentAnim == DownWalk)
             {

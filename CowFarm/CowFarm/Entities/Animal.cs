@@ -27,8 +27,8 @@ namespace CowFarm.Entities
 
         protected ObjectMovingType ObjectMovingType;
 
-        protected Animal(World world, Rectangle destRect, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk)
+        protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk,
+            AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk) : base(cowGameScreen)
         {
             this.DestRect = destRect;
             this.RightWalk = rightWalk;
@@ -37,7 +37,7 @@ namespace CowFarm.Entities
             this.DownWalk = downWalk;
             this.Graphics = world.Graphics;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
-        }              
+        }
 
         public abstract void Eat(IEatable food);
     }

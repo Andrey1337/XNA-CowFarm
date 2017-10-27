@@ -26,7 +26,7 @@ namespace CowFarm.ScreenSystem
     public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
-        private readonly GraphicsDeviceManager _graphics;
+        public readonly GraphicsDeviceManager Graphics;
 
         //Worlds 
         public List<World> WordlsList { get; private set; }
@@ -41,14 +41,14 @@ namespace CowFarm.ScreenSystem
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
-       
+
         private string _worldSerialize;
         private bool _escapeKeyPressed;
 
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
         {
             _contentManager = contentManager;
-            _graphics = graphics;
+            Graphics = graphics;
             HasCursor = true;
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -60,13 +60,13 @@ namespace CowFarm.ScreenSystem
 
             _inGameTime = new TimeSpan();
 
-            GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
+            GameTextures = ResourceLoader.LoadTextures(_contentManager, Graphics.GraphicsDevice);
             GameFonts = ResourceLoader.LoadFonts(_contentManager);
             GameSounds = ResourceLoader.LoadSongs(_contentManager);
-            
 
-            FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager);
-            SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager);
+
+            FirstWorld = new FirstWorld(this, ScreenManager);
+            SecondWorld = new SecondWorld(this, ScreenManager);
 
             FirstWorld.RightWorld = SecondWorld;
             SecondWorld.LeftWorld = FirstWorld;
@@ -84,7 +84,7 @@ namespace CowFarm.ScreenSystem
             {
                 _inGameTime += gameTime.ElapsedGameTime;
                 Cow.Inventory.Update();
-                WorldOnFocus.Update(gameTime);                               
+                WorldOnFocus.Update(gameTime);
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
@@ -140,7 +140,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            Cow = new Cow(this, WorldOnFocus, new Vector2(460, 370), GameTextures);
+            Cow = new Cow( this, WorldOnFocus, new Vector2(460, 370));
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 

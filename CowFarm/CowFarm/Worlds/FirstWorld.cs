@@ -15,33 +15,27 @@ namespace CowFarm.Worlds
 {
     public class FirstWorld : World
     {
-        private readonly Texture2D _background;
-
-        public FirstWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures,
-            ScreenManager screenManager)
-            : base(graphics, gameTextures, screenManager)
+        public FirstWorld(CowGameScreen cowGameScreen, ScreenManager screenManager) : base(cowGameScreen, screenManager)
         {
-            _background = gameTextures["firstWorldBackGround"];
+            new Grass(cowGameScreen, this, new Vector2(480, 440));
+            new Grass(cowGameScreen, this, new Vector2(540, 250));
 
-            new Grass(graphics, this, new Vector2(480, 440), gameTextures);
-            new Grass(graphics, this, new Vector2(540, 250), gameTextures);
+            new GreenTree(cowGameScreen, this, new Vector2(644, 164));
+            new GreenTree(cowGameScreen, this, new Vector2(437, 5));
+            new GreenTree(cowGameScreen, this, new Vector2(1000, 550));
+            new GreenTree(cowGameScreen, this, new Vector2(150, 450));
+            new GreenTree(cowGameScreen, this, new Vector2(900, 55));
 
-            new GreenTree(cowGameScreen, this, graphics, new Vector2(644, 164), gameTextures);
-            new GreenTree(cowGameScreen, this, graphics, new Vector2(437, 5), gameTextures);
-            new GreenTree(cowGameScreen, this, graphics, new Vector2(1000, 550), gameTextures);
-            new GreenTree(cowGameScreen, this, graphics, new Vector2(150, 450), gameTextures);
-            new GreenTree(cowGameScreen, this, graphics, new Vector2(900, 55), gameTextures);
+            new Bush(cowGameScreen, this, new Vector2(100, 150));
+            new Bush(cowGameScreen, this, new Vector2(830, 200));
+            new Bush(cowGameScreen, this, new Vector2(400, 450));
 
-            new Bush(this, graphics, new Vector2(100, 150), gameTextures);
-            new Bush(this, graphics, new Vector2(830, 200), gameTextures);
-            new Bush(this, graphics, new Vector2(400, 450), gameTextures);
-
-            new Rock(this, new Vector2(210, 300), gameTextures);
+            new Rock(cowGameScreen, this, new Vector2(210, 300));
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_background, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.Draw(GameTextures["firstWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(gameTime, spriteBatch);
         }
     }

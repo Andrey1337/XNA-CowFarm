@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
+using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -27,7 +28,7 @@ namespace CowFarm.Entities
 
         private readonly Vector2 _origin;
 
-        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(world, destRect, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(cowGameScreen, world, destRect, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
@@ -49,7 +50,9 @@ namespace CowFarm.Entities
         }
 
 
-        public Apple(CowGameScreen cowGameScreen, World world, Vector2 position) : base(world, new Rectangle((int)position.X, (int)position.Y, 20, 20), new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen, World world, Vector2 position)
+            : base(cowGameScreen, world,
+                  new Rectangle((int)position.X, (int)position.Y, 20, 20), new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
@@ -175,6 +178,6 @@ namespace CowFarm.Entities
         }
 
         public bool IsEaten { get; set; }
-       
+
     }
 }

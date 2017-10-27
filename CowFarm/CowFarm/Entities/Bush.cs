@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -11,8 +12,8 @@ namespace CowFarm.Entities
 {
     public class Bush : Plant
     {
-        public Bush(World world, GraphicsDeviceManager graphics, Vector2 position, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 84, 87), new AnimatedSprites(gameTextures["bushMovement"], 1, 0))
+        public Bush(CowGameScreen cowGameScreen, World world, Vector2 position)
+            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 84, 87), new AnimatedSprites(cowGameScreen.GameTextures["bushMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float x1 = (float)(DestRect.X + 30) / 100;
@@ -27,7 +28,7 @@ namespace CowFarm.Entities
         }
 
 
-        
+
 
         public override void Update(GameTime gameTime)
         {

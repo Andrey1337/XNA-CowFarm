@@ -16,45 +16,42 @@ namespace CowFarm.Worlds
 {
     public class SecondWorld : World
     {
-        private readonly Dictionary<string, Texture2D> _gameTextures;
-
-        public SecondWorld(CowGameScreen cowGameScreen, GraphicsDeviceManager graphics, Dictionary<string, Texture2D> gameTextures, ScreenManager screenManager) : base(graphics, gameTextures, screenManager)
+        public SecondWorld(CowGameScreen cowGameScreen, ScreenManager screenManager) : base(cowGameScreen, screenManager)
         {
-            AddDynamicEntity(new Cat(this, new Vector2(100, 100), gameTextures));
+            new Cat(cowGameScreen, this, new Vector2(100, 100));
 
-            new Grass(graphics, this, new Vector2(540, 300), gameTextures);
+            new Grass(cowGameScreen, this, new Vector2(540, 300));
 
-            new BoulderRock(this, new Vector2(350, 400), gameTextures);
+            new BoulderRock(cowGameScreen, this, new Vector2(350, 400));
 
-            new Rock(this, new Vector2(900, 600), gameTextures);
+            new Rock(cowGameScreen, this, new Vector2(900, 600));
 
-            var treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Vector2(700, 164), gameTextures);
+            var treeWithAplle = new GreenTree(cowGameScreen, this, new Vector2(700, 164));
             treeWithAplle.CreateApple();
-            treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Vector2(240, 50), gameTextures);
+            treeWithAplle = new GreenTree(cowGameScreen, this, new Vector2(240, 50));
             treeWithAplle.CreateApple();
 
             new CutGrass(cowGameScreen, this, new Vector2(1f, 1f));
 
             new Rocks(cowGameScreen, this, new Vector2(2.4f, 3.5f));
 
-            new BerryBush(this, graphics, new Vector2(100, 500), gameTextures);
-            new BerryBush(this, graphics, new Vector2(940, 400), gameTextures);
+            new BerryBush(cowGameScreen, this, new Vector2(100, 500));
+            new BerryBush(cowGameScreen, this, new Vector2(940, 400));
 
-            new Bush(this, graphics, new Vector2(590, 290), gameTextures);
-            new Bush(this, graphics, new Vector2(430, 230), gameTextures);
+            new Bush(cowGameScreen, this, new Vector2(590, 290));
+            new Bush(cowGameScreen, this, new Vector2(430, 230));
 
-            new OrangeTree(this, graphics, new Vector2(550, 500), gameTextures);
-            new OrangeTree(this, graphics, new Vector2(1000, 60), gameTextures);
+            new OrangeTree(cowGameScreen, this, new Vector2(550, 500));
+            new OrangeTree(cowGameScreen, this, new Vector2(1000, 60));
 
             //border
-            BodyFactory.CreateEdge(this, new Vector2((float)graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)graphics.PreferredBackBufferWidth / 100, (float)graphics.PreferredBackBufferHeight / 100));
+            BodyFactory.CreateEdge(this, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)Graphics.PreferredBackBufferWidth / 100, (float)Graphics.PreferredBackBufferHeight / 100));
 
-            _gameTextures = gameTextures;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_gameTextures["secondWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.Draw(GameTextures["secondWorldBackGround"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(gameTime, spriteBatch);
         }
     }

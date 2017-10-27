@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Cryptography;
 using CowFarm.Entities;
+using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using CowFarm.Worlds;

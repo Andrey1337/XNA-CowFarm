@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.Entities.Items;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics.Dynamics;
@@ -27,13 +29,15 @@ namespace CowFarm.Entities
         //private Rectangle _buttonSourceRectangle;
 
         private readonly AnimatedSprites _eatenGrassMovement;
+        private readonly World _world;
 
-        public Grass(GraphicsDeviceManager graphics, World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
-            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 25, 51), new AnimatedSprites(gameTextures["grassMovement"], 1, 0))
+        public Grass(CowGameScreen cowGameScreen, World world, Vector2 position)
+            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 25, 51), new AnimatedSprites(cowGameScreen.GameTextures["grassMovement"], 1, 0))
         {
+            _world = world;
             _currentAnim = PlantMovement;
-            _eatenGrassMovement = new AnimatedSprites(gameTextures["eatenGrassMovement"], 1, 0);
-            _eBuutonAnim = new AnimatedSprites(gameTextures["eButtonMovement"], 2, 0);
+            _eatenGrassMovement = new AnimatedSprites(cowGameScreen.GameTextures["eatenGrassMovement"], 1, 0);
+            _eBuutonAnim = new AnimatedSprites(cowGameScreen.GameTextures["eButtonMovement"], 2, 0);
 
             Body = BodyFactory.CreateRectangle(world, (float)DestRect.Width / 100, (float)DestRect.Height / 200, 0, new Vector2((float)(DestRect.X + DestRect.Width / 2) / 100, (float)(DestRect.Y + 30) / 100));
 
@@ -48,22 +52,16 @@ namespace CowFarm.Entities
         }
 
 
-
         public override void Update(GameTime gameTime)
         {
             if (IsEaten)
                 _currentAnim = _eatenGrassMovement;
-            //if (OnFocus)
-            //{
-            //    _buttonSourceRectangle = _eBuutonAnim.Animate(gameTime, ButtonDelay, ObjectMovingType.Static);
-            //}
 
             SourceRect = _currentAnim.Animate(gameTime, ObjectMovingType, Delay);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             if (OnFocus)
             {
                 spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
@@ -90,6 +88,7 @@ namespace CowFarm.Entities
         {
             IsEaten = true;
             CanInteract = false;
+            //new CutGrass();
         }
 
         public Texture2D ReapaintTexture { get; set; }

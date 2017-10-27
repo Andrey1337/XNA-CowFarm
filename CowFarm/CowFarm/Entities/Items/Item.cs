@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Items
 {
     public abstract class Item : Entity, IDynamic
     {
@@ -21,9 +21,9 @@ namespace CowFarm.Entities
         public World CurrentWorld { get; set; }
         protected ObjectMovingType ObjectMovingType;
 
-        public int StackCount { get; protected set ;}
+        public int StackCount { get; protected set; }
 
-        protected Item(World world, Rectangle destRect, AnimatedSprites itemMovement, Texture2D iconTexture)
+        protected Item(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites itemMovement, Texture2D iconTexture) : base(cowGameScreen)
         {
             IconTexture = iconTexture;
             CurrentWorld = world;

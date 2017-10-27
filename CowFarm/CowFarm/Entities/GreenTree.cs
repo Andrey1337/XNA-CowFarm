@@ -19,8 +19,8 @@ namespace CowFarm.Entities
         private bool _hasApple;
         private readonly World _world;
 
-        public GreenTree(CowGameScreen cowGameScreen, World world, GraphicsDeviceManager graphics, Vector2 position, IDictionary<string, Texture2D> gameTextures)
-            : base(graphics, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(gameTextures["greenTreeMovement"], 1, 0))
+        public GreenTree(CowGameScreen cowGameScreen, World world, Vector2 position)
+            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(cowGameScreen.GameTextures["greenTreeMovement"], 1, 0))
         {
             _world = world;
             _cowGameScreen = cowGameScreen;

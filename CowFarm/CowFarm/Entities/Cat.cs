@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -17,12 +18,12 @@ namespace CowFarm.Entities
     {
         private const float Delay = 900f;
 
-        public Cat(World world, Vector2 position, Dictionary<string, Texture2D> gameTextures)
-            : base(world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
-                  new AnimatedSprites(gameTextures["catRightWalk"], 3, 0),
-                  new AnimatedSprites(gameTextures["catLeftWalk"], 3, 0),
-                  new AnimatedSprites(gameTextures["catUpWalk"], 3, 0),
-                  new AnimatedSprites(gameTextures["catDownWalk"], 3, 0))
+        public Cat(CowGameScreen cowGameScreen, World world, Vector2 position)
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
+                  new AnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
+                  new AnimatedSprites(cowGameScreen.GameTextures["catLeftWalk"], 3, 0),
+                  new AnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),
+                  new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0)) 
         {
             CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);

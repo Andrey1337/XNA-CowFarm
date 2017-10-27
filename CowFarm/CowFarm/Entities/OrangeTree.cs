@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -16,7 +17,7 @@ namespace CowFarm.Entities
     class OrangeTree : Plant
     {
         private const float Delay = float.MaxValue;
-        public OrangeTree(World world, GraphicsDeviceManager graphics, Vector2 position, Dictionary<string, Texture2D> gameTextures) : base(graphics, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(gameTextures["orangeTreeMovement"], 1, 0))
+        public OrangeTree(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(cowGameScreen.GameTextures["orangeTreeMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float width = (float)14 / 100;
@@ -29,7 +30,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
         }
-       
+
         public override void Update(GameTime gameTime)
         {
             SourceRect = PlantMovement.Animate(gameTime, ObjectMovingType);

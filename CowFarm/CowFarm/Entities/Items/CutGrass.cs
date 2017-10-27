@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
     public class CutGrass : Item, IInteractable
     {
         public CutGrass(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(world, new Rectangle((int)position.X, (int)position.Y, 32, 32), new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 32, 32), new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
         {
             Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, position);
             Body.BodyType = BodyType.Dynamic;

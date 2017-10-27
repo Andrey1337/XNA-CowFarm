@@ -1,5 +1,6 @@
 ﻿using System;
 using CowFarm.Entities;
+using CowFarm.Entities.Items;
 
 namespace CowFarm.Inventory
 {

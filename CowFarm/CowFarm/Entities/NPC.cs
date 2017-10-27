@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 
@@ -19,7 +20,7 @@ namespace CowFarm.Entities
         private bool _standing;
         private TimeSpan _standingTime;
 
-        protected NPC(World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(world, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        protected NPC(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _rnd = new Random();
             HaveWay = false;
