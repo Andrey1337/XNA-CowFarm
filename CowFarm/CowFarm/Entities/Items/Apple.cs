@@ -15,7 +15,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Apple : Item, IEatable, IDynamic
+    public class Apple : Item, IEatable
     {
         private float _rotationAngle;
 
@@ -63,7 +63,7 @@ namespace CowFarm.Entities
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
-            StackCount = 3;       
+            StackCount = 3;
             world.AddDynamicEntity(this);
         }
 
@@ -175,26 +175,6 @@ namespace CowFarm.Entities
         }
 
         public bool IsEaten { get; set; }
-
-
-        public void ChangeWorld(World world, Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Right:
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, Body.Position.Y));
-                    break;
-
-                case Direction.Left:
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 30) / 100, Body.Position.Y));
-                    break;
-            }
-
-            Body.BodyTypeName = "apple";
-            CurrentWorld = world;
-            Body.BodyType = BodyType.Dynamic;
-            Body.CollisionCategories = Category.All & ~Category.Cat10;
-            Body.CollidesWith = Category.All & ~Category.Cat10;
-        }
+       
     }
 }

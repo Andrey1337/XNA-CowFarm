@@ -15,6 +15,7 @@ using FarseerPhysics.Samples;
 using FarseerPhysics.Samples.Demos.Prefabs;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -39,7 +40,8 @@ namespace CowFarm.ScreenSystem
         public int Score { get; set; }
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
-
+        public Dictionary<string, SoundEffect> GameSounds { get; private set; }
+       
         private string _worldSerialize;
         private bool _escapeKeyPressed;
 
@@ -60,6 +62,8 @@ namespace CowFarm.ScreenSystem
 
             GameTextures = ResourceLoader.LoadTextures(_contentManager, _graphics.GraphicsDevice);
             GameFonts = ResourceLoader.LoadFonts(_contentManager);
+            GameSounds = ResourceLoader.LoadSongs(_contentManager);
+            
 
             FirstWorld = new FirstWorld(this, _graphics, GameTextures, ScreenManager);
             SecondWorld = new SecondWorld(this, _graphics, GameTextures, ScreenManager);
@@ -80,8 +84,7 @@ namespace CowFarm.ScreenSystem
             {
                 _inGameTime += gameTime.ElapsedGameTime;
                 Cow.Inventory.Update();
-                WorldOnFocus.Update(gameTime);
-
+                WorldOnFocus.Update(gameTime);                               
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
@@ -157,11 +160,6 @@ namespace CowFarm.ScreenSystem
                     WorldOnFocus.LeftWorld.AddDynamicEntity((Entity)dynamic);
                     break;
             }
-
-            //if (dynamic is Item)
-            //{
-
-            //}
 
             if (!(dynamic is Cow)) return;
 

@@ -79,7 +79,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Samples\" />
+    <Compile Include="Items\cutGrassMovement.png">
+      <Name>cutGrassMovement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecorationMovements\rockMovement.png">
@@ -218,6 +222,20 @@
   <ItemGroup>
     <Compile Include="Items\rocksMovement.png">
       <Name>rocksMovement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sounds\gameSound.mp3">
+      <Name>gameSound</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemIcons\cutGrassIcon .png">
+      <Name>cutGrassIcon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -81,9 +81,7 @@ namespace CowFarm.Inventory
 
                     _indexOnFocus = i;
 
-
                     SwapContainer.Swap(_containers[i]);
-
                 }
             }
 

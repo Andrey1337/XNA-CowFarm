@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using CowFarm.DrowingSystem;
-using CowFarm.Worlds;
+using CowFarm.Enums;
+using CowFarm.Interfaces;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public abstract class Item : Entity
+    public abstract class Item : Entity, IDynamic
     {
         protected AnimatedSprites ItemMovement;
         public int ItemId { get; protected set; }
@@ -35,6 +39,24 @@ namespace CowFarm.Entities
         }
 
 
-       
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, Body.Position.Y));
+                    break;
+
+                case Direction.Left:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
+                    break;
+            }
+
+            Body.BodyTypeName = "apple";
+            CurrentWorld = world;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+        }
     }
 }

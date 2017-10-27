@@ -84,6 +84,7 @@
     <Compile Include="Entities\Bush.cs" />
     <Compile Include="Entities\Cat.cs" />
     <Compile Include="Entities\Decoration.cs" />
+    <Compile Include="Entities\Items\CutGrass.cs" />
     <Compile Include="Entities\Items\Item.cs" />
     <Compile Include="Entities\Items\Rocks.cs" />
     <Compile Include="Entities\NPC.cs" />

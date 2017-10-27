@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,6 +10,7 @@ namespace CowFarm.Utility
     {
         public static Dictionary<string, Texture2D> GameTextures { get; private set; }
         public static Dictionary<string, SpriteFont> GameFonts { get; private set; }
+        public static Dictionary<string, SoundEffect> GameSounds { get; private set; }
 
         public static Dictionary<string, Texture2D> LoadTextures(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
@@ -41,6 +43,20 @@ namespace CowFarm.Utility
             selectionTexture.SetData(color);
             GameTextures.Add("cleanTexture", selectionTexture);
         }
+
+        public static Dictionary<string, SoundEffect> LoadSongs(ContentManager contentManager)
+        {
+            if (GameSounds != null)
+            {
+                return GameSounds;
+            }
+            GameSounds = new Dictionary<string, SoundEffect>();
+            GameSounds.Add("gameSound", contentManager.Load<SoundEffect>("Sounds/gameSound"));
+
+            return GameSounds;
+
+        }
+
 
         public static void LoadSelectionTexture(GraphicsDevice graphicsDevice, ContentManager contentManager, int textureWidth, int textureHeight)
         {
@@ -127,12 +143,14 @@ namespace CowFarm.Utility
         private static void LoadItems(ContentManager contentManager)
         {
             GameTextures.Add("rocksMovement", contentManager.Load<Texture2D>("Items/rocksMovement"));
+            GameTextures.Add("cutGrassMovement", contentManager.Load<Texture2D>("Items/cutGrassMovement"));
         }
 
         private static void LoadIcons(ContentManager contentManager)
         {
             GameTextures.Add("appleIcon", contentManager.Load<Texture2D>("ItemIcons/appleIcon"));
             GameTextures.Add("rocksIcon", contentManager.Load<Texture2D>("ItemIcons/rocksIcon"));
+            GameTextures.Add("cutGrassIcon", contentManager.Load<Texture2D>("ItemIcons/cutGrassIcon"));
         }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {

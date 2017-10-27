@@ -33,7 +33,9 @@ namespace CowFarm.Worlds
             treeWithAplle = new GreenTree(cowGameScreen, this, graphics, new Vector2(240, 50), gameTextures);
             treeWithAplle.CreateApple();
 
-            new Rocks(cowGameScreen, this, new Vector2(2, 3));
+            new CutGrass(cowGameScreen, this, new Vector2(1f, 1f));
+
+            new Rocks(cowGameScreen, this, new Vector2(2.4f, 3.5f));
 
             new BerryBush(this, graphics, new Vector2(100, 500), gameTextures);
             new BerryBush(this, graphics, new Vector2(940, 400), gameTextures);

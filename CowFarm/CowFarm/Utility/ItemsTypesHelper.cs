@@ -18,6 +18,7 @@ namespace CowFarm.Utility
 
             ItemType[0] = typeof(Apple);
             ItemType[1] = typeof(Rocks);
+            ItemType[2] = typeof(CutGrass);
             return ItemType;
         }
     }
