@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 

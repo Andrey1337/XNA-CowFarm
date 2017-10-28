@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Serialization.Formatters;
-using System.Security.Cryptography;
-using CowFarm.Entities;
 using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using CowFarm.Worlds;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -68,7 +62,7 @@ namespace CowFarm.Inventory
         public void Update()
         {
             var mouseState = Mouse.GetState();
-            var mousePoint = new Point(mouseState.X, mouseState.Y);            
+            var mousePoint = new Point(mouseState.X, mouseState.Y);
 
             for (var i = 0; i < _containers.Length; i++)
             {
@@ -100,12 +94,12 @@ namespace CowFarm.Inventory
 
         public void Drop(World world, Vector2 position)
         {
-            position /= 100;
+
 
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }
 
-        readonly Vector2 _drawPos;
+        private readonly Vector2 _drawPos;
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.Draw(_cowGameScreen.GameTextures["inventoryPanel"], _drawPos, Color.White);

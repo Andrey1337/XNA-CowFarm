@@ -1,29 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using CowFarm.DrowingSystem;
-using CowFarm.Entities.Items;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
-using CowFarm.Utility;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Items
 {
-    public class Apple : Item, IEatable
+    public class Apple : Item, IInteractable, IDynamic
     {
         private float _rotationAngle;
 
         private readonly World _world;
         private Body _floor;
         private readonly GreenTree _tree;
-        private readonly CowGameScreen _cowGameScreen;
         private readonly Texture2D _eatenAppleMovement;
 
         private readonly Vector2 _origin;
@@ -34,7 +28,6 @@ namespace CowFarm.Entities
             _origin.Y = ItemMovement.SpriteHeight / 2;
             ItemId = 0;
             _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
-            _cowGameScreen = cowGameScreen;
             _world = world;
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
@@ -57,9 +50,8 @@ namespace CowFarm.Entities
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
             _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
-            _cowGameScreen = cowGameScreen;
             _world = world;
-            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position);
+            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position / 100);
             Body.BodyTypeName = "apple";
             ItemId = 0;
             CanInteract = true;
@@ -106,29 +98,26 @@ namespace CowFarm.Entities
                 Body.ApplyForce(new Vector2(0, 0.001f));
                 return;
             }
+
             if (IsEaten)
             {
                 Body.Stop();
                 return;
             }
 
-            if (Body.GetVelocity().X != 0)
-            {
-                _rotationAngle += Body.GetVelocity().X / 10;
-                float circle = MathHelper.Pi * 2;
-                _rotationAngle %= circle;
-            }
+            _rotationAngle += Body.GetVelocity().X / 10;
+            _rotationAngle %= MathHelper.Pi * 2;
 
             Body.Hikuah(0.08f);
 
-            if (GetPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
+            if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
-                _cowGameScreen.ChangeWorld(this, Direction.Right);
+                CowGameScreen.ChangeWorld(this, Direction.Right);
             }
 
-            if (GetPosition().X + GetPosition().Width < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
+            if (GetPosition().X + GetPosition().Width < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
             {
-                _cowGameScreen.ChangeWorld(this, Direction.Left);
+                CowGameScreen.ChangeWorld(this, Direction.Left);
             }
         }
 
@@ -179,5 +168,24 @@ namespace CowFarm.Entities
 
         public bool IsEaten { get; set; }
 
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, Body.Position.Y));
+                    break;
+
+                case Direction.Left:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(CowGameScreen.Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
+                    break;
+            }
+
+            Body.BodyTypeName = "apple";
+            CurrentWorld = world;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+        }
     }
 }

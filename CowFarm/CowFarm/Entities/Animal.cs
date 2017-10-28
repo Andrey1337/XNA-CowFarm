@@ -22,8 +22,7 @@ namespace CowFarm.Entities
         protected AnimatedSprites CurrentAnim;
 
         protected Rectangle DestRect;
-        protected Rectangle SourceRect;
-        protected GraphicsDeviceManager Graphics;
+        protected Rectangle SourceRect;        
 
         protected ObjectMovingType ObjectMovingType;
 
@@ -34,8 +33,7 @@ namespace CowFarm.Entities
             this.RightWalk = rightWalk;
             this.LeftWalk = leftWalk;
             this.UpWalk = upWalk;
-            this.DownWalk = downWalk;
-            this.Graphics = world.Graphics;
+            this.DownWalk = downWalk;            
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 

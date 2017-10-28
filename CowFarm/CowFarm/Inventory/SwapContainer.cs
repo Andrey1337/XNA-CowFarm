@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Runtime.Serialization.Formatters;
-using CowFarm.Entities;
 using CowFarm.Utility;
-using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

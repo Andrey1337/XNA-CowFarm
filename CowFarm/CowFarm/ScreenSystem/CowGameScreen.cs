@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using CowFarm.DrowingSystem;
 using CowFarm.Entities;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.Utility;
 using CowFarm.Worlds;
-using FarseerPhysics;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Samples;
-using FarseerPhysics.Samples.Demos.Prefabs;
 using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -57,24 +49,25 @@ namespace CowFarm.ScreenSystem
         public override void LoadContent()
         {
             _escapeKeyPressed = false;
+            if (_worldSerialize == null)
+            {
+                _inGameTime = new TimeSpan();
 
-            _inGameTime = new TimeSpan();
-
-            GameTextures = ResourceLoader.LoadTextures(_contentManager, Graphics.GraphicsDevice);
-            GameFonts = ResourceLoader.LoadFonts(_contentManager);
-            GameSounds = ResourceLoader.LoadSongs(_contentManager);
+                GameTextures = ResourceLoader.LoadTextures(_contentManager, Graphics.GraphicsDevice);
+                GameFonts = ResourceLoader.LoadFonts(_contentManager);
+                GameSounds = ResourceLoader.LoadSongs(_contentManager);
 
 
-            FirstWorld = new FirstWorld(this);
-            SecondWorld = new SecondWorld(this);
+                FirstWorld = new FirstWorld(this);
+                SecondWorld = new SecondWorld(this);
 
-            FirstWorld.RightWorld = SecondWorld;
-            SecondWorld.LeftWorld = FirstWorld;
-            WordlsList = new List<World> { FirstWorld, SecondWorld };
+                FirstWorld.RightWorld = SecondWorld;
+                SecondWorld.LeftWorld = FirstWorld;
+                WordlsList = new List<World> { FirstWorld, SecondWorld };
 
-            WorldOnFocus = SecondWorld;
-            CreateCow();
-
+                WorldOnFocus = SecondWorld;
+                CreateCow();
+            }
             base.LoadContent();
         }
 
@@ -92,7 +85,7 @@ namespace CowFarm.ScreenSystem
         public override void Draw(GameTime gameTime)
         {
             ScreenManager.SpriteBatch.Begin();
-            WorldOnFocus.Draw(gameTime, ScreenManager.SpriteBatch);
+            WorldOnFocus.Draw(ScreenManager.SpriteBatch);
             DrawTime();
             DrawSprint();
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
@@ -113,7 +106,6 @@ namespace CowFarm.ScreenSystem
         private void DrawTime()
         {
             ScreenManager.SpriteBatch.Draw(GameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
-            ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], "Score: " + Score, new Vector2(100, 16), Color.Black);
             ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
         }
 
@@ -140,7 +132,7 @@ namespace CowFarm.ScreenSystem
 
         private void CreateCow()
         {
-            Cow = new Cow(this, WorldOnFocus, new Vector2(460, 370));
+            Cow = new Cow(this, WorldOnFocus, new Vector2(530, 400));
             WorldOnFocus.AddDynamicEntity(Cow);
         }
 
@@ -162,7 +154,6 @@ namespace CowFarm.ScreenSystem
             }
 
             if (!(dynamic is Cow)) return;
-
             switch (direction)
             {
                 case Direction.Right:

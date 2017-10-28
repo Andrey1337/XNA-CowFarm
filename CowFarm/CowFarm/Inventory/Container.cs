@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using CowFarm.Entities;
-using CowFarm.Entities.Items;
-using CowFarm.ScreenSystem;
-using CowFarm.Utility;
-using CowFarm.Worlds;
-using Microsoft.Xna.Framework;
+﻿using CowFarm.Entities.Items;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.Inventory
 {

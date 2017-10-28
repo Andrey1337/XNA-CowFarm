@@ -19,7 +19,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Grass : Plant, IEatable
+    public class Grass : Plant, IInteractable
     {
         private const float Delay = 5000f;
         //private const float ButtonDelay = 1000f;
@@ -54,7 +54,7 @@ namespace CowFarm.Entities
 
         public override void Update(GameTime gameTime)
         {
-            if (IsEaten)
+            if (!CanInteract)
                 _currentAnim = _eatenGrassMovement;
 
             SourceRect = _currentAnim.Animate(gameTime, ObjectMovingType, Delay);
@@ -64,7 +64,7 @@ namespace CowFarm.Entities
         {
             if (OnFocus)
             {
-                spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
+                //spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
                 spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
             }
             else
@@ -86,14 +86,12 @@ namespace CowFarm.Entities
 
         public void Interact()
         {
-            IsEaten = true;
-            CanInteract = false;
-            //new CutGrass();
-        }
 
+            CanInteract = false;
+            new CutGrass(CowGameScreen, _world, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
+        }
         public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }
-        public bool IsEaten { get; set; }
         public bool CanInteract { get; set; }
     }
 }

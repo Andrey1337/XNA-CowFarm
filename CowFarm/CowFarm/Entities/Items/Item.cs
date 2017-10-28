@@ -10,13 +10,12 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public abstract class Item : Entity, IDynamic
+    public abstract class Item : Entity
     {
         protected AnimatedSprites ItemMovement;
         public int ItemId { get; protected set; }
         public Texture2D IconTexture { get; }
-        protected Rectangle DestRect;
-        protected GraphicsDeviceManager Graphics => CurrentWorld.Graphics;
+        protected Rectangle DestRect;        
         protected Rectangle SourceRect;
         public World CurrentWorld { get; set; }
         protected ObjectMovingType ObjectMovingType;
@@ -39,24 +38,6 @@ namespace CowFarm.Entities.Items
         }
 
 
-        public void ChangeWorld(World world, Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Right:
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2(0.25f, Body.Position.Y));
-                    break;
-
-                case Direction.Left:
-                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)(Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
-                    break;
-            }
-
-            Body.BodyTypeName = "apple";
-            CurrentWorld = world;
-            Body.BodyType = BodyType.Dynamic;
-            Body.CollisionCategories = Category.All & ~Category.Cat10;
-            Body.CollidesWith = Category.All & ~Category.Cat10;
-        }
+        
     }
 }

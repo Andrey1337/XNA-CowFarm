@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
@@ -15,7 +14,7 @@ namespace CowFarm.Entities.Items
     {
         public Rocks(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 30, 23), new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
         {
-            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, position);
+            Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, position / 100);
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;

@@ -31,7 +31,6 @@ namespace CowFarm.Entities
 
         private float _delay = 200f;
 
-        private readonly CowGameScreen _cowGameScreen;
 
         public float Boost;
 
@@ -51,7 +50,6 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
 
-            _cowGameScreen = cowGameScreen;
             CurrentWorld = world;
             Boost = 1;
             _nearbyList = new List<Entity>();
@@ -69,7 +67,7 @@ namespace CowFarm.Entities
             CurrentAnim = LeftWalk;
             Body.BodyTypeName = "cow";
 
-            _cowGameScreen.WordlsList.ForEach(worldInList => worldInList.ContactManager.Nearby += NearbyCow);
+            CowGameScreen.WordlsList.ForEach(worldInList => worldInList.ContactManager.Nearby += NearbyCow);
         }
 
         private void NearbyCow(object sender, NearbyEventArg nearby)
@@ -80,6 +78,7 @@ namespace CowFarm.Entities
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
+            _nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
         }
 
         private List<Entity> SortCowNearby()
@@ -135,9 +134,9 @@ namespace CowFarm.Entities
         {
             food.Interact();
             if (food is Grass)
-                _cowGameScreen.Score += 20;
+                CowGameScreen.Score += 20;
             if (food is Apple)
-                _cowGameScreen.Score += 40;
+                CowGameScreen.Score += 40;
         }
 
         private IInteractable _previousInteractableOnFocus;
@@ -205,8 +204,10 @@ namespace CowFarm.Entities
                         Eat(food);
                 }
 
-                if (ks.IsKeyDown(Keys.F) && _prevKeyState.IsKeyUp(Keys.F))
+                if (ks.IsKeyDown(Keys.F) && _prevKeyState.IsKeyUp(Keys.F) && interactableOnFocus != null)
                 {
+                    interactableOnFocus.Interact();
+
                     var item = interactableOnFocus as Item;
                     if (item != null)
                     {
@@ -249,14 +250,14 @@ namespace CowFarm.Entities
                 SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, _delay);
             }
 
-            if (GetCenterPosition().X > Graphics.PreferredBackBufferWidth && _cowGameScreen.WorldOnFocus.RightWorld != null)
+            if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
-                _cowGameScreen.ChangeWorld(this, Direction.Right);
+                CowGameScreen.ChangeWorld(this, Direction.Right);
             }
 
-            if (GetCenterPosition().X < 0 && _cowGameScreen.WorldOnFocus.LeftWorld != null)
+            if (GetCenterPosition().X < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
             {
-                _cowGameScreen.ChangeWorld(this, Direction.Left);
+                CowGameScreen.ChangeWorld(this, Direction.Left);
             }
 
             _prevKeyState = ks;
@@ -389,7 +390,7 @@ namespace CowFarm.Entities
                     break;
 
                 case Direction.Left:
-                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)Graphics.PreferredBackBufferWidth / 100, Body.Position.Y));
+                    Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)CowGameScreen.Graphics.PreferredBackBufferWidth / 100, Body.Position.Y));
                     break;
             }
 
@@ -399,8 +400,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
             CurrentWorld = world;
+            
         }
-
-
     }
 }

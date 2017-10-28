@@ -19,30 +19,21 @@ namespace CowFarm.Worlds
     public abstract class World : FarseerPhysics.Dynamics.World
     {
         public Dictionary<int, Entity> InteractablesDictionary { get; }
-        public GraphicsDeviceManager Graphics { get; }
-        
 
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities { get; private set; }
-
-        protected Dictionary<string, Texture2D> GameTextures;
-
-        
 
         public World RightWorld { get; set; }
         public World LeftWorld { get; set; }
         public World UpWorld { get; set; }
         public World DownWorld { get; set; }
 
+        protected CowGameScreen CowGameScreen;
         protected World(CowGameScreen cowGameScreen)
                : base(Vector2.Zero)
         {
-            
-            Graphics = cowGameScreen.Graphics;
-            GameTextures = cowGameScreen.GameTextures;
-
             InteractablesDictionary = new Dictionary<int, Entity>();
-
+            CowGameScreen = cowGameScreen;
             StaticEntities = new List<Entity>[cowGameScreen.Graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
         }
@@ -105,7 +96,7 @@ namespace CowFarm.Worlds
             this.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
         }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (DynamicEntities.Count > 1)
             {

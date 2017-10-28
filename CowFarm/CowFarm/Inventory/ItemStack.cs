@@ -12,7 +12,7 @@ namespace CowFarm.Inventory
 
         public ItemStack()
         {
-            MaxCount = 3;
+            MaxCount = int.MaxValue;
         }
 
         public bool IsFull()
@@ -28,7 +28,10 @@ namespace CowFarm.Inventory
         public void Add(Item item = null)
         {
             if (item != null)
+            {
                 Item = item;
+                MaxCount = item.StackCount;
+            }
             ItemsCount++;
         }
 
