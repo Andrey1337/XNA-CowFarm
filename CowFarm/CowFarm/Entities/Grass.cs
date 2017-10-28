@@ -22,11 +22,10 @@ namespace CowFarm.Entities
     public class Grass : Plant, IInteractable
     {
         private const float Delay = 5000f;
-        //private const float ButtonDelay = 1000f;
+        
 
         private AnimatedSprites _currentAnim;
-        private readonly AnimatedSprites _eBuutonAnim;
-        //private Rectangle _buttonSourceRectangle;
+        
 
         private readonly AnimatedSprites _eatenGrassMovement;
         private readonly World _world;
@@ -37,7 +36,7 @@ namespace CowFarm.Entities
             _world = world;
             _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(cowGameScreen.GameTextures["eatenGrassMovement"], 1, 0);
-            _eBuutonAnim = new AnimatedSprites(cowGameScreen.GameTextures["eButtonMovement"], 2, 0);
+            //_eBuutonAnim = new AnimatedSprites(cowGameScreen.GameTextures["eButtonMovement"], 2, 0);
 
             Body = BodyFactory.CreateRectangle(world, (float)DestRect.Width / 100, (float)DestRect.Height / 200, 0, new Vector2((float)(DestRect.X + DestRect.Width / 2) / 100, (float)(DestRect.Y + 30) / 100));
 
@@ -86,7 +85,6 @@ namespace CowFarm.Entities
 
         public void Interact()
         {
-
             CanInteract = false;
             new CutGrass(CowGameScreen, _world, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
         }

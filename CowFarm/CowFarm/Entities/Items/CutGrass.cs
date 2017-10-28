@@ -15,7 +15,6 @@ namespace CowFarm.Entities.Items
         public CutGrass(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 32, 32), new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
         {
-
             Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, position / 100);
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
@@ -24,7 +23,7 @@ namespace CowFarm.Entities.Items
             ItemId = 2;
             world.AddDynamicEntity(this);
 
-            StackCount = 10;
+            StackCount = 9;
 
             CanInteract = true;
         }

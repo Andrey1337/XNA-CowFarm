@@ -1,4 +1,5 @@
 ﻿using CowFarm.DrowingSystem;
+using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
@@ -10,7 +11,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public class Rocks : Item, IInteractable
+    public class Rocks : Item, IInteractable, IDynamic
     {
         public Rocks(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 30, 23), new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
         {
@@ -31,6 +32,15 @@ namespace CowFarm.Entities.Items
         {
             Body.Stop();
             SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+            if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Right);
+            }
+
+            if (GetPosition().X + GetPosition().Width < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Left);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -57,6 +67,26 @@ namespace CowFarm.Entities.Items
         public void Interact()
         {
             Pick();
+        }
+
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, new Vector2(0.25f, Body.Position.Y));
+                    break;
+
+                case Direction.Left:
+                    Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, new Vector2((float)(CowGameScreen.Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
+                    break;
+            }
+
+            Body.BodyTypeName = "rocks";
+            CurrentWorld = world;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
         }
     }
 }

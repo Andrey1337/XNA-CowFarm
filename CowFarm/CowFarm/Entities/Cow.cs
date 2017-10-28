@@ -49,7 +49,13 @@ namespace CowFarm.Entities
               new AnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
-
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
             CurrentWorld = world;
             Boost = 1;
             _nearbyList = new List<Entity>();

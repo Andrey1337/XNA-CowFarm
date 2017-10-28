@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CowFarm.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,11 +40,13 @@ namespace CowFarm.Inventory
                 return;
             }
 
-            for (var i = 0; i <= ItemsCount && !container.ItemStack.IsFull(); i++)
+            var itemsCount = ItemsCount;
+            for (var i = 0; i < itemsCount && !container.ItemStack.IsFull(); i++)
             {
                 Remove();
                 container.Add();
             }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
