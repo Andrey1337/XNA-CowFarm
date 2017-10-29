@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparables\PositionYComparer.cs" />
+    <Compile Include="Craft\CraftPanel.cs" />
     <Compile Include="Entities\Items\Apple.cs" />
     <Compile Include="Entities\BerryBush.cs" />
     <Compile Include="Entities\BoulderRock.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Interfaces\IInteractable.cs" />
     <Compile Include="Inventory\Container.cs" />
     <Compile Include="Inventory\Inventory.cs" />
-    <Compile Include="Inventory\InventoryConainer.cs" />
+    <Compile Include="Inventory\StaticConainer.cs" />
     <Compile Include="Inventory\ItemStack.cs" />
     <Compile Include="Inventory\SwapContainer.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />

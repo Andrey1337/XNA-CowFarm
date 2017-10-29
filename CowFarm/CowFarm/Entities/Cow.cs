@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using CowFarm.Craft;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Enums;
@@ -28,6 +29,7 @@ namespace CowFarm.Entities
     public class Cow : Animal, IDynamic
     {
         public Inventory.Inventory Inventory;
+        public CraftPanel CraftPanel;
 
         private float _delay = 200f;
 
@@ -49,13 +51,8 @@ namespace CowFarm.Entities
               new AnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen,world,Vector2.One));
+            CraftPanel = new CraftPanel(cowGameScreen);
+
             CurrentWorld = world;
             Boost = 1;
             _nearbyList = new List<Entity>();
@@ -406,7 +403,7 @@ namespace CowFarm.Entities
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
             CurrentWorld = world;
-            
+
         }
     }
 }

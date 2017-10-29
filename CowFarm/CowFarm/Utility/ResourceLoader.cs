@@ -156,6 +156,7 @@ namespace CowFarm.Utility
         {
             GameTextures.Add("timerTexture", contentManager.Load<Texture2D>("timerTexture"));
             GameTextures.Add("inventoryPanel", contentManager.Load<Texture2D>("Miscs/inventoryPanel"));
+            GameTextures.Add("craftPanel", contentManager.Load<Texture2D>("Miscs/craftPanel"));
 
             GameTextures.Add("sprintBorder", contentManager.Load<Texture2D>("sprintBorder"));
 

@@ -11,7 +11,7 @@ namespace CowFarm.Inventory
 {
     public class Inventory
     {
-        private readonly InventoryConainer[] _containers;
+        private readonly StaticConainer[] _containers;
 
         private readonly CowGameScreen _cowGameScreen;
         private readonly Type[] _typesIds;
@@ -24,16 +24,16 @@ namespace CowFarm.Inventory
         {
             _cowGameScreen = cowGameScreen;
             _typesIds = ItemsTypesHelper.GetItemsTypes();
-
+            _indexOnFocus = -1;
             _drawPos = new Vector2(330, 827);
 
             var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);
 
-            _containers = new InventoryConainer[9];
+            _containers = new StaticConainer[9];
             for (var i = 0; i < _containers.Length; i++)
             {
                 var rect = new Rectangle((int)pos.X, (int)pos.Y, 42, 42);
-                _containers[i] = new InventoryConainer(rect, cowGameScreen.GameTextures["cleanTexture"]);
+                _containers[i] = new StaticConainer(rect, cowGameScreen.GameTextures["cleanTexture"]);
                 pos.X += 13 + rect.Width;
             }
 
@@ -58,7 +58,7 @@ namespace CowFarm.Inventory
         }
 
         private MouseState _prevMouseState;
-        private InventoryConainer _containerOnFocus;
+        private StaticConainer _containerOnFocus;
         public void Update()
         {
             var mouseState = Mouse.GetState();
@@ -94,8 +94,8 @@ namespace CowFarm.Inventory
 
         public void Drop(World world, Vector2 position)
         {
-
-
+            if(_indexOnFocus == -1)
+                return;
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }
 

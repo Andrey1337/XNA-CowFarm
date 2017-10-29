@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CowFarm.Craft;
 using CowFarm.Entities;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
@@ -77,6 +78,7 @@ namespace CowFarm.ScreenSystem
             {
                 _inGameTime += gameTime.ElapsedGameTime;
                 Cow.Inventory.Update();
+                Cow.CraftPanel.Update();
                 WorldOnFocus.Update(gameTime);
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -89,10 +91,10 @@ namespace CowFarm.ScreenSystem
             DrawTime();
             DrawSprint();
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
+            Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
-
 
         private void DrawSprint()
         {
