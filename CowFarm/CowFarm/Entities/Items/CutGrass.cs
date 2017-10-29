@@ -27,14 +27,7 @@ namespace CowFarm.Entities.Items
 
             CanInteract = true;
         }
-
-        public CutGrass(CowGameScreen cowGameScreen) : base(cowGameScreen, null, Rectangle.Empty, new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
-        {
-            StackCount = 9;
-            ItemId = 2;
-            CanInteract = true;
-        }
-
+        
         public override void Update(GameTime gameTime)
         {
             Body.Hikuah(12);

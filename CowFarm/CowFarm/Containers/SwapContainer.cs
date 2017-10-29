@@ -46,8 +46,9 @@ namespace CowFarm.Containers
                 Remove();
                 container.Add();
             }
-
         }
+
+        
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {

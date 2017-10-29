@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.Containers;
+using CowFarm.Entities.Items;
 using CowFarm.Inventory;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
@@ -56,8 +57,10 @@ namespace CowFarm.TileEntities
             {
                 if (FindRecipe(recipe))
                 {
-
-                    Debug.WriteLine(RecipesBook[recipe].ToString());
+                    //object[] args = { CowGameScreen, CowGameScreen.Cow.CurrentWorld, Vector2.Zero };
+                    //object o = Activator.CreateInstance(RecipesBook[recipe], args);
+                    //CraftContainer.ItemStack.Item = (Item)o;
+                    //Debug.WriteLine(RecipesBook[recipe].ToString());
                 }
             }
 
