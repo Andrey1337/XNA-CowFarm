@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using CowFarm.Craft;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
+using CowFarm.TileEntities;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
@@ -52,6 +52,12 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
+            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+
 
             CurrentWorld = world;
             Boost = 1;
@@ -81,7 +87,7 @@ namespace CowFarm.Entities
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
-            _nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
+            //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
         }
 
         private List<Entity> SortCowNearby()

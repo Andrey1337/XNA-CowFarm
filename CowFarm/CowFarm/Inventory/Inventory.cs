@@ -1,4 +1,5 @@
 ﻿using System;
+using CowFarm.Containers;
 using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
@@ -37,7 +38,7 @@ namespace CowFarm.Inventory
                 pos.X += 13 + rect.Width;
             }
 
-            SwapContainer = new SwapContainer();
+            SwapContainer = new SwapContainer(Rectangle.Empty);
         }
 
         public void Add(Item item)
@@ -94,7 +95,7 @@ namespace CowFarm.Inventory
 
         public void Drop(World world, Vector2 position)
         {
-            if(_indexOnFocus == -1)
+            if (_indexOnFocus == -1)
                 return;
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }

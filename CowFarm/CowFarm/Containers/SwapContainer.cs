@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
+using CowFarm.Inventory;
 using CowFarm.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CowFarm.Inventory
+namespace CowFarm.Containers
 {
     public class SwapContainer : Container
     {
@@ -67,5 +67,8 @@ namespace CowFarm.Inventory
         }
 
 
+        public SwapContainer(Rectangle position) : base(Rectangle.Empty)
+        {
+        }
     }
 }

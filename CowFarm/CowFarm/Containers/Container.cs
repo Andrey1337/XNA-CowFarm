@@ -1,4 +1,5 @@
 ﻿using CowFarm.Entities.Items;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Inventory
@@ -8,19 +9,22 @@ namespace CowFarm.Inventory
         public ItemStack ItemStack;
         public Item Item => ItemStack.Item;
         public int ItemsCount => ItemStack.ItemsCount;
-        
-    
-        public void Swap(Container container)
+
+        public Microsoft.Xna.Framework.Rectangle Position;
+        public bool OnFocus;
+
+        public virtual void Swap(Container container)
         {
             ItemStack temp = ItemStack;
             ItemStack = container.ItemStack;
             container.ItemStack = temp;
         }
 
-        protected Container()
+        protected Container(Rectangle position)
         {
             ItemStack = new ItemStack();
-        }       
+            Position = position;
+        }
 
         public bool PossibleToAdd(Item item)
         {

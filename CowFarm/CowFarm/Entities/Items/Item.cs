@@ -35,9 +35,6 @@ namespace CowFarm.Entities.Items
         public virtual void Pick()
         {
             CurrentWorld.RemoveDynamicEntity(this);
-        }
-
-
-        
+        }        
     }
 }

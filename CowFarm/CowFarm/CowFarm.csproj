@@ -59,6 +59,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -78,7 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparables\PositionYComparer.cs" />
-    <Compile Include="Craft\CraftPanel.cs" />
+    <Compile Include="Containers\CraftContainer.cs" />
+    <Compile Include="TileEntities\CraftPanel.cs" />
     <Compile Include="Entities\Items\Apple.cs" />
     <Compile Include="Entities\BerryBush.cs" />
     <Compile Include="Entities\BoulderRock.cs" />
@@ -94,11 +98,11 @@
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Interfaces\IDynamic.cs" />
     <Compile Include="Interfaces\IInteractable.cs" />
-    <Compile Include="Inventory\Container.cs" />
+    <Compile Include="Containers\Container.cs" />
     <Compile Include="Inventory\Inventory.cs" />
-    <Compile Include="Inventory\StaticConainer.cs" />
+    <Compile Include="Containers\StaticConainer.cs" />
     <Compile Include="Inventory\ItemStack.cs" />
-    <Compile Include="Inventory\SwapContainer.cs" />
+    <Compile Include="Containers\SwapContainer.cs" />
     <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />
@@ -106,7 +110,9 @@
     <Compile Include="Entities\GreenTree.cs" />
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="TileEntities\TileEntity.cs" />
     <Compile Include="Utility\ItemsTypesHelper.cs" />
+    <Compile Include="Utility\Recipes.cs" />
     <Compile Include="Utility\ResourceLoader.cs" />
     <Compile Include="Utility\TextDrawHeleper.cs" />
     <Compile Include="Utility\TextureHelper.cs" />
@@ -124,7 +130,7 @@
     <Compile Include="CowFarmGame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game.ico" />
+    <Resource Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>

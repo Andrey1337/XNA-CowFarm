@@ -3,20 +3,17 @@ using CowFarm.Entities;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using CowFarm.Worlds;
+using CowFarm.Inventory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.Inventory
+namespace CowFarm.Containers
 {
     public class StaticConainer : Container
-    {
-        public Rectangle Position { get; }
-
+    {       
         private readonly Texture2D _backgroundTexture;
 
-        public bool OnFocus;
-
-        public StaticConainer(Rectangle pos, Texture2D background)
+        public StaticConainer(Rectangle pos, Texture2D background) : base(pos)
         {
             Position = pos;
             _backgroundTexture = background;

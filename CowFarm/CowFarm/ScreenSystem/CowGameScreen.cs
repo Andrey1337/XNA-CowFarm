@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CowFarm.Craft;
 using CowFarm.Entities;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
@@ -90,8 +89,8 @@ namespace CowFarm.ScreenSystem
             WorldOnFocus.Draw(ScreenManager.SpriteBatch);
             DrawTime();
             DrawSprint();
-            Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
+            Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }

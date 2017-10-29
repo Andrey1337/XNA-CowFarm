@@ -62,6 +62,8 @@ namespace CowFarm.Entities.Items
             world.AddDynamicEntity(this);
         }
 
+       
+
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
