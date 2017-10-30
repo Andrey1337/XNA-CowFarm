@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CowFarm.Containers;
 using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
@@ -19,6 +21,9 @@ namespace CowFarm.Inventory
 
         private int _indexOnFocus;
 
+        private HashSet<Container> _containersOnFocus;
+        private HashSet<Container> _prevContainersOnFocus;
+
         public SwapContainer SwapContainer;
 
         public Inventory(CowGameScreen cowGameScreen)
@@ -27,6 +32,9 @@ namespace CowFarm.Inventory
             _typesIds = ItemsTypesHelper.GetItemsTypes();
             _indexOnFocus = 0;
             _drawPos = new Vector2(330, 827);
+
+            _containersOnFocus = new HashSet<Container>();
+            _prevContainersOnFocus = new HashSet<Container>();
 
             var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);
 
@@ -59,7 +67,7 @@ namespace CowFarm.Inventory
         }
 
         private MouseState _prevMouseState;
-        private StaticConainer _containerOnFocus;
+
         public void Update()
         {
             var mouseState = Mouse.GetState();
@@ -69,8 +77,9 @@ namespace CowFarm.Inventory
             {
                 if (_containers[i].Position.Contains(mousePoint))
                 {
-                    _containerOnFocus = _containers[i];
-                    _containerOnFocus.OnFocus = true;
+                    _containers[i].OnFocus = true;
+                    _containersOnFocus.Add(_containers[i]);
+
 
                     if (mouseState.LeftButton != ButtonState.Pressed ||
                         _prevMouseState.LeftButton == ButtonState.Pressed) continue;
@@ -80,12 +89,11 @@ namespace CowFarm.Inventory
                     SwapContainer.Swap(_containers[i]);
                 }
             }
+            _prevContainersOnFocus.ToList().Where(container => !_containersOnFocus.Contains(container)).ToList().ForEach(container => container.OnFocus = false);
 
-            if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
-            {
-                _containerOnFocus.OnFocus = false;
-            }
             _prevMouseState = mouseState;
+            _prevContainersOnFocus = _containersOnFocus;
+            _containersOnFocus = new HashSet<Container>();
         }
 
         public void ItemOnFocus(int index)

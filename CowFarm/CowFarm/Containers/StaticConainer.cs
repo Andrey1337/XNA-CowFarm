@@ -44,7 +44,7 @@ namespace CowFarm.Containers
 
             object[] args = { cowGameScreen };
             object item = Activator.CreateInstance(itemsTypes[Item.ItemId], args);
-            ((Item) item).Drop(world, position);
+            ((Item)item).Drop(world, position);
             ItemStack.Remove();
         }
 

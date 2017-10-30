@@ -52,12 +52,11 @@ namespace CowFarm.Entities
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
 
-            //Inventory.Add(new CutGrass(cowGameScreen));
-            //Inventory.Add(new CutGrass(cowGameScreen));
-            //Inventory.Add(new CutGrass(cowGameScreen));
-            //Inventory.Add(new CutGrass(cowGameScreen));
-            //Inventory.Add(new CutGrass(cowGameScreen));
-
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
 
             CurrentWorld = world;
             Boost = 1;

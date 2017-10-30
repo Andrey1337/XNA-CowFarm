@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CowFarm.Containers;
 using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
@@ -16,14 +17,20 @@ namespace CowFarm.TileEntities
         protected readonly Dictionary<Type[,], Type> RecipesBook;
         protected CraftContainer CraftContainer;
 
+        private HashSet<Container> _containersOnFocus;
+        private HashSet<Container> _prevContainersOnFocus;
+
         protected TileEntity(CowGameScreen cowGameScreen)
         {
             CowGameScreen = cowGameScreen;
             RecipesBook = Recipes.GetRecipes();
+
+            _containersOnFocus = new HashSet<Container>();
+            _prevContainersOnFocus = new HashSet<Container>();
         }
 
         private MouseState _prevMouseState;
-        private Container _containerOnFocus;
+
         public virtual void Update()
         {
             var mouseState = Mouse.GetState();
@@ -33,8 +40,9 @@ namespace CowFarm.TileEntities
             {
                 if (container.Position.Contains(mousePoint))
                 {
-                    _containerOnFocus = container;
-                    _containerOnFocus.OnFocus = true;
+
+                    container.OnFocus = true;
+                    _containersOnFocus.Add(container);
 
                     if (mouseState.LeftButton != ButtonState.Pressed || _prevMouseState.LeftButton == ButtonState.Pressed) continue;
 
@@ -44,19 +52,21 @@ namespace CowFarm.TileEntities
 
             if (CraftContainer.Position.Contains(mousePoint))
             {
-                _containerOnFocus = CraftContainer;
-                _containerOnFocus.OnFocus = true;
+                CraftContainer.OnFocus = true;
+
+                _containersOnFocus.Add(CraftContainer);
                 if (mouseState.LeftButton == ButtonState.Pressed && _prevMouseState.LeftButton != ButtonState.Pressed)
                     CraftContainer.Swap(CowGameScreen.Cow.Inventory.SwapContainer);
             }
 
             FindRecipes();
 
-            if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
-            {
-                _containerOnFocus.OnFocus = false;
-            }
+
+            _prevContainersOnFocus.ToList().Where(container => !_containersOnFocus.Contains(container)).ToList().ForEach(container => container.OnFocus = false);
+
             _prevMouseState = mouseState;
+            _prevContainersOnFocus = _containersOnFocus;
+            _containersOnFocus = new HashSet<Container>();
         }
 
         private void FindRecipes()
