@@ -1,8 +1,9 @@
 ﻿using CowFarm.Entities.Items;
+using CowFarm.Inventory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.Inventory
+namespace CowFarm.Containers
 {
     public abstract class Container
     {
@@ -10,7 +11,7 @@ namespace CowFarm.Inventory
         public Item Item => ItemStack.Item;
         public int ItemsCount => ItemStack.ItemsCount;
 
-        public Microsoft.Xna.Framework.Rectangle Position;
+        public Rectangle Position;
         public bool OnFocus;
 
         public virtual void Swap(Container container)

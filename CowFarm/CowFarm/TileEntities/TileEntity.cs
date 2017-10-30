@@ -57,10 +57,9 @@ namespace CowFarm.TileEntities
             {
                 if (FindRecipe(recipe))
                 {
-                    //object[] args = { CowGameScreen, CowGameScreen.Cow.CurrentWorld, Vector2.Zero };
-                    //object o = Activator.CreateInstance(RecipesBook[recipe], args);
-                    //CraftContainer.ItemStack.Item = (Item)o;
-                    //Debug.WriteLine(RecipesBook[recipe].ToString());
+                    object[] args = { CowGameScreen };
+                    object o = Activator.CreateInstance(RecipesBook[recipe], args);
+                    CraftContainer.Result((Item)o);
                 }
             }
 
@@ -69,6 +68,21 @@ namespace CowFarm.TileEntities
                 _containerOnFocus.OnFocus = false;
             }
             _prevMouseState = mouseState;
+        }
+
+        public void Craft()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    if (!Containers[i, j].ItemStack.IsEmpty())
+                    {
+                        Containers[i, j].ItemStack.Remove();
+                    }
+
+                }
+            }
         }
 
         private bool FindRecipe(Type[,] recipeArr)

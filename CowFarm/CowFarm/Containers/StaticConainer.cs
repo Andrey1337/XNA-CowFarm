@@ -1,5 +1,6 @@
 ﻿using System;
 using CowFarm.Entities;
+using CowFarm.Entities.Items;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using CowFarm.Worlds;
@@ -10,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CowFarm.Containers
 {
     public class StaticConainer : Container
-    {       
+    {
         private readonly Texture2D _backgroundTexture;
 
         public StaticConainer(Rectangle pos, Texture2D background) : base(pos)
@@ -41,9 +42,9 @@ namespace CowFarm.Containers
             if (itemsTypes[Item.ItemId] == null)
                 throw new Exception("No itemId exists");
 
-            object[] args = { cowGameScreen, world, position };
-            Activator.CreateInstance(itemsTypes[Item.ItemId], args);
-
+            object[] args = { cowGameScreen };
+            object item = Activator.CreateInstance(itemsTypes[Item.ItemId], args);
+            ((Item) item).Drop(world, position);
             ItemStack.Remove();
         }
 

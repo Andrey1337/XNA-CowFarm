@@ -30,7 +30,7 @@ namespace CowFarm.Worlds
             new GreenTree(cowGameScreen, this, new Vector2(700, 164)).CreateApple();
             new GreenTree(cowGameScreen, this, new Vector2(240, 50)).CreateApple();
 
-            new Rocks(cowGameScreen, this, new Vector2(240, 350));
+            new Rocks(cowGameScreen).Drop(this, new Vector2(240, 350));
 
             new BerryBush(cowGameScreen, this, new Vector2(100, 500));
             new BerryBush(cowGameScreen, this, new Vector2(940, 400));

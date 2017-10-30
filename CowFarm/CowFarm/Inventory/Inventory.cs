@@ -25,7 +25,7 @@ namespace CowFarm.Inventory
         {
             _cowGameScreen = cowGameScreen;
             _typesIds = ItemsTypesHelper.GetItemsTypes();
-            _indexOnFocus = -1;
+            _indexOnFocus = 0;
             _drawPos = new Vector2(330, 827);
 
             var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);

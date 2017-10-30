@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.Entities.Items;
+using CowFarm.Entities.Items.Craftables;
 
 namespace CowFarm.Utility
 {
@@ -22,7 +23,7 @@ namespace CowFarm.Utility
             temp[1, 0] = typeof(CutGrass);
             temp[1, 1] = typeof(CutGrass);
 
-            _recipesBook.Add(temp, typeof(CutGrass));
+            _recipesBook.Add(temp, typeof(Rope));
 
             return _recipesBook;
 

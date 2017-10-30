@@ -12,22 +12,12 @@ namespace CowFarm.Entities.Items
 {
     public class CutGrass : Item, IInteractable
     {
-        public CutGrass(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 32, 32), new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
+        public CutGrass(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
         {
-            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, position / 100);
-            Body.BodyType = BodyType.Dynamic;
-            Body.CollisionCategories = Category.All & ~Category.Cat10;
-            Body.CollidesWith = Category.All & ~Category.Cat10;
-            Body.BodyTypeName = "rocks";
             ItemId = 2;
-            world.AddDynamicEntity(this);
-
             StackCount = 9;
-
-            CanInteract = true;
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             Body.Hikuah(12);
@@ -59,6 +49,19 @@ namespace CowFarm.Entities.Items
         public void Interact()
         {
             Pick();
+        }
+
+        public override void Drop(World world, Vector2 positon)
+        {
+            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(positon.X, positon.Y) / 100);
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+            Body.BodyTypeName = "rocks";
+            CanInteract = true;
+            DestRect = new Rectangle((int)positon.X, (int)positon.Y, 32, 32);
+            world.AddDynamicEntity(this);
+            CurrentWorld = world;
         }
     }
 }

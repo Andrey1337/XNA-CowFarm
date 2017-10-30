@@ -1,4 +1,6 @@
-﻿using CowFarm.Inventory;
+﻿using CowFarm.Entities.Items;
+using CowFarm.Inventory;
+using CowFarm.TileEntities;
 using CowFarm.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,19 +10,38 @@ namespace CowFarm.Containers
     public class CraftContainer : Container
     {
         private readonly Texture2D _backgroundTexture;
+        private readonly TileEntity _tileEntity;
 
-        public CraftContainer(Rectangle pos, Texture2D background) : base(pos)
+        public CraftContainer(Rectangle pos, Texture2D background, TileEntity tileEntity) : base(pos)
         {
             Position = pos;
             _backgroundTexture = background;
+            _tileEntity = tileEntity;
         }
 
         public override void Swap(Container container)
         {
-            if (!container.ItemStack.IsEmpty() || ItemStack.IsEmpty())
+            if (ItemStack.IsEmpty())
                 return;
 
-            base.Swap(container);
+            if (!container.ItemStack.IsEmpty() && container.ItemStack.Item.ItemId != ItemStack.Item.ItemId)
+                return;
+
+            int count = ItemStack.ItemsCount;
+            for (int i = 0; i < count && !container.ItemStack.IsFull(); i++)
+            {
+                container.Add(ItemStack.Item);
+                ItemStack.Remove();
+            }
+
+            _tileEntity.Craft();
+            //base.Swap(container);
+        }
+
+        public void Result(Item item, int count = 1)
+        {
+            ItemStack.Item = item;
+            ItemStack.ItemsCount = count;
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)

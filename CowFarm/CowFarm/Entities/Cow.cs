@@ -26,13 +26,12 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
-    public class Cow : Animal, IDynamic
+    public sealed class Cow : Animal, IDynamic
     {
         public Inventory.Inventory Inventory;
         public CraftPanel CraftPanel;
 
         private float _delay = 200f;
-
 
         public float Boost;
 
@@ -52,11 +51,12 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
-            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
-            Inventory.Add(new CutGrass(cowGameScreen, world, Vector2.One));
+
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
+            Inventory.Add(new CutGrass(cowGameScreen));
 
 
             CurrentWorld = world;

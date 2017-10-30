@@ -13,19 +13,23 @@ namespace CowFarm.Entities.Items
 {
     public class Rocks : Item, IInteractable, IDynamic
     {
-        public Rocks(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 30, 23), new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
+        public Rocks(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
+        {
+            ItemId = 1;
+            StackCount = 2;
+        }
+
+        public override void Drop(World world, Vector2 position)
         {
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0f, position / 100);
+            CanInteract = true;
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
             Body.BodyTypeName = "rocks";
-            ItemId = 1;
             world.AddDynamicEntity(this);
-
-            StackCount = 2;
-
-            CanInteract = true;
+            DestRect = new Rectangle((int)position.X, (int)position.Y, 30, 23);
+            CurrentWorld = world;            
         }
 
         public override void Update(GameTime gameTime)

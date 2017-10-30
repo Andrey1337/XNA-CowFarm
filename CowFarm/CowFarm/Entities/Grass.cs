@@ -22,10 +22,10 @@ namespace CowFarm.Entities
     public class Grass : Plant, IInteractable
     {
         private const float Delay = 5000f;
-        
+
 
         private AnimatedSprites _currentAnim;
-        
+
 
         private readonly AnimatedSprites _eatenGrassMovement;
         private readonly World _world;
@@ -86,7 +86,7 @@ namespace CowFarm.Entities
         public void Interact()
         {
             CanInteract = false;
-            new CutGrass(CowGameScreen, _world, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
+            new CutGrass(CowGameScreen).Drop(_world, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
         }
         public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }

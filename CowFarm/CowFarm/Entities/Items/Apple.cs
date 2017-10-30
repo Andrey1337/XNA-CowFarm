@@ -15,14 +15,14 @@ namespace CowFarm.Entities.Items
     {
         private float _rotationAngle;
 
-        private readonly World _world;
+        private World _world;
         private Body _floor;
         private readonly GreenTree _tree;
         private readonly Texture2D _eatenAppleMovement;
 
-        private readonly Vector2 _origin;
+        private Vector2 _origin;
 
-        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(cowGameScreen, world, destRect, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
@@ -31,38 +31,42 @@ namespace CowFarm.Entities.Items
             _world = world;
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
+            DestRect = destRect;
             Body.BodyType = BodyType.Dynamic;
             Body.BodyTypeName = "apple";
-
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
-
             StackCount = 3;
-
             _world.ContactManager.Contacted += AppleFloorContacted;
         }
 
 
-        public Apple(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, world,
-                  new Rectangle((int)position.X, (int)position.Y, 20, 20), new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen)
+            : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        {
+            _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
+            ItemId = 0;
+            StackCount = 3;
+        }
+
+
+        public override void Drop(World world, Vector2 position)
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
-            _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
             _world = world;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position / 100);
             Body.BodyTypeName = "apple";
-            ItemId = 0;
             CanInteract = true;
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
-            StackCount = 3;
+            DestRect = new Rectangle((int)position.X, (int)position.Y, 20, 20);
             world.AddDynamicEntity(this);
+            CurrentWorld = world;
         }
 
-       
+
 
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {

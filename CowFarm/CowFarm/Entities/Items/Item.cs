@@ -15,26 +15,26 @@ namespace CowFarm.Entities.Items
         protected AnimatedSprites ItemMovement;
         public int ItemId { get; protected set; }
         public Texture2D IconTexture { get; }
-        protected Rectangle DestRect;        
+        protected Rectangle DestRect;
         protected Rectangle SourceRect;
         public World CurrentWorld { get; set; }
         protected ObjectMovingType ObjectMovingType;
 
         public int StackCount { get; protected set; }
 
-        protected Item(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites itemMovement, Texture2D iconTexture) : base(cowGameScreen)
+        protected Item(CowGameScreen cowGameScreen, AnimatedSprites itemMovement, Texture2D iconTexture) : base(cowGameScreen)
         {
             IconTexture = iconTexture;
-            CurrentWorld = world;
-            DestRect = destRect;
             ItemMovement = itemMovement;
             ObjectMovingType = ObjectMovingType.Static;
-
         }
+
+        public abstract void Drop(World world, Vector2 position);
+
 
         public virtual void Pick()
         {
-            CurrentWorld.RemoveDynamicEntity(this);
-        }        
+            CurrentWorld?.RemoveDynamicEntity(this);
+        }
     }
 }

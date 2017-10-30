@@ -1,4 +1,5 @@
 ﻿using CowFarm.Containers;
+using CowFarm.Entities.Items;
 using CowFarm.Inventory;
 using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
@@ -13,7 +14,7 @@ namespace CowFarm.TileEntities
 
         public CraftPanel(CowGameScreen cowGameScreen) : base(cowGameScreen)
         {
-            Containers = new StaticConainer[2, 2];
+            Containers = new Container[2, 2];
             _drawPos = new Vector2(920, 758);
             Containers[0, 0] = new StaticConainer(new Rectangle((int)_drawPos.X + 19, (int)_drawPos.Y + 20, 42, 42), cowGameScreen.GameTextures["cleanTexture"]);
             Containers[0, 1] = new StaticConainer(new Rectangle((int)_drawPos.X + 75, (int)_drawPos.Y + 20, 42, 42), cowGameScreen.GameTextures["cleanTexture"]);
@@ -21,8 +22,10 @@ namespace CowFarm.TileEntities
             Containers[1, 1] = new StaticConainer(new Rectangle((int)_drawPos.X + 75, (int)_drawPos.Y + 71, 42, 42), cowGameScreen.GameTextures["cleanTexture"]);
 
             CraftContainer = new CraftContainer(new Rectangle((int)_drawPos.X + 167, (int)_drawPos.Y + 45, 42, 42),
-                cowGameScreen.GameTextures["cleanTexture"]);
+                cowGameScreen.GameTextures["cleanTexture"], this);
         }
+
+
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
