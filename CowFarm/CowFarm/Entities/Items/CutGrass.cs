@@ -51,15 +51,15 @@ namespace CowFarm.Entities.Items
             Pick();
         }
 
-        public override void Drop(World world, Vector2 positon)
+        public override void Drop(World world, Vector2 position)
         {
-            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(positon.X, positon.Y) / 100);
+            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(position.X, position.Y) / 100);
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
-            Body.BodyTypeName = "rocks";
+            Body.BodyTypeName = "cutGrass";
             CanInteract = true;
-            DestRect = new Rectangle((int)positon.X, (int)positon.Y, 32, 32);
+            DestRect = new Rectangle((int)position.X, (int)position.Y, 32, 32);
             world.AddDynamicEntity(this);
             CurrentWorld = world;
         }

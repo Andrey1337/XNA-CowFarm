@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using CowFarm.Containers;
 using CowFarm.Entities.Items;
-using CowFarm.Inventory;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
 using Microsoft.Xna.Framework;
@@ -22,7 +20,6 @@ namespace CowFarm.TileEntities
         {
             CowGameScreen = cowGameScreen;
             RecipesBook = Recipes.GetRecipes();
-
         }
 
         private MouseState _prevMouseState;
@@ -53,21 +50,45 @@ namespace CowFarm.TileEntities
                     CraftContainer.Swap(CowGameScreen.Cow.Inventory.SwapContainer);
             }
 
-            foreach (var recipe in RecipesBook.Keys)
-            {
-                if (FindRecipe(recipe))
-                {
-                    object[] args = { CowGameScreen };
-                    object o = Activator.CreateInstance(RecipesBook[recipe], args);
-                    CraftContainer.Result((Item)o);
-                }
-            }
+            FindRecipes();
 
             if (_containerOnFocus != null && !_containerOnFocus.Position.Contains(mousePoint))
             {
                 _containerOnFocus.OnFocus = false;
             }
             _prevMouseState = mouseState;
+        }
+
+        private void FindRecipes()
+        {
+            foreach (var recipe in RecipesBook.Keys)
+            {
+                if (!FindRecipe(recipe)) continue;
+
+                var o = Activator.CreateInstance(RecipesBook[recipe], CowGameScreen);
+                CraftContainer.Result((Item)o, MinimalCount());
+                return;
+            }
+
+            CraftContainer.ItemStack.Item = null;
+            CraftContainer.ItemStack.ItemsCount = 0;
+
+        }
+
+        private int MinimalCount()
+        {
+            int min = int.MaxValue;
+            for (var i = 0; i < 2; i++)
+            {
+                for (var j = 0; j < 2; j++)
+                {
+                    if (Containers[i, j].ItemStack.ItemsCount < min)
+                    {
+                        min = Containers[i, j].ItemStack.ItemsCount;
+                    }
+                }
+            }
+            return min;
         }
 
         public void Craft()

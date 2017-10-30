@@ -15,7 +15,7 @@ namespace CowFarm.Entities.Items
     {
         private float _rotationAngle;
 
-        private World _world;
+
         private Body _floor;
         private readonly GreenTree _tree;
         private readonly Texture2D _eatenAppleMovement;
@@ -27,8 +27,9 @@ namespace CowFarm.Entities.Items
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
             ItemId = 0;
+            StackCount = 3;
             _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
-            _world = world;
+
             _tree = tree;
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, new Vector2((float)destRect.X / 100, (float)destRect.Y / 100));
             DestRect = destRect;
@@ -36,8 +37,9 @@ namespace CowFarm.Entities.Items
             Body.BodyTypeName = "apple";
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
-            StackCount = 3;
-            _world.ContactManager.Contacted += AppleFloorContacted;
+
+            CurrentWorld = world;
+            CurrentWorld.ContactManager.Contacted += AppleFloorContacted;
         }
 
 
@@ -54,7 +56,7 @@ namespace CowFarm.Entities.Items
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
-            _world = world;
+
             Body = BodyFactory.CreateCircle(world, (float)1 / 100, 0.2f, position / 100);
             Body.BodyTypeName = "apple";
             CanInteract = true;
@@ -72,14 +74,13 @@ namespace CowFarm.Entities.Items
         {
             if (collide.Dictionary.ContainsKey(BodyId) && collide.Dictionary[BodyId].Contains(_floor))
             {
-
                 Body.Restitution = 0f;
                 _isFalling = false;
-                _world.RemoveBody(_floor);
+                CurrentWorld.RemoveBody(_floor);
                 Body.CollisionCategories = Category.All & ~Category.Cat10;
                 Body.CollidesWith = Category.All & ~Category.Cat10;
                 _tree.Apple = null;
-                _world.AddDynamicEntity(this);
+                CurrentWorld.AddDynamicEntity(this);
                 CanInteract = true;
             }
         }
@@ -91,7 +92,7 @@ namespace CowFarm.Entities.Items
             float x2 = (float)(GetPosition().X + 30) / 100;
             float y = (height - 10) / 100;
             Body.Restitution = 0.26f;
-            _floor = BodyFactory.CreateEdge(_world, new Vector2(x1, y), new Vector2(x2, y));
+            _floor = BodyFactory.CreateEdge(CurrentWorld, new Vector2(x1, y), new Vector2(x2, y));
             _floor.CollisionCategories = Category.Cat10;
             _floor.CollidesWith = Category.Cat10;
             _isFalling = true;
@@ -133,20 +134,11 @@ namespace CowFarm.Entities.Items
                 spriteBatch.Draw(_eatenAppleMovement, GetPosition(), Color.White);
             else
             {
-                if (OnFocus)
-                {
-                    spriteBatch.Draw(ItemMovement.Animation,
-                        new Vector2(GetPosition().X + GetPosition().Width / 2,
-                            GetPosition().Y + GetPosition().Height / 2), null, new Color(209, 209, 224), _rotationAngle,
-                        _origin, 0.34f, SpriteEffects.None, 0f);
-                }
-                else
-                {
-                    spriteBatch.Draw(ItemMovement.Animation,
-                        new Vector2(GetPosition().X + GetPosition().Width / 2,
-                            GetPosition().Y + GetPosition().Height / 2), null, Color.White, _rotationAngle, _origin,
-                        0.34f, SpriteEffects.None, 0f);
-                }
+                spriteBatch.Draw(ItemMovement.Animation,
+                    new Vector2(GetPosition().X + GetPosition().Width / 2,
+                        GetPosition().Y + GetPosition().Height / 2), null,
+                    OnFocus ? new Color(209, 209, 224) : Color.White, _rotationAngle,
+                    _origin, 0.34f, SpriteEffects.None, 0f);
             }
         }
 
@@ -168,8 +160,7 @@ namespace CowFarm.Entities.Items
         public bool CanInteract { get; set; }
         public void Interact()
         {
-            IsEaten = true;
-            CanInteract = false;
+            Pick();
         }
 
         public bool IsEaten { get; set; }

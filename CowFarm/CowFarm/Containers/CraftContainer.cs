@@ -4,6 +4,7 @@ using CowFarm.TileEntities;
 using CowFarm.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CowFarm.Containers
 {
@@ -26,16 +27,23 @@ namespace CowFarm.Containers
 
             if (!container.ItemStack.IsEmpty() && container.ItemStack.Item.ItemId != ItemStack.Item.ItemId)
                 return;
-
-            int count = ItemStack.ItemsCount;
-            for (int i = 0; i < count && !container.ItemStack.IsFull(); i++)
+            
+            var ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Keys.LeftControl))
+            {               
+                for (int i = ItemStack.ItemsCount; i > 0 && !container.ItemStack.IsFull(); i--)
+                {
+                    container.Add(ItemStack.Item);
+                    ItemStack.Remove();
+                    _tileEntity.Craft();
+                }
+            }
+            else
             {
                 container.Add(ItemStack.Item);
                 ItemStack.Remove();
-            }
-
-            _tileEntity.Craft();
-            //base.Swap(container);
+                _tileEntity.Craft();
+            }           
         }
 
         public void Result(Item item, int count = 1)

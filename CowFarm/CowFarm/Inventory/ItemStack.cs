@@ -37,7 +37,7 @@ namespace CowFarm.Inventory
 
         public void Remove()
         {
-            if (ItemsCount <= 0)
+            if (ItemsCount < 0)
                 throw new Exception("Items count minus");
             ItemsCount--;
             if (ItemsCount == 0)

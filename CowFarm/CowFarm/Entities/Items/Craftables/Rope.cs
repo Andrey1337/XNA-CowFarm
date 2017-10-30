@@ -1,10 +1,12 @@
 ﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
-using CowFarm.Worlds;
 using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items.Craftables
 {
@@ -33,13 +35,22 @@ namespace CowFarm.Entities.Items.Craftables
         {
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)DestRect.Width / 2;
+            vector.Y -= 4;
 
             return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Width, DestRect.Height);
         }
 
         public override void Drop(World world, Vector2 position)
         {
-            throw new System.NotImplementedException();
+            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(position.X, position.Y) / 100);
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+            Body.BodyTypeName = "rope";
+            CanInteract = true;
+            DestRect = new Rectangle((int)position.X, (int)position.Y, 32, 32);
+            world.AddDynamicEntity(this);
+            CurrentWorld = world;
         }
 
         public Vector2 GetInteractablePosition()
