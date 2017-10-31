@@ -31,7 +31,6 @@ namespace CowFarm.Entities.Items
 
         public abstract void Drop(World world, Vector2 position);
 
-
         public virtual void Pick()
         {
             CurrentWorld?.RemoveDynamicEntity(this);

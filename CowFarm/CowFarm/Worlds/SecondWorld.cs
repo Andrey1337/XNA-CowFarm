@@ -23,6 +23,8 @@ namespace CowFarm.Worlds
             new Grass(cowGameScreen, this, new Vector2(200, 300));
             new Grass(cowGameScreen, this, new Vector2(430, 350));
 
+            new Log(cowGameScreen).Drop(this, new Vector2(100, 100));
+
             new BoulderRock(cowGameScreen, this, new Vector2(350, 400));
 
             new Rock(cowGameScreen, this, new Vector2(900, 600));

@@ -39,8 +39,7 @@ namespace CowFarm.Entities
 
         private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
-        private HashSet<Entity> _previousFocusInteractables;
-
+        private HashSet<Entity> _previousFocusInteractables;                
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
               new Rectangle((int)position.X, (int)position.Y, 54, 49),
@@ -57,7 +56,7 @@ namespace CowFarm.Entities
             Inventory.Add(new CutGrass(cowGameScreen));
             Inventory.Add(new CutGrass(cowGameScreen));
             Inventory.Add(new CutGrass(cowGameScreen));
-
+            
             CurrentWorld = world;
             Boost = 1;
             _nearbyList = new List<Entity>();

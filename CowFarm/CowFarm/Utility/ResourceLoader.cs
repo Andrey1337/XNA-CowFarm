@@ -145,6 +145,7 @@ namespace CowFarm.Utility
             GameTextures.Add("rocksMovement", contentManager.Load<Texture2D>("Items/rocksMovement"));
             GameTextures.Add("cutGrassMovement", contentManager.Load<Texture2D>("Items/cutGrassMovement"));
             GameTextures.Add("ropeMovement", contentManager.Load<Texture2D>("Items/ropeMovement"));
+            GameTextures.Add("logMovement", contentManager.Load<Texture2D>("Items/logMovement"));
         }
 
         private static void LoadIcons(ContentManager contentManager)
@@ -153,6 +154,7 @@ namespace CowFarm.Utility
             GameTextures.Add("rocksIcon", contentManager.Load<Texture2D>("ItemIcons/rocksIcon"));
             GameTextures.Add("cutGrassIcon", contentManager.Load<Texture2D>("ItemIcons/cutGrassIcon"));
             GameTextures.Add("ropeIcon", contentManager.Load<Texture2D>("ItemIcons/ropeIcon"));
+            GameTextures.Add("logIcon", contentManager.Load<Texture2D>("ItemIcons/logIcon"));
         }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
