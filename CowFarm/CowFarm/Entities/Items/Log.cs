@@ -34,7 +34,7 @@ namespace CowFarm.Entities.Items
         {
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)DestRect.Width / 2;
-            vector.Y -= 10;
+            
 
             return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Width, DestRect.Height);
         }
