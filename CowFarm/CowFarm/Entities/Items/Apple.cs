@@ -167,6 +167,7 @@ namespace CowFarm.Entities.Items
         public void Eat()
         {
             IsEaten = true;
+            CanInteract = false;
         }
 
         public void ChangeWorld(World world, Direction direction)

@@ -26,15 +26,18 @@ namespace CowFarm.Worlds
             new Log(cowGameScreen).Drop(this, new Vector2(400, 350));
             new Log(cowGameScreen).Drop(this, new Vector2(700, 400));
             new Log(cowGameScreen).Drop(this, new Vector2(900, 100));
+            new Log(cowGameScreen).Drop(this, new Vector2(750, 527));
 
             new BoulderRock(cowGameScreen, this, new Vector2(350, 400));
 
             new Rock(cowGameScreen, this, new Vector2(900, 600));
 
+
             new GreenTree(cowGameScreen, this, new Vector2(700, 164)).CreateApple();
             new GreenTree(cowGameScreen, this, new Vector2(240, 50)).CreateApple();
 
             new Rocks(cowGameScreen).Drop(this, new Vector2(240, 350));
+            new Rocks(cowGameScreen).Drop(this, new Vector2(878, 576));
 
             new BerryBush(cowGameScreen, this, new Vector2(100, 500));
             new BerryBush(cowGameScreen, this, new Vector2(940, 400));
@@ -43,6 +46,8 @@ namespace CowFarm.Worlds
             new Bush(cowGameScreen, this, new Vector2(430, 230));
             new Bush(cowGameScreen, this, new Vector2(510, 200));
             new Bush(cowGameScreen, this, new Vector2(760, 70));
+            new Bush(cowGameScreen, this, new Vector2(740, 723));
+            new Bush(cowGameScreen, this, new Vector2(95,174));
 
             new OrangeTree(cowGameScreen, this, new Vector2(550, 500));
             new OrangeTree(cowGameScreen, this, new Vector2(1000, 60));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using CowFarm.Entities;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
@@ -75,6 +76,10 @@ namespace CowFarm.ScreenSystem
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            var mouse = Mouse.GetState();
+            var mousePoint = new Vector2(mouse.X, mouse.Y);
+
+            Debug.WriteLine(mousePoint);
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
             {
                 _inGameTime += gameTime.ElapsedGameTime;
