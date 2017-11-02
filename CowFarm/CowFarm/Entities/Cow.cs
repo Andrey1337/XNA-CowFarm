@@ -8,6 +8,7 @@ using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
+using CowFarm.StatusBars;
 using CowFarm.TileEntities;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -30,16 +31,19 @@ namespace CowFarm.Entities
     {
         public Inventory.Inventory Inventory;
         public CraftPanel CraftPanel;
-
+        public HealthBar HealthBar;
+        public FoodBar FoodBar;
         private float _delay = 200f;
 
-        public float Boost;
+        public float Boost { get; private set; }
+        public float HealthPoint;
+        public float StarvePoint;
 
         private TimeSpan _timeInSprint;
 
         private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
-        private HashSet<Entity> _previousFocusInteractables;                
+        private HashSet<Entity> _previousFocusInteractables;
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
               new Rectangle((int)position.X, (int)position.Y, 54, 49),
@@ -50,8 +54,11 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
-            
-            
+            HealthBar = new HealthBar(cowGameScreen, this);
+            FoodBar = new FoodBar(cowGameScreen, this);
+
+            HealthPoint = 100;
+            StarvePoint = 100;
             CurrentWorld = world;
             Boost = 1;
             _nearbyList = new List<Entity>();
@@ -135,7 +142,7 @@ namespace CowFarm.Entities
         public override void Eat(IEatable food)
         {
             food.Eat();
-            
+
         }
 
         private IInteractable _previousInteractableOnFocus;
@@ -146,7 +153,8 @@ namespace CowFarm.Entities
 
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
-        {
+        {            
+            StarvePoint -= 0.01f;
             HandleUserAgent(gameTime);
             HandleInventory();
             KeyboardState ks = Keyboard.GetState();

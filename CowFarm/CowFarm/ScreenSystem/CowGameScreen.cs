@@ -97,6 +97,8 @@ namespace CowFarm.ScreenSystem
             DrawTime();
             DrawSprint();
             Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
+            Cow.HealthBar.Draw(ScreenManager.SpriteBatch);
+            Cow.FoodBar.Draw(ScreenManager.SpriteBatch);
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);

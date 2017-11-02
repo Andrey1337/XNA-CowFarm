@@ -84,6 +84,8 @@
     <Compile Include="Containers\CraftContainer.cs" />
     <Compile Include="Entities\Items\Craftables\Rope.cs" />
     <Compile Include="Entities\Items\Log.cs" />
+    <Compile Include="StatusBars\FoodBar.cs" />
+    <Compile Include="StatusBars\HealthBar.cs" />
     <Compile Include="TileEntities\CraftPanel.cs" />
     <Compile Include="Entities\Items\Apple.cs" />
     <Compile Include="Entities\BerryBush.cs" />

@@ -20,6 +20,8 @@ namespace CowFarm.Inventory
         private readonly Type[] _typesIds;
 
         private int _indexOnFocus;
+        public Vector2 StartPosition { get; }
+        public Vector2 EndPosition { get; }
 
         private HashSet<Container> _containersOnFocus;
         private HashSet<Container> _prevContainersOnFocus;
@@ -31,12 +33,13 @@ namespace CowFarm.Inventory
             _cowGameScreen = cowGameScreen;
             _typesIds = ItemsTypesHelper.GetItemsTypes();
             _indexOnFocus = 0;
-            _drawPos = new Vector2(330, 827);
+            StartPosition = new Vector2(330, 827);
+            EndPosition = new Vector2(StartPosition.X + _cowGameScreen.GameTextures["inventoryPanel"].Width, StartPosition.Y);
 
             _containersOnFocus = new HashSet<Container>();
             _prevContainersOnFocus = new HashSet<Container>();
 
-            var pos = new Vector2(_drawPos.X + 25, _drawPos.Y + 9);
+            var pos = new Vector2(StartPosition.X + 25, StartPosition.Y + 9);
 
             _containers = new StaticConainer[9];
             for (var i = 0; i < _containers.Length; i++)
@@ -108,11 +111,10 @@ namespace CowFarm.Inventory
             _containers[_indexOnFocus].Drop(world, position, _typesIds, _cowGameScreen);
         }
 
-        private readonly Vector2 _drawPos;
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            spriteBatch.Draw(_cowGameScreen.GameTextures["inventoryPanel"], _drawPos, Color.White);
-            var pos = _drawPos;
+            spriteBatch.Draw(_cowGameScreen.GameTextures["inventoryPanel"], StartPosition, Color.White);
+            var pos = StartPosition;
             pos.X += 26;
             pos.Y += 10;
             if (_indexOnFocus != -1)

@@ -155,6 +155,14 @@ namespace CowFarm.Utility
             GameTextures.Add("cutGrassIcon", contentManager.Load<Texture2D>("ItemIcons/cutGrassIcon"));
             GameTextures.Add("ropeIcon", contentManager.Load<Texture2D>("ItemIcons/ropeIcon"));
             GameTextures.Add("logIcon", contentManager.Load<Texture2D>("ItemIcons/logIcon"));
+
+            GameTextures.Add("fullHearthIcon", contentManager.Load<Texture2D>("MiscsIcons/fullHearthIcon"));
+            GameTextures.Add("halfHearthIcon", contentManager.Load<Texture2D>("MiscsIcons/halfHearthIcon"));
+            GameTextures.Add("emptyHearthIcon", contentManager.Load<Texture2D>("MiscsIcons/emptyHearthIcon"));
+
+            GameTextures.Add("fullFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/fullFoodIcon"));
+            GameTextures.Add("halfFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/halfFoodIcon"));
+            GameTextures.Add("emptyFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/emptyFoodIcon"));        
         }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
