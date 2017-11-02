@@ -23,7 +23,9 @@ namespace CowFarm.Worlds
             new Grass(cowGameScreen, this, new Vector2(200, 300));
             new Grass(cowGameScreen, this, new Vector2(430, 350));
 
-            new Log(cowGameScreen).Drop(this, new Vector2(100, 100));
+            new Log(cowGameScreen).Drop(this, new Vector2(400, 350));
+            new Log(cowGameScreen).Drop(this, new Vector2(700, 400));
+            new Log(cowGameScreen).Drop(this, new Vector2(900, 100));
 
             new BoulderRock(cowGameScreen, this, new Vector2(350, 400));
 
@@ -40,6 +42,7 @@ namespace CowFarm.Worlds
             new Bush(cowGameScreen, this, new Vector2(590, 290));
             new Bush(cowGameScreen, this, new Vector2(430, 230));
             new Bush(cowGameScreen, this, new Vector2(510, 200));
+            new Bush(cowGameScreen, this, new Vector2(760, 70));
 
             new OrangeTree(cowGameScreen, this, new Vector2(550, 500));
             new OrangeTree(cowGameScreen, this, new Vector2(1000, 60));

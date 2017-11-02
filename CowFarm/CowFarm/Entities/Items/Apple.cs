@@ -11,7 +11,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public class Apple : Item, IInteractable, IDynamic
+    public class Apple : Item, IEatable, IDynamic
     {
         private float _rotationAngle;
 
@@ -164,6 +164,10 @@ namespace CowFarm.Entities.Items
         }
 
         public bool IsEaten { get; set; }
+        public void Eat()
+        {
+            IsEaten = true;
+        }
 
         public void ChangeWorld(World world, Direction direction)
         {

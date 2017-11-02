@@ -23,18 +23,18 @@ namespace CowFarm.TileEntities
 
             CraftContainer = new CraftContainer(new Rectangle((int)_drawPos.X + 167, (int)_drawPos.Y + 45, 42, 42), cowGameScreen.GameTextures["cleanTexture"], this);
 
-            Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
         }
 
 

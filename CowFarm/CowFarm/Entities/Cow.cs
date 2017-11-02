@@ -50,12 +50,7 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
-
-            Inventory.Add(new CutGrass(cowGameScreen));
-            Inventory.Add(new CutGrass(cowGameScreen));
-            Inventory.Add(new CutGrass(cowGameScreen));
-            Inventory.Add(new CutGrass(cowGameScreen));
-            Inventory.Add(new CutGrass(cowGameScreen));
+            
             
             CurrentWorld = world;
             Boost = 1;
@@ -139,11 +134,8 @@ namespace CowFarm.Entities
 
         public override void Eat(IEatable food)
         {
-            food.Interact();
-            if (food is Grass)
-                CowGameScreen.Score += 20;
-            if (food is Apple)
-                CowGameScreen.Score += 40;
+            food.Eat();
+            
         }
 
         private IInteractable _previousInteractableOnFocus;

@@ -10,7 +10,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public class CutGrass : Item, IInteractable
+    public class CutGrass : Item, IEatable
     {
         public CutGrass(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
         {
@@ -62,6 +62,12 @@ namespace CowFarm.Entities.Items
             DestRect = new Rectangle((int)position.X, (int)position.Y, 32, 32);
             world.AddDynamicEntity(this);
             CurrentWorld = world;
+        }
+
+        public bool IsEaten { get; set; }
+        public void Eat()
+        {
+            CurrentWorld.RemoveDynamicEntity(this);
         }
     }
 }
