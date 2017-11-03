@@ -98,7 +98,7 @@ namespace CowFarm
         {
             ScreenManager.SpriteBatch.Begin();
             WorldOnFocus.Draw(ScreenManager.SpriteBatch);
-            DrawTime();
+            //DrawTime();
             DrawSprint();
             Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             Cow.HealthBar.Draw(ScreenManager.SpriteBatch);

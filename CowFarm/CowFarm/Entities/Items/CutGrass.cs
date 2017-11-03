@@ -1,4 +1,5 @@
 ﻿using CowFarm.DrowingSystem;
+using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
@@ -10,7 +11,7 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public class CutGrass : Item, IEatable
+    public class CutGrass : Item, IEatable, IDynamic
     {
         public CutGrass(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
         {
@@ -23,6 +24,16 @@ namespace CowFarm.Entities.Items
         {
             Body.Hikuah(12);
             SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+
+            if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Right);
+            }
+
+            if (GetPosition().X + GetPosition().Width < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Left);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -72,5 +83,24 @@ namespace CowFarm.Entities.Items
         }
 
         public float Satiety { get; }
+        public void ChangeWorld(World world, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(0.25f, Body.Position.Y));
+                    break;
+
+                case Direction.Left:
+                    Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2((float)(CowGameScreen.Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
+                    break;
+            }
+
+            Body.BodyTypeName = "cutGrass";
+            CurrentWorld = world;
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+        }
     }
 }

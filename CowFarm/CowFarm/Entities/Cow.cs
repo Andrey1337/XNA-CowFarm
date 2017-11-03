@@ -157,7 +157,7 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             if (StarvePoint > 0)
-                StarvePoint -= 0.01f;
+                StarvePoint -= 0.015f;
             else
                 HealthPoint -= 0.3f;
 
