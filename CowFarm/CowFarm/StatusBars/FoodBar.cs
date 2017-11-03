@@ -9,7 +9,7 @@ namespace CowFarm.StatusBars
     {
         private readonly CowGameScreen _cowGameScreen;
         private readonly Cow _cow;
-        private Rectangle _foodRect;
+        private readonly Rectangle _foodRect;
         public FoodBar(CowGameScreen cowGameScreen, Cow cow)
         {
             _cowGameScreen = cowGameScreen;

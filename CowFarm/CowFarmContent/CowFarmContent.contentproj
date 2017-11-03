@@ -275,7 +275,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="AlertWindows\Buttons\restartButton.png">
+      <Name>restartButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="MiscsIcons\emptyFoodIcon.png">
       <Name>emptyFoodIcon</Name>
@@ -304,6 +310,27 @@
     </Compile>
     <Compile Include="MiscsIcons\halfHearthIcon.png">
       <Name>halfHearthIcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlertWindows\endGameAlertWindow.png">
+      <Name>endGameAlertWindow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlertWindows\Buttons\mainMenuButton.png">
+      <Name>mainMenuButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlertWindows\menuAlertWindow.png">
+      <Name>menuAlertWindow</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

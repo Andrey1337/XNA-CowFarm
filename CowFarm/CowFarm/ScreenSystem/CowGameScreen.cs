@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using World = CowFarm.Worlds.World;
 
 namespace CowFarm.ScreenSystem
@@ -21,10 +22,10 @@ namespace CowFarm.ScreenSystem
         private readonly ContentManager _contentManager;
         public readonly GraphicsDeviceManager Graphics;
 
-        //Worlds 
+        private bool _startNewGame;
 
-        //BranchCheck
         public List<World> WordlsList { get; private set; }
+
         private World FirstWorld { get; set; }
         private World SecondWorld { get; set; }
         public World WorldOnFocus { get; set; }
@@ -37,8 +38,9 @@ namespace CowFarm.ScreenSystem
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
 
-        private string _worldSerialize;
-        private bool _escapeKeyPressed;
+        public AlertWindow AlertWindow;
+
+        private bool _onPause;
 
         public CowGameScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
         {
@@ -47,20 +49,21 @@ namespace CowFarm.ScreenSystem
             HasCursor = true;
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            _startNewGame = true;
         }
 
         public override void LoadContent()
         {
-            _escapeKeyPressed = false;
-            if (_worldSerialize == null)
+            //_escapeKeyPressed = false;
+            _onPause = false;
+            if (_startNewGame)
             {
                 _inGameTime = new TimeSpan();
-
                 GameTextures = ResourceLoader.LoadTextures(_contentManager, Graphics.GraphicsDevice);
                 GameFonts = ResourceLoader.LoadFonts(_contentManager);
                 GameSounds = ResourceLoader.LoadSongs(_contentManager);
 
-
+                _startNewGame = false;
                 FirstWorld = new FirstWorld(this);
                 SecondWorld = new SecondWorld(this);
 
@@ -80,7 +83,8 @@ namespace CowFarm.ScreenSystem
             var mousePoint = new Vector2(mouse.X, mouse.Y);
 
             Debug.WriteLine(mousePoint);
-            if (!coveredByOtherScreen && !otherScreenHasFocus && !_escapeKeyPressed)
+            AlertWindow?.Update();
+            if (!coveredByOtherScreen && !otherScreenHasFocus && !_onPause)
             {
                 _inGameTime += gameTime.ElapsedGameTime;
                 Cow.Inventory.Update();
@@ -100,6 +104,9 @@ namespace CowFarm.ScreenSystem
             Cow.HealthBar.Draw(ScreenManager.SpriteBatch);
             Cow.FoodBar.Draw(ScreenManager.SpriteBatch);
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
+            if (_onPause)
+                ScreenManager.SpriteBatch.Draw(GameTextures["cleanTexture"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), new Color(0, 0, 0, 30));
+            AlertWindow?.Draw(ScreenManager.SpriteBatch);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -116,7 +123,39 @@ namespace CowFarm.ScreenSystem
         private void DrawTime()
         {
             ScreenManager.SpriteBatch.Draw(GameTextures["timerTexture"], new Vector2(1000, 5), Color.White);
-            ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], _inGameTime.ToString(@"mm\:ss\.ff"), new Vector2(1080, 16), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(GameFonts["gameFont"], _inGameTime.ToString(@"mm\:ss\.ff"),
+                new Vector2(1080, 16), Color.Black);
+        }
+
+        public void FinishGame()
+        {
+            _onPause = true;
+            AlertWindow = new DeadAlertWindow(this);
+        }
+
+        public void RestartGame()
+        {
+            _startNewGame = true;
+            AlertWindow = null;
+            LoadContent();
+        }
+
+        public void ExitToMenu()
+        {
+            AlertWindow = null;
+            ExitScreen();
+        }
+
+        public void PauseGame()
+        {
+            _onPause = true;
+            AlertWindow = new MenuWindow(this);
+        }
+
+        public void ResumeGame()
+        {
+            _onPause = false;
+            AlertWindow = null;
         }
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
@@ -132,10 +171,14 @@ namespace CowFarm.ScreenSystem
 
             if (input.IsNewKeyPress(Keys.Escape))
             {
-                //_worldSerialize = "Serialized";
-
-                _escapeKeyPressed = true;
-                ExitScreen();
+                if (AlertWindow == null)
+                {
+                    PauseGame();
+                }
+                else if (AlertWindow is MenuWindow)
+                {
+                    ResumeGame();
+                }
             }
             base.HandleInput(input, gameTime);
         }

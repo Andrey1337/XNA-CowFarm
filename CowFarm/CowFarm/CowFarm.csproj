@@ -84,6 +84,12 @@
     <Compile Include="Containers\CraftContainer.cs" />
     <Compile Include="Entities\Items\Craftables\Rope.cs" />
     <Compile Include="Entities\Items\Log.cs" />
+    <Compile Include="ScreenSystem\AlertWindow.cs" />
+    <Compile Include="ScreenSystem\Button.cs" />
+    <Compile Include="ScreenSystem\DeadAlertWindow.cs" />
+    <Compile Include="ScreenSystem\MainMenuButton.cs" />
+    <Compile Include="ScreenSystem\MenuWindow.cs" />
+    <Compile Include="ScreenSystem\RestartGameButton.cs" />
     <Compile Include="StatusBars\FoodBar.cs" />
     <Compile Include="StatusBars\HealthBar.cs" />
     <Compile Include="TileEntities\CraftPanel.cs" />

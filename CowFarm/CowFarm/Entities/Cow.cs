@@ -156,7 +156,19 @@ namespace CowFarm.Entities
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
-            StarvePoint -= 0.01f;
+            if (StarvePoint > 0)
+                StarvePoint -= 0.01f;
+                //StarvePoint -= 3f;
+            else
+                HealthPoint -= 0.3f;
+                //HealthPoint -= 3f;
+
+
+            if (HealthPoint <= 0)
+            {
+                CowGameScreen.FinishGame();
+            }
+
             HandleUserAgent(gameTime);
             HandleInventory();
             KeyboardState ks = Keyboard.GetState();

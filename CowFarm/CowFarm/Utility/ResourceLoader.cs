@@ -31,6 +31,7 @@ namespace CowFarm.Utility
             LoadButtons(contentManager);
             LoadIcons(contentManager);
             LoadItems(contentManager);
+            LoadAlertWindows(contentManager);            
             return GameTextures;
         }
 
@@ -108,6 +109,8 @@ namespace CowFarm.Utility
             GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/catDownWalk"));
         }
 
+        
+
         private static void PlantLoad(ContentManager contentManager)
         {
             GameTextures.Add("grassMovement", contentManager.Load<Texture2D>("Plants/grassMovement"));
@@ -162,7 +165,7 @@ namespace CowFarm.Utility
 
             GameTextures.Add("fullFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/fullFoodIcon"));
             GameTextures.Add("halfFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/halfFoodIcon"));
-            GameTextures.Add("emptyFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/emptyFoodIcon"));        
+            GameTextures.Add("emptyFoodIcon", contentManager.Load<Texture2D>("MiscsIcons/emptyFoodIcon"));
         }
         private static void LoadMisc(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
@@ -180,7 +183,13 @@ namespace CowFarm.Utility
         private static void LoadButtons(ContentManager contentManager)
         {
             GameTextures.Add("eButtonMovement", contentManager.Load<Texture2D>("eButtonMovement"));
+            GameTextures.Add("restartButton", contentManager.Load<Texture2D>("AlertWindows/Buttons/restartButton"));
+            GameTextures.Add("mainMenuButton", contentManager.Load<Texture2D>("AlertWindows/Buttons/mainMenuButton"));
         }
-
+        private static void LoadAlertWindows(ContentManager contentManager)
+        {
+            GameTextures.Add("endGameAlertWindow", contentManager.Load<Texture2D>("AlertWindows/endGameAlertWindow"));
+            GameTextures.Add("menuAlertWindow", contentManager.Load<Texture2D>("AlertWindows/menuAlertWindow"));
+        }
     }
 }

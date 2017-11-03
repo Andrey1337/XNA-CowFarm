@@ -7,15 +7,13 @@ namespace CowFarm.StatusBars
 {
     public class HealthBar
     {
-        private readonly CowGameScreen _cowGameScreen;
-        private readonly Vector2 _drawPos;
+        private readonly CowGameScreen _cowGameScreen;       
         private readonly Cow _cow;
-        private Rectangle _hearthRect;
+        private readonly Rectangle _hearthRect;
         public HealthBar(CowGameScreen cowGameScreen, Cow cow)
         {
-            _cowGameScreen = cowGameScreen;
-            _drawPos = cow.Inventory.StartPosition;
-            _hearthRect = new Rectangle((int)_drawPos.X, (int)_drawPos.Y -19, 18, 18);            
+            _cowGameScreen = cowGameScreen;            
+            _hearthRect = new Rectangle((int)cow.Inventory.StartPosition.X, (int)cow.Inventory.StartPosition.Y -19, 18, 18);            
             _cow = cow;
         }
 
