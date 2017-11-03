@@ -31,7 +31,7 @@ namespace CowFarm.Utility
             LoadButtons(contentManager);
             LoadIcons(contentManager);
             LoadItems(contentManager);
-            LoadAlertWindows(contentManager);            
+            LoadAlertWindows(contentManager);
             return GameTextures;
         }
 
@@ -109,7 +109,7 @@ namespace CowFarm.Utility
             GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/catDownWalk"));
         }
 
-        
+
 
         private static void PlantLoad(ContentManager contentManager)
         {
@@ -185,6 +185,7 @@ namespace CowFarm.Utility
             GameTextures.Add("eButtonMovement", contentManager.Load<Texture2D>("eButtonMovement"));
             GameTextures.Add("restartButton", contentManager.Load<Texture2D>("AlertWindows/Buttons/restartButton"));
             GameTextures.Add("mainMenuButton", contentManager.Load<Texture2D>("AlertWindows/Buttons/mainMenuButton"));
+            GameTextures.Add("resumeButton", contentManager.Load<Texture2D>("AlertWindows/Buttons/resumeButton"));
         }
         private static void LoadAlertWindows(ContentManager contentManager)
         {

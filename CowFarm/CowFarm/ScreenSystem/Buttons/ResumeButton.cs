@@ -1,15 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CowFarm.ScreenSystem
+namespace CowFarm.ScreenSystem.Buttons
 {
-    public class RestartGameButton : Button
+    public class ResumeButton : Button
     {
-        public RestartGameButton(CowGameScreen cowGameScreen, Vector2 position) : base(cowGameScreen)
+        public ResumeButton(CowGameScreen cowGameScreen, Vector2 position) : base(cowGameScreen)
         {
             Position = new Rectangle((int)position.X, (int)position.Y, 205, 35);
-            ButtonTexture = CowGameScreen.GameTextures["restartButton"];
+            ButtonTexture = CowGameScreen.GameTextures["resumeButton"];
         }
 
         public override void Update()
@@ -18,7 +17,7 @@ namespace CowFarm.ScreenSystem
             var mousePoint = new Point(mouseState.X, mouseState.Y);
             if (Position.Contains(mousePoint) && mouseState.LeftButton == ButtonState.Pressed)
             {
-                CowGameScreen.RestartGame();
+                CowGameScreen.ResumeGame();
             }
         }
     }

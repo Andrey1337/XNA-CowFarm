@@ -104,7 +104,6 @@ namespace CowFarm.Worlds
             }
 
             int j = 0;
-
             var dynamicYposition = int.MaxValue;
 
             if (DynamicEntities.Count > 0)
@@ -112,23 +111,30 @@ namespace CowFarm.Worlds
                 dynamicYposition = DynamicEntities[j].GetPosition().Y + DynamicEntities[j].GetPosition().Height;
             }
 
+            while (dynamicYposition < 0)
+            {
+                DynamicEntities[j].Draw(spriteBatch);
+                j++;
+                if (j < DynamicEntities.Count)
+                    dynamicYposition = DynamicEntities[j].GetPosition().Y + DynamicEntities[j].GetPosition().Height;
+                else
+                    dynamicYposition = int.MaxValue;
+            }
+
             for (var i = 0; i < StaticEntities.Length; i++)
             {
                 if (StaticEntities[i] != null)
-                {
                     StaticEntities[i].ForEach(entity => entity.Draw(spriteBatch));
-                }
+
                 while (i == dynamicYposition)
                 {
-                    if (i != dynamicYposition) break;
                     DynamicEntities[j].Draw(spriteBatch);
                     j++;
+
                     if (j < DynamicEntities.Count)
                         dynamicYposition = DynamicEntities[j].GetPosition().Y + DynamicEntities[j].GetPosition().Height;
                     else
-                    {
                         dynamicYposition = int.MaxValue;
-                    }
                 }
             }
 

@@ -160,15 +160,18 @@ namespace CowFarm.ScreenSystem
 
         public override void HandleInput(InputHelper input, GameTime gameTime)
         {
-            if (input.KeyboardState.IsKeyDown(Keys.Right) && WorldOnFocus.RightWorld != null)
+            if (!_onPause)
             {
-                WorldOnFocus = WorldOnFocus.RightWorld;
-            }
-            if (input.KeyboardState.IsKeyDown(Keys.Left) && WorldOnFocus.LeftWorld != null)
-            {
-                WorldOnFocus = WorldOnFocus.LeftWorld;
-            }
+                if (input.KeyboardState.IsKeyDown(Keys.Right) && WorldOnFocus.RightWorld != null)
+                {
+                    WorldOnFocus = WorldOnFocus.RightWorld;
 
+                }
+                if (input.KeyboardState.IsKeyDown(Keys.Left) && WorldOnFocus.LeftWorld != null)
+                {
+                    WorldOnFocus = WorldOnFocus.LeftWorld;
+                }
+            }
             if (input.IsNewKeyPress(Keys.Escape))
             {
                 if (AlertWindow == null)
@@ -180,7 +183,7 @@ namespace CowFarm.ScreenSystem
                     ResumeGame();
                 }
             }
-            base.HandleInput(input, gameTime);
+            //base.HandleInput(input, gameTime);
         }
 
         private void CreateCow()
