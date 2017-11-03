@@ -158,10 +158,10 @@ namespace CowFarm.Entities
         {
             if (StarvePoint > 0)
                 StarvePoint -= 0.01f;
-                //StarvePoint -= 3f;
+                
             else
                 HealthPoint -= 0.3f;
-                //HealthPoint -= 3f;
+                
 
 
             if (HealthPoint <= 0)
