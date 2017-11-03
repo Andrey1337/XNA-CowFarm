@@ -141,8 +141,10 @@ namespace CowFarm.Entities
 
         public override void Eat(IEatable food)
         {
+            StarvePoint += food.Satiety;
+            if (StarvePoint > 100f)
+                StarvePoint = 100f;
             food.Eat();
-
         }
 
         private IInteractable _previousInteractableOnFocus;
@@ -153,7 +155,7 @@ namespace CowFarm.Entities
 
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
-        {            
+        {
             StarvePoint -= 0.01f;
             HandleUserAgent(gameTime);
             HandleInventory();

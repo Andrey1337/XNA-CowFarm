@@ -14,7 +14,7 @@ namespace CowFarm.StatusBars
         {
             _cowGameScreen = cowGameScreen;
             _cow = cow;
-            _foodRect = new Rectangle((int)cow.Inventory.EndPosition.X, (int)cow.Inventory.EndPosition.Y - 18, 18, 18);
+            _foodRect = new Rectangle((int)cow.Inventory.EndPosition.X, (int)cow.Inventory.EndPosition.Y - 19, 18, 18);
             _foodRect.X -= _foodRect.Width + 1;
         }
 

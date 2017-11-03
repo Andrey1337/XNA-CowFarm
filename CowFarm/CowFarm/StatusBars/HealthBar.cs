@@ -15,8 +15,7 @@ namespace CowFarm.StatusBars
         {
             _cowGameScreen = cowGameScreen;
             _drawPos = cow.Inventory.StartPosition;
-            _hearthRect = new Rectangle((int)_drawPos.X, (int)_drawPos.Y, 18, 18);
-            _hearthRect.Y -= 18;
+            _hearthRect = new Rectangle((int)_drawPos.X, (int)_drawPos.Y -19, 18, 18);            
             _cow = cow;
         }
 
@@ -26,7 +25,6 @@ namespace CowFarm.StatusBars
 
             var drawRect = _hearthRect;
 
-            var pos = _drawPos;
             for (int i = 0; i < 10; i++)
             {
                 if (healthPoint > 5)

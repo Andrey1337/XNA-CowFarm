@@ -115,6 +115,7 @@
     <Compile Include="Entities\Grass.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="TileEntities\TileEntity.cs" />
+    <Compile Include="TileEntities\WorkBench.cs" />
     <Compile Include="Utility\ItemsTypesHelper.cs" />
     <Compile Include="Utility\Recipes.cs" />
     <Compile Include="Utility\ResourceLoader.cs" />

@@ -88,9 +88,9 @@ namespace CowFarm.TileEntities
         private int MinimalCount()
         {
             int min = int.MaxValue;
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < Containers.GetLength(0); i++)
             {
-                for (var j = 0; j < 2; j++)
+                for (var j = 0; j < Containers.GetLength(1); j++)
                 {
                     if (Containers[i, j].ItemStack.ItemsCount < min)
                     {

@@ -38,6 +38,7 @@ namespace CowFarm.Entities.Items
             Body.CollisionCategories = Category.Cat10;
             Body.CollidesWith = Category.Cat10;
 
+            Satiety = 10f;
             CurrentWorld = world;
             CurrentWorld.ContactManager.Contacted += AppleFloorContacted;
         }
@@ -49,6 +50,7 @@ namespace CowFarm.Entities.Items
             _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
             ItemId = 0;
             StackCount = 3;
+            Satiety = 20f;
         }
 
 
@@ -169,6 +171,8 @@ namespace CowFarm.Entities.Items
             IsEaten = true;
             CanInteract = false;
         }
+
+        public float Satiety { get; }
 
         public void ChangeWorld(World world, Direction direction)
         {

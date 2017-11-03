@@ -16,6 +16,7 @@ namespace CowFarm.Entities.Items
         {
             ItemId = 2;
             StackCount = 9;
+            Satiety = 5f;
         }
 
         public override void Update(GameTime gameTime)
@@ -69,5 +70,7 @@ namespace CowFarm.Entities.Items
         {
             CurrentWorld.RemoveDynamicEntity(this);
         }
+
+        public float Satiety { get; }
     }
 }

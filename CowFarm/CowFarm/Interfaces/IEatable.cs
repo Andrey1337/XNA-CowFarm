@@ -4,5 +4,6 @@
     {
         bool IsEaten { get; set; }
         void Eat();
+        float Satiety { get; }
     }
 }
