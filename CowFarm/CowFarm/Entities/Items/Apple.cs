@@ -15,7 +15,6 @@ namespace CowFarm.Entities.Items
     {
         private float _rotationAngle;
 
-
         private Body _floor;
         private readonly GreenTree _tree;
         private readonly Texture2D _eatenAppleMovement;
@@ -43,7 +42,6 @@ namespace CowFarm.Entities.Items
             CurrentWorld.ContactManager.Contacted += AppleFloorContacted;
         }
 
-
         public Apple(CowGameScreen cowGameScreen)
             : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
@@ -52,7 +50,6 @@ namespace CowFarm.Entities.Items
             StackCount = 3;
             Satiety = 20f;
         }
-
 
         public override void Drop(World world, Vector2 position)
         {
@@ -69,8 +66,6 @@ namespace CowFarm.Entities.Items
             world.AddDynamicEntity(this);
             CurrentWorld = world;
         }
-
-
 
         private void AppleFloorContacted(object sender, CollideEventArg collide)
         {

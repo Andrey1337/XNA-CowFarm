@@ -31,6 +31,7 @@ namespace CowFarm
             MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
+            menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("Start Game", EntryType.Screen, new CowGameScreen(Content, _graphics));
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("About", EntryType.Screen, new AboutScreen(Content, _graphics));

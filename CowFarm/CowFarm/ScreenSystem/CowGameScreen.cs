@@ -5,6 +5,7 @@ using CowFarm.Entities;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
+using CowFarm.ScreenSystem.AlertWindows;
 using CowFarm.Utility;
 using CowFarm.Worlds;
 using FarseerPhysics.Samples.ScreenSystem;

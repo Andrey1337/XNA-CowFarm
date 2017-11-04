@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CowFarm.ScreenSystem
+namespace CowFarm.ScreenSystem.Buttons
 {
     public abstract class Button
     {
         protected CowGameScreen CowGameScreen;
         protected Texture2D ButtonTexture;
-        protected Rectangle Position;
-        protected bool OnFocus;
+        protected Rectangle Position;        
         protected Button(CowGameScreen cowGameScreen)
         {
             CowGameScreen = cowGameScreen;

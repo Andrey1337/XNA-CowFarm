@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using CowFarm.ScreenSystem.Buttons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.ScreenSystem
+namespace CowFarm.ScreenSystem.AlertWindows
 {
     public abstract class AlertWindow
     {

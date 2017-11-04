@@ -26,7 +26,7 @@ using Microsoft.Xna.Framework.Media;
 using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
-{
+{    
     public sealed class Cow : Animal, IDynamic
     {
         public Inventory.Inventory Inventory;
@@ -69,6 +69,7 @@ namespace CowFarm.Entities
             _timeInSprint = TimeSpan.Zero;
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
+
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
@@ -83,10 +84,10 @@ namespace CowFarm.Entities
         {
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
-
             _nearbyList = (from body in nearby.Dictionary[BodyId]
                            where _interactablesDictionary.ContainsKey(body.BodyId)
                            select _interactablesDictionary[body.BodyId]);
+
             //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
         }
 
@@ -157,9 +158,9 @@ namespace CowFarm.Entities
         public override void Update(GameTime gameTime)
         {
             if (StarvePoint > 0)
-                StarvePoint -= 0.015f;
+                StarvePoint -= 0.008f;
             else
-                HealthPoint -= 0.3f;
+                HealthPoint -= 0.1f;
 
             if (HealthPoint <= 0)
             {
