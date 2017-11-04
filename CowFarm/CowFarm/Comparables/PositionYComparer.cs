@@ -9,7 +9,6 @@ namespace CowFarm.Comparables
         public int Compare(Entity x, Entity y)
         {
             return x.GetPosition().Y + x.GetPosition().Height - (y.GetPosition().Y + y.GetPosition().Height);
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CowFarm.ScreenSystem.Buttons;
+﻿using CowFarm.ScreenSystem.AlertWindows;
+using CowFarm.ScreenSystem.Buttons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

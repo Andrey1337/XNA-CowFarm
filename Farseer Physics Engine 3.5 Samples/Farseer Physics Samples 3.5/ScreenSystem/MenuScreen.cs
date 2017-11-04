@@ -82,9 +82,9 @@ namespace FarseerPhysics.Samples.ScreenSystem
             _menuOffset = 0f;
             _maxOffset = Math.Max(0f, (_menuEntries.Count - NumEntries) * _menuBorderMargin);
 
-            _scrollUp = new MenuButton(_texScrollButton, false, new Vector2(scrollBarPos, _menuBorderTop - _texScrollButton.Height), this);
-            _scrollDown = new MenuButton(_texScrollButton, true, new Vector2(scrollBarPos, _menuBorderBottom + _texScrollButton.Height), this);
-            _scrollSlider = new MenuButton(_texSlider, false, new Vector2(scrollBarPos, _menuBorderTop), this);
+            //_scrollUp = new MenuButton(_texScrollButton, false, new Vector2(scrollBarPos, _menuBorderTop - _texScrollButton.Height), this);
+            //_scrollDown = new MenuButton(_texScrollButton, true, new Vector2(scrollBarPos, _menuBorderBottom + _texScrollButton.Height), this);
+            //_scrollSlider = new MenuButton(_texSlider, false, new Vector2(scrollBarPos, _menuBorderTop), this);
 
             _scrollLock = false;
         }
@@ -123,19 +123,19 @@ namespace FarseerPhysics.Samples.ScreenSystem
             else
                 _selectedEntry = -1;
 
-            _scrollSlider.Hover = false;
-            if (input.IsCursorValid)
-            {
-                _scrollUp.Collide(input.Cursor);
-                _scrollDown.Collide(input.Cursor);
-                _scrollSlider.Collide(input.Cursor);
-            }
-            else
-            {
-                _scrollUp.Hover = false;
-                _scrollDown.Hover = false;
-                _scrollLock = false;
-            }
+            //_scrollSlider.Hover = false;
+            //if (input.IsCursorValid)
+            //{
+            //    _scrollUp.Collide(input.Cursor);
+            //    _scrollDown.Collide(input.Cursor);
+            //    _scrollSlider.Collide(input.Cursor);
+            //}
+            //else
+            //{
+            //    _scrollUp.Hover = false;
+            //    _scrollDown.Hover = false;
+            //    _scrollLock = false;
+            //}
 
             // Accept or cancel the menu? 
             if (input.IsMenuSelect() && _selectedEntry != -1)
@@ -153,32 +153,32 @@ namespace FarseerPhysics.Samples.ScreenSystem
             else if (input.IsMenuCancel())
                 ScreenManager.Game.Exit();
 
-            if (input.IsMenuPressed())
-            {
-                if (_scrollUp.Hover)
-                {
-                    _menuOffset = Math.Max(_menuOffset - 200f * (float)gameTime.ElapsedGameTime.TotalSeconds, 0f);
-                    _scrollLock = false;
-                }
-                if (_scrollDown.Hover)
-                {
-                    _menuOffset = Math.Min(_menuOffset + 200f * (float)gameTime.ElapsedGameTime.TotalSeconds, _maxOffset);
-                    _scrollLock = false;
-                }
-                if (_scrollSlider.Hover)
-                {
-                    _scrollLock = true;
-                }
-            }
+            //if (input.IsMenuPressed())
+            //{
+            //    if (_scrollUp.Hover)
+            //    {
+            //        _menuOffset = Math.Max(_menuOffset - 200f * (float)gameTime.ElapsedGameTime.TotalSeconds, 0f);
+            //        _scrollLock = false;
+            //    }
+            //    if (_scrollDown.Hover)
+            //    {
+            //        _menuOffset = Math.Min(_menuOffset + 200f * (float)gameTime.ElapsedGameTime.TotalSeconds, _maxOffset);
+            //        _scrollLock = false;
+            //    }
+            //    if (_scrollSlider.Hover)
+            //    {
+            //        _scrollLock = true;
+            //    }
+            //}
 
-            if (input.IsMenuReleased())
-                _scrollLock = false;
+            //if (input.IsMenuReleased())
+            //    _scrollLock = false;
 
-            if (_scrollLock)
-            {
-                _scrollSlider.Hover = true;
-                _menuOffset = Math.Max(Math.Min(((input.Cursor.Y - _menuBorderTop) / (_menuBorderBottom - _menuBorderTop)) * _maxOffset, _maxOffset), 0f);
-            }
+            //if (_scrollLock)
+            //{
+            //    _scrollSlider.Hover = true;
+            //    _menuOffset = Math.Max(Math.Min(((input.Cursor.Y - _menuBorderTop) / (_menuBorderBottom - _menuBorderTop)) * _maxOffset, _maxOffset), 0f);
+            //}
         }
 
         /// <summary>
@@ -217,9 +217,9 @@ namespace FarseerPhysics.Samples.ScreenSystem
                 // move down for the next entry the size of this entry
                 position.Y += _menuEntries[i].GetHeight();
             }
-            Vector2 scrollPos = _scrollSlider.Position;
-            scrollPos.Y = MathHelper.Lerp(_menuBorderTop, _menuBorderBottom, _menuOffset / _maxOffset);
-            _scrollSlider.Position = scrollPos;
+            //Vector2 scrollPos = _scrollSlider.Position;
+            //scrollPos.Y = MathHelper.Lerp(_menuBorderTop, _menuBorderBottom, _menuOffset / _maxOffset);
+            //_scrollSlider.Position = scrollPos;
         }
 
         /// <summary>
@@ -236,9 +236,9 @@ namespace FarseerPhysics.Samples.ScreenSystem
                 _menuEntries[i].Update(isSelected, gameTime);
             }
 
-            _scrollUp.Update(gameTime);
-            _scrollDown.Update(gameTime);
-            _scrollSlider.Update(gameTime);
+            //_scrollUp.Update(gameTime);
+            //_scrollDown.Update(gameTime);
+            //_scrollSlider.Update(gameTime);
         }
 
         /// <summary>
@@ -266,9 +266,9 @@ namespace FarseerPhysics.Samples.ScreenSystem
 
             spriteBatch.DrawString(font, _menuTitle, _titlePosition - transitionOffset + Vector2.One * 2f, Color.Black, 0, _titleOrigin, 1f, SpriteEffects.None, 0);
             spriteBatch.DrawString(font, _menuTitle, _titlePosition - transitionOffset, new Color(255, 210, 0), 0, _titleOrigin, 1f, SpriteEffects.None, 0);
-            _scrollUp.Draw();
-            _scrollSlider.Draw();
-            _scrollDown.Draw();
+            //_scrollUp.Draw();
+            //_scrollSlider.Draw();
+            //_scrollDown.Draw();
             spriteBatch.End();
         }
     }

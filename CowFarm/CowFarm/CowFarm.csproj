@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>C:\bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,6 +46,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>False</XnaCompressContent>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -80,6 +83,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScreenSystem\AboutScreen.cs" />
     <Compile Include="Comparables\PositionYComparer.cs" />
     <Compile Include="Containers\CraftContainer.cs" />
     <Compile Include="Entities\Items\Craftables\Rope.cs" />
@@ -114,7 +118,7 @@
     <Compile Include="Containers\StaticConainer.cs" />
     <Compile Include="Inventory\ItemStack.cs" />
     <Compile Include="Containers\SwapContainer.cs" />
-    <Compile Include="CowGameScreen.cs" />
+    <Compile Include="ScreenSystem\CowGameScreen.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="DrowingSystem\AnimatedSprites.cs" />
     <Compile Include="Entities\Cow.cs" />

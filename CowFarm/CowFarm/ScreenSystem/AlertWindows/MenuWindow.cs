@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.ScreenSystem
+namespace CowFarm.ScreenSystem.AlertWindows
 {
     public class MenuWindow : AlertWindow
     {
@@ -18,7 +18,7 @@ namespace CowFarm.ScreenSystem
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CowGameScreen.GameTextures["menuAlertWindow"], Position, Color.White);
-            Buttons.ForEach(button => button.Draw(spriteBatch));
+            Buttons.ForEach(button => button.Draw(spriteBatch));                       
         }
     }
 }
