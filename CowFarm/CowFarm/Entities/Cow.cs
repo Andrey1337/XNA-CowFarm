@@ -26,7 +26,7 @@ using Microsoft.Xna.Framework.Media;
 using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
-{    
+{
     public sealed class Cow : Animal, IDynamic
     {
         public Inventory.Inventory Inventory;
@@ -157,10 +157,10 @@ namespace CowFarm.Entities
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
-            if (StarvePoint > 0)
-                StarvePoint -= 0.008f;
-            else
-                HealthPoint -= 0.1f;
+            if (StarvePoint <= 0)
+            {
+                HealthPoint -= 0.03f;
+            }
 
             if (HealthPoint <= 0)
             {
@@ -377,12 +377,16 @@ namespace CowFarm.Entities
                     _delay = 150f;
                     Boost -= 0.01f;
                     _force *= 2f;
+                    if (StarvePoint > 0)
+                        StarvePoint -= 0.01f;
                 }
                 else
                 {
                     _timeInSprint = TimeSpan.Zero;
                     _delay = 180f;
                     _force *= 1.3f;
+                    if (StarvePoint > 0)
+                        StarvePoint -= 0.008f;
                 }
             }
             else
@@ -392,6 +396,7 @@ namespace CowFarm.Entities
                 _delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
+                StarvePoint -= 0.006f;
             }
 
             Body.Move(_force);
