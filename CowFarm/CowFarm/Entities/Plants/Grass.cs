@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
 using CowFarm.Utility;
-using CowFarm.Worlds;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Plants
 {
     public class Grass : Plant, IInteractable
     {

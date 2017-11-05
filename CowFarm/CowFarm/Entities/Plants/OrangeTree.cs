@@ -1,13 +1,11 @@
-﻿using System;
-using CowFarm.DrowingSystem;
-using CowFarm.ScreenSystem;
+﻿using CowFarm.DrowingSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Plants
 {
     class OrangeTree : Plant
     {

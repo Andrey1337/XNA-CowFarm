@@ -1,5 +1,8 @@
 ﻿using CowFarm.Entities;
+using CowFarm.Entities.Animals;
+using CowFarm.Entities.Decorations;
 using CowFarm.Entities.Items;
+using CowFarm.Entities.Plants;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;

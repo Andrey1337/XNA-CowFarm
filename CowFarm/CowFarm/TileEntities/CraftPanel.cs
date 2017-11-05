@@ -39,15 +39,15 @@ namespace CowFarm.TileEntities
 
 
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CowGameScreen.GameTextures["craftPanel"], _drawPos, Color.White);
-
+             
             foreach (var container in Containers)
             {
-                container?.Draw(spriteBatch, font);
+                container?.Draw(spriteBatch, CowGameScreen.GameFonts["gameFont"]);
             }
-            CraftContainer.Draw(spriteBatch, font);
+            CraftContainer.Draw(spriteBatch, CowGameScreen.GameFonts["gameFont"]);
         }
     }
 }

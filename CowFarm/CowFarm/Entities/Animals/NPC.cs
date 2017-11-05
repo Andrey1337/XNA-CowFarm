@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
-using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Animals
 {
-    public abstract class NPC : Animal
+    public abstract class Npc : Animal
     {
         protected List<Vector2> WayList;
 
@@ -20,7 +19,7 @@ namespace CowFarm.Entities
         private bool _standing;
         private TimeSpan _standingTime;
 
-        protected NPC(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             _rnd = new Random();
             HaveWay = false;

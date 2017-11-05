@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using CowFarm.DrowingSystem;
-using CowFarm.Enums;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
-using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Animals
 {
     public abstract class Animal : Entity
     {

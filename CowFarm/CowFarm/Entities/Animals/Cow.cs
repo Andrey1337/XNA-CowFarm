@@ -1,38 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
 using CowFarm.StatusBars;
 using CowFarm.TileEntities;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
-using FarseerPhysics.Samples.DrawingSystem;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Animals
 {
     public sealed class Cow : Animal, IDynamic
     {
-        public Inventory.Inventory Inventory;
-        public CraftPanel CraftPanel;
-        public HealthBar HealthBar;
-        public FoodBar FoodBar;
+        public Inventory.Inventory Inventory { get; }
+        public CraftPanel CraftPanel { get; }
+        public HealthBar HealthBar { get; }
+        public FoodBar FoodBar { get; }
+        public SprintBar SprintBar { get; }
         private float _delay = 200f;
 
         public float Boost { get; private set; }
@@ -56,6 +47,7 @@ namespace CowFarm.Entities
             CraftPanel = new CraftPanel(cowGameScreen);
             HealthBar = new HealthBar(cowGameScreen, this);
             FoodBar = new FoodBar(cowGameScreen, this);
+            SprintBar = new SprintBar(cowGameScreen, this);
 
             HealthPoint = 100;
             StarvePoint = 100;

@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Animals
 {
-    public class Cat : NPC
+    public class Cat : Npc
     {
         private const float Delay = 900f;
 

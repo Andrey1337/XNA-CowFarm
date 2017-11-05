@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.Entities;
+using CowFarm.Entities.Animals;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -99,9 +100,8 @@ namespace CowFarm
         {
             ScreenManager.SpriteBatch.Begin();
             WorldOnFocus.Draw(ScreenManager.SpriteBatch);
-            //DrawTime();
-            DrawSprint();
-            Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
+            Cow.SprintBar.Draw(ScreenManager.SpriteBatch);
+            Cow.CraftPanel.Draw(ScreenManager.SpriteBatch);
             Cow.HealthBar.Draw(ScreenManager.SpriteBatch);
             Cow.FoodBar.Draw(ScreenManager.SpriteBatch);
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
@@ -112,14 +112,7 @@ namespace CowFarm
             base.Draw(gameTime);
         }
 
-        private void DrawSprint()
-        {
-            float width = Cow.Boost * 300;
-            var rect1 = new Rectangle(6, 848, 304, 20);
-            var rect2 = new Rectangle(8, 850, (int)width, 16);
-            ScreenManager.SpriteBatch.Draw(GameTextures["sprintBorder"], rect1, Color.White);
-            ScreenManager.SpriteBatch.Draw(GameTextures["sprintTexture"], rect2, Color.White);
-        }
+
 
         private void DrawTime()
         {

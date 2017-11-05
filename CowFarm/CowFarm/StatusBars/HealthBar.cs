@@ -1,27 +1,23 @@
 ﻿using CowFarm.Entities;
+using CowFarm.Entities.Animals;
 using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.StatusBars
 {
-    public class HealthBar
+    public class HealthBar : StatusBar
     {
-        private readonly CowGameScreen _cowGameScreen;       
-        private readonly Cow _cow;
-        private readonly Rectangle _hearthRect;
-        public HealthBar(CowGameScreen cowGameScreen, Cow cow)
+        public HealthBar(CowGameScreen cowGameScreen, Cow cow) : base(cowGameScreen, cow)
         {
-            _cowGameScreen = cowGameScreen;            
-            _hearthRect = new Rectangle((int)cow.Inventory.StartPosition.X, (int)cow.Inventory.StartPosition.Y -19, 18, 18);            
-            _cow = cow;
+            _drawRect = new Rectangle((int)cow.Inventory.StartPosition.X, (int)cow.Inventory.StartPosition.Y - 19, 18, 18);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             float healthPoint = _cow.HealthPoint;
 
-            var drawRect = _hearthRect;
+            var drawRect = _drawRect;
 
             for (int i = 0; i < 10; i++)
             {

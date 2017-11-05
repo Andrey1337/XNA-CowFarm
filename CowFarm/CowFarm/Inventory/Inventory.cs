@@ -123,10 +123,10 @@ namespace CowFarm.Inventory
 
             foreach (var container in _containers)
             {
-                container.Draw(spriteBatch, font);
+                container.Draw(spriteBatch, _cowGameScreen.GameFonts["gameFont"]);
             }
 
-            SwapContainer?.Draw(spriteBatch, font);
+            SwapContainer?.Draw(spriteBatch, _cowGameScreen.GameFonts["gameFont"]);
         }
 
 

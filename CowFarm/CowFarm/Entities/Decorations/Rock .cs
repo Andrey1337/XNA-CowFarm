@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
-using CowFarm.ScreenSystem;
+﻿using CowFarm.DrowingSystem;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Decorations
 {
     public class Rock : Decoration
     {

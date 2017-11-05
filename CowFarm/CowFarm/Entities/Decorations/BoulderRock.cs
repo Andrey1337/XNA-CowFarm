@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
-using CowFarm.ScreenSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Worlds;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Decorations
 {
     public class BoulderRock : Decoration
     {
