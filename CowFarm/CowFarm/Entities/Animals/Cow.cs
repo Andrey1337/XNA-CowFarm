@@ -5,6 +5,7 @@ using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using CowFarm.StatusBars;
 using CowFarm.TileEntities;
 using FarseerPhysics;
@@ -24,13 +25,10 @@ namespace CowFarm.Entities.Animals
         public HealthBar HealthBar { get; }
         public FoodBar FoodBar { get; }
         public SprintBar SprintBar { get; }
-        private float _delay = 200f;
-
         public float Boost { get; private set; }
-        public float HealthPoint;
-        public float StarvePoint;
-
-        private TimeSpan _timeInSprint;
+        public float HealthPoint { get; private set; }
+        public float StarvePoint { get; private set; }
+        // TimeSpan _timeInSprint;
 
         private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
@@ -48,7 +46,7 @@ namespace CowFarm.Entities.Animals
             HealthBar = new HealthBar(cowGameScreen, this);
             FoodBar = new FoodBar(cowGameScreen, this);
             SprintBar = new SprintBar(cowGameScreen, this);
-
+            Delay = 200f;
             HealthPoint = 100;
             StarvePoint = 100;
             CurrentWorld = world;
@@ -58,7 +56,7 @@ namespace CowFarm.Entities.Animals
             _previousFocusInteractables = new HashSet<Entity>();
             _interactablesDictionary = world.InteractablesDictionary;
 
-            _timeInSprint = TimeSpan.Zero;
+            //_timeInSprint = TimeSpan.Zero;
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
 
@@ -258,7 +256,7 @@ namespace CowFarm.Entities.Animals
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, _delay);
+                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
 
             if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
@@ -322,10 +320,10 @@ namespace CowFarm.Entities.Animals
 
             return dropPos;
         }
-        public bool RunningAlreadyInSprint()
-        {
-            return _timeInSprint > TimeSpan.FromSeconds(0.3);
-        }
+        //public bool RunningAlreadyInSprint()
+        //{
+        //    return _timeInSprint > TimeSpan.FromSeconds(0.3);
+        //}
 
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -365,8 +363,8 @@ namespace CowFarm.Entities.Animals
             {
                 if (Boost > 0)
                 {
-                    _timeInSprint += gameTime.ElapsedGameTime;
-                    _delay = 150f;
+                    //_timeInSprint += gameTime.ElapsedGameTime;
+                    Delay = 150f;
                     Boost -= 0.01f;
                     _force *= 2f;
                     if (StarvePoint > 0)
@@ -374,8 +372,8 @@ namespace CowFarm.Entities.Animals
                 }
                 else
                 {
-                    _timeInSprint = TimeSpan.Zero;
-                    _delay = 180f;
+                    //_timeInSprint = TimeSpan.Zero;
+                    Delay = 180f;
                     _force *= 1.3f;
                     if (StarvePoint > 0)
                         StarvePoint -= 0.008f;
@@ -383,9 +381,9 @@ namespace CowFarm.Entities.Animals
             }
             else
             {
-                _timeInSprint = TimeSpan.Zero;
+                //_timeInSprint = TimeSpan.Zero;
                 Boost += 0.003f;
-                _delay = 200f;
+                Delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
                 StarvePoint -= 0.006f;

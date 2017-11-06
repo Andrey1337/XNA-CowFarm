@@ -1,5 +1,6 @@
 ﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -10,15 +11,13 @@ using World = CowFarm.Worlds.World;
 namespace CowFarm.Entities.Animals
 {
     public class Cat : Npc
-    {
-        private const float Delay = 900f;
-
+    {       
         public Cat(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
                   new AnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
                   new AnimatedSprites(cowGameScreen.GameTextures["catLeftWalk"], 3, 0),
                   new AnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),
-                  new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0)) 
+                  new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
         {
             CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);
@@ -27,6 +26,7 @@ namespace CowFarm.Entities.Animals
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
             Body.BodyTypeName = "cat";
+            Delay = 900f;
             SpeedX = 0.8f;
             SpeedY = 0.7f;
         }

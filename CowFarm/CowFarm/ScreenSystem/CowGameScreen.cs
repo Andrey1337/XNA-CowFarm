@@ -5,7 +5,6 @@ using CowFarm.Entities;
 using CowFarm.Entities.Animals;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
 using CowFarm.ScreenSystem.AlertWindows;
 using CowFarm.Utility;
 using CowFarm.Worlds;
@@ -17,7 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm
+namespace CowFarm.ScreenSystem
 {
     public class CowGameScreen : GameScreen
     {
@@ -30,7 +29,7 @@ namespace CowFarm
 
         private World FirstWorld { get; set; }
         private World SecondWorld { get; set; }
-        public World WorldOnFocus { get; set; }
+        public World WorldOnFocus { get; private set; }
 
         private TimeSpan _inGameTime;
         public Cow Cow;
@@ -40,7 +39,7 @@ namespace CowFarm
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
 
-        public AlertWindow AlertWindow;
+        public AlertWindow AlertWindow { get; private set; }
 
         private bool _onPause;
 
@@ -56,7 +55,6 @@ namespace CowFarm
 
         public override void LoadContent()
         {
-            //_escapeKeyPressed = false;
             _onPause = false;
             if (_startNewGame)
             {
@@ -81,10 +79,8 @@ namespace CowFarm
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            var mouse = Mouse.GetState();
-            var mousePoint = new Vector2(mouse.X, mouse.Y);
 
-            Debug.WriteLine(mousePoint);
+            Debug.WriteLine(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
             AlertWindow?.Update();
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_onPause)
             {

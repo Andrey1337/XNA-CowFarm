@@ -1,5 +1,6 @@
 ﻿using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
+using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using World = CowFarm.Worlds.World;
 
@@ -14,9 +15,11 @@ namespace CowFarm.Entities.Animals
         protected AnimatedSprites CurrentAnim;
 
         protected Rectangle DestRect;
-        protected Rectangle SourceRect;        
+        protected Rectangle SourceRect;
 
         protected ObjectMovingType ObjectMovingType;
+
+        protected float Delay;
 
         protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk) : base(cowGameScreen)
@@ -25,11 +28,11 @@ namespace CowFarm.Entities.Animals
             this.RightWalk = rightWalk;
             this.LeftWalk = leftWalk;
             this.UpWalk = upWalk;
-            this.DownWalk = downWalk;            
+            this.DownWalk = downWalk;
             this.ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
-        
+
         public abstract void Eat(IEatable food);
     }
 }
