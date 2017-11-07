@@ -56,8 +56,6 @@ namespace CowFarm.Entities.Animals
             _previousFocusInteractables = new HashSet<Entity>();
             _interactablesDictionary = world.InteractablesDictionary;
 
-            //_timeInSprint = TimeSpan.Zero;
-
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
 
             Body.BodyType = BodyType.Dynamic;

@@ -18,18 +18,17 @@ namespace CowFarm.Entities.Animals
         protected Rectangle SourceRect;
 
         protected ObjectMovingType ObjectMovingType;
-
         protected float Delay;
 
         protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk,
             AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk) : base(cowGameScreen)
         {
-            this.DestRect = destRect;
-            this.RightWalk = rightWalk;
-            this.LeftWalk = leftWalk;
-            this.UpWalk = upWalk;
-            this.DownWalk = downWalk;
-            this.ObjectMovingType = ObjectMovingType.Dynamic;
+            DestRect = destRect;
+            RightWalk = rightWalk;
+            LeftWalk = leftWalk;
+            UpWalk = upWalk;
+            DownWalk = downWalk;
+            ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
 

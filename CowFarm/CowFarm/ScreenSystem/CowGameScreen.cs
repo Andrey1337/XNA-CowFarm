@@ -21,20 +21,16 @@ namespace CowFarm.ScreenSystem
     public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
-        public readonly GraphicsDeviceManager Graphics;
-
+        public readonly GraphicsDeviceManager Graphics;    
         private bool _startNewGame;
-
         public List<World> WordlsList { get; private set; }
-
         private World FirstWorld { get; set; }
         private World SecondWorld { get; set; }
         public World WorldOnFocus { get; private set; }
 
         private TimeSpan _inGameTime;
         public Cow Cow;
-
-        public int Score { get; set; }
+      
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
