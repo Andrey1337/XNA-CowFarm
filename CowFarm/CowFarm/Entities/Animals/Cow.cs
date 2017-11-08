@@ -22,13 +22,12 @@ namespace CowFarm.Entities.Animals
     {
         public Inventory.Inventory Inventory { get; }
         public CraftPanel CraftPanel { get; }
-        public HealthBar HealthBar { get; }
-        public FoodBar FoodBar { get; }
-        public SprintBar SprintBar { get; }
+
         public float Boost { get; private set; }
         public float HealthPoint { get; private set; }
         public float StarvePoint { get; private set; }
-        // TimeSpan _timeInSprint;
+
+        public List<StatusBar> ListBars { get; private set; }
 
         private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
@@ -43,9 +42,12 @@ namespace CowFarm.Entities.Animals
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
-            HealthBar = new HealthBar(cowGameScreen, this);
-            FoodBar = new FoodBar(cowGameScreen, this);
-            SprintBar = new SprintBar(cowGameScreen, this);
+            ListBars = new List<StatusBar>
+            {
+                new HealthBar(cowGameScreen, this),
+                new FoodBar(cowGameScreen, this),
+                new SprintBar(cowGameScreen, this)
+            };        
             Delay = 200f;
             HealthPoint = 100;
             StarvePoint = 100;

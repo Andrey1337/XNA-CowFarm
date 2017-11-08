@@ -21,7 +21,7 @@ namespace CowFarm.ScreenSystem
     public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
-        public readonly GraphicsDeviceManager Graphics;    
+        public readonly GraphicsDeviceManager Graphics;
         private bool _startNewGame;
         public List<World> WordlsList { get; private set; }
         private World FirstWorld { get; set; }
@@ -30,7 +30,6 @@ namespace CowFarm.ScreenSystem
 
         private TimeSpan _inGameTime;
         public Cow Cow;
-      
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
@@ -92,10 +91,8 @@ namespace CowFarm.ScreenSystem
         {
             ScreenManager.SpriteBatch.Begin();
             WorldOnFocus.Draw(ScreenManager.SpriteBatch);
-            Cow.SprintBar.Draw(ScreenManager.SpriteBatch);
             Cow.CraftPanel.Draw(ScreenManager.SpriteBatch);
-            Cow.HealthBar.Draw(ScreenManager.SpriteBatch);
-            Cow.FoodBar.Draw(ScreenManager.SpriteBatch);
+            Cow.ListBars.ForEach(statusBar => statusBar.Draw(ScreenManager.SpriteBatch));
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             if (_onPause)
                 ScreenManager.SpriteBatch.Draw(GameTextures["cleanTexture"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), new Color(0, 0, 0, 30));
