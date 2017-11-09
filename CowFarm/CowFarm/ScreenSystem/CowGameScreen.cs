@@ -22,13 +22,14 @@ namespace CowFarm.ScreenSystem
     {
         private readonly ContentManager _contentManager;
         public readonly GraphicsDeviceManager Graphics;
-        private bool _startNewGame;
+
         public List<World> WordlsList { get; private set; }
         private World FirstWorld { get; set; }
         private World SecondWorld { get; set; }
         public World WorldOnFocus { get; private set; }
 
         private TimeSpan _inGameTime;
+        private bool _startNewGame;
         public Cow Cow;
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }

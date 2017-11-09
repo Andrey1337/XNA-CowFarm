@@ -32,8 +32,6 @@ namespace CowFarm.Entities.Decorations
             world.AddStaticEntity(this);
         }
 
-
-
         public override void Update(GameTime gameTime)
         {
 

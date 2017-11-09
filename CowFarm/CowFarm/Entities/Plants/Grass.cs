@@ -1,4 +1,5 @@
-﻿using CowFarm.DrowingSystem;
+﻿using System;
+using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -15,9 +16,7 @@ namespace CowFarm.Entities.Plants
     {
         private const float Delay = 5000f;
 
-
         private AnimatedSprites _currentAnim;
-
 
         private readonly AnimatedSprites _eatenGrassMovement;
         private readonly World _world;
@@ -40,11 +39,22 @@ namespace CowFarm.Entities.Plants
             ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(PlantMovement.Animation, Graphics));
             CanInteract = true;
             world.AddStaticEntity(this);
+            _eatedTime = TimeSpan.Zero;
         }
 
 
         public override void Update(GameTime gameTime)
         {
+            if (!CanInteract)
+            {
+                _eatedTime += gameTime.ElapsedGameTime;
+                if (_eatedTime > TimeSpan.FromSeconds(new Random().Next(40, 50)))
+                {
+                    CanInteract = true;
+                    _currentAnim = PlantMovement;
+                    _eatedTime = TimeSpan.Zero;
+                }
+            }
             if (!CanInteract)
                 _currentAnim = _eatenGrassMovement;
 
@@ -62,7 +72,6 @@ namespace CowFarm.Entities.Plants
             {
                 spriteBatch.Draw(_currentAnim.Animation, DestRect, SourceRect, Color.White);
             }
-
         }
 
         public override Rectangle GetPosition()
@@ -74,6 +83,8 @@ namespace CowFarm.Entities.Plants
         {
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }
+
+        private TimeSpan _eatedTime;
 
         public void Interact()
         {
