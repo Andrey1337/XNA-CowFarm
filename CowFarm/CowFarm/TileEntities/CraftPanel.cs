@@ -23,8 +23,7 @@ namespace CowFarm.TileEntities
 
             CraftContainer = new CraftContainer(new Rectangle((int)_drawPos.X + 167, (int)_drawPos.Y + 45, 42, 42), cowGameScreen.GameTextures["cleanTexture"], this);      
         }
-
-    
+            
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CowGameScreen.GameTextures["craftPanel"], _drawPos, Color.White);

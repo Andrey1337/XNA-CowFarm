@@ -25,9 +25,6 @@ namespace CowFarm.Entities.Plants
             Body.CollidesWith = Category.All;
         }
 
-
-
-
         public override void Update(GameTime gameTime)
         {
 

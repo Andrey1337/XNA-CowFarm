@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
-using CowFarm.Entities.Plants;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
@@ -11,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Plants
 {
     public class GreenTree : Plant, IInteractable
     {
