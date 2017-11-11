@@ -1,5 +1,6 @@
 ﻿using CowFarm.Entities;
 using CowFarm.Entities.Animals;
+using CowFarm.Entities.Animals.NPC;
 using CowFarm.Entities.Decorations;
 using CowFarm.Entities.Items;
 using CowFarm.Entities.Plants;
@@ -15,6 +16,7 @@ namespace CowFarm.Worlds
         public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen)
         {
             new Cat(cowGameScreen, this, new Vector2(100, 100));
+            new Chicken(cowGameScreen, this, new Vector2(500, 400));
 
             new Grass(cowGameScreen, this, new Vector2(450, 550));
             new Grass(cowGameScreen, this, new Vector2(390, 600));

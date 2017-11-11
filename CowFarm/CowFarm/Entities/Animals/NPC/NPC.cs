@@ -5,14 +5,14 @@ using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 
-namespace CowFarm.Entities.Animals
+namespace CowFarm.Entities.Animals.NPC
 {
     public abstract class Npc : Animal
     {
         protected List<Vector2> WayList;
 
         protected Vector2 PositionToGo;
-        private readonly Random _rnd;
+        protected Random Rnd;
         protected float SpeedX { get; set; }
         protected float SpeedY { get; set; }
 
@@ -21,8 +21,7 @@ namespace CowFarm.Entities.Animals
         private TimeSpan _standingTime;
 
         protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
-        {
-            _rnd = new Random();
+        {           
             HaveWay = false;
             _standing = false;
             WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(800, 100) };
@@ -57,9 +56,9 @@ namespace CowFarm.Entities.Animals
                 return;
             }
 
-            if (_standingTime <= TimeSpan.Zero && 2 == _rnd.Next(1000))
+            if (_standingTime <= TimeSpan.Zero && 2 == Rnd.Next(1000))
             {
-                _standingTime += TimeSpan.FromSeconds(_rnd.Next(3, 5));
+                _standingTime += TimeSpan.FromSeconds(Rnd.Next(3, 5));
                 _standing = true;
             }
 

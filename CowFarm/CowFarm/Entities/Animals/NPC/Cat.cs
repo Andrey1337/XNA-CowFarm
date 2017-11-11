@@ -1,4 +1,5 @@
-﻿using CowFarm.DrowingSystem;
+﻿using System;
+using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
@@ -8,10 +9,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities.Animals
+namespace CowFarm.Entities.Animals.NPC
 {
     public class Cat : Npc
-    {       
+    {
         public Cat(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
                   new AnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
@@ -19,6 +20,7 @@ namespace CowFarm.Entities.Animals
                   new AnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),
                   new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
         {
+            Rnd = new Random(100);
             CurrentAnim = RightWalk;
             world.AddDynamicEntity(this);
             Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, position / 100);

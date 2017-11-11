@@ -37,28 +37,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalMovements\cowLeftWalk.png">
+    <Compile Include="AnimalMovements\Cow\cowLeftWalk.png">
       <Name>cowLeftWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalMovements\cowRightWalk.png">
+    <Compile Include="AnimalMovements\Cow\cowRightWalk.png">
       <Name>cowRightWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalMovements\cowUpWalk.png">
+    <Compile Include="AnimalMovements\Cow\cowUpWalk.png">
       <Name>cowUpWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalMovements\cowDownWalk.png">
+    <Compile Include="AnimalMovements\Cow\cowDownWalk.png">
       <Name>cowDownWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -121,22 +121,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalMovements\catDownWalk.png">
+    <Compile Include="AnimalMovements\Cat\catDownWalk.png">
       <Name>catDownWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="AnimalMovements\catLeftWalk.png">
+    <Compile Include="AnimalMovements\Cat\catLeftWalk.png">
       <Name>catLeftWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="AnimalMovements\catRightWalk.png">
+    <Compile Include="AnimalMovements\Cat\catRightWalk.png">
       <Name>catRightWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="AnimalMovements\catUpWalk.png">
+    <Compile Include="AnimalMovements\Cat\catUpWalk.png">
       <Name>catUpWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -345,6 +345,30 @@
   <ItemGroup>
     <Compile Include="about.png">
       <Name>about</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnimalMovements\Chicken\whiteChickenRightWalk.png">
+      <Name>whiteChickenRightWalk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnimalMovements\Chicken\whiteChickenDownWalk.png">
+      <Name>whiteChickenDownWalk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="AnimalMovements\Chicken\whiteChickenLeftWalk.png">
+      <Name>whiteChickenLeftWalk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="AnimalMovements\Chicken\whiteChickenUpWalk.png">
+      <Name>whiteChickenUpWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

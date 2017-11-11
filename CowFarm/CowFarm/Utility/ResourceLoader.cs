@@ -25,6 +25,7 @@ namespace CowFarm.Utility
             LoadMisc(contentManager, graphicsDevice);
             LoadCow(contentManager);
             LoadCat(contentManager);
+            LoadChicken(contentManager);
             LoadFood(contentManager);
             RockLoad(contentManager);
             BackGroundLoad(contentManager);
@@ -95,20 +96,27 @@ namespace CowFarm.Utility
 
         private static void LoadCow(ContentManager contentManager)
         {
-            GameTextures.Add("cowRightWalk", contentManager.Load<Texture2D>("AnimalMovements/cowRightWalk"));
-            GameTextures.Add("cowLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/cowLeftWalk"));
-            GameTextures.Add("cowUpWalk", contentManager.Load<Texture2D>("AnimalMovements/cowUpWalk"));
-            GameTextures.Add("cowDownWalk", contentManager.Load<Texture2D>("AnimalMovements/cowDownWalk"));
+            GameTextures.Add("cowRightWalk", contentManager.Load<Texture2D>("AnimalMovements/Cow/cowRightWalk"));
+            GameTextures.Add("cowLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/Cow/cowLeftWalk"));
+            GameTextures.Add("cowUpWalk", contentManager.Load<Texture2D>("AnimalMovements/Cow/cowUpWalk"));
+            GameTextures.Add("cowDownWalk", contentManager.Load<Texture2D>("AnimalMovements/Cow/cowDownWalk"));
         }
 
         private static void LoadCat(ContentManager contentManager)
         {
-            GameTextures.Add("catRightWalk", contentManager.Load<Texture2D>("AnimalMovements/catRightWalk"));
-            GameTextures.Add("catLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/catLeftWalk"));
-            GameTextures.Add("catDownWalk", contentManager.Load<Texture2D>("AnimalMovements/catUpWalk"));
-            GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/catDownWalk"));
+            GameTextures.Add("catRightWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catRightWalk"));
+            GameTextures.Add("catLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catLeftWalk"));
+            GameTextures.Add("catDownWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catUpWalk"));
+            GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catDownWalk"));
         }
 
+        private static void LoadChicken(ContentManager contentManager)
+        {
+            GameTextures.Add("whiteChickenRightWalk", contentManager.Load<Texture2D>("AnimalMovements/Chicken/whiteChickenRightWalk"));
+            GameTextures.Add("whiteChickenLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/Chicken/whiteChickenLeftWalk"));
+            GameTextures.Add("whiteChickenUpWalk", contentManager.Load<Texture2D>("AnimalMovements/Chicken/whiteChickenUpWalk"));
+            GameTextures.Add("whiteChickenDownWalk", contentManager.Load<Texture2D>("AnimalMovements/Chicken/whiteChickenDownWalk"));
+        }
 
 
         private static void PlantLoad(ContentManager contentManager)

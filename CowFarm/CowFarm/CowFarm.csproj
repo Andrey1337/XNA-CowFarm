@@ -83,6 +83,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Animals\NPC\Chicken.cs" />
+    <Compile Include="Interfaces\IAttackable.cs" />
     <Compile Include="ScreenSystem\AboutScreen.cs" />
     <Compile Include="Comparables\PositionYComparer.cs" />
     <Compile Include="Containers\CraftContainer.cs" />
@@ -104,12 +106,12 @@
     <Compile Include="Entities\Plants\BerryBush.cs" />
     <Compile Include="Entities\Decorations\BoulderRock.cs" />
     <Compile Include="Entities\Plants\Bush.cs" />
-    <Compile Include="Entities\Animals\Cat.cs" />
+    <Compile Include="Entities\Animals\NPC\Cat.cs" />
     <Compile Include="Entities\Decorations\Decoration.cs" />
     <Compile Include="Entities\Items\CutGrass.cs" />
     <Compile Include="Entities\Items\Item.cs" />
     <Compile Include="Entities\Items\Rocks.cs" />
-    <Compile Include="Entities\Animals\NPC.cs" />
+    <Compile Include="Entities\Animals\NPC\NPC.cs" />
     <Compile Include="Entities\Plants\OrangeTree.cs" />
     <Compile Include="Entities\Decorations\Rock .cs" />
     <Compile Include="Enums\Direction.cs" />
