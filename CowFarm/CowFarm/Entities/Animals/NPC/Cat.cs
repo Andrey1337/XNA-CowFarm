@@ -21,9 +21,10 @@ namespace CowFarm.Entities.Animals.NPC
                   new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
         {
             Rnd = new Random(100);
+            CurrentWorld = world;
             CurrentAnim = RightWalk;
-            world.AddDynamicEntity(this);
-            Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, position / 100);
+
+            Body = BodyFactory.CreateRectangle(CurrentWorld, 0.28f, 0.05f, 0, position / 100);
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
@@ -31,6 +32,7 @@ namespace CowFarm.Entities.Animals.NPC
             Delay = 500f;
             SpeedX = 0.8f;
             SpeedY = 0.7f;
+            CurrentWorld.AddDynamicEntity(this);
         }
 
         public override void Update(GameTime gameTime)

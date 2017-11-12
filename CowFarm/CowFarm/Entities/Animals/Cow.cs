@@ -28,10 +28,9 @@ namespace CowFarm.Entities.Animals
         public float HealthPoint { get; private set; }
         public float StarvePoint { get; private set; }
 
-        private IEnumerable<Entity> _nearbyList;
+        private IEnumerable<Entity> _interactableList;
         private IEnumerable<Entity> _attackList;
 
-        private HashSet<Entity> _previousFocusInteractables;
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
               new Rectangle((int)position.X, (int)position.Y, 54, 49),
@@ -56,11 +55,10 @@ namespace CowFarm.Entities.Animals
 
             CurrentWorld = world;
 
-            _nearbyList = new List<Entity>();
+            _interactableList = new List<Entity>();
             _attackList = new List<Entity>();
-            _canBeOnFocusList = _nearbyList.ToList();
-            _previousFocusInteractables = new HashSet<Entity>();
 
+            _previousFocusInteractables = new HashSet<Entity>();
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
@@ -78,21 +76,24 @@ namespace CowFarm.Entities.Animals
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
 
-            _nearbyList = (from body in nearby.Dictionary[BodyId]
-                           where CurrentWorld.InteractablesDictionary.ContainsKey(body.BodyId)
-                           select CurrentWorld.InteractablesDictionary[body.BodyId]);
-            
+            _interactableList = nearby.Dictionary[BodyId]
+                .Where(body => CurrentWorld.InteractablesDictionary.ContainsKey(body.BodyId))
+                .Select(body => CurrentWorld.InteractablesDictionary[body.BodyId]);
+
+            _attackList = nearby.Dictionary[BodyId]
+                .Where(body => CurrentWorld.AttackableDictionary.ContainsKey(body.BodyId))
+                .Select(body => CurrentWorld.AttackableDictionary[body.BodyId]);
         }
 
-        private List<Entity> SortCowNearby()
+        private List<Entity> InteractableSortCowNearby()
         {
-            if (_nearbyList == null)
+            if (_interactableList == null)
                 return null;
 
             List<Entity> canBeOnFocusList = new List<Entity>();
             if (CurrentAnim == RightWalk)
             {
-                canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
+                canBeOnFocusList.AddRange(_interactableList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2),
                 ((IInteractable)entity).GetInteractablePosition()) < 50
                 && GetPosition().X + GetPosition().Width / 1.1 < entity.GetPosition().X + GetPosition().Width / 2
@@ -100,7 +101,7 @@ namespace CowFarm.Entities.Animals
             }
             if (CurrentAnim == LeftWalk)
             {
-                canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
+                canBeOnFocusList.AddRange(_interactableList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2),
                 ((IInteractable)entity).GetInteractablePosition()) < 50
                 && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)), new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20
@@ -108,20 +109,66 @@ namespace CowFarm.Entities.Animals
             }
             if (CurrentAnim == DownWalk)
             {
-                canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
+                canBeOnFocusList.AddRange(_interactableList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height),
                 ((IInteractable)entity).GetInteractablePosition()) < 25
                 && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height));
             }
             if (CurrentAnim == UpWalk)
             {
-                canBeOnFocusList.AddRange(_nearbyList.Where(entity => ((IInteractable)entity).CanInteract
+                canBeOnFocusList.AddRange(_interactableList.Where(entity => ((IInteractable)entity).CanInteract
                 && Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2),
                 ((IInteractable)entity).GetInteractablePosition()) < 25
                 && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height));
             }
 
             return canBeOnFocusList;
+        }
+
+        private List<Entity> AttackableSortCowNearby()
+        {
+            if (_attackList == null)
+                return null;
+
+            List<Entity> canBeOnAttackList = new List<Entity>();
+            if (CurrentAnim == RightWalk)
+            {
+                canBeOnAttackList.AddRange(_attackList
+                    .Where(entity =>
+                    Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width / 1.5), GetPosition().Y + GetPosition().Height / 2),
+                    ((IAttackable)entity).GetAttackPosition()) < 50
+                    && GetPosition().X + GetPosition().Width / 1.1 < entity.GetPosition().X + GetPosition().Width / 2
+                    && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)),
+                    new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20));
+            }
+            if (CurrentAnim == LeftWalk)
+            {
+                canBeOnAttackList.AddRange(_attackList
+                    .Where(entity =>
+                    Vector2.Distance(new Vector2(GetPosition().X + (float)(GetPosition().Width * 0.5), GetPosition().Y + GetPosition().Height / 2),
+                        ((IAttackable)entity).GetAttackPosition()) < 50
+                    && Vector2.Distance(new Vector2(0, GetPosition().Y + (float)(GetPosition().Height / 2)),
+                    new Vector2(0, entity.GetPosition().Y + entity.GetPosition().Height / 2)) < 20
+                    && GetPosition().X + GetPosition().Width * 0.1 > entity.GetPosition().X));
+            }
+            if (CurrentAnim == DownWalk)
+            {
+                canBeOnAttackList.AddRange(_attackList
+                    .Where(entity =>
+                    Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height),
+                    ((IAttackable)entity).GetAttackPosition()) < 25
+                    && GetPosition().Y + GetPosition().Height < entity.GetPosition().Y + GetPosition().Height));
+            }
+            if (CurrentAnim == UpWalk)
+            {
+                canBeOnAttackList.AddRange(_attackList
+                    .Where(entity =>
+                    Vector2.Distance(new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2),
+                    ((IAttackable)entity).GetAttackPosition()) < 25
+                    && GetPosition().Y + GetPosition().Height > entity.GetPosition().Y + entity.GetPosition().Height));
+            }
+
+            return canBeOnAttackList;
         }
 
         public override Rectangle GetPosition()
@@ -147,7 +194,6 @@ namespace CowFarm.Entities.Animals
 
         private KeyboardState _prevKeyState;
 
-        private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
             if (StarvePoint <= 0)
@@ -156,14 +202,63 @@ namespace CowFarm.Entities.Animals
             if (HealthPoint <= 0)
                 CowGameScreen.FinishGame();
 
+            KeyboardState ks = Keyboard.GetState();
 
             HandleUserAgent(gameTime);
             HandleInventory();
+            HandleInteractables(ks);
+            
 
-            KeyboardState ks = Keyboard.GetState();
-            _canBeOnFocusList = SortCowNearby();
+            if (_force == Vector2.Zero)
+            {
+                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+            }
+            else
+            {
+                if (_force.Y < 0)
+                {
+                    CurrentAnim = UpWalk;
+                }
+                if (_force.Y > 0)
+                {
+                    CurrentAnim = DownWalk;
+                }
+                if (_force.X > 0)
+                {
+                    CurrentAnim = RightWalk;
+                }
+                if (_force.X < 0)
+                {
+                    CurrentAnim = LeftWalk;
+                }
+                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
+            }
 
-            if (_canBeOnFocusList.Count != 0)
+            if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Right);
+            }
+
+            if (GetCenterPosition().X < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
+            {
+                CowGameScreen.ChangeWorld(this, Direction.Left);
+            }
+
+            _prevKeyState = ks;
+        }
+
+        private Vector2 GetCenterPosition()
+        {
+            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
+        }
+
+        private HashSet<Entity> _previousFocusInteractables;
+
+        private void HandleInteractables(KeyboardState ks)
+        {
+            List<Entity> _canBeOnFocusList = InteractableSortCowNearby();
+
+            if (_canBeOnFocusList.Count > 0)
             {
                 List<Entity> interactablesList = _canBeOnFocusList.ToList();
 
@@ -185,7 +280,9 @@ namespace CowFarm.Entities.Animals
                     }
                 }
 
-                if (_previousInteractableOnFocus != null && (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus || _focusNumber != 0 && _focusNumber == interactablesList.Count))
+                if (_previousInteractableOnFocus != null &&
+                    (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus ||
+                     _focusNumber != 0 && _focusNumber == interactablesList.Count))
                     _previousInteractableOnFocus.OnFocus = false;
 
                 foreach (var entity in _previousFocusInteractables.Where(interacteble => !hash.Contains(interacteble)))
@@ -233,49 +330,19 @@ namespace CowFarm.Entities.Animals
                 _focusNumber = 0;
                 if (_previousInteractableOnFocus != null)
                     _previousInteractableOnFocus.OnFocus = false;
-            }
 
-            if (_force == Vector2.Zero)
-            {
-                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
-            else
-            {
-                if (_force.Y < 0)
-                {
-                    CurrentAnim = UpWalk;
-                }
-                if (_force.Y > 0)
-                {
-                    CurrentAnim = DownWalk;
-                }
-                if (_force.X > 0)
-                {
-                    CurrentAnim = RightWalk;
-                }
-                if (_force.X < 0)
-                {
-                    CurrentAnim = LeftWalk;
-                }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
-            }
-
-            if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
-            {
-                CowGameScreen.ChangeWorld(this, Direction.Right);
-            }
-
-            if (GetCenterPosition().X < 0 && CowGameScreen.WorldOnFocus.LeftWorld != null)
-            {
-                CowGameScreen.ChangeWorld(this, Direction.Left);
-            }
-
-            _prevKeyState = ks;
         }
 
-        private Vector2 GetCenterPosition()
+        private HashSet<Entity> _previousFocusAttackables;
+
+        private void HandleAttackable(KeyboardState ks)
         {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height / 2);
+            List<Entity> _canBeAttackedList = AttackableSortCowNearby();
+            if (_canBeAttackedList.Count > 0)
+            {
+
+            }
         }
 
         private void HandleInventory()
@@ -393,7 +460,7 @@ namespace CowFarm.Entities.Animals
             Body.Move(_force);
             Body.ApplyForce(_force);
         }
-        public bool IsSelected { get; set; }        
+        public bool IsSelected { get; set; }
 
         public void ChangeWorld(World world, Direction direction)
         {
@@ -408,7 +475,7 @@ namespace CowFarm.Entities.Animals
                     break;
             }
 
-            Body.BodyTypeName = "cow";            
+            Body.BodyTypeName = "cow";
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
