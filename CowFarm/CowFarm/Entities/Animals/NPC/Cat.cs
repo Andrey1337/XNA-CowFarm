@@ -28,7 +28,7 @@ namespace CowFarm.Entities.Animals.NPC
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
             Body.BodyTypeName = "cat";
-            Delay = 900f;
+            Delay = 500f;
             SpeedX = 0.8f;
             SpeedY = 0.7f;
         }

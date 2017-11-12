@@ -21,16 +21,16 @@ namespace CowFarm.Entities.Animals
     public sealed class Cow : Animal, IDynamic
     {
         public Inventory.Inventory Inventory { get; }
+        public List<StatusBar> ListBars { get; }
         public CraftPanel CraftPanel { get; }
 
         public float Boost { get; private set; }
         public float HealthPoint { get; private set; }
         public float StarvePoint { get; private set; }
 
-        public List<StatusBar> ListBars { get; private set; }
-
-        private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
+        private IEnumerable<Entity> _attackList;
+
         private HashSet<Entity> _previousFocusInteractables;
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
@@ -47,19 +47,22 @@ namespace CowFarm.Entities.Animals
                 new HealthBar(cowGameScreen, this),
                 new FoodBar(cowGameScreen, this),
                 new SprintBar(cowGameScreen, this)
-            };        
+            };
             Delay = 200f;
             HealthPoint = 100;
             StarvePoint = 100;
             CurrentWorld = world;
             Boost = 1;
+
+            CurrentWorld = world;
+
             _nearbyList = new List<Entity>();
+            _attackList = new List<Entity>();
             _canBeOnFocusList = _nearbyList.ToList();
             _previousFocusInteractables = new HashSet<Entity>();
-            _interactablesDictionary = world.InteractablesDictionary;
+
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
-
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
@@ -74,11 +77,11 @@ namespace CowFarm.Entities.Animals
         {
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
-            _nearbyList = (from body in nearby.Dictionary[BodyId]
-                           where _interactablesDictionary.ContainsKey(body.BodyId)
-                           select _interactablesDictionary[body.BodyId]);
 
-            //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
+            _nearbyList = (from body in nearby.Dictionary[BodyId]
+                           where CurrentWorld.InteractablesDictionary.ContainsKey(body.BodyId)
+                           select CurrentWorld.InteractablesDictionary[body.BodyId]);
+            
         }
 
         private List<Entity> SortCowNearby()
@@ -148,17 +151,15 @@ namespace CowFarm.Entities.Animals
         public override void Update(GameTime gameTime)
         {
             if (StarvePoint <= 0)
-            {
                 HealthPoint -= 0.03f;
-            }
 
             if (HealthPoint <= 0)
-            {
                 CowGameScreen.FinishGame();
-            }
+
 
             HandleUserAgent(gameTime);
             HandleInventory();
+
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
@@ -392,8 +393,7 @@ namespace CowFarm.Entities.Animals
             Body.Move(_force);
             Body.ApplyForce(_force);
         }
-        public bool IsSelected { get; set; }
-        public World CurrentWorld { get; set; }
+        public bool IsSelected { get; set; }        
 
         public void ChangeWorld(World world, Direction direction)
         {
@@ -408,13 +408,11 @@ namespace CowFarm.Entities.Animals
                     break;
             }
 
-            Body.BodyTypeName = "cow";
-            _interactablesDictionary = world.InteractablesDictionary;
+            Body.BodyTypeName = "cow";            
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
             CurrentWorld = world;
-
         }
     }
 }

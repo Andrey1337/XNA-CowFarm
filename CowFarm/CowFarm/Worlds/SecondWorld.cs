@@ -64,6 +64,7 @@ namespace CowFarm.Worlds
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            
             spriteBatch.Draw(CowGameScreen.GameTextures["secondWorldBackGround"], new Rectangle(0, 0, CowGameScreen.Graphics.PreferredBackBufferWidth, CowGameScreen.Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(spriteBatch);
         }

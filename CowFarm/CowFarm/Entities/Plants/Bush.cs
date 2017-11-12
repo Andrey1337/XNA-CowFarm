@@ -13,7 +13,9 @@ namespace CowFarm.Entities.Plants
         public Bush(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 84, 87), new AnimatedSprites(cowGameScreen.GameTextures["bushMovement"], 1, 0))
         {
-            world.AddStaticEntity(this);
+            CurrentWorld = world;
+            CurrentWorld.AddStaticEntity(this);
+
             float x1 = (float)(DestRect.X + 30) / 100;
             float y = (float)(DestRect.Y + DestRect.Height - 18) / 100;
             float x2 = x1 + (float)24 / 100;

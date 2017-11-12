@@ -19,6 +19,7 @@ namespace CowFarm.Worlds
     public abstract class World : FarseerPhysics.Dynamics.World
     {
         public Dictionary<int, Entity> InteractablesDictionary { get; }
+        public Dictionary<int, Entity> AttackableDictionary { get; }
 
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities { get; private set; }
@@ -33,6 +34,7 @@ namespace CowFarm.Worlds
                : base(Vector2.Zero)
         {
             InteractablesDictionary = new Dictionary<int, Entity>();
+            AttackableDictionary = new Dictionary<int, Entity>();
             CowGameScreen = cowGameScreen;
             StaticEntities = new List<Entity>[cowGameScreen.Graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
@@ -41,7 +43,7 @@ namespace CowFarm.Worlds
 
         public virtual void Load(ContentManager content)
         {
-
+            //TODO: fix
         }
 
         public void AddDynamicEntity(Entity dynamicEntity)
@@ -54,6 +56,10 @@ namespace CowFarm.Worlds
             if (dynamicEntity is IInteractable)
             {
                 InteractablesDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
+            }
+            if (dynamicEntity is IAttackable)
+            {
+                AttackableDictionary.Add(dynamicEntity.BodyId, dynamicEntity);
             }
         }
 
