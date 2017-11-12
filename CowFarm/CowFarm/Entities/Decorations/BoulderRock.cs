@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using CowFarm.DrowingSystem;
+﻿using CowFarm.DrowingSystem;
 using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Decorations
 {
     public class BoulderRock : Decoration
     {
@@ -32,8 +31,6 @@ namespace CowFarm.Entities
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             world.AddStaticEntity(this);
         }
-
-
 
         public override void Update(GameTime gameTime)
         {

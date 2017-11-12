@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Enums;
@@ -12,37 +10,27 @@ using CowFarm.StatusBars;
 using CowFarm.TileEntities;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
-using FarseerPhysics.Samples.DrawingSystem;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
-{    
+namespace CowFarm.Entities.Animals
+{
     public sealed class Cow : Animal, IDynamic
     {
-        public Inventory.Inventory Inventory;
-        public CraftPanel CraftPanel;
-        public HealthBar HealthBar;
-        public FoodBar FoodBar;
-        private float _delay = 200f;
+        public Inventory.Inventory Inventory { get; }
+        public List<StatusBar> ListBars { get; }
+        public CraftPanel CraftPanel { get; }
 
         public float Boost { get; private set; }
-        public float HealthPoint;
-        public float StarvePoint;
+        public float HealthPoint { get; private set; }
+        public float StarvePoint { get; private set; }
 
-        private TimeSpan _timeInSprint;
-
-        private Dictionary<int, Entity> _interactablesDictionary;
         private IEnumerable<Entity> _nearbyList;
+        private IEnumerable<Entity> _attackList;
+
         private HashSet<Entity> _previousFocusInteractables;
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
@@ -54,22 +42,27 @@ namespace CowFarm.Entities
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
-            HealthBar = new HealthBar(cowGameScreen, this);
-            FoodBar = new FoodBar(cowGameScreen, this);
-
+            ListBars = new List<StatusBar>
+            {
+                new HealthBar(cowGameScreen, this),
+                new FoodBar(cowGameScreen, this),
+                new SprintBar(cowGameScreen, this)
+            };
+            Delay = 200f;
             HealthPoint = 100;
             StarvePoint = 100;
             CurrentWorld = world;
             Boost = 1;
+
+            CurrentWorld = world;
+
             _nearbyList = new List<Entity>();
+            _attackList = new List<Entity>();
             _canBeOnFocusList = _nearbyList.ToList();
             _previousFocusInteractables = new HashSet<Entity>();
-            _interactablesDictionary = world.InteractablesDictionary;
 
-            _timeInSprint = TimeSpan.Zero;
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
-
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
@@ -84,11 +77,11 @@ namespace CowFarm.Entities
         {
             if (!nearby.Dictionary.ContainsKey(BodyId))
                 return;
-            _nearbyList = (from body in nearby.Dictionary[BodyId]
-                           where _interactablesDictionary.ContainsKey(body.BodyId)
-                           select _interactablesDictionary[body.BodyId]);
 
-            //_nearbyList.ToList().ForEach(entity => Debug.WriteLine(entity.BodyTypeName));
+            _nearbyList = (from body in nearby.Dictionary[BodyId]
+                           where CurrentWorld.InteractablesDictionary.ContainsKey(body.BodyId)
+                           select CurrentWorld.InteractablesDictionary[body.BodyId]);
+            
         }
 
         private List<Entity> SortCowNearby()
@@ -157,18 +150,16 @@ namespace CowFarm.Entities
         private List<Entity> _canBeOnFocusList;
         public override void Update(GameTime gameTime)
         {
-            if (StarvePoint > 0)
-                StarvePoint -= 0.008f;
-            else
-                HealthPoint -= 0.1f;
+            if (StarvePoint <= 0)
+                HealthPoint -= 0.03f;
 
             if (HealthPoint <= 0)
-            {
                 CowGameScreen.FinishGame();
-            }
+
 
             HandleUserAgent(gameTime);
             HandleInventory();
+
             KeyboardState ks = Keyboard.GetState();
             _canBeOnFocusList = SortCowNearby();
 
@@ -266,7 +257,7 @@ namespace CowFarm.Entities
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, _delay);
+                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
 
             if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
@@ -330,10 +321,10 @@ namespace CowFarm.Entities
 
             return dropPos;
         }
-        public bool RunningAlreadyInSprint()
-        {
-            return _timeInSprint > TimeSpan.FromSeconds(0.3);
-        }
+        //public bool RunningAlreadyInSprint()
+        //{
+        //    return _timeInSprint > TimeSpan.FromSeconds(0.3);
+        //}
 
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -373,32 +364,36 @@ namespace CowFarm.Entities
             {
                 if (Boost > 0)
                 {
-                    _timeInSprint += gameTime.ElapsedGameTime;
-                    _delay = 150f;
+                    //_timeInSprint += gameTime.ElapsedGameTime;
+                    Delay = 150f;
                     Boost -= 0.01f;
                     _force *= 2f;
+                    if (StarvePoint > 0)
+                        StarvePoint -= 0.01f;
                 }
                 else
                 {
-                    _timeInSprint = TimeSpan.Zero;
-                    _delay = 180f;
+                    //_timeInSprint = TimeSpan.Zero;
+                    Delay = 180f;
                     _force *= 1.3f;
+                    if (StarvePoint > 0)
+                        StarvePoint -= 0.008f;
                 }
             }
             else
             {
-                _timeInSprint = TimeSpan.Zero;
+                //_timeInSprint = TimeSpan.Zero;
                 Boost += 0.003f;
-                _delay = 200f;
+                Delay = 200f;
                 if (Boost > 1)
                     Boost = 1;
+                StarvePoint -= 0.006f;
             }
 
             Body.Move(_force);
             Body.ApplyForce(_force);
         }
-        public bool IsSelected { get; set; }
-        public World CurrentWorld { get; set; }
+        public bool IsSelected { get; set; }        
 
         public void ChangeWorld(World world, Direction direction)
         {
@@ -413,13 +408,11 @@ namespace CowFarm.Entities
                     break;
             }
 
-            Body.BodyTypeName = "cow";
-            _interactablesDictionary = world.InteractablesDictionary;
+            Body.BodyTypeName = "cow";            
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
             CurrentWorld = world;
-
         }
     }
 }

@@ -1,28 +1,23 @@
 ﻿using CowFarm.Entities;
+using CowFarm.Entities.Animals;
 using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.StatusBars
 {
-    public class FoodBar
+    public class FoodBar : StatusBar
     {
-        private readonly CowGameScreen _cowGameScreen;
-        private readonly Cow _cow;
-        private readonly Rectangle _foodRect;
-        public FoodBar(CowGameScreen cowGameScreen, Cow cow)
+        public FoodBar(CowGameScreen cowGameScreen, Cow cow) : base(cowGameScreen, cow)
         {
-            _cowGameScreen = cowGameScreen;
-            _cow = cow;
-            _foodRect = new Rectangle((int)cow.Inventory.EndPosition.X, (int)cow.Inventory.EndPosition.Y - 19, 18, 18);
-            _foodRect.X -= _foodRect.Width + 1;
+            _drawRect = new Rectangle((int)cow.Inventory.EndPosition.X - 19, (int)cow.Inventory.EndPosition.Y - 19, 18, 18);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             float healthPoint = _cow.StarvePoint;
 
-            var drawRect = _foodRect;
+            var drawRect = _drawRect;
             for (int i = 0; i < 10; i++)
             {
                 if (healthPoint > 5)

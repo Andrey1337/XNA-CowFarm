@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.Entities;
+using CowFarm.Entities.Animals;
 using CowFarm.Enums;
 using CowFarm.Interfaces;
-using CowFarm.ScreenSystem;
 using CowFarm.ScreenSystem.AlertWindows;
 using CowFarm.Utility;
 using CowFarm.Worlds;
@@ -16,30 +16,26 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm
+namespace CowFarm.ScreenSystem
 {
     public class CowGameScreen : GameScreen
     {
         private readonly ContentManager _contentManager;
         public readonly GraphicsDeviceManager Graphics;
 
-        private bool _startNewGame;
-
         public List<World> WordlsList { get; private set; }
-
         private World FirstWorld { get; set; }
         private World SecondWorld { get; set; }
-        public World WorldOnFocus { get; set; }
+        public World WorldOnFocus { get; private set; }
 
         private TimeSpan _inGameTime;
+        private bool _startNewGame;
         public Cow Cow;
-
-        public int Score { get; set; }
         public Dictionary<string, Texture2D> GameTextures { get; private set; }
         public Dictionary<string, SpriteFont> GameFonts { get; private set; }
         public Dictionary<string, SoundEffect> GameSounds { get; private set; }
 
-        public AlertWindow AlertWindow;
+        public AlertWindow AlertWindow { get; private set; }
 
         private bool _onPause;
 
@@ -55,7 +51,6 @@ namespace CowFarm
 
         public override void LoadContent()
         {
-            //_escapeKeyPressed = false;
             _onPause = false;
             if (_startNewGame)
             {
@@ -80,10 +75,8 @@ namespace CowFarm
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            var mouse = Mouse.GetState();
-            var mousePoint = new Vector2(mouse.X, mouse.Y);
 
-            Debug.WriteLine(mousePoint);
+            Debug.WriteLine(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
             AlertWindow?.Update();
             if (!coveredByOtherScreen && !otherScreenHasFocus && !_onPause)
             {
@@ -99,11 +92,8 @@ namespace CowFarm
         {
             ScreenManager.SpriteBatch.Begin();
             WorldOnFocus.Draw(ScreenManager.SpriteBatch);
-            //DrawTime();
-            DrawSprint();
-            Cow.CraftPanel.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
-            Cow.HealthBar.Draw(ScreenManager.SpriteBatch);
-            Cow.FoodBar.Draw(ScreenManager.SpriteBatch);
+            Cow.CraftPanel.Draw(ScreenManager.SpriteBatch);
+            Cow.ListBars.ForEach(statusBar => statusBar.Draw(ScreenManager.SpriteBatch));
             Cow.Inventory.Draw(ScreenManager.SpriteBatch, GameFonts["gameFont"]);
             if (_onPause)
                 ScreenManager.SpriteBatch.Draw(GameTextures["cleanTexture"], new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), new Color(0, 0, 0, 30));
@@ -112,14 +102,7 @@ namespace CowFarm
             base.Draw(gameTime);
         }
 
-        private void DrawSprint()
-        {
-            float width = Cow.Boost * 300;
-            var rect1 = new Rectangle(6, 848, 304, 20);
-            var rect2 = new Rectangle(8, 850, (int)width, 16);
-            ScreenManager.SpriteBatch.Draw(GameTextures["sprintBorder"], rect1, Color.White);
-            ScreenManager.SpriteBatch.Draw(GameTextures["sprintTexture"], rect2, Color.White);
-        }
+
 
         private void DrawTime()
         {

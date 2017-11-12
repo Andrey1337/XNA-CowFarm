@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities;
+using CowFarm.Entities.Decorations;
+using CowFarm.Entities.Plants;
 using CowFarm.Generators;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Factories;

@@ -3,12 +3,14 @@ using CowFarm.ScreenSystem;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities
 {
     public abstract class Entity
     {
         public Body Body { get; protected set; }
+        public World CurrentWorld { get; protected set; }
 
         protected CowGameScreen CowGameScreen;
         protected Entity(CowGameScreen cowGameScreen)

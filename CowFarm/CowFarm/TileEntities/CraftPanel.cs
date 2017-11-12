@@ -21,33 +21,18 @@ namespace CowFarm.TileEntities
             Containers[1, 0] = new StaticConainer(new Rectangle((int)_drawPos.X + 19, (int)_drawPos.Y + 71, 42, 42), cowGameScreen.GameTextures["cleanTexture"]);
             Containers[1, 1] = new StaticConainer(new Rectangle((int)_drawPos.X + 75, (int)_drawPos.Y + 71, 42, 42), cowGameScreen.GameTextures["cleanTexture"]);
 
-            CraftContainer = new CraftContainer(new Rectangle((int)_drawPos.X + 167, (int)_drawPos.Y + 45, 42, 42), cowGameScreen.GameTextures["cleanTexture"], this);
-
-            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[0, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 0].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[0, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
-            //Containers[1, 1].ItemStack.Add(new CutGrass(cowGameScreen));
+            CraftContainer = new CraftContainer(new Rectangle((int)_drawPos.X + 167, (int)_drawPos.Y + 45, 42, 42), cowGameScreen.GameTextures["cleanTexture"], this);      
         }
-
-
-
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+            
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CowGameScreen.GameTextures["craftPanel"], _drawPos, Color.White);
-
+             
             foreach (var container in Containers)
             {
-                container?.Draw(spriteBatch, font);
+                container?.Draw(spriteBatch, CowGameScreen.GameFonts["gameFont"]);
             }
-            CraftContainer.Draw(spriteBatch, font);
+            CraftContainer.Draw(spriteBatch, CowGameScreen.GameFonts["gameFont"]);
         }
     }
 }

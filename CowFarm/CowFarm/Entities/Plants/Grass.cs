@@ -1,42 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using CowFarm.DrowingSystem;
 using CowFarm.Entities.Items;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using CowFarm.Utility;
-using CowFarm.Worlds;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using FarseerPhysics.Samples.ScreenSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Plants
 {
     public class Grass : Plant, IInteractable
     {
         private const float Delay = 5000f;
 
-
         private AnimatedSprites _currentAnim;
 
-
         private readonly AnimatedSprites _eatenGrassMovement;
-        private readonly World _world;
 
         public Grass(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 25, 51), new AnimatedSprites(cowGameScreen.GameTextures["grassMovement"], 1, 0))
         {
-            _world = world;
             _currentAnim = PlantMovement;
             _eatenGrassMovement = new AnimatedSprites(cowGameScreen.GameTextures["eatenGrassMovement"], 1, 0);
-            //_eBuutonAnim = new AnimatedSprites(cowGameScreen.GameTextures["eButtonMovement"], 2, 0);
+
+            CurrentWorld = world;
 
             Body = BodyFactory.CreateRectangle(world, (float)DestRect.Width / 100, (float)DestRect.Height / 200, 0, new Vector2((float)(DestRect.X + DestRect.Width / 2) / 100, (float)(DestRect.Y + 30) / 100));
 
@@ -48,11 +38,22 @@ namespace CowFarm.Entities
             ReapaintTexture = TextureHelper.RepaintRectangle(TextureHelper.CopyTexture(PlantMovement.Animation, Graphics));
             CanInteract = true;
             world.AddStaticEntity(this);
+            _eatedTime = TimeSpan.Zero;
         }
 
 
         public override void Update(GameTime gameTime)
         {
+            if (!CanInteract)
+            {
+                _eatedTime += gameTime.ElapsedGameTime;
+                if (_eatedTime > TimeSpan.FromSeconds(new Random().Next(40, 50)))
+                {
+                    CanInteract = true;
+                    _currentAnim = PlantMovement;
+                    _eatedTime = TimeSpan.Zero;
+                }
+            }
             if (!CanInteract)
                 _currentAnim = _eatenGrassMovement;
 
@@ -70,7 +71,6 @@ namespace CowFarm.Entities
             {
                 spriteBatch.Draw(_currentAnim.Animation, DestRect, SourceRect, Color.White);
             }
-
         }
 
         public override Rectangle GetPosition()
@@ -83,10 +83,12 @@ namespace CowFarm.Entities
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + GetPosition().Height);
         }
 
+        private TimeSpan _eatedTime;
+
         public void Interact()
         {
             CanInteract = false;
-            new CutGrass(CowGameScreen).Drop(_world, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
+            new CutGrass(CowGameScreen).Drop(CurrentWorld, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
         }
         public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }

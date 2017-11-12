@@ -3,7 +3,7 @@ using CowFarm.ScreenSystem;
 using Microsoft.Xna.Framework;
 using World = CowFarm.Worlds.World;
 
-namespace CowFarm.Entities
+namespace CowFarm.Entities.Decorations
 {
     public abstract class Decoration : Entity
     {
