@@ -67,7 +67,8 @@ namespace CowFarm.Entities.Animals.NPC
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
+            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect,
+                OnFocus ? new Color(209, 209, 224) : Color.White);
         }
 
         public override Rectangle GetPosition()

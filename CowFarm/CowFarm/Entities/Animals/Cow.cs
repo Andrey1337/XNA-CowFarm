@@ -59,6 +59,7 @@ namespace CowFarm.Entities.Animals
             _attackList = new List<Entity>();
 
             _previousFocusInteractables = new HashSet<Entity>();
+            _previousFocusAttackables = new HashSet<Entity>();
 
             Body = BodyFactory.CreateRectangle(world, 0.54f, 0.15f, 0, new Vector2((float)DestRect.X / 100, (float)DestRect.Y / 100));
             Body.BodyType = BodyType.Dynamic;
@@ -207,8 +208,7 @@ namespace CowFarm.Entities.Animals
             HandleUserAgent(gameTime);
             HandleInventory();
             HandleInteractables(ks);
-            
-
+            HandleAttackable(ks);
             if (_force == Vector2.Zero)
             {
                 SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
@@ -256,13 +256,13 @@ namespace CowFarm.Entities.Animals
 
         private void HandleInteractables(KeyboardState ks)
         {
-            List<Entity> _canBeOnFocusList = InteractableSortCowNearby();
+            List<Entity> canBeOnFocusList = InteractableSortCowNearby();
 
-            if (_canBeOnFocusList.Count > 0)
+            if (canBeOnFocusList.Count > 0)
             {
-                List<Entity> interactablesList = _canBeOnFocusList.ToList();
+                List<Entity> interactablesList = canBeOnFocusList.ToList();
 
-                HashSet<Entity> hash = new HashSet<Entity>(_canBeOnFocusList);
+                HashSet<Entity> hash = new HashSet<Entity>(canBeOnFocusList);
 
                 IInteractable interactableOnFocus = null;
 
@@ -285,10 +285,9 @@ namespace CowFarm.Entities.Animals
                      _focusNumber != 0 && _focusNumber == interactablesList.Count))
                     _previousInteractableOnFocus.OnFocus = false;
 
-                foreach (var entity in _previousFocusInteractables.Where(interacteble => !hash.Contains(interacteble)))
+                foreach (var entity in _previousFocusInteractables.Where(interacteble => !hash.Contains(interacteble)).Select(interactable => (IInteractable)interactable))
                 {
-                    var interactable = entity as IInteractable;
-                    if (interactable != null) interactable.OnFocus = false;
+                    entity.OnFocus = false;
                 }
 
 
@@ -338,11 +337,41 @@ namespace CowFarm.Entities.Animals
 
         private void HandleAttackable(KeyboardState ks)
         {
-            List<Entity> _canBeAttackedList = AttackableSortCowNearby();
-            if (_canBeAttackedList.Count > 0)
+            List<Entity> canBeAttackedList = AttackableSortCowNearby();
+            if (canBeAttackedList.Count > 0)
             {
+                List<Entity> interactablesList = canBeAttackedList.ToList();
 
+                HashSet<Entity> hash = new HashSet<Entity>(canBeAttackedList);
+
+                IInteractable interactableOnFocus = null;
+
+                if (!hash.SequenceEqual(_previousFocusInteractables))
+                {
+                    _focusNumber = 0;
+                }
+                if (_focusNumber < interactablesList.Count && interactablesList[_focusNumber] != null)
+                {
+                    var interactable = interactablesList[_focusNumber] as IInteractable;
+                    if (interactable != null)
+                    {
+                        interactable.OnFocus = true;
+                        interactableOnFocus = interactable;
+                    }
+                }
+
+                if (_previousInteractableOnFocus != null &&
+                    (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus ||
+                     _focusNumber != 0 && _focusNumber == interactablesList.Count))
+                    _previousInteractableOnFocus.OnFocus = false;
+
+                foreach (var attackable in _previousFocusAttackables.Where(attackable => !hash.Contains(attackable)).Select(attackable => (IAttackable)attackable))
+                {
+                    attackable.OnFocus = false;
+                }
+                _previousFocusAttackables = hash;
             }
+
         }
 
         private void HandleInventory()
@@ -388,10 +417,7 @@ namespace CowFarm.Entities.Animals
 
             return dropPos;
         }
-        //public bool RunningAlreadyInSprint()
-        //{
-        //    return _timeInSprint > TimeSpan.FromSeconds(0.3);
-        //}
+
 
 
         public override void Draw(SpriteBatch spriteBatch)

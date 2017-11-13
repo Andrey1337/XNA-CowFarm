@@ -20,7 +20,7 @@ namespace CowFarm.Worlds
     {
         public Dictionary<int, Entity> InteractablesDictionary { get; }
         public Dictionary<int, Entity> AttackableDictionary { get; }
-
+        protected Texture2D BackgroundTexture;
         protected List<Entity>[] StaticEntities;
         protected List<Entity> DynamicEntities { get; private set; }
 
@@ -30,12 +30,13 @@ namespace CowFarm.Worlds
         public World DownWorld { get; set; }
 
         protected CowGameScreen CowGameScreen;
-        protected World(CowGameScreen cowGameScreen)
+        protected World(CowGameScreen cowGameScreen, Texture2D backGroundTexture)
                : base(Vector2.Zero)
         {
             InteractablesDictionary = new Dictionary<int, Entity>();
             AttackableDictionary = new Dictionary<int, Entity>();
             CowGameScreen = cowGameScreen;
+            BackgroundTexture = backGroundTexture;
             StaticEntities = new List<Entity>[cowGameScreen.Graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
         }
