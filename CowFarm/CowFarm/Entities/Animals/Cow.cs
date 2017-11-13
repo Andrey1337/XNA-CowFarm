@@ -189,7 +189,7 @@ namespace CowFarm.Entities.Animals
             food.Eat();
         }
 
-        private IInteractable _previousInteractableOnFocus;
+
 
         private int _focusNumber;
 
@@ -253,7 +253,7 @@ namespace CowFarm.Entities.Animals
         }
 
         private HashSet<Entity> _previousFocusInteractables;
-
+        private IInteractable _previousInteractableOnFocus;
         private void HandleInteractables(KeyboardState ks)
         {
             List<Entity> canBeOnFocusList = InteractableSortCowNearby();
@@ -334,43 +334,58 @@ namespace CowFarm.Entities.Animals
         }
 
         private HashSet<Entity> _previousFocusAttackables;
+        private IAttackable _previousAttackableOnFocus;
 
         private void HandleAttackable(KeyboardState ks)
         {
             List<Entity> canBeAttackedList = AttackableSortCowNearby();
             if (canBeAttackedList.Count > 0)
             {
-                List<Entity> interactablesList = canBeAttackedList.ToList();
+                List<Entity> attackableList = canBeAttackedList.ToList();
 
                 HashSet<Entity> hash = new HashSet<Entity>(canBeAttackedList);
 
-                IInteractable interactableOnFocus = null;
+                IAttackable attackableOnFocus = null;
 
                 if (!hash.SequenceEqual(_previousFocusInteractables))
                 {
                     _focusNumber = 0;
                 }
-                if (_focusNumber < interactablesList.Count && interactablesList[_focusNumber] != null)
+                if (_focusNumber < attackableList.Count && attackableList[_focusNumber] != null)
                 {
-                    var interactable = interactablesList[_focusNumber] as IInteractable;
+                    var interactable = attackableList[_focusNumber] as IAttackable;
                     if (interactable != null)
                     {
                         interactable.OnFocus = true;
-                        interactableOnFocus = interactable;
+                        attackableOnFocus = interactable;
                     }
                 }
 
-                if (_previousInteractableOnFocus != null &&
-                    (interactableOnFocus != null && interactableOnFocus != _previousInteractableOnFocus ||
-                     _focusNumber != 0 && _focusNumber == interactablesList.Count))
-                    _previousInteractableOnFocus.OnFocus = false;
+                if (_previousAttackableOnFocus != null &&
+                    (attackableOnFocus != null && attackableOnFocus != _previousAttackableOnFocus ||
+                     _focusNumber != 0 && _focusNumber == attackableList.Count))
+                    _previousAttackableOnFocus.OnFocus = false;
 
                 foreach (var attackable in _previousFocusAttackables.Where(attackable => !hash.Contains(attackable)).Select(attackable => (IAttackable)attackable))
                 {
                     attackable.OnFocus = false;
                 }
+                if (ks.IsKeyDown(Keys.R) && _prevKeyState.IsKeyUp(Keys.R) && attackableOnFocus != null)
+                {
+                    attackableOnFocus.GetDamage(20);
+                }
+
+                _previousAttackableOnFocus = attackableOnFocus;
                 _previousFocusAttackables = hash;
             }
+            else
+            {
+                _focusNumber = 0;
+                if (_previousAttackableOnFocus != null)
+                    _previousAttackableOnFocus.OnFocus = false;
+            }
+
+
 
         }
 
@@ -417,8 +432,6 @@ namespace CowFarm.Entities.Animals
 
             return dropPos;
         }
-
-
 
         public override void Draw(SpriteBatch spriteBatch)
         {

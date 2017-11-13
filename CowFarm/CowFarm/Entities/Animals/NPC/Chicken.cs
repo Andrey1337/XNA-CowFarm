@@ -13,6 +13,7 @@ namespace CowFarm.Entities.Animals.NPC
 {
     public class Chicken : Npc, IAttackable
     {
+        public int HealthPoint;
         public Chicken(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
             new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenRightWalk"], 3, 0),
@@ -28,7 +29,7 @@ namespace CowFarm.Entities.Animals.NPC
             Delay = 400f;
             SpeedX = 0.7f;
             SpeedY = 0.6f;
-
+            HealthPoint = 10;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
             CurrentWorld = world;
@@ -91,5 +92,11 @@ namespace CowFarm.Entities.Animals.NPC
         }
 
         public bool OnFocus { get; set; }
+        public void GetDamage(int damage)
+        {
+            HealthPoint -= damage;
+            if (HealthPoint <= 0)
+                CurrentWorld.RemoveDynamicEntity(this);
+        }
     }
 }
