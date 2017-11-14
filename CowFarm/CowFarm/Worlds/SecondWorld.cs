@@ -13,7 +13,7 @@ namespace CowFarm.Worlds
 {
     public class SecondWorld : World
     {
-        public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen)
+        public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen, cowGameScreen.GameTextures["secondWorldBackGround"])
         {
             new Cat(cowGameScreen, this, new Vector2(100, 100));
             new Chicken(cowGameScreen, this, new Vector2(500, 400));
@@ -52,7 +52,7 @@ namespace CowFarm.Worlds
             new Bush(cowGameScreen, this, new Vector2(510, 200));
             new Bush(cowGameScreen, this, new Vector2(760, 70));
             new Bush(cowGameScreen, this, new Vector2(740, 723));
-            new Bush(cowGameScreen, this, new Vector2(95,174));
+            new Bush(cowGameScreen, this, new Vector2(95, 174));
 
             new OrangeTree(cowGameScreen, this, new Vector2(550, 500));
             new OrangeTree(cowGameScreen, this, new Vector2(1000, 60));
@@ -64,8 +64,8 @@ namespace CowFarm.Worlds
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
-            spriteBatch.Draw(CowGameScreen.GameTextures["secondWorldBackGround"], new Rectangle(0, 0, CowGameScreen.Graphics.PreferredBackBufferWidth, CowGameScreen.Graphics.PreferredBackBufferHeight), Color.White);
+
+            spriteBatch.Draw(BackgroundTexture, new Rectangle(0, 0, CowGameScreen.Graphics.PreferredBackBufferWidth, CowGameScreen.Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(spriteBatch);
         }
     }

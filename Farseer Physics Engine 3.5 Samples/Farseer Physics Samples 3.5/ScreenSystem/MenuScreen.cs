@@ -30,9 +30,6 @@ namespace FarseerPhysics.Samples.ScreenSystem
         private Texture2D _texScrollButton;
         private Texture2D _texSlider;
 
-        private MenuButton _scrollUp;
-        private MenuButton _scrollDown;
-        private MenuButton _scrollSlider;
         private bool _scrollLock;
 
         /// <summary>

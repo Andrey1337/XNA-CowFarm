@@ -21,9 +21,10 @@ namespace CowFarm.Entities.Animals.NPC
                   new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
         {
             Rnd = new Random(100);
+            CurrentWorld = world;
             CurrentAnim = RightWalk;
-            world.AddDynamicEntity(this);
-            Body = BodyFactory.CreateRectangle(world, 0.28f, 0.05f, 0, position / 100);
+
+            Body = BodyFactory.CreateRectangle(CurrentWorld, 0.28f, 0.05f, 0, position / 100);
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
             Body.BodyType = BodyType.Dynamic;
@@ -31,6 +32,7 @@ namespace CowFarm.Entities.Animals.NPC
             Delay = 500f;
             SpeedX = 0.8f;
             SpeedY = 0.7f;
+            CurrentWorld.AddDynamicEntity(this);
         }
 
         public override void Update(GameTime gameTime)
@@ -62,22 +64,8 @@ namespace CowFarm.Entities.Animals.NPC
                 SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
 
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)CurrentAnim.SpriteWidth / 2;
-            vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-        }
-
+        }       
+       
         public override void Eat(IEatable entity)
         {
             throw new System.NotImplementedException();
