@@ -11,9 +11,8 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Animals.NPC
 {
-    public class Chicken : Npc, IAttackable
+    public class Chicken : Npc
     {
-        public int HealthPoint;
         public Chicken(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
             new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenRightWalk"], 3, 0),
@@ -29,7 +28,7 @@ namespace CowFarm.Entities.Animals.NPC
             Delay = 400f;
             SpeedX = 0.7f;
             SpeedY = 0.6f;
-            HealthPoint = 10;
+            HealthPoint = 20;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
             CurrentWorld = world;
@@ -64,39 +63,12 @@ namespace CowFarm.Entities.Animals.NPC
                 }
                 SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect,
-                OnFocus ? new Color(209, 209, 224) : Color.White);
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)CurrentAnim.SpriteWidth / 2;
-            vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-        }
+        }               
 
         public override void Eat(IEatable food)
         {
             throw new System.NotImplementedException();
         }
 
-        public Vector2 GetAttackPosition()
-        {
-            return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 2));
-        }
-
-        public bool OnFocus { get; set; }
-        public void GetDamage(int damage)
-        {
-            HealthPoint -= damage;
-            if (HealthPoint <= 0)
-                CurrentWorld.RemoveDynamicEntity(this);
-        }
     }
 }

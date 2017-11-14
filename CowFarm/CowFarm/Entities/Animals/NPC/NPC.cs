@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities.Animals.NPC
 {
-    public abstract class Npc : Animal
+    public abstract class Npc : Animal, IAttackable
     {
         protected List<Vector2> WayList;
 
@@ -21,7 +23,7 @@ namespace CowFarm.Entities.Animals.NPC
         private TimeSpan _standingTime;
 
         protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
-        {           
+        {
             HaveWay = false;
             _standing = false;
             WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(800, 100) };
@@ -38,6 +40,12 @@ namespace CowFarm.Entities.Animals.NPC
                 _index++;
         }
         protected Vector2 Force;
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect,
+                OnFocus ? new Color(209, 209, 224) : Color.White);
+        }
 
         protected void GoToPosition(GameTime gameTime)
         {
@@ -97,6 +105,14 @@ namespace CowFarm.Entities.Animals.NPC
             }
             Body.Move(Force);
             Body.ApplyForce(Force);
+        }
+
+        public bool OnFocus { get; set; }
+        public void GetDamage(int damage)
+        {
+            HealthPoint -= damage;
+            if (HealthPoint <= 0)
+                CurrentWorld.RemoveDynamicEntity(this);
         }
     }
 }

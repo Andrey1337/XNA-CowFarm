@@ -64,22 +64,8 @@ namespace CowFarm.Entities.Animals.NPC
                 SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
             }
 
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)CurrentAnim.SpriteWidth / 2;
-            vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-        }
-
+        }       
+       
         public override void Eat(IEatable entity)
         {
             throw new System.NotImplementedException();

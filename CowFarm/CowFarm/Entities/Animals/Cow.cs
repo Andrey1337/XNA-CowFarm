@@ -25,7 +25,6 @@ namespace CowFarm.Entities.Animals
         public CraftPanel CraftPanel { get; }
 
         public float Boost { get; private set; }
-        public float HealthPoint { get; private set; }
         public float StarvePoint { get; private set; }
 
         private IEnumerable<Entity> _interactableList;
@@ -170,15 +169,6 @@ namespace CowFarm.Entities.Animals
             }
 
             return canBeOnAttackList;
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)CurrentAnim.SpriteWidth / 2;
-            vector.Y -= (float)CurrentAnim.SpriteHeight / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
         }
 
         public override void Eat(IEatable food)
@@ -372,7 +362,7 @@ namespace CowFarm.Entities.Animals
                 }
                 if (ks.IsKeyDown(Keys.R) && _prevKeyState.IsKeyUp(Keys.R) && attackableOnFocus != null)
                 {
-                    attackableOnFocus.GetDamage(20);
+                    attackableOnFocus.GetDamage(10);
                 }
 
                 _previousAttackableOnFocus = attackableOnFocus;
@@ -384,9 +374,6 @@ namespace CowFarm.Entities.Animals
                 if (_previousAttackableOnFocus != null)
                     _previousAttackableOnFocus.OnFocus = false;
             }
-
-
-
         }
 
         private void HandleInventory()
@@ -431,11 +418,6 @@ namespace CowFarm.Entities.Animals
             }
 
             return dropPos;
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
 
         private KeyboardState _input;
@@ -500,7 +482,6 @@ namespace CowFarm.Entities.Animals
             Body.ApplyForce(_force);
         }
         public bool IsSelected { get; set; }
-
         public void ChangeWorld(World world, Direction direction)
         {
             switch (direction)

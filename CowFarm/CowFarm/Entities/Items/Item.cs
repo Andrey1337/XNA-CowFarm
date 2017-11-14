@@ -16,8 +16,7 @@ namespace CowFarm.Entities.Items
         public int ItemId { get; protected set; }
         public Texture2D IconTexture { get; }
         protected Rectangle DestRect;
-        protected Rectangle SourceRect;
-        public World CurrentWorld { get; set; }
+        protected Rectangle SourceRect;        
         protected ObjectMovingType ObjectMovingType;
 
         public int StackCount { get; protected set; }
