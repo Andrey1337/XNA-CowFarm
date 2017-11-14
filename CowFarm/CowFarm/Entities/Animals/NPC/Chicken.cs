@@ -27,7 +27,7 @@ namespace CowFarm.Entities.Animals.NPC
             Body.BodyTypeName = "chicken";
             Delay = 400f;
             SpeedX = 0.7f;
-            SpeedY = 0.6f;
+            SpeedY = 0.6f; 
             HealthPoint = 20;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
