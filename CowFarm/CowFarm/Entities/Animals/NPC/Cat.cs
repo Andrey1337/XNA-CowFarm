@@ -15,10 +15,10 @@ namespace CowFarm.Entities.Animals.NPC
     {
         public Cat(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
-                  new AnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
-                  new AnimatedSprites(cowGameScreen.GameTextures["catLeftWalk"], 3, 0),
-                  new AnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),
-                  new AnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
+                  new DynamicAnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
+                  new DynamicAnimatedSprites(cowGameScreen.GameTextures["catLeftWalk"], 3, 0),
+                  new DynamicAnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),
+                  new DynamicAnimatedSprites(cowGameScreen.GameTextures["catDownWalk"], 3, 0))
         {
             Rnd = new Random(100);
             CurrentWorld = world;
@@ -61,7 +61,7 @@ namespace CowFarm.Entities.Animals.NPC
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
+                SourceRect = CurrentAnim.Animate(gameTime, Delay);
             }
 
         }       

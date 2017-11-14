@@ -11,7 +11,7 @@ namespace CowFarm.Entities.Decorations
     public class Rock : Decoration
     {
         public Rock(CowGameScreen cowGameScreen, World world, Vector2 position) :
-            base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new AnimatedSprites(cowGameScreen.GameTextures["rockMovement"], 1, 0))
+            base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new StaticAnimatedSprites(cowGameScreen.GameTextures["rockMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float x1 = (float)(DestRect.X + 22) / 100;

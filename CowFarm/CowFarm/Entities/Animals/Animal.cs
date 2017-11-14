@@ -10,11 +10,11 @@ namespace CowFarm.Entities.Animals
 {
     public abstract class Animal : Entity
     {
-        protected AnimatedSprites RightWalk;
-        protected AnimatedSprites LeftWalk;
-        protected AnimatedSprites DownWalk;
-        protected AnimatedSprites UpWalk;
-        protected AnimatedSprites CurrentAnim;
+        protected DynamicAnimatedSprites RightWalk;
+        protected DynamicAnimatedSprites LeftWalk;
+        protected DynamicAnimatedSprites DownWalk;
+        protected DynamicAnimatedSprites UpWalk;
+        protected DynamicAnimatedSprites CurrentAnim;
 
         protected Rectangle DestRect;
         protected Rectangle SourceRect;
@@ -24,8 +24,8 @@ namespace CowFarm.Entities.Animals
 
         public float HealthPoint { get; protected set; }
 
-        protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk) : base(cowGameScreen)
+        protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk,
+            DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen)
         {
             DestRect = destRect;
             RightWalk = rightWalk;

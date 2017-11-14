@@ -22,7 +22,7 @@ namespace CowFarm.Entities.Animals.NPC
         private bool _standing;
         private TimeSpan _standingTime;
 
-        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk, AnimatedSprites leftWalk, AnimatedSprites downWalk, AnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk, DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites downWalk, DynamicAnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
         {
             HaveWay = false;
             _standing = false;

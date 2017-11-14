@@ -83,6 +83,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrowingSystem\DynamicAnimatedSprites.cs" />
+    <Compile Include="DrowingSystem\StaticAnimatedSprites.cs" />
     <Compile Include="Entities\Animals\NPC\Chicken.cs" />
     <Compile Include="Interfaces\IAttackable.cs" />
     <Compile Include="ScreenSystem\AboutScreen.cs" />

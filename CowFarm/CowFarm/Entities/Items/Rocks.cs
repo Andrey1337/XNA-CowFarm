@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
 {
     public class Rocks : Item, IInteractable, IDynamic
     {
-        public Rocks(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
+        public Rocks(CowGameScreen cowGameScreen) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
         {
             ItemId = 1;
             StackCount = 2;
@@ -35,7 +35,7 @@ namespace CowFarm.Entities.Items
         public override void Update(GameTime gameTime)
         {
             Body.Stop();
-            SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = ItemMovement.Animate(gameTime);
             if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 CowGameScreen.ChangeWorld(this, Direction.Right);

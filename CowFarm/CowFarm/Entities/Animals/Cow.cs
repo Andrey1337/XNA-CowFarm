@@ -23,7 +23,6 @@ namespace CowFarm.Entities.Animals
         public Inventory.Inventory Inventory { get; }
         public List<StatusBar> ListBars { get; }
         public CraftPanel CraftPanel { get; }
-
         public float Boost { get; private set; }
         public float StarvePoint { get; private set; }
 
@@ -33,10 +32,10 @@ namespace CowFarm.Entities.Animals
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
         : base(cowGameScreen, world,
               new Rectangle((int)position.X, (int)position.Y, 54, 49),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowUpWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16), 
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowUpWalk"], 3, 16),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
@@ -179,8 +178,6 @@ namespace CowFarm.Entities.Animals
             food.Eat();
         }
 
-
-
         private int _focusNumber;
 
         private KeyboardState _prevKeyState;
@@ -221,7 +218,7 @@ namespace CowFarm.Entities.Animals
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
+                SourceRect = CurrentAnim.Animate(gameTime, Delay);
             }
 
             if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
@@ -451,8 +448,7 @@ namespace CowFarm.Entities.Animals
             if (_input.IsKeyDown(Keys.Space) && _force != Vector2.Zero)
             {
                 if (Boost > 0)
-                {
-                    //_timeInSprint += gameTime.ElapsedGameTime;
+                {                    
                     Delay = 150f;
                     Boost -= 0.01f;
                     _force *= 2f;
@@ -460,8 +456,7 @@ namespace CowFarm.Entities.Animals
                         StarvePoint -= 0.01f;
                 }
                 else
-                {
-                    //_timeInSprint = TimeSpan.Zero;
+                {                    
                     Delay = 180f;
                     _force *= 1.3f;
                     if (StarvePoint > 0)
@@ -469,8 +464,7 @@ namespace CowFarm.Entities.Animals
                 }
             }
             else
-            {
-                //_timeInSprint = TimeSpan.Zero;
+            {              
                 Boost += 0.003f;
                 Delay = 200f;
                 if (Boost > 1)

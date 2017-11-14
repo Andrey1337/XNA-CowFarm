@@ -11,15 +11,14 @@ using World = CowFarm.Worlds.World;
 namespace CowFarm.Entities.Plants
 {
     public class GreenTree : Plant, IInteractable
-    {
-        private const float Delay = float.MaxValue;
+    {       
         private readonly CowGameScreen _cowGameScreen;
         public Apple Apple { get; set; }
         private bool _hasApple;
         private readonly World _world;
 
         public GreenTree(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(cowGameScreen.GameTextures["greenTreeMovement"], 1, 0))
+            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["greenTreeMovement"], 1, 0))
         {
             _world = world;
             _cowGameScreen = cowGameScreen;
@@ -56,7 +55,7 @@ namespace CowFarm.Entities.Plants
 
         public override void Update(GameTime gameTime)
         {
-            SourceRect = PlantMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = PlantMovement.Animate(gameTime);
             Apple?.Update(gameTime);
         }
 

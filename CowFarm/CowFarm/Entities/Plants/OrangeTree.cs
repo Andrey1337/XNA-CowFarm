@@ -10,8 +10,7 @@ namespace CowFarm.Entities.Plants
 {
     class OrangeTree : Plant
     {
-        private const float Delay = float.MaxValue;
-        public OrangeTree(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new AnimatedSprites(cowGameScreen.GameTextures["orangeTreeMovement"], 1, 0))
+        public OrangeTree(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["orangeTreeMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float width = (float)14 / 100;
@@ -27,7 +26,7 @@ namespace CowFarm.Entities.Plants
 
         public override void Update(GameTime gameTime)
         {
-            SourceRect = PlantMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = PlantMovement.Animate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
