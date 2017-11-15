@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items.Craftables
     public class Rope : Item, IInteractable
     {
         public Rope(CowGameScreen cowGameScreen)
-            : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["ropeMovement"], 1, 0), cowGameScreen.GameTextures["ropeIcon"])
+            : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["ropeMovement"], 1, 0), cowGameScreen.GameTextures["ropeIcon"])
         {
             ItemId = 3;
             StackCount = 3;
@@ -22,7 +22,7 @@ namespace CowFarm.Entities.Items.Craftables
         public override void Update(GameTime gameTime)
         {
             Body.Stop();
-            SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = ItemMovement.Animate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

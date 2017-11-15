@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
 {
     public class Log : Item, IInteractable, IDynamic
     {
-        public Log(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["logMovement"], 1, 0), cowGameScreen.GameTextures["logIcon"])
+        public Log(CowGameScreen cowGameScreen) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["logMovement"], 1, 0), cowGameScreen.GameTextures["logIcon"])
         {
             ItemId = 4;
             StackCount = 6;
@@ -22,7 +22,7 @@ namespace CowFarm.Entities.Items
         public override void Update(GameTime gameTime)
         {
             Body.Hikuah(12);
-            SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = ItemMovement.Animate(gameTime);
             if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 CowGameScreen.ChangeWorld(this, Direction.Right);
@@ -44,7 +44,7 @@ namespace CowFarm.Entities.Items
         {
             Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
             vector.X -= (float)DestRect.Width / 2;
-            
+
 
             return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Width, DestRect.Height);
         }

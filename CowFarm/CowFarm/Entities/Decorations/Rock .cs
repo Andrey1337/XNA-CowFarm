@@ -11,7 +11,7 @@ namespace CowFarm.Entities.Decorations
     public class Rock : Decoration
     {
         public Rock(CowGameScreen cowGameScreen, World world, Vector2 position) :
-            base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new AnimatedSprites(cowGameScreen.GameTextures["rockMovement"], 1, 0))
+            base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 160, 108), new StaticAnimatedSprites(cowGameScreen.GameTextures["rockMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float x1 = (float)(DestRect.X + 22) / 100;
@@ -35,18 +35,6 @@ namespace CowFarm.Entities.Decorations
             Body = BodyFactory.CreateEdge(world, new Vector2(x1, y1), new Vector2(x2, y2));
             Body.CollidesWith = Category.All;
             Body.CollisionCategories = Category.All;
-        }
-
-
-
-        public override void Update(GameTime gameTime)
-        {
-
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(DecorationMovement.Animation, DestRect, Color.White);
         }
 
         public override Rectangle GetPosition()

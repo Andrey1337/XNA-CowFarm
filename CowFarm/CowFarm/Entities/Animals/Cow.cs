@@ -23,7 +23,6 @@ namespace CowFarm.Entities.Animals
         public Inventory.Inventory Inventory { get; }
         public List<StatusBar> ListBars { get; }
         public CraftPanel CraftPanel { get; }
-
         public float Boost { get; private set; }
         public float StarvePoint { get; private set; }
 
@@ -31,12 +30,11 @@ namespace CowFarm.Entities.Animals
         private IEnumerable<Entity> _attackList;
 
         public Cow(CowGameScreen cowGameScreen, World world, Vector2 position)
-        : base(cowGameScreen, world,
-              new Rectangle((int)position.X, (int)position.Y, 54, 49),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowUpWalk"], 3, 16),
-              new AnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
+        : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 54, 49),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowRightWalk"], 3, 16),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowLeftWalk"], 3, 16),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowUpWalk"], 3, 16),
+              new DynamicAnimatedSprites(cowGameScreen.GameTextures["cowDownWalk"], 3, 16))
         {
             Inventory = new Inventory.Inventory(cowGameScreen);
             CraftPanel = new CraftPanel(cowGameScreen);
@@ -51,7 +49,8 @@ namespace CowFarm.Entities.Animals
             StarvePoint = 100;
             CurrentWorld = world;
             Boost = 1;
-
+            SpeedX = 1.5f;
+            SpeedY = 1f;
             CurrentWorld = world;
 
             _interactableList = new List<Entity>();
@@ -171,15 +170,13 @@ namespace CowFarm.Entities.Animals
             return canBeOnAttackList;
         }
 
-        public override void Eat(IEatable food)
+        public void Eat(IEatable food)
         {
             StarvePoint += food.Satiety;
             if (StarvePoint > 100f)
                 StarvePoint = 100f;
             food.Eat();
         }
-
-
 
         private int _focusNumber;
 
@@ -195,34 +192,11 @@ namespace CowFarm.Entities.Animals
 
             KeyboardState ks = Keyboard.GetState();
 
-            HandleUserAgent(gameTime);
+            HandleUserAgent(gameTime, ks);
             HandleInventory();
             HandleInteractables(ks);
             HandleAttackable(ks);
-            if (_force == Vector2.Zero)
-            {
-                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-            }
-            else
-            {
-                if (_force.Y < 0)
-                {
-                    CurrentAnim = UpWalk;
-                }
-                if (_force.Y > 0)
-                {
-                    CurrentAnim = DownWalk;
-                }
-                if (_force.X > 0)
-                {
-                    CurrentAnim = RightWalk;
-                }
-                if (_force.X < 0)
-                {
-                    CurrentAnim = LeftWalk;
-                }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
-            }
+            base.Update(gameTime);
 
             if (GetCenterPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
@@ -419,58 +393,50 @@ namespace CowFarm.Entities.Animals
 
             return dropPos;
         }
-
-        private KeyboardState _input;
-        private Vector2 _force = new Vector2(0, 0);
-        public void HandleUserAgent(GameTime gameTime)
+        
+        public void HandleUserAgent(GameTime gameTime, KeyboardState ks)
         {
-            _force = new Vector2(0, 0);
+            Force = new Vector2(0, 0);
 
-            const float forceAmountX = 1.5f;
-            const float forceAmountY = 1f;
+            ks = Keyboard.GetState();
 
-            _input = Keyboard.GetState();
-
-            if (_input.IsKeyDown(Keys.D))
+            if (ks.IsKeyDown(Keys.D))
             {
-                _force += new Vector2(forceAmountX, 0);
+                Force += new Vector2(SpeedX, 0);
             }
-            if (_input.IsKeyDown(Keys.A))
+            if (ks.IsKeyDown(Keys.A))
             {
-                _force += new Vector2(-forceAmountX, 0);
+                Force += new Vector2(-SpeedX, 0);
             }
-            if (_input.IsKeyDown(Keys.W))
+            if (ks.IsKeyDown(Keys.W))
             {
-                _force += new Vector2(0, -forceAmountY);
+                Force += new Vector2(0, -SpeedY);
             }
-            if (_input.IsKeyDown(Keys.S))
+            if (ks.IsKeyDown(Keys.S))
             {
-                _force += new Vector2(0, forceAmountY);
+                Force += new Vector2(0, SpeedY);
             }
 
-            if (_input.IsKeyDown(Keys.Space) && _force != Vector2.Zero)
+            if (ks.IsKeyDown(Keys.Space) && Force != Vector2.Zero)
             {
                 if (Boost > 0)
                 {
-                    //_timeInSprint += gameTime.ElapsedGameTime;
                     Delay = 150f;
                     Boost -= 0.01f;
-                    _force *= 2f;
+                    Force *= 2f;
                     if (StarvePoint > 0)
                         StarvePoint -= 0.01f;
                 }
                 else
                 {
-                    //_timeInSprint = TimeSpan.Zero;
                     Delay = 180f;
-                    _force *= 1.3f;
+                    Force *= 1.3f;
                     if (StarvePoint > 0)
                         StarvePoint -= 0.008f;
                 }
             }
             else
             {
-                //_timeInSprint = TimeSpan.Zero;
                 Boost += 0.003f;
                 Delay = 200f;
                 if (Boost > 1)
@@ -478,8 +444,8 @@ namespace CowFarm.Entities.Animals
                 StarvePoint -= 0.006f;
             }
 
-            Body.Move(_force);
-            Body.ApplyForce(_force);
+            Body.Move(Force);
+            Body.ApplyForce(Force);
         }
         public bool IsSelected { get; set; }
         public void ChangeWorld(World world, Direction direction)

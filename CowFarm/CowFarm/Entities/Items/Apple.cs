@@ -22,7 +22,7 @@ namespace CowFarm.Entities.Items
 
         private Vector2 _origin;
 
-        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+        public Apple(CowGameScreen cowGameScreen, World world, GreenTree tree, Rectangle destRect) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _origin.X = ItemMovement.SpriteWidth / 2;
             _origin.Y = ItemMovement.SpriteHeight / 2;
@@ -44,7 +44,7 @@ namespace CowFarm.Entities.Items
         }
 
         public Apple(CowGameScreen cowGameScreen)
-            : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
+            : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["appleMovement"], 1, 0), cowGameScreen.GameTextures["appleIcon"])
         {
             _eatenAppleMovement = cowGameScreen.GameTextures["eatenAppleMovement"];
             ItemId = 0;
@@ -138,15 +138,7 @@ namespace CowFarm.Entities.Items
                     OnFocus ? new Color(209, 209, 224) : Color.White, _rotationAngle,
                     _origin, 0.34f, SpriteEffects.None, 0f);
             }
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)DestRect.Width / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Height, DestRect.Width);
-        }
+        }       
 
         public Texture2D ReapaintTexture { get; set; }
         public Vector2 GetInteractablePosition()

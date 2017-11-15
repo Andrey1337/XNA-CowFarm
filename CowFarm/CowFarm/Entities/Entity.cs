@@ -13,9 +13,10 @@ namespace CowFarm.Entities
         public World CurrentWorld { get; protected set; }
 
         protected CowGameScreen CowGameScreen;
-        protected Entity(CowGameScreen cowGameScreen)
+        protected Entity(CowGameScreen cowGameScreen, World world)
         {
             CowGameScreen = cowGameScreen;
+            CurrentWorld = world;
         }
         public int BodyId => Body.BodyId;
         public string BodyTypeName => Body.BodyTypeName;

@@ -10,33 +10,60 @@ namespace CowFarm.Entities.Animals
 {
     public abstract class Animal : Entity
     {
-        protected AnimatedSprites RightWalk;
-        protected AnimatedSprites LeftWalk;
-        protected AnimatedSprites DownWalk;
-        protected AnimatedSprites UpWalk;
-        protected AnimatedSprites CurrentAnim;
+        protected DynamicAnimatedSprites RightWalk;
+        protected DynamicAnimatedSprites LeftWalk;
+        protected DynamicAnimatedSprites DownWalk;
+        protected DynamicAnimatedSprites UpWalk;
+        protected DynamicAnimatedSprites CurrentAnim;
+
+        protected Vector2 Force;
+        protected float SpeedX { get; set; }
+        protected float SpeedY { get; set; }
 
         protected Rectangle DestRect;
         protected Rectangle SourceRect;
 
-        protected ObjectMovingType ObjectMovingType;
         protected float Delay;
 
         public float HealthPoint { get; protected set; }
 
-        protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, AnimatedSprites rightWalk,
-            AnimatedSprites leftWalk, AnimatedSprites upWalk, AnimatedSprites downWalk) : base(cowGameScreen)
+        protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk,
+            DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world)
         {
             DestRect = destRect;
             RightWalk = rightWalk;
             LeftWalk = leftWalk;
             UpWalk = upWalk;
             DownWalk = downWalk;
-            ObjectMovingType = ObjectMovingType.Dynamic;
         }
 
-        public abstract void Eat(IEatable food);
-
+        public override void Update(GameTime gameTime)
+        {
+            if (Force == Vector2.Zero)
+            {
+                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+            }
+            else
+            {
+                if (Force.Y < 0)
+                {
+                    CurrentAnim = UpWalk;
+                }
+                if (Force.Y > 0)
+                {
+                    CurrentAnim = DownWalk;
+                }
+                if (Force.X > 0)
+                {
+                    CurrentAnim = RightWalk;
+                }
+                if (Force.X < 0)
+                {
+                    CurrentAnim = LeftWalk;
+                }
+                SourceRect = CurrentAnim.Animate(gameTime, Delay);
+            }
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

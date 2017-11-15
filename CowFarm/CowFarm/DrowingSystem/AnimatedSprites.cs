@@ -3,45 +3,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.DrowingSystem
 {
-    public class AnimatedSprites
+    public abstract class AnimatedSprites
     {
-        public Texture2D Animation { get; set; }
+        public Texture2D Animation { get; }
         public int SpriteWidth { get; }
         public int SpriteHeight { get; }
-        private int _framesCounter;
+        protected int FramesCounter;
         public int SpaceFromSprites { get; }
         public int Frames { get; }
+        protected float Elapsed;
 
-        private float _elapsed;
-
-        public AnimatedSprites(Texture2D animation, int frames, int spaceFromSprites)
+        protected AnimatedSprites(Texture2D animation, int frames, int spaceFromSprites)
         {
-            this.Animation = animation;
-            this.SpriteWidth = (animation.Width - (frames - 1) * spaceFromSprites) / frames;
-            this.SpriteHeight = Animation.Height;
-            this.SpaceFromSprites = spaceFromSprites;
-            this._framesCounter = 0;
-            this.Frames = frames;
-            this._elapsed = 100;
+            Animation = animation;
+            SpriteWidth = (animation.Width - (frames - 1) * spaceFromSprites) / frames;
+            SpriteHeight = Animation.Height;
+            SpaceFromSprites = spaceFromSprites;
+            Frames = frames;
+            Elapsed = 100;
         }
 
-        public Rectangle Animate(GameTime gameTime, ObjectMovingType ogjectType, float delay = float.MaxValue)
-        {
-            _elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (!(_elapsed >= delay))
-                return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * SpaceFromSprites, 0,
-                    SpriteWidth, Animation.Height);
-            if (_framesCounter >= Frames - 1)
-            {
-                _framesCounter = (int)ogjectType;
-            }
-            else
-            {
-                _framesCounter++;
-            }
-            _elapsed = 0;
-            return new Rectangle(SpriteWidth * _framesCounter + _framesCounter * SpaceFromSprites, 0,
-                SpriteWidth, Animation.Height);
-        }
+        public abstract Rectangle Animate(GameTime gameTime, float delay = float.MaxValue);
+
     }
 }

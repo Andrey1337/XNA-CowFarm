@@ -21,10 +21,10 @@ namespace CowFarm.Entities.Plants
         private readonly AnimatedSprites _eatenGrassMovement;
 
         public Grass(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 25, 51), new AnimatedSprites(cowGameScreen.GameTextures["grassMovement"], 1, 0))
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 25, 51), new StaticAnimatedSprites(cowGameScreen.GameTextures["grassMovement"], 1, 0))
         {
             _currentAnim = PlantMovement;
-            _eatenGrassMovement = new AnimatedSprites(cowGameScreen.GameTextures["eatenGrassMovement"], 1, 0);
+            _eatenGrassMovement = new StaticAnimatedSprites(cowGameScreen.GameTextures["eatenGrassMovement"], 1, 0);
 
             CurrentWorld = world;
 
@@ -57,14 +57,14 @@ namespace CowFarm.Entities.Plants
             if (!CanInteract)
                 _currentAnim = _eatenGrassMovement;
 
-            SourceRect = _currentAnim.Animate(gameTime, ObjectMovingType, Delay);
+            SourceRect = _currentAnim.Animate(gameTime, Delay);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (OnFocus)
             {
-                //spriteBatch.Draw(ReapaintTexture, new Rectangle(DestRect.X - 3, DestRect.Y - 4, DestRect.Width + 6, DestRect.Height + 6), SourceRect, Color.White);
+
                 spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, new Color(209, 209, 224));
             }
             else

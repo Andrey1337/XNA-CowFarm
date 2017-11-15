@@ -11,7 +11,7 @@ namespace CowFarm.Entities.Plants
     public class Bush : Plant
     {
         public Bush(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 84, 87), new AnimatedSprites(cowGameScreen.GameTextures["bushMovement"], 1, 0))
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 84, 87), new StaticAnimatedSprites(cowGameScreen.GameTextures["bushMovement"], 1, 0))
         {
             CurrentWorld = world;
             CurrentWorld.AddStaticEntity(this);
@@ -26,11 +26,7 @@ namespace CowFarm.Entities.Plants
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
         }
-
-        public override void Update(GameTime gameTime)
-        {
-
-        }
+        
 
         public override void Draw(SpriteBatch spriteBatch)
         {

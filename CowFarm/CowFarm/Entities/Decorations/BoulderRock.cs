@@ -10,7 +10,7 @@ namespace CowFarm.Entities.Decorations
     public class BoulderRock : Decoration
     {
         public BoulderRock(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 140, 115), new AnimatedSprites(cowGameScreen.GameTextures["boulderRockMovement"], 1, 0))
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 140, 115), new StaticAnimatedSprites(cowGameScreen.GameTextures["boulderRockMovement"], 1, 0))
         {
             float x1 = (float)(DestRect.X + 20) / 100;
             float x2 = (float)(DestRect.X + DestRect.Width - 15) / 100;

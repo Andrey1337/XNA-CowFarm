@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
 {
     public class Rocks : Item, IInteractable, IDynamic
     {
-        public Rocks(CowGameScreen cowGameScreen) : base(cowGameScreen, new AnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
+        public Rocks(CowGameScreen cowGameScreen) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["rocksMovement"], 1, 0), cowGameScreen.GameTextures["rocksIcon"])
         {
             ItemId = 1;
             StackCount = 2;
@@ -29,13 +29,13 @@ namespace CowFarm.Entities.Items
             Body.BodyTypeName = "rocks";
             world.AddDynamicEntity(this);
             DestRect = new Rectangle((int)position.X, (int)position.Y, 30, 23);
-            CurrentWorld = world;            
+            CurrentWorld = world;
         }
 
         public override void Update(GameTime gameTime)
         {
             Body.Stop();
-            SourceRect = ItemMovement.Animate(gameTime, ObjectMovingType);
+            SourceRect = ItemMovement.Animate(gameTime);
             if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 CowGameScreen.ChangeWorld(this, Direction.Right);
@@ -51,14 +51,6 @@ namespace CowFarm.Entities.Items
         {
             spriteBatch.Draw(ItemMovement.Animation, GetPosition(), SourceRect,
                 OnFocus ? new Color(209, 209, 224) : Color.White);
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)DestRect.Width / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Width, DestRect.Height);
         }
 
         public Vector2 GetInteractablePosition()

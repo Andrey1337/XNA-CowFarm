@@ -11,20 +11,19 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Items
 {
-    public class CutGrass : Item, IEatable, IDynamic
+    public class ChickenLeg : Item, IEatable, IDynamic
     {
-        public CutGrass(CowGameScreen cowGameScreen) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["cutGrassMovement"], 1, 0), cowGameScreen.GameTextures["cutGrassIcon"])
+        public ChickenLeg(CowGameScreen cowGameScreen, AnimatedSprites itemMovement, Texture2D iconTexture) : base(cowGameScreen, itemMovement, iconTexture)
         {
-            ItemId = 2;
-            StackCount = 9;
-            Satiety = 5f;
+            ItemId = 5;
+            Satiety = 20f;
+            StackCount = 6;
         }
 
         public override void Update(GameTime gameTime)
         {
             Body.Hikuah(12);
             SourceRect = ItemMovement.Animate(gameTime);
-
             if (GetPosition().X > CowGameScreen.Graphics.PreferredBackBufferWidth && CowGameScreen.WorldOnFocus.RightWorld != null)
             {
                 CowGameScreen.ChangeWorld(this, Direction.Right);
@@ -40,7 +39,20 @@ namespace CowFarm.Entities.Items
         {
             spriteBatch.Draw(ItemMovement.Animation, GetPosition(), SourceRect,
                 OnFocus ? new Color(209, 209, 224) : Color.White);
-        }        
+        }
+
+        public override void Drop(World world, Vector2 position)
+        {
+            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(position.X, position.Y) / 100);
+            Body.BodyType = BodyType.Dynamic;
+            Body.CollisionCategories = Category.All & ~Category.Cat10;
+            Body.CollidesWith = Category.All & ~Category.Cat10;
+            Body.BodyTypeName = "chickenLeg";
+            CanInteract = true;
+            DestRect = new Rectangle((int)position.X, (int)position.Y, 33, 29);
+            world.AddDynamicEntity(this);
+            CurrentWorld = world;
+        }
 
         public Vector2 GetInteractablePosition()
         {
@@ -54,19 +66,6 @@ namespace CowFarm.Entities.Items
             Pick();
         }
 
-        public override void Drop(World world, Vector2 position)
-        {
-            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(position.X, position.Y) / 100);
-            Body.BodyType = BodyType.Dynamic;
-            Body.CollisionCategories = Category.All & ~Category.Cat10;
-            Body.CollidesWith = Category.All & ~Category.Cat10;
-            Body.BodyTypeName = "cutGrass";
-            CanInteract = true;
-            DestRect = new Rectangle((int)position.X, (int)position.Y, 32, 32);
-            world.AddDynamicEntity(this);
-            CurrentWorld = world;
-        }
-
         public bool IsEaten { get; set; }
         public void Eat()
         {
@@ -74,6 +73,7 @@ namespace CowFarm.Entities.Items
         }
 
         public float Satiety { get; }
+
         public void ChangeWorld(World world, Direction direction)
         {
             switch (direction)
@@ -87,11 +87,12 @@ namespace CowFarm.Entities.Items
                     break;
             }
 
-            Body.BodyTypeName = "cutGrass";
+            Body.BodyTypeName = "chickenLeg";
             CurrentWorld = world;
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
         }
+
     }
 }
