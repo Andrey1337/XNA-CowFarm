@@ -138,15 +138,7 @@ namespace CowFarm.Entities.Items
                     OnFocus ? new Color(209, 209, 224) : Color.White, _rotationAngle,
                     _origin, 0.34f, SpriteEffects.None, 0f);
             }
-        }
-
-        public override Rectangle GetPosition()
-        {
-            Vector2 vector = ConvertUnits.ToDisplayUnits(Body.Position);
-            vector.X -= (float)DestRect.Width / 2;
-
-            return new Rectangle((int)vector.X, (int)vector.Y, DestRect.Height, DestRect.Width);
-        }
+        }       
 
         public Texture2D ReapaintTexture { get; set; }
         public Vector2 GetInteractablePosition()

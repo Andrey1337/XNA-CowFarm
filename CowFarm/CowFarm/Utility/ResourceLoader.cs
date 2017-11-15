@@ -106,8 +106,8 @@ namespace CowFarm.Utility
         {
             GameTextures.Add("catRightWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catRightWalk"));
             GameTextures.Add("catLeftWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catLeftWalk"));
-            GameTextures.Add("catDownWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catUpWalk"));
-            GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catDownWalk"));
+            GameTextures.Add("catUpWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catUpWalk"));
+            GameTextures.Add("catDownWalk", contentManager.Load<Texture2D>("AnimalMovements/Cat/catDownWalk"));
         }
 
         private static void LoadChicken(ContentManager contentManager)

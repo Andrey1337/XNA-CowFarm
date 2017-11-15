@@ -86,6 +86,7 @@
     <Compile Include="DrowingSystem\DynamicAnimatedSprites.cs" />
     <Compile Include="DrowingSystem\StaticAnimatedSprites.cs" />
     <Compile Include="Entities\Animals\NPC\Chicken.cs" />
+    <Compile Include="Entities\Items\ChickenLeg.cs" />
     <Compile Include="Interfaces\IAttackable.cs" />
     <Compile Include="ScreenSystem\AboutScreen.cs" />
     <Compile Include="Comparables\PositionYComparer.cs" />

@@ -37,18 +37,6 @@ namespace CowFarm.Entities.Decorations
             Body.CollisionCategories = Category.All;
         }
 
-
-
-        public override void Update(GameTime gameTime)
-        {
-
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(DecorationMovement.Animation, DestRect, Color.White);
-        }
-
         public override Rectangle GetPosition()
         {
             return new Rectangle(DestRect.X, DestRect.Y, DecorationMovement.SpriteWidth, DecorationMovement.SpriteHeight - 40);

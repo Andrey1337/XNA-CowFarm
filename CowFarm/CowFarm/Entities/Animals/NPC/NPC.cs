@@ -15,59 +15,77 @@ namespace CowFarm.Entities.Animals.NPC
 
         protected Vector2 PositionToGo;
         protected Random Rnd;
-        protected float SpeedX { get; set; }
-        protected float SpeedY { get; set; }
 
         protected bool HaveWay;
-        private bool _standing;
-        private TimeSpan _standingTime;
+        protected bool Standing;
+        protected TimeSpan StandingTime;
 
-        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk, DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites downWalk, DynamicAnimatedSprites upWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, downWalk, upWalk)
+        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk, DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, upWalk, downWalk)
         {
             HaveWay = false;
-            _standing = false;
-            WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(800, 100) };
+            Standing = false;
+            DamageAnimationTime = TimeSpan.FromMilliseconds(100);
+            InAttack = false;
         }
 
-        private int _index;
+        public override void Update(GameTime gameTime)
+        {
+            GoToPosition(gameTime);
+            if (InAttack)
+            {
+                InDamageAnimationTime += gameTime.ElapsedGameTime;
+                if (InDamageAnimationTime >= DamageAnimationTime)
+                {
+                    InDamageAnimationTime = TimeSpan.Zero;
+                    InAttack = false;
+                }
+            }
+            if (!Standing)
+                base.Update(gameTime);
+            else
+                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
+        }
+
+        private int _numberOfPosition;
         protected virtual void ChoseWay()
         {
             HaveWay = true;
-            PositionToGo = WayList[_index];
-            if (_index >= WayList.Count - 1)
-                _index = 0;
+            PositionToGo = WayList[_numberOfPosition];
+            if (_numberOfPosition >= WayList.Count - 1)
+                _numberOfPosition = 0;
             else
-                _index++;
+                _numberOfPosition++;
         }
-        protected Vector2 Force;
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect,
-                OnFocus ? new Color(209, 209, 224) : Color.White);
+            if (InAttack)
+                spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, new Color(231, 0, 0));
+            else
+                spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, OnFocus ? new Color(209, 209, 224) : Color.White);
         }
 
         protected void GoToPosition(GameTime gameTime)
         {
-            if (_standing)
+            if (Standing)
             {
                 Body.Stop();
-                if (_standingTime <= TimeSpan.Zero)
+                if (StandingTime <= TimeSpan.Zero)
                 {
-                    _standing = false;
+                    Standing = false;
                 }
                 else
                 {
-                    _standingTime -= gameTime.ElapsedGameTime;
+                    StandingTime -= gameTime.ElapsedGameTime;
                 }
 
                 return;
             }
 
-            if (_standingTime <= TimeSpan.Zero && 2 == Rnd.Next(1000))
+            if (StandingTime <= TimeSpan.Zero && 2 == Rnd.Next(1000))
             {
-                _standingTime += TimeSpan.FromSeconds(Rnd.Next(3, 5));
-                _standing = true;
+                StandingTime += TimeSpan.FromSeconds(Rnd.Next(3, 5));
+                Standing = true;
             }
 
             int positionX = GetPosition().X;
@@ -111,8 +129,15 @@ namespace CowFarm.Entities.Animals.NPC
         public void GetDamage(int damage)
         {
             HealthPoint -= damage;
+            InAttack = true;
+            Standing = true;
+            StandingTime = TimeSpan.FromSeconds(2);
             if (HealthPoint <= 0)
                 CurrentWorld.RemoveDynamicEntity(this);
         }
+
+        public TimeSpan DamageAnimationTime { get; set; }
+        public TimeSpan InDamageAnimationTime { get; set; }
+        public bool InAttack { get; set; }
     }
 }

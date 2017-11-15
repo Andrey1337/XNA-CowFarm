@@ -1,6 +1,8 @@
 ﻿using CowFarm.DrowingSystem;
 using CowFarm.ScreenSystem;
+using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Entities.Plants
 {
@@ -11,15 +13,21 @@ namespace CowFarm.Entities.Plants
         protected Rectangle DestRect;
         protected Rectangle SourceRect;
 
-        protected ObjectMovingType ObjectMovingType;
-
-        protected Plant(CowGameScreen cowGameScreen, Rectangle destRect, StaticAnimatedSprites plantMovement) : base(cowGameScreen)
+        protected Plant(CowGameScreen cowGameScreen, World world, Rectangle destRect, StaticAnimatedSprites plantMovement) : base(cowGameScreen, world)
         {
-            this.Graphics = cowGameScreen.Graphics; 
-            this.DestRect = destRect;
-            this.PlantMovement = plantMovement;
-            this.ObjectMovingType = ObjectMovingType.Static;
+            Graphics = cowGameScreen.Graphics;
+            DestRect = destRect;
+            PlantMovement = plantMovement;
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            SourceRect = new Rectangle(0, 0, PlantMovement.SpriteWidth, PlantMovement.SpriteHeight);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
+        }
     }
 }

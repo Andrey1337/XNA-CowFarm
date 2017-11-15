@@ -8,9 +8,9 @@ using World = CowFarm.Worlds.World;
 
 namespace CowFarm.Entities.Plants
 {
-    class OrangeTree : Plant
+    internal class OrangeTree : Plant
     {
-        public OrangeTree(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["orangeTreeMovement"], 1, 0))
+        public OrangeTree(CowGameScreen cowGameScreen, World world, Vector2 position) : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["orangeTreeMovement"], 1, 0))
         {
             world.AddStaticEntity(this);
             float width = (float)14 / 100;
@@ -22,16 +22,6 @@ namespace CowFarm.Entities.Plants
             Body.BodyType = BodyType.Static;
             Body.CollisionCategories = Category.All;
             Body.CollidesWith = Category.All;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            SourceRect = PlantMovement.Animate(gameTime);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(PlantMovement.Animation, DestRect, SourceRect, Color.White);
         }
 
         public override Rectangle GetPosition()

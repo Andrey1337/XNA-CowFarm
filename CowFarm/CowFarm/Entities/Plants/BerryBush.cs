@@ -10,7 +10,7 @@ namespace CowFarm.Entities.Plants
     public class BerryBush : Plant
     {
         public BerryBush(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 130, 120), new StaticAnimatedSprites(cowGameScreen.GameTextures["berryBushMovement"], 1, 0))
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 130, 120), new StaticAnimatedSprites(cowGameScreen.GameTextures["berryBushMovement"], 1, 0))
         {
             float x1 = (float)(DestRect.X + 47) / 100;
             float y = (float)(DestRect.Y + DestRect.Height - 17) / 100;
@@ -21,15 +21,7 @@ namespace CowFarm.Entities.Plants
             world.AddStaticEntity(this);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            SourceRect = new Rectangle(0, 0, PlantMovement.SpriteWidth, PlantMovement.SpriteHeight);
-        }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(PlantMovement.Animation, DestRect, Color.White);
-        }
 
         public override Rectangle GetPosition()
         {

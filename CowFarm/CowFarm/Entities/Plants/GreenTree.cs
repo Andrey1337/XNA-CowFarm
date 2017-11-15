@@ -18,7 +18,7 @@ namespace CowFarm.Entities.Plants
         private readonly World _world;
 
         public GreenTree(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["greenTreeMovement"], 1, 0))
+            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 155, 261), new StaticAnimatedSprites(cowGameScreen.GameTextures["greenTreeMovement"], 1, 0))
         {
             _world = world;
             _cowGameScreen = cowGameScreen;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -33,42 +34,7 @@ namespace CowFarm.Entities.Animals.NPC
             SpeedX = 0.8f;
             SpeedY = 0.7f;
             CurrentWorld.AddDynamicEntity(this);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            GoToPosition(gameTime);
-
-            if (Body.GetVelocity() == Vector2.Zero)
-            {
-                SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
-            }
-            else
-            {
-                if (Force.Y < 0)
-                {
-                    CurrentAnim = DownWalk;
-                }
-                if (Force.Y > 0)
-                {
-                    CurrentAnim = UpWalk;
-                }
-                if (Force.X > 0)
-                {
-                    CurrentAnim = RightWalk;
-                }
-                if (Force.X < 0)
-                {
-                    CurrentAnim = LeftWalk;
-                }
-                SourceRect = CurrentAnim.Animate(gameTime, Delay);
-            }
-
-        }       
-       
-        public override void Eat(IEatable entity)
-        {
-            throw new System.NotImplementedException();
+            WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(800, 100) };
         }
     }
 }
