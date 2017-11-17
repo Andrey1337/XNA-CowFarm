@@ -140,8 +140,8 @@ namespace CowFarm.Utility
 
         private static void BackGroundLoad(ContentManager contentManager)
         {
-            GameTextures.Add("firstWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
-            GameTextures.Add("secondWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
+            //GameTextures.Add("firstWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
+            //GameTextures.Add("secondWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
 
         }
 

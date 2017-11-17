@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
@@ -15,10 +16,10 @@ namespace CowFarm.Entities.Animals.NPC
     {
         public Chicken(CowGameScreen cowGameScreen, World world, Vector2 position)
             : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
-            new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenRightWalk"], 3, 0),
-            new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenLeftWalk"], 3, 0),
-            new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenUpWalk"], 3, 0),
-            new AnimatedSprites(cowGameScreen.GameTextures["whiteChickenDownWalk"], 3, 0))
+            new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenRightWalk"], 3, 0),
+            new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenLeftWalk"], 3, 0),
+            new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenUpWalk"], 3, 0),
+            new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenDownWalk"], 3, 0))
         {
             Body = BodyFactory.CreateRectangle(world, 0.22f, 0.05f, 0, position / 100);
             Body.CollisionCategories = Category.All;
@@ -27,11 +28,12 @@ namespace CowFarm.Entities.Animals.NPC
             Body.BodyTypeName = "chicken";
             Delay = 400f;
             SpeedX = 0.7f;
-            SpeedY = 0.6f; 
+            SpeedY = 0.6f;
             HealthPoint = 20;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
             CurrentWorld = world;
+            WayList = new List<Vector2> { new Vector2(100, 500), new Vector2(800, 500) };
             world.AddDynamicEntity(this);
         }
 
@@ -61,14 +63,10 @@ namespace CowFarm.Entities.Animals.NPC
                 {
                     CurrentAnim = LeftWalk;
                 }
-                SourceRect = CurrentAnim.Animate(gameTime, ObjectMovingType, Delay);
+                SourceRect = CurrentAnim.Animate(gameTime, Delay);
             }
-        }               
-
-        public override void Eat(IEatable food)
-        {
-            throw new System.NotImplementedException();
         }
+
 
     }
 }

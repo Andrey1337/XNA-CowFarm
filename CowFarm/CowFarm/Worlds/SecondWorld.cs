@@ -7,13 +7,14 @@ using CowFarm.Entities.Plants;
 using CowFarm.ScreenSystem;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CowFarm.Worlds
 {
     public class SecondWorld : World
     {
-        public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen, cowGameScreen.GameTextures["secondWorldBackGround"])
+        public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen)
         {
             new Cat(cowGameScreen, this, new Vector2(100, 100));
             new Chicken(cowGameScreen, this, new Vector2(500, 400));
@@ -58,6 +59,11 @@ namespace CowFarm.Worlds
 
             //border
             BodyFactory.CreateEdge(this, new Vector2((float)CowGameScreen.Graphics.PreferredBackBufferWidth / 100, 0), new Vector2((float)CowGameScreen.Graphics.PreferredBackBufferWidth / 100, (float)CowGameScreen.Graphics.PreferredBackBufferHeight / 100));
+        }
+
+        public override void Load(ContentManager content)
+        {
+            BackgroundTexture = content.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround");
         }
 
         public override void Draw(SpriteBatch spriteBatch)

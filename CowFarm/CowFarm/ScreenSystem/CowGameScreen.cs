@@ -66,7 +66,7 @@ namespace CowFarm.ScreenSystem
                 FirstWorld.RightWorld = SecondWorld;
                 SecondWorld.LeftWorld = FirstWorld;
                 WordlsList = new List<World> { FirstWorld, SecondWorld };
-
+                WordlsList.ForEach(world => world.Load(_contentManager));
                 WorldOnFocus = SecondWorld;
                 CreateCow();
             }
