@@ -28,7 +28,6 @@ namespace CowFarm.Utility
             LoadChicken(contentManager);
             LoadFood(contentManager);
             RockLoad(contentManager);
-            BackGroundLoad(contentManager);
             LoadButtons(contentManager);
             LoadIcons(contentManager);
             LoadItems(contentManager);
@@ -56,9 +55,7 @@ namespace CowFarm.Utility
             GameSounds.Add("gameSound", contentManager.Load<SoundEffect>("Sounds/gameSound"));
 
             return GameSounds;
-
         }
-
 
         public static void LoadSelectionTexture(GraphicsDevice graphicsDevice, ContentManager contentManager, int textureWidth, int textureHeight)
         {
@@ -138,17 +135,13 @@ namespace CowFarm.Utility
             GameTextures.Add("boulderRockMovement", contentManager.Load<Texture2D>("DecorationMovements/boulderRockMovement"));
         }
 
-        private static void BackGroundLoad(ContentManager contentManager)
-        {
-            GameTextures.Add("firstWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/firstWorldBackGround"));
-            GameTextures.Add("secondWorldBackGround", contentManager.Load<Texture2D>("WorldsBackgrounds/secondWorldBackGround"));
 
-        }
 
         private static void LoadFood(ContentManager contentManager)
         {
             GameTextures.Add("appleMovement", contentManager.Load<Texture2D>("Food/appleMovement"));
             GameTextures.Add("eatenAppleMovement", contentManager.Load<Texture2D>("Food/eatenAppleMovement"));
+            GameTextures.Add("chickenLegMovement", contentManager.Load<Texture2D>("Food/chickenLegMovement"));
         }
 
         private static void LoadItems(ContentManager contentManager)
@@ -166,6 +159,7 @@ namespace CowFarm.Utility
             GameTextures.Add("cutGrassIcon", contentManager.Load<Texture2D>("ItemIcons/cutGrassIcon"));
             GameTextures.Add("ropeIcon", contentManager.Load<Texture2D>("ItemIcons/ropeIcon"));
             GameTextures.Add("logIcon", contentManager.Load<Texture2D>("ItemIcons/logIcon"));
+            GameTextures.Add("chickenLegIcon", contentManager.Load<Texture2D>("ItemIcons/chickenLegIcon"));
 
             GameTextures.Add("fullHearthIcon", contentManager.Load<Texture2D>("MiscsIcons/fullHearthIcon"));
             GameTextures.Add("halfHearthIcon", contentManager.Load<Texture2D>("MiscsIcons/halfHearthIcon"));

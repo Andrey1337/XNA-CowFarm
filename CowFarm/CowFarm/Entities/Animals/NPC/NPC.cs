@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CowFarm.DrowingSystem;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
+using CowFarm.StatusBars;
 using CowFarm.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +16,7 @@ namespace CowFarm.Entities.Animals.NPC
 
         protected Vector2 PositionToGo;
         protected Random Rnd;
+        protected MobsHealthBar HealthBar;
 
         protected bool HaveWay;
         protected bool Standing;
@@ -26,6 +28,7 @@ namespace CowFarm.Entities.Animals.NPC
             Standing = false;
             DamageAnimationTime = TimeSpan.FromMilliseconds(100);
             InAttack = false;
+            HealthBar = new MobsHealthBar(cowGameScreen, this);
         }
 
         public override void Update(GameTime gameTime)
@@ -60,9 +63,12 @@ namespace CowFarm.Entities.Animals.NPC
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (InAttack)
-                spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, new Color(231, 0, 0));
+                spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, new Color(255, 26, 26));
             else
                 spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, OnFocus ? new Color(209, 209, 224) : Color.White);
+            if (HealthPoint < MaxHealthPoint || OnFocus)
+                HealthBar.Draw(spriteBatch);
+
         }
 
         protected void GoToPosition(GameTime gameTime)
@@ -133,7 +139,7 @@ namespace CowFarm.Entities.Animals.NPC
             Standing = true;
             StandingTime = TimeSpan.FromSeconds(2);
             if (HealthPoint <= 0)
-                CurrentWorld.RemoveDynamicEntity(this);
+                Die();
         }
 
         public TimeSpan DamageAnimationTime { get; set; }

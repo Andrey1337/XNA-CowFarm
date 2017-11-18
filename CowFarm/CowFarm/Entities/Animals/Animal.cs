@@ -26,6 +26,7 @@ namespace CowFarm.Entities.Animals
         protected float Delay;
 
         public float HealthPoint { get; protected set; }
+        public float MaxHealthPoint { get; protected set; }
 
         protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk,
             DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world)
@@ -69,6 +70,8 @@ namespace CowFarm.Entities.Animals
         {
             spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, Color.White);
         }
+
+        protected abstract void Die();
 
         public override Rectangle GetPosition()
         {

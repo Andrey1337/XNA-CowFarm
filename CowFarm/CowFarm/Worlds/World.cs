@@ -30,23 +30,19 @@ namespace CowFarm.Worlds
         public World DownWorld { get; set; }
 
         protected CowGameScreen CowGameScreen;
-        protected World(CowGameScreen cowGameScreen, Texture2D backGroundTexture)
+        protected World(CowGameScreen cowGameScreen)
                : base(Vector2.Zero)
         {
             InteractablesDictionary = new Dictionary<int, Entity>();
             AttackableDictionary = new Dictionary<int, Entity>();
-            CowGameScreen = cowGameScreen;
-            BackgroundTexture = backGroundTexture;
+            CowGameScreen = cowGameScreen;         
             StaticEntities = new List<Entity>[cowGameScreen.Graphics.PreferredBackBufferHeight];
             DynamicEntities = new List<Entity>();
         }
 
 
-        public virtual void Load(ContentManager content)
-        {
-            //TODO: fix
-        }
-
+        public abstract void Load(ContentManager content);
+       
         public void AddDynamicEntity(Entity dynamicEntity)
         {
             if (DynamicEntities == null)

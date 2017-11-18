@@ -13,7 +13,7 @@ namespace CowFarm.Entities.Items
 {
     public class ChickenLeg : Item, IEatable, IDynamic
     {
-        public ChickenLeg(CowGameScreen cowGameScreen, AnimatedSprites itemMovement, Texture2D iconTexture) : base(cowGameScreen, itemMovement, iconTexture)
+        public ChickenLeg(CowGameScreen cowGameScreen) : base(cowGameScreen, new StaticAnimatedSprites(cowGameScreen.GameTextures["chickenLegMovement"], 1, 0), cowGameScreen.GameTextures["chickenLegIcon"])
         {
             ItemId = 5;
             Satiety = 20f;
@@ -43,7 +43,7 @@ namespace CowFarm.Entities.Items
 
         public override void Drop(World world, Vector2 position)
         {
-            Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(position.X, position.Y) / 100);
+            Body = BodyFactory.CreateCircle(world, (float)4 / 100, 1f, new Vector2(position.X, position.Y) / 100);
             Body.BodyType = BodyType.Dynamic;
             Body.CollisionCategories = Category.All & ~Category.Cat10;
             Body.CollidesWith = Category.All & ~Category.Cat10;
@@ -79,11 +79,11 @@ namespace CowFarm.Entities.Items
             switch (direction)
             {
                 case Direction.Right:
-                    Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2(0.25f, Body.Position.Y));
+                    Body = BodyFactory.CreateCircle(world, (float)4 / 100, 1f, new Vector2(0.25f, Body.Position.Y));
                     break;
 
                 case Direction.Left:
-                    Body = BodyFactory.CreateCircle(world, (float)2 / 100, 1f, new Vector2((float)(CowGameScreen.Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
+                    Body = BodyFactory.CreateCircle(world, (float)4 / 100, 1f, new Vector2((float)(CowGameScreen.Graphics.PreferredBackBufferWidth - 25) / 100, Body.Position.Y));
                     break;
             }
 

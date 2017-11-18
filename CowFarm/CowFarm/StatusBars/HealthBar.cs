@@ -8,27 +8,27 @@ namespace CowFarm.StatusBars
 {
     public class HealthBar : StatusBar
     {
-        public HealthBar(CowGameScreen cowGameScreen, Cow cow) : base(cowGameScreen, cow)
+        public HealthBar(CowGameScreen cowGameScreen, Cow animal) : base(cowGameScreen, animal)
         {
-            _drawRect = new Rectangle((int)cow.Inventory.StartPosition.X, (int)cow.Inventory.StartPosition.Y - 19, 18, 18);
+            DrawRect = new Rectangle((int)animal.Inventory.StartPosition.X, (int)animal.Inventory.StartPosition.Y - 19, 18, 18);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            float healthPoint = _cow.HealthPoint;
+            float healthPoint = Animal.HealthPoint;
 
-            var drawRect = _drawRect;
+            var drawRect = DrawRect;
 
             for (int i = 0; i < 10; i++)
             {
                 if (healthPoint > 5)
-                    spriteBatch.Draw(_cowGameScreen.GameTextures["fullHearthIcon"], drawRect, Color.White);
+                    spriteBatch.Draw(CowGameScreen.GameTextures["fullHearthIcon"], drawRect, Color.White);
                 else
                 {
                     spriteBatch.Draw(
                         healthPoint > 0
-                            ? _cowGameScreen.GameTextures["halfHearthIcon"]
-                            : _cowGameScreen.GameTextures["emptyHearthIcon"], drawRect, Color.White);
+                            ? CowGameScreen.GameTextures["halfHearthIcon"]
+                            : CowGameScreen.GameTextures["emptyHearthIcon"], drawRect, Color.White);
                 }
 
                 healthPoint -= 10;

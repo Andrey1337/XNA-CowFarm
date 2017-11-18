@@ -188,7 +188,7 @@ namespace CowFarm.Entities.Animals
                 HealthPoint -= 0.03f;
 
             if (HealthPoint <= 0)
-                CowGameScreen.FinishGame();
+                Die();
 
             KeyboardState ks = Keyboard.GetState();
 
@@ -209,6 +209,11 @@ namespace CowFarm.Entities.Animals
             }
 
             _prevKeyState = ks;
+        }
+
+        protected override void Die()
+        {
+            CowGameScreen.FinishGame();
         }
 
         private Vector2 GetCenterPosition()
@@ -393,7 +398,7 @@ namespace CowFarm.Entities.Animals
 
             return dropPos;
         }
-        
+
         public void HandleUserAgent(GameTime gameTime, KeyboardState ks)
         {
             Force = new Vector2(0, 0);

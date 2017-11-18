@@ -28,7 +28,7 @@ namespace CowFarm
 
         protected override void Initialize()
         {
-            MenuScreen menuScreen = new MenuScreen("Cow Farm Game");
+            MenuScreen menuScreen = new MenuScreen("Animal Farm Game");
 
             menuScreen.AddMenuItem("", EntryType.Separator, null);
             menuScreen.AddMenuItem("", EntryType.Separator, null);

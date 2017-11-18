@@ -88,7 +88,7 @@ namespace CowFarm.Entities.Plants
         public void Interact()
         {
             CanInteract = false;
-            new CutGrass(CowGameScreen).Drop(CurrentWorld, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 1.6f));
+            new CutGrass(CowGameScreen).Drop(CurrentWorld, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 2f));
         }
         public Texture2D ReapaintTexture { get; set; }
         public bool OnFocus { get; set; }

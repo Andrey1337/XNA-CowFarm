@@ -7,13 +7,13 @@ namespace CowFarm.StatusBars
 {
     public abstract class StatusBar
     {
-        protected readonly CowGameScreen _cowGameScreen;
-        protected readonly Cow _cow;
-        protected Rectangle _drawRect;
-        protected StatusBar(CowGameScreen cowGameScreen, Cow cow)
+        protected readonly CowGameScreen CowGameScreen;
+        protected readonly Animal Animal;
+        protected Rectangle DrawRect;
+        protected StatusBar(CowGameScreen cowGameScreen, Animal animal)
         {
-            _cowGameScreen = cowGameScreen;
-            _cow = cow;
+            CowGameScreen = cowGameScreen;
+            Animal = animal;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);

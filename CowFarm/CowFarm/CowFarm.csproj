@@ -102,6 +102,7 @@
     <Compile Include="ScreenSystem\Buttons\ResumeButton.cs" />
     <Compile Include="StatusBars\FoodBar.cs" />
     <Compile Include="StatusBars\HealthBar.cs" />
+    <Compile Include="StatusBars\MobsHealthBar.cs" />
     <Compile Include="StatusBars\SprintBar.cs" />
     <Compile Include="StatusBars\StatusBar.cs" />
     <Compile Include="TileEntities\CraftPanel.cs" />

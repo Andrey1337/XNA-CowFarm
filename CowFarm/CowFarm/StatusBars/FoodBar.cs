@@ -8,26 +8,28 @@ namespace CowFarm.StatusBars
 {
     public class FoodBar : StatusBar
     {
-        public FoodBar(CowGameScreen cowGameScreen, Cow cow) : base(cowGameScreen, cow)
+        private Cow _cow;
+        public FoodBar(CowGameScreen cowGameScreen, Cow animal) : base(cowGameScreen, animal)
         {
-            _drawRect = new Rectangle((int)cow.Inventory.EndPosition.X - 19, (int)cow.Inventory.EndPosition.Y - 19, 18, 18);
+            DrawRect = new Rectangle((int)animal.Inventory.EndPosition.X - 19, (int)animal.Inventory.EndPosition.Y - 19, 18, 18);
+            _cow = animal;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             float healthPoint = _cow.StarvePoint;
 
-            var drawRect = _drawRect;
+            var drawRect = DrawRect;
             for (int i = 0; i < 10; i++)
             {
                 if (healthPoint > 5)
-                    spriteBatch.Draw(_cowGameScreen.GameTextures["fullFoodIcon"], drawRect, Color.White);
+                    spriteBatch.Draw(CowGameScreen.GameTextures["fullFoodIcon"], drawRect, Color.White);
                 else
                 {
                     spriteBatch.Draw(
                         healthPoint > 0
-                            ? _cowGameScreen.GameTextures["halfFoodIcon"]
-                            : _cowGameScreen.GameTextures["emptyFoodIcon"], drawRect, Color.White);
+                            ? CowGameScreen.GameTextures["halfFoodIcon"]
+                            : CowGameScreen.GameTextures["emptyFoodIcon"], drawRect, Color.White);
                 }
 
                 healthPoint -= 10;

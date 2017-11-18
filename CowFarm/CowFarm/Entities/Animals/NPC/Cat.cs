@@ -36,5 +36,10 @@ namespace CowFarm.Entities.Animals.NPC
             CurrentWorld.AddDynamicEntity(this);
             WayList = new List<Vector2> { new Vector2(100, 100), new Vector2(800, 100) };
         }
+
+        protected override void Die()
+        {
+            CurrentWorld.RemoveDynamicEntity(this);
+        }
     }
 }

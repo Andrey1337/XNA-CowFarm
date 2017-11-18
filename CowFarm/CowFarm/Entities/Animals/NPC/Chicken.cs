@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CowFarm.DrowingSystem;
+using CowFarm.Entities.Items;
 using CowFarm.Interfaces;
 using CowFarm.ScreenSystem;
 using FarseerPhysics;
@@ -29,6 +30,7 @@ namespace CowFarm.Entities.Animals.NPC
             SpeedX = 0.7f;
             SpeedY = 0.6f;
             HealthPoint = 60;
+            MaxHealthPoint = 60;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
             CurrentWorld = world;
@@ -36,7 +38,10 @@ namespace CowFarm.Entities.Animals.NPC
             WayList = new List<Vector2> { new Vector2(100, 500), new Vector2(800, 500) };
         }
 
-
-
+        protected override void Die()
+        {
+            CurrentWorld.RemoveDynamicEntity(this);
+            new ChickenLeg(CowGameScreen).Drop(CurrentWorld, new Vector2(GetPosition().X + GetPosition().Width / 2f, GetPosition().Y + GetPosition().Height / 2f));
+        }
     }
 }

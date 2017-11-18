@@ -22,6 +22,7 @@ namespace CowFarm.Utility
             ItemType[2] = typeof(CutGrass);
             ItemType[3] = typeof(Rope);
             ItemType[4] = typeof(Log);
+            ItemType[5] = typeof(ChickenLeg);
 
             return ItemType;
         }
