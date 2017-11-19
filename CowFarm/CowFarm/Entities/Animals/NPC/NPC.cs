@@ -22,13 +22,15 @@ namespace CowFarm.Entities.Animals.NPC
         protected bool Standing;
         protected TimeSpan StandingTime;
 
-        protected Npc(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk, DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, upWalk, downWalk)
+        protected Npc(CowGameScreen cowGameScreen, World world, float healthPoint, Rectangle destRect, DynamicAnimatedSprites rightWalk, DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world, destRect, rightWalk, leftWalk, upWalk, downWalk)
         {
             HaveWay = false;
             Standing = false;
             DamageAnimationTime = TimeSpan.FromMilliseconds(100);
             InAttack = false;
             HealthBar = new MobsHealthBar(cowGameScreen, this);
+            MaxHealthPoint = healthPoint;
+            HealthPoint = healthPoint;
         }
 
         public override void Update(GameTime gameTime)
@@ -68,7 +70,6 @@ namespace CowFarm.Entities.Animals.NPC
                 spriteBatch.Draw(CurrentAnim.Animation, GetPosition(), SourceRect, OnFocus ? new Color(209, 209, 224) : Color.White);
             if (HealthPoint < MaxHealthPoint || OnFocus)
                 HealthBar.Draw(spriteBatch);
-
         }
 
         protected void GoToPosition(GameTime gameTime)

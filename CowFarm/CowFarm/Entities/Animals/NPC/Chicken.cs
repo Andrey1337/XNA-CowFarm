@@ -14,8 +14,8 @@ namespace CowFarm.Entities.Animals.NPC
 {
     public class Chicken : Npc
     {
-        public Chicken(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
+        public Chicken(CowGameScreen cowGameScreen, World world, float healthPoint, Vector2 position)
+            : base(cowGameScreen, world, healthPoint, new Rectangle((int)position.X, (int)position.Y, 56, 46),
             new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenRightWalk"], 3, 0),
             new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenLeftWalk"], 3, 0),
             new DynamicAnimatedSprites(cowGameScreen.GameTextures["whiteChickenUpWalk"], 3, 0),
@@ -29,8 +29,6 @@ namespace CowFarm.Entities.Animals.NPC
             Delay = 400f;
             SpeedX = 0.7f;
             SpeedY = 0.6f;
-            HealthPoint = 60;
-            MaxHealthPoint = 60;
             Rnd = new Random(2);
             CurrentAnim = RightWalk;
             CurrentWorld = world;

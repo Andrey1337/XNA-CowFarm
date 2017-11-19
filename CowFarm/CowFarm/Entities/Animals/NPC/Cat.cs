@@ -14,8 +14,8 @@ namespace CowFarm.Entities.Animals.NPC
 {
     public class Cat : Npc
     {
-        public Cat(CowGameScreen cowGameScreen, World world, Vector2 position)
-            : base(cowGameScreen, world, new Rectangle((int)position.X, (int)position.Y, 56, 46),
+        public Cat(CowGameScreen cowGameScreen, World world, float healthPoint, Vector2 position)
+            : base(cowGameScreen, world, healthPoint, new Rectangle((int)position.X, (int)position.Y, 56, 46),
                   new DynamicAnimatedSprites(cowGameScreen.GameTextures["catRightWalk"], 3, 0),
                   new DynamicAnimatedSprites(cowGameScreen.GameTextures["catLeftWalk"], 3, 0),
                   new DynamicAnimatedSprites(cowGameScreen.GameTextures["catUpWalk"], 3, 0),

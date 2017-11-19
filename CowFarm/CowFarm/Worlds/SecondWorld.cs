@@ -16,8 +16,8 @@ namespace CowFarm.Worlds
     {
         public SecondWorld(CowGameScreen cowGameScreen) : base(cowGameScreen)
         {
-            new Cat(cowGameScreen, this, new Vector2(100, 100));
-            new Chicken(cowGameScreen, this, new Vector2(500, 400));
+            new Cat(cowGameScreen, this, 70, new Vector2(100, 100));
+            new Chicken(cowGameScreen, this, 60, new Vector2(500, 400));
 
             new Grass(cowGameScreen, this, new Vector2(450, 550));
             new Grass(cowGameScreen, this, new Vector2(390, 600));
