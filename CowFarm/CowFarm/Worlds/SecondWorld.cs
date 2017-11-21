@@ -38,7 +38,6 @@ namespace CowFarm.Worlds
 
             new Rock(cowGameScreen, this, new Vector2(900, 600));
 
-
             new GreenTree(cowGameScreen, this, new Vector2(700, 164)).CreateApple();
             new GreenTree(cowGameScreen, this, new Vector2(240, 50)).CreateApple();
 
@@ -70,7 +69,6 @@ namespace CowFarm.Worlds
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             spriteBatch.Draw(BackgroundTexture, new Rectangle(0, 0, CowGameScreen.Graphics.PreferredBackBufferWidth, CowGameScreen.Graphics.PreferredBackBufferHeight), Color.White);
             base.Draw(spriteBatch);
         }

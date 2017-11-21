@@ -26,7 +26,7 @@ namespace CowFarm.Entities.Animals
         protected float Delay;
 
         public float HealthPoint { get; protected set; }
-        public float MaxHealthPoint { get; protected set; }
+        public float MaxHealthPoint { get; protected set; } 
 
         protected Animal(CowGameScreen cowGameScreen, World world, Rectangle destRect, DynamicAnimatedSprites rightWalk,
             DynamicAnimatedSprites leftWalk, DynamicAnimatedSprites upWalk, DynamicAnimatedSprites downWalk) : base(cowGameScreen, world)
@@ -85,7 +85,5 @@ namespace CowFarm.Entities.Animals
         {
             return new Vector2(GetPosition().X + GetPosition().Width / 2, GetPosition().Y + (float)(GetPosition().Height / 2));
         }
-
-
     }
 }
