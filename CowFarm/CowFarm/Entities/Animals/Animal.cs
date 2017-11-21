@@ -44,7 +44,7 @@ namespace CowFarm.Entities.Animals
                 SourceRect = new Rectangle(0, 0, CurrentAnim.SpriteWidth, CurrentAnim.Animation.Height);
             }
             else
-            {
+            { //wtf
                 if (Force.Y < 0)
                 {
                     CurrentAnim = UpWalk;
