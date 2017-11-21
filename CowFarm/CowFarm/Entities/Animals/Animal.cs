@@ -37,7 +37,7 @@ namespace CowFarm.Entities.Animals
             UpWalk = upWalk;
             DownWalk = downWalk;
         }
-
+        //her'
         public override void Update(GameTime gameTime)
         {
             if (Force == Vector2.Zero)
